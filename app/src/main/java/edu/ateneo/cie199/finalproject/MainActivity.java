@@ -49,18 +49,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         final double initLongitude = 121.074899;
         LatLng initialPosition = new LatLng(initLatitude,initLongitude);
 
-        //INITIALIZING POKEMON
-        app.addPokemon(new Pokemon(1, "Arcanine", new StatSet(), 1, R.drawable.arcanine_main,
-                R.drawable.arcanine_map, R.drawable.arcanine_back, 100, 2, 1));
-        app.addPokemon(new Pokemon(2, "Squirtle", new StatSet(44, 48, 65, 50, 64, 43
-        ), 2, R.drawable.squirtle_main,
-                R.drawable.squirtle_map, R.drawable.squirtle_back, 90, 1, 1));
+        //INITIALIZING POKEMON & MOVES & TYPES
+        app.loadAllPokemon();
+        app.loadAllPokemonMoves();
+        app.loadAllPokemonTypes();
 
         //INITIALIZING PLAYER
+        //TODO LOAD PLAYER SAVE DATA FROM FILE INSTEAD OF HARD CODE
         app.getPlayer().setMarker(app.getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
         app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(1));
+        app.getPlayer().getPokemons()[1] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(4));
+        app.getPlayer().getPokemons()[0].getMoves()[0] = app.getAllMoves().get(8);
+        app.getPlayer().getPokemons()[0].getMoves()[1] = app.getAllMoves().get(5);
+        app.getPlayer().getPokemons()[0].getMoves()[2] = app.getAllMoves().get(16);
         app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA

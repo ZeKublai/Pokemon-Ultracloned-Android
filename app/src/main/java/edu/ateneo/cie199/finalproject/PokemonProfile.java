@@ -47,7 +47,7 @@ public class PokemonProfile {
         this.mEV = new StatSet();
         this.mNature = new StatSet(MAX_NATURE_VALUE);
         this.mCurrentHP = getHP(pokemon.getBase().getHP());
-        this.mCurrentExp = getExperienceNeeded(mLevel - 1);
+        this.mCurrentExp = 0;
 
         for(int index = 0; index < mMoves.length; index++){
             mMoves[index] = new Move();
@@ -73,7 +73,7 @@ public class PokemonProfile {
         this.mEV = new StatSet();
         this.mNature = new StatSet(MAX_NATURE_VALUE);
         this.mCurrentHP = getHP(pokemon.getBase().getHP());
-        this.mCurrentExp = getExperienceNeeded(mLevel - 1);
+        this.mCurrentExp = 0;
 
         for(int index = 0; index < mMoves.length; index++){
             mMoves[index] = new Move();
@@ -162,8 +162,16 @@ public class PokemonProfile {
     /*TODO
     Needs Tweaking
      */
-    public int getExperienceNeeded(int level){
-        return level*1000;
+    public int getExperienceNeeded(){
+        return mLevel*1000;
+    }
+    public int getTotalExperience() {
+        int totalExperience = 0;
+        for(int index = 1; index < mLevel; index++){
+            totalExperience = totalExperience + mLevel*1000;
+        }
+        totalExperience = totalExperience + mCurrentExp;
+        return totalExperience;
     }
 
     public Move[] getMoves() {
@@ -171,5 +179,14 @@ public class PokemonProfile {
     }
     public void setMoves(Move[] mMoves) {
         this.mMoves = mMoves;
+    }
+
+    public boolean isEmpty(){
+        if(this.mDexNumber == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

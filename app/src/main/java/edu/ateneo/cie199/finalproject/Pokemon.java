@@ -6,7 +6,8 @@ package edu.ateneo.cie199.finalproject;
 
 public class Pokemon {
     private int mDexNumber = 0;
-    private String mName = "";
+    private String mName = "MissingNo";
+    private String mDescription = "??? Pokémon";
     private StatSet mBase = new StatSet();
     private int mType = 0;
     private int mFrontImage = 0;
@@ -16,10 +17,12 @@ public class Pokemon {
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
 
-    public Pokemon(int mDexNumber, String mName, StatSet mBase, int mType, int mFrontImage,
-                   int mIcon, int mBackImage, int mCatchRate, int mMaleRatio, int mFemaleRatio) {
+    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, int mType,
+                   int mFrontImage, int mIcon, int mBackImage, int mCatchRate, int mMaleRatio,
+                   int mFemaleRatio) {
         this.mDexNumber = mDexNumber;
         this.mName = mName;
+        this.mDescription = mDescription;
         this.mBase = mBase;
         this.mType = mType;
         this.mFrontImage = mFrontImage;
@@ -101,5 +104,19 @@ public class Pokemon {
     }
     public void setCatchRate(int mCatchRate) {
         this.mCatchRate = mCatchRate;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+    public void setDescription(String mDescription) {
+        this.mDescription = mDescription;
+    }
+
+    public boolean isEmpty(){
+        if(this.mDexNumber == 0){
+            return true;
+        }
+        return false;
     }
 }

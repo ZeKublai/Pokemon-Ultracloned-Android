@@ -14,8 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+        android:layout_marginTop="10dp" />
 
     <ImageButton
         android:id="@+id/imgbtn_battle_buddy"
@@ -25,8 +24,7 @@
         android:layout_below="@+id/imgbtn_battle_enemy"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+        android:layout_marginTop="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -69,7 +67,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="25dp"
-            android:text="Pokemon"
             android:textSize="25sp" />
 
     </RelativeLayout>
@@ -108,13 +105,12 @@
             android:id="@+id/txv_battle_buddy_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="Pokemon"
-            android:textSize="25sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/lbl_battle_buddy_HP"
@@ -122,7 +118,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txv_battle_buddy_name"
             android:layout_marginLeft="20dp"
-            android:layout_toEndOf="@+id/imgbtn_battle_buddy"
             android:text="HP"
             android:textSize="15sp" />
 
@@ -145,7 +140,6 @@
             android:layout_alignEnd="@+id/bar_battle_buddy_exp"
             android:layout_alignStart="@+id/lbl_battle_buddy_HP"
             android:layout_below="@+id/lbl_battle_buddy_HP"
-            android:text="HP/HP"
             android:textAlignment="textEnd"
             android:textSize="10sp" />
 

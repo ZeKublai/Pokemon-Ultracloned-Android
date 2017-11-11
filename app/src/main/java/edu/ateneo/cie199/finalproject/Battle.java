@@ -13,9 +13,11 @@ public class Battle {
     public static int FIGHT_STATE = 2;
     public static int POKEMON_STATE = 3;
     public static int BAG_STATE = 4;
+    public static int SWAP_POKEMON_STATE = 5;
 
     private PokemonProfile mBuddy;
     private PokemonProfile mEnemy;
+
     private ArrayList<String> mMessages = new ArrayList<>();
     private int mPhase = 0;
 

@@ -5,15 +5,19 @@ package edu.ateneo.cie199.finalproject;
  */
 
 public class Move {
+    public static int PHYSICAL = 0;
+    public static int SPECIAL = 0;
+    public static int STATUS = 0;
+
     private String mName = "";
     private int mType = 0;
-    private boolean mCategory = true;
+    private int mCategory = 0;
     private int mMaxPP = 0;
     private int mCurrentPP = 0;
     private int mPower = 0;
     private int mAccuracy = 0;
 
-    public Move(String mName, int mType, boolean mCategory, int mMaxPP, int mCurrentPP, int mPower,
+    public Move(String mName, int mType, int mCategory, int mMaxPP, int mCurrentPP, int mPower,
                 int mAccuracy) {
         this.mName = mName;
         this.mType = mType;
@@ -43,11 +47,11 @@ public class Move {
         this.mType = mType;
     }
 
-    public boolean isCategory() {
+    public int getCategory() {
         return mCategory;
     }
 
-    public void setCategory(boolean mCategory) {
+    public void setCategory(int mCategory) {
         this.mCategory = mCategory;
     }
 
@@ -81,5 +85,14 @@ public class Move {
 
     public void setAccuracy(int mAccuracy) {
         this.mAccuracy = mAccuracy;
+    }
+
+    public boolean isEmpty(){
+        if(mName.isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
