@@ -10,11 +10,9 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import static java.lang.Math.floor;
 
-public class BattleActivity extends AppCompatActivity {
+public class CatchActivity extends AppCompatActivity {
     public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
     public static int POKEMON_COLOR = Color.argb(255, 44, 224, 49);
     public static int BAG_COLOR = Color.argb(255, 252, 190, 26);
@@ -22,8 +20,6 @@ public class BattleActivity extends AppCompatActivity {
     public static int BACK_COLOR = Color.argb(255, 3, 111, 114);
     public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
 
-    private Pokemon enemyPokemon;
-    private Pokemon buddyPokemon;
     private Player player;
     private Battle battle;
 
@@ -55,14 +51,21 @@ public class BattleActivity extends AppCompatActivity {
 
         PokemonGoApp app = (PokemonGoApp) getApplication();
         player = app.getPlayer();
-        enemyPokemon = app.getPokemon(app.getCurrentGoal().getTitle());
-        buddyPokemon = app.getPokemon(app.getPlayer().getPokemons()[0].getDexNumber());
-        battle = new Battle(app.getPlayer().getPokemons()[0], new PokemonProfile(app.getSpawnCount(), enemyPokemon));
-        battle.getEnemy().setLevel(battle.getBuddy().getLevel());
-        battle.getEnemy().getMoves()[0] = app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size()));
-        battle.getEnemy().getMoves()[1] = app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size()));
-        battle.getEnemy().getMoves()[2] = app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size()));
-        battle.getEnemy().getMoves()[3] = app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size()));
+
+        //TODO CHECK IF POKEMON IS DEAD
+        battle = new Battle(app.getPlayer().getPokemons()[0],
+                new PokemonProfile(app.getSpawnCount(),
+                        app.getPokemon(app.getCurrentGoal().getTitle())));
+        battle.setBuddyPokemon(app.getPokemon(app.getPlayer().getPokemons()[0].getDexNumber()));
+        battle.setEnemyPokemon(app.getPokemon(battle.getEnemyProfile().getDexNumber()));
+        battle.getEnemyProfile().getMoves()[0] = app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size()));
+        battle.getEnemyProfile().getMoves()[1] = app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size()));
+        battle.getEnemyProfile().getMoves()[2] = app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size()));
+        battle.getEnemyProfile().getMoves()[3] = app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size()));
 
         txvEnemyName = (TextView) findViewById(R.id.txv_battle_enemy_name);
         txvBuddyName = (TextView) findViewById(R.id.txv_battle_buddy_name);
@@ -100,8 +103,8 @@ public class BattleActivity extends AppCompatActivity {
 
         updateEnemyPokemon();
 
-        battle.addMessage("Wild " + enemyPokemon.getName() + " appeared!", battle.NO_UPDATE);
-        battle.addMessage("Go " + buddyPokemon.getName() + "!", battle.UPDATE_BUDDY);
+        battle.addMessage("Wild " + battle.getEnemyPokemon().getName() + " appeared!", battle.NO_UPDATE);
+        battle.addMessage("Go " + battle.getBuddyPokemon().getName() + "!", battle.UPDATE_BUDDY);
         messageState();
 
         btn1.setOnClickListener(
@@ -110,6 +113,7 @@ public class BattleActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(battle.getPhase() == battle.POKEMON_STATE){
                             switchBuddyPokemon(0);
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.BAG_STATE){
 
@@ -124,6 +128,7 @@ public class BattleActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if(battle.getPhase() == battle.POKEMON_STATE){
                             switchBuddyPokemon(1);
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.BAG_STATE){
 
@@ -137,26 +142,13 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(battle.getPhase() == battle.FIGHT_STATE){
-                            if(buddyFirst()) {
-                                attack(0, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_BUDDY_HP);
-                                if(checkVictory()){
-                                    battleResult();
-                                }
-                                else {
-                                    attack(2, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                            battle.getBuddy(), battle.UPDATE_ENEMY_HP);
-                                }
-                            }
-                            else{
-                                attack(2, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                        battle.getBuddy(), battle.UPDATE_BUDDY_HP);
-                                attack(0, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_ENEMY_HP);
-                            }
+                            PokemonGoApp app = (PokemonGoApp) getApplication();
+                            executeAttack(1, app.getIntegerRNG(4));
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.POKEMON_STATE){
                             switchBuddyPokemon(2);
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.BAG_STATE){
 
@@ -170,26 +162,13 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(battle.getPhase() == battle.FIGHT_STATE){
-                            if(buddyFirst()) {
-                                attack(1, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_BUDDY_HP);
-                                if(checkVictory()){
-                                    battleResult();
-                                }
-                                else {
-                                    attack(2, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                            battle.getBuddy(), battle.UPDATE_ENEMY_HP);
-                                }
-                            }
-                            else{
-                                attack(1, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                        battle.getBuddy(), battle.UPDATE_BUDDY_HP);
-                                attack(0, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_ENEMY_HP);
-                            }
+                            PokemonGoApp app = (PokemonGoApp) getApplication();
+                            executeAttack(1, app.getIntegerRNG(4));
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.POKEMON_STATE){
                             switchBuddyPokemon(3);
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.BAG_STATE){
 
@@ -206,26 +185,13 @@ public class BattleActivity extends AppCompatActivity {
                             fightState();
                         }
                         else if(battle.getPhase() == battle.FIGHT_STATE){
-                            if(buddyFirst()) {
-                                attack(2, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_BUDDY_HP);
-                                if(checkVictory()){
-                                    battleResult();
-                                }
-                                else {
-                                    attack(2, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                            battle.getBuddy(), battle.UPDATE_ENEMY_HP);
-                                }
-                            }
-                            else{
-                                attack(2, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                        battle.getBuddy(), battle.UPDATE_BUDDY_HP);
-                                attack(2, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_ENEMY_HP);
-                            }
+                            PokemonGoApp app = (PokemonGoApp) getApplication();
+                            executeAttack(2, app.getIntegerRNG(4));
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.POKEMON_STATE){
                             switchBuddyPokemon(4);
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.BAG_STATE){
 
@@ -242,26 +208,13 @@ public class BattleActivity extends AppCompatActivity {
                             pokemonState();
                         }
                         else if(battle.getPhase() == battle.FIGHT_STATE){
-                            if(buddyFirst()) {
-                                attack(3, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_BUDDY_HP);
-                                if(checkVictory()){
-                                    battleResult();
-                                }
-                                else {
-                                    attack(2, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                            battle.getBuddy(), battle.UPDATE_ENEMY_HP);
-                                }
-                            }
-                            else{
-                                attack(3, enemyPokemon, buddyPokemon, battle.getEnemy(),
-                                        battle.getBuddy(), battle.UPDATE_BUDDY_HP);
-                                attack(0, buddyPokemon, enemyPokemon, battle.getBuddy(),
-                                        battle.getEnemy(), battle.UPDATE_ENEMY_HP);
-                            }
+                            PokemonGoApp app = (PokemonGoApp) getApplication();
+                            executeAttack(3, app.getIntegerRNG(4));
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.POKEMON_STATE){
                             switchBuddyPokemon(5);
+                            messageState();
                         }
                         else if(battle.getPhase() == battle.BAG_STATE){
 
@@ -294,7 +247,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent MainActivityIntent = new Intent(BattleActivity.this, MainActivity.class);
+                        Intent MainActivityIntent = new Intent(CatchActivity.this, MainActivity.class);
                         MainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivityIfNeeded(MainActivityIntent, 0);
                         finish();
@@ -307,44 +260,51 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         viewMessages();
-                        updateBuddyPokemon();
-                        updateEnemyPokemon();
                     }
                 }
         );
+    }
+
+    private void executeAttack(int playerMoveIndex, int enemyMoveIndex){
+        if(buddyFirst()) {
+            attack(playerMoveIndex, battle.getBuddyPokemon(), battle.getEnemyPokemon(), battle.getBuddyProfile(),
+                    battle.getEnemyProfile(), battle.UPDATE_ENEMY_HP);
+            if(checkVictory()){
+                battleResult();
+            }
+            else {
+                attack(enemyMoveIndex, battle.getEnemyPokemon(), battle.getBuddyPokemon(), battle.getEnemyProfile(),
+                        battle.getBuddyProfile(), battle.UPDATE_BUDDY_HP);
+            }
+        }
+        else{
+            attack(enemyMoveIndex, battle.getEnemyPokemon(), battle.getBuddyPokemon(), battle.getEnemyProfile(),
+                    battle.getBuddyProfile(), battle.UPDATE_BUDDY_HP);
+            attack(playerMoveIndex, battle.getBuddyPokemon(), battle.getEnemyPokemon(), battle.getBuddyProfile(),
+                    battle.getEnemyProfile(), battle.UPDATE_ENEMY_HP);
+            if(checkVictory()){
+                battleResult();
+            }
+        }
     }
 
     private void viewMessages(){
         if(battle.getCurrentMessage() < battle.getMessages().size() - 1){
             battle.setCurrentMessage(battle.getCurrentMessage() + 1);
             txvMessage.setText(battle.getMessages().get(battle.getCurrentMessage()));
-            if(battle.getUpdates().get(battle.getCurrentMessage()) == battle.UPDATE_BUDDY){
-                updateBuddyPokemon();
-            }
-            else if(battle.getUpdates().get(battle.getCurrentMessage()) == battle.UPDATE_ENEMY){
-                updateEnemyPokemon();
-            }
-            else if(battle.getUpdates().get(battle.getCurrentMessage()) == battle.UPDATE_BUDDY_EXP){
-                updateBuddyExp();
-            }
-            else if(battle.getUpdates().get(battle.getCurrentMessage()) == battle.UPDATE_ENEMY_HP){
-                updateEnemyHp();
-            }
-            else if(battle.getUpdates().get(battle.getCurrentMessage()) == battle.UPDATE_BUDDY_HP){
-                updateBuddyHp();
-            }
-
+            updateBattle();
         }
         else{
             battle.getMessages().clear();
-            battle.setCurrentMessage(0);
             battle.getUpdates().clear();
+            battle.setCurrentMessage(0);
             mainState();
         }
     }
 
     private void attack(int moveIndex, Pokemon attacker, Pokemon defender,
-                        PokemonProfile attackerProfile, PokemonProfile defenderProfile, int target){
+                        PokemonProfile attackerProfile, PokemonProfile defenderProfile,
+                        Integer target){
         if(attackerProfile.getMoves()[moveIndex].getCurrentPP() > 0){
             battle.addMessage(attackerProfile.getNickname()
                     + " used " + attackerProfile.getMoves()[moveIndex].getName() + "!", target);
@@ -381,9 +341,13 @@ public class BattleActivity extends AppCompatActivity {
 
                 damage = damage * typeMultiplier;
 
-                if(app.getIntegerRNG(16) > 1){
+                if(app.getIntegerRNG(16) < 1){
                     damage = damage * 2;
                     battle.addMessage("A critical hit!", battle.NO_UPDATE);
+                }
+
+                if(damage < 1.0){
+                    damage = 1.0;
                 }
 
                 defenderProfile.setCurrentHP(defenderProfile.getCurrentHP() - (int)(damage));
@@ -396,29 +360,28 @@ public class BattleActivity extends AppCompatActivity {
                         battle.NO_UPDATE);
             }
         }
-        messageState();
     }
 
     private void battleResult(){
-        battle.addMessage(battle.getEnemy().getNickname() + " fainted", battle.NO_UPDATE);
-        battle.addMessage(battle.getBuddy().getNickname() + " gained "
-                + battle.getEnemy().getLevel()*battle.getBuddy().getLevel()
+        battle.addMessage(battle.getEnemyProfile().getNickname() + " fainted", battle.NO_UPDATE);
+        battle.addMessage(battle.getBuddyProfile().getNickname() + " gained "
+                + battle.getEnemyProfile().getLevel()*battle.getBuddyProfile().getLevel()
                 + " EXP points!", battle.UPDATE_BUDDY_EXP);
-        battle.getBuddy().setCurrentExp(battle.getBuddy().getCurrentExp()
-                + battle.getEnemy().getLevel()*battle.getBuddy().getLevel());
+        battle.getBuddyProfile().setCurrentExp(battle.getBuddyProfile().getCurrentExp()
+                + battle.getEnemyProfile().getLevel()*battle.getBuddyProfile().getLevel());
 
-        if(battle.getBuddy().getCurrentExp() >=
-                battle.getBuddy().getExperienceNeeded()){
-            battle.getBuddy().setCurrentExp(battle.getBuddy().getCurrentExp()
-                    - battle.getBuddy().getExperienceNeeded());
-            battle.getBuddy().setLevel(battle.getBuddy().getLevel() + 1);
-            battle.addMessage(battle.getEnemy().getNickname() + " grew to LV. "
-                    + battle.getBuddy().getLevel() + "!", battle.NO_UPDATE);
+        if(battle.getBuddyProfile().getCurrentExp() >=
+                battle.getBuddyProfile().getExperienceNeeded()){
+            battle.getBuddyProfile().setCurrentExp(battle.getBuddyProfile().getCurrentExp()
+                    - battle.getBuddyProfile().getExperienceNeeded());
+            battle.getBuddyProfile().setLevel(battle.getBuddyProfile().getLevel() + 1);
+            battle.addMessage(battle.getEnemyProfile().getNickname() + " grew to LV. "
+                    + battle.getBuddyProfile().getLevel() + "!", battle.NO_UPDATE);
         }
     }
 
     private boolean checkVictory(){
-        if(battle.getEnemy().getCurrentHP() <= 0){
+        if(battle.getEnemyProfile().getCurrentHP() <= 0){
             return true;
         }
         else{
@@ -427,8 +390,8 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private boolean buddyFirst(){
-        if(battle.getBuddy().getSpeed(buddyPokemon.getBase().getSpeed()) >
-                battle.getEnemy().getSpeed(enemyPokemon.getBase().getSpeed())){
+        if(battle.getBuddyProfile().getSpeed(battle.getBuddyPokemon().getBase().getSpeed()) >
+                battle.getEnemyProfile().getSpeed(battle.getEnemyPokemon().getBase().getSpeed())){
             return true;
         }
         else{
@@ -437,46 +400,72 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void switchBuddyPokemon(int pokemonIndex){
-        if(!battle.getBuddy().equals(player.getPokemons()[pokemonIndex])){
-            battle.addMessage("Good job, " + battle.getBuddy().getNickname()
+        if(!battle.getBuddyProfile().equals(player.getPokemons()[pokemonIndex])){
+            battle.addMessage("Good job, " + battle.getBuddyProfile().getNickname()
                     + "!", battle.NO_UPDATE);
 
             PokemonGoApp app = (PokemonGoApp) getApplication();
-            buddyPokemon = app.getPokemon(player.getPokemons()[pokemonIndex].getDexNumber());
-            battle.setBuddy(player.getPokemons()[pokemonIndex]);
-            battle.addMessage("Go " + buddyPokemon.getName() + "!", battle.NO_UPDATE);
-            messageState();
+            battle.setBuddyPokemon(app.getPokemon(player.getPokemons()[pokemonIndex].getDexNumber()));
+            battle.setBuddyProfile(player.getPokemons()[pokemonIndex]);
+            battle.addMessage("Go " + battle.getBuddyPokemon().getName() + "!", battle.UPDATE_BUDDY);
+        }
+        else{
+            battle.addMessage(battle.getBuddyProfile().getNickname()
+                    + " is already in battle!", battle.NO_UPDATE);
+        }
+    }
+
+    private void updateBattle(){
+        if(battle.getUpdates().get(battle.getCurrentMessage())
+                .equals(battle.UPDATE_BUDDY)){
+            updateBuddyPokemon();
+        }
+        else if(battle.getUpdates().get(battle.getCurrentMessage())
+                .equals(battle.UPDATE_ENEMY)){
+            updateEnemyPokemon();
+        }
+        else if(battle.getUpdates().get(battle.getCurrentMessage())
+                .equals(battle.UPDATE_BUDDY_EXP)){
+            updateBuddyExp();
+        }
+        else if(battle.getUpdates().get(battle.getCurrentMessage())
+                .equals(battle.UPDATE_ENEMY_HP)){
+            updateEnemyHp();
+        }
+        else if(battle.getUpdates().get(battle.getCurrentMessage())
+                .equals(battle.UPDATE_BUDDY_HP)){
+            updateBuddyHp();
         }
     }
 
     private void updateBuddyPokemon(){
-        txvBuddyName.setText(battle.getBuddy().getNickname());
-        imgButtonBuddy.setImageResource(buddyPokemon.getBackImage());
+        txvBuddyName.setText(battle.getBuddyProfile().getNickname());
+        imgButtonBuddy.setImageResource(battle.getBuddyPokemon().getBackImage());
         updateBuddyHp();
         updateBuddyExp();
     }
 
     private void updateEnemyPokemon(){
-        txvEnemyName.setText(battle.getEnemy().getNickname());
-        imgButtonEnemy.setImageResource(enemyPokemon.getFrontImage());
+        txvEnemyName.setText(battle.getEnemyProfile().getNickname());
+        imgButtonEnemy.setImageResource(battle.getEnemyPokemon().getFrontImage());
         updateEnemyHp();
     }
 
     private void updateEnemyHp(){
-        barEnemyHP.setMax(battle.getEnemy().getHP(enemyPokemon.getBase().getHP()));
-        barEnemyHP.setProgress(battle.getEnemy().getCurrentHP());
+        barEnemyHP.setMax(battle.getEnemyProfile().getHP(battle.getEnemyPokemon().getBase().getHP()));
+        barEnemyHP.setProgress(battle.getEnemyProfile().getCurrentHP());
     }
 
     private void updateBuddyHp(){
-        barBuddyHP.setMax(battle.getBuddy().getHP(buddyPokemon.getBase().getHP()));
-        barBuddyHP.setProgress(battle.getBuddy().getCurrentHP());
-        txvBuddyHP.setText(battle.getBuddy().getCurrentHP() + "/" +
-                battle.getBuddy().getHP(buddyPokemon.getBase().getHP()));
+        barBuddyHP.setMax(battle.getBuddyProfile().getHP(battle.getBuddyPokemon().getBase().getHP()));
+        barBuddyHP.setProgress(battle.getBuddyProfile().getCurrentHP());
+        txvBuddyHP.setText(battle.getBuddyProfile().getCurrentHP() + "/" +
+                battle.getBuddyProfile().getHP(battle.getBuddyPokemon().getBase().getHP()));
     }
 
     private void updateBuddyExp(){
-        barBuddyEXP.setMax(battle.getBuddy().getExperienceNeeded());
-        barBuddyEXP.setProgress(battle.getBuddy().getCurrentExp());
+        barBuddyEXP.setMax(battle.getBuddyProfile().getExperienceNeeded());
+        barBuddyEXP.setProgress(battle.getBuddyProfile().getCurrentExp());
     }
 
     private void messageState(){
@@ -502,7 +491,8 @@ public class BattleActivity extends AppCompatActivity {
         btnAction.setVisibility(View.VISIBLE);
 
         battle.setCurrentMessage(0);
-        txvMessage.setText(battle.getMessages().get(0));
+        updateBattle();
+        txvMessage.setText(battle.getMessages().get(battle.getCurrentMessage()));
     }
 
     private void mainState(){
@@ -535,17 +525,17 @@ public class BattleActivity extends AppCompatActivity {
         btn6.setBackgroundColor(POKEMON_COLOR);
         btn7.setBackgroundColor(BAG_COLOR);
 
-        txvMessage.setText("What will " + battle.getBuddy().getNickname() + " do?");
+        txvMessage.setText("What will " + battle.getBuddyProfile().getNickname() + " do?");
     }
 
     private void fightState(){
         battle.setPhase(battle.FIGHT_STATE);
         btn1.setClickable(false);
         btn2.setClickable(false);
-        btn3.setClickable(!battle.getBuddy().getMoves()[0].isEmpty());
-        btn4.setClickable(!battle.getBuddy().getMoves()[1].isEmpty());
-        btn5.setClickable(!battle.getBuddy().getMoves()[2].isEmpty());
-        btn6.setClickable(!battle.getBuddy().getMoves()[3].isEmpty());
+        btn3.setClickable(!battle.getBuddyProfile().getMoves()[0].isEmpty());
+        btn4.setClickable(!battle.getBuddyProfile().getMoves()[1].isEmpty());
+        btn5.setClickable(!battle.getBuddyProfile().getMoves()[2].isEmpty());
+        btn6.setClickable(!battle.getBuddyProfile().getMoves()[3].isEmpty());
         btn7.setClickable(true);
         btnRun.setClickable(true);
         btnAction.setClickable(false);
@@ -559,10 +549,10 @@ public class BattleActivity extends AppCompatActivity {
         btn7.setVisibility(View.VISIBLE);
         btnAction.setVisibility(View.INVISIBLE);
 
-        btn3.setText(battle.getBuddy().getMoves()[0].getName());
-        btn4.setText(battle.getBuddy().getMoves()[1].getName());
-        btn5.setText(battle.getBuddy().getMoves()[2].getName());
-        btn6.setText(battle.getBuddy().getMoves()[3].getName());
+        btn3.setText(battle.getBuddyProfile().getMoves()[0].getName());
+        btn4.setText(battle.getBuddyProfile().getMoves()[1].getName());
+        btn5.setText(battle.getBuddyProfile().getMoves()[2].getName());
+        btn6.setText(battle.getBuddyProfile().getMoves()[3].getName());
         btn7.setText("BACK");
 
         btn3.setBackgroundColor(FIGHT_COLOR);

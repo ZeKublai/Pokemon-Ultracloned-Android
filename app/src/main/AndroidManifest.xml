@@ -39,7 +39,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".BattleActivity"></activity>
+        <activity android:name=".CatchActivity"></activity>
     </application>
 
 </manifest>

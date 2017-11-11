@@ -57,7 +57,7 @@
         <activity
             android:name="edu.ateneo.cie199.finalproject.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name="edu.ateneo.cie199.finalproject.BattleActivity" />
+        <activity android:name="edu.ateneo.cie199.finalproject.CatchActivity" />
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"

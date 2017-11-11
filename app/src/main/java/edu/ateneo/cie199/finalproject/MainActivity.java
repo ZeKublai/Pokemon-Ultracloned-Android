@@ -59,7 +59,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.getPlayer().setMarker(app.getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
-        app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(1));
+        app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(2));
         app.getPlayer().getPokemons()[1] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(4));
         app.getPlayer().getPokemons()[0].getMoves()[0] = app.getAllMoves().get(8);
         app.getPlayer().getPokemons()[0].getMoves()[1] = app.getAllMoves().get(5);
@@ -151,8 +151,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
                                 R.drawable.player_stand));
 
-                Intent BattleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
-                startActivity(BattleActivityIntent);
+                Intent CatchActivityIntent = new Intent(MainActivity.this, CatchActivity.class);
+                startActivity(CatchActivityIntent);
                 return;
             }
         };
