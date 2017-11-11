@@ -15,10 +15,18 @@ public class Battle {
     public static int BAG_STATE = 4;
     public static int SWAP_POKEMON_STATE = 5;
 
+    public static int NO_UPDATE = 0;
+    public static int UPDATE_ENEMY = 1;
+    public static int UPDATE_ENEMY_HP = 2;
+    public static int UPDATE_BUDDY = 3;
+    public static int UPDATE_BUDDY_EXP = 4;
+    public static int UPDATE_BUDDY_HP = 5;
+
     private PokemonProfile mBuddy;
     private PokemonProfile mEnemy;
 
     private ArrayList<String> mMessages = new ArrayList<>();
+    private ArrayList<Integer> mUpdates = new ArrayList<>();
     private int mPhase = 0;
 
     private int mCurrentMessage = 0;
@@ -50,6 +58,10 @@ public class Battle {
         return mMessages;
     }
 
+    public ArrayList<Integer> getUpdates() {
+        return mUpdates;
+    }
+
     public void setMessages(ArrayList<String> mMessages) {
         this.mMessages = mMessages;
     }
@@ -68,5 +80,10 @@ public class Battle {
 
     public void setCurrentMessage(int mCurrentMessage) {
         this.mCurrentMessage = mCurrentMessage;
+    }
+
+    public void addMessage(String message, int update){
+        mMessages.add(message);
+        mUpdates.add(update);
     }
 }
