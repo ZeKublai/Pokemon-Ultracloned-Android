@@ -32,22 +32,19 @@ public class PokemonGoApp extends Application{
     private ArrayList<Move> mMoves = new ArrayList<>();
     private ArrayList<Type> mTypes = new ArrayList<>();
 
-    //RANDOM NUMBER GENERATOR
-    private int mIntegrSelect = 0;
-    private double mDoubleSelect = 0.0;
-    private Random s = new Random();
-
     /**
      * This function returns a random number from 0 to a given length.
      * @param length    the upper bound for the random number generation
      * @return          a random number from 0 to length
      */
-    public int getIntegerRNG(int length){
-        mIntegrSelect = (s.nextInt(length));
+    public static int getIntegerRNG(int length){
+        Random s = new Random();
+        int mIntegrSelect = (s.nextInt(length));
         return mIntegrSelect;
     }
     public double getDoubleRNG(){
-        mDoubleSelect = (s.nextDouble());
+        Random s = new Random();
+        double mDoubleSelect = (s.nextDouble());
         return mDoubleSelect;
     }
 

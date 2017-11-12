@@ -37,12 +37,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Stop previous song
+        MusicBackground.opening_player.release();
+
+        //Plays the music during oncreate
+        MusicBackground.MainSong(this,R.raw.main_song);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         app.setMap(googleMap);
+        app.getMap().getUiSettings().setMapToolbarEnabled(false);
 
         //INITIAL VALUES FOR TESTING
         final double initLatitude = 14.640528;
@@ -61,9 +68,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
         app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(2));
         app.getPlayer().getPokemons()[1] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(4));
-        app.getPlayer().getPokemons()[0].getMoves()[0] = app.getAllMoves().get(8);
+        app.getPlayer().getPokemons()[0].getMoves()[0] = app.getAllMoves().get(2);
         app.getPlayer().getPokemons()[0].getMoves()[1] = app.getAllMoves().get(5);
         app.getPlayer().getPokemons()[0].getMoves()[2] = app.getAllMoves().get(16);
+        app.getPlayer().getPokemons()[1].getMoves()[0] = app.getAllMoves().get(19);
         app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA
@@ -151,7 +159,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
                                 R.drawable.player_stand));
 
-                Intent CatchActivityIntent = new Intent(MainActivity.this, CatchActivity.class);
+                Intent CatchActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
                 startActivity(CatchActivityIntent);
                 return;
             }
@@ -283,5 +291,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }

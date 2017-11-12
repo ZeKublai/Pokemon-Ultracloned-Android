@@ -22,6 +22,7 @@ public class PokemonProfile {
     private int mCurrentHP = 0;
     private int mCurrentExp = 0;
 
+    private Pokemon mDexData = new Pokemon();
     private StatSet mIV = new StatSet();
     private StatSet mEV = new StatSet();
     private StatSet mNature = new StatSet();
@@ -32,21 +33,22 @@ public class PokemonProfile {
         this.mId = mId;
         this.mDexNumber = pokemon.getDexNumber();
         this.mNickname = pokemon.getName();
+        this.mDexData = pokemon;
 
-        Random s = new Random();
 
-        if(s.nextInt(pokemon.getFemaleRatio() + pokemon.getMaleRatio()) > pokemon.getMaleRatio()){
+        if(PokemonGoApp.getIntegerRNG(pokemon.getFemaleRatio()
+                + pokemon.getMaleRatio()) > pokemon.getMaleRatio()){
             this.mGender = false;
         }
         else{
             this.mGender = true;
         }
 
-        this.mLevel = s.nextInt(MAX_POKEMON_LEVEL);
+        this.mLevel = PokemonGoApp.getIntegerRNG(MAX_POKEMON_LEVEL) + 1;
         this.mIV = new StatSet(MAX_IV_VALUE);
         this.mEV = new StatSet();
         this.mNature = new StatSet(MAX_NATURE_VALUE);
-        this.mCurrentHP = getHP(pokemon.getBase().getHP());
+        this.mCurrentHP = getHP();
         this.mCurrentExp = 0;
 
         for(int index = 0; index < mMoves.length; index++){
@@ -58,6 +60,7 @@ public class PokemonProfile {
         this.mId = mId;
         this.mDexNumber = pokemon.getDexNumber();
         this.mNickname = pokemon.getName();
+        this.mDexData = pokemon;
 
         Random s = new Random();
 
@@ -72,7 +75,7 @@ public class PokemonProfile {
         this.mIV = new StatSet(MAX_IV_VALUE);
         this.mEV = new StatSet();
         this.mNature = new StatSet(MAX_NATURE_VALUE);
-        this.mCurrentHP = getHP(pokemon.getBase().getHP());
+        this.mCurrentHP = getHP();
         this.mCurrentExp = 0;
 
         for(int index = 0; index < mMoves.length; index++){
@@ -90,6 +93,13 @@ public class PokemonProfile {
         double stat = floor(floor((2 * baseStat + ivStat + evStat) * level / 100 + 5) 
                 * natureStat / 100);
         return ((int) stat);
+    }
+
+    public Pokemon getDexData() {
+        return mDexData;
+    }
+    public void setDexData(Pokemon mDexData) {
+        this.mDexData = mDexData;
     }
 
     public boolean getGender() {
@@ -137,26 +147,29 @@ public class PokemonProfile {
         return mEV;
     }
 
-    public int getHP(int baseHP){
-        return ((int) floor((2 * baseHP + mIV.getHP() + mEV.getHP()) * mLevel / 100 + mLevel + 10));
+    public int getHP(){
+        return ((int) floor((2 * mDexData.getBase().getHP()
+                + mIV.getHP() + mEV.getHP()) * mLevel / 100 + mLevel + 10));
     }
-    public int getAttack(int baseAttack){
-        return getStat(baseAttack, mIV.getAttack(), mEV.getAttack(), mLevel, mNature.getAttack());
+    public int getAttack(){
+        return getStat(mDexData.getBase().getAttack(), mIV.getAttack(), mEV.getAttack(), mLevel,
+                mNature.getAttack());
     }
-    public int getDefense(int baseDefense){
-        return getStat(baseDefense, mIV.getDefense(), mEV.getDefense(), mLevel,
+    public int getDefense(){
+        return getStat(mDexData.getBase().getDefense(), mIV.getDefense(), mEV.getDefense(), mLevel,
                 mNature.getDefense());
     }
-    public int getSpAttack(int baseSpAttack){
-        return getStat(baseSpAttack, mIV.getSpAttack(), mEV.getSpAttack(), mLevel,
-                mNature.getSpAttack());
+    public int getSpAttack(){
+        return getStat(mDexData.getBase().getSpAttack(), mIV.getSpAttack(), mEV.getSpAttack(),
+                mLevel, mNature.getSpAttack());
     }
-    public int getSpDefense(int baseSpDefense){
-        return getStat(baseSpDefense, mIV.getSpDefense(), mEV.getSpDefense(), mLevel,
-                mNature.getSpDefense());
+    public int getSpDefense(){
+        return getStat(mDexData.getBase().getSpDefense(), mIV.getSpDefense(), mEV.getSpDefense(),
+                mLevel, mNature.getSpDefense());
     }
-    public int getSpeed(int baseSpeed){
-        return getStat(baseSpeed, mIV.getSpeed(), mEV.getSpeed(), mLevel, mNature.getSpeed());
+    public int getSpeed(){
+        return getStat(mDexData.getBase().getSpeed(), mIV.getSpeed(), mEV.getSpeed(), mLevel,
+                mNature.getSpeed());
     }
 
     /*TODO

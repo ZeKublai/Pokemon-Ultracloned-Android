@@ -13,14 +13,24 @@ public class TitleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
 
+        //Plays music
+        MusicBackground.OpeningSong(this);
+
         Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //sound effect
+                MusicBackground.ButtonPressed(TitleActivity.this);
                 Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
                 startActivity(beginMainActivityIntent);
                 return;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }
