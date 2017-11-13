@@ -9,7 +9,7 @@ public class Pokemon {
     private String mName = "MissingNo";
     private String mDescription = "??? Pokémon";
     private StatSet mBase = new StatSet();
-    private int mType = 0;
+    private Type mType = new Type();
     private int mFrontImage = 0;
     private int mIcon = 0;
     private int mBackImage = 0;
@@ -17,7 +17,7 @@ public class Pokemon {
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
 
-    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, int mType,
+    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, Type mType,
                    int mFrontImage, int mIcon, int mBackImage, int mCatchRate, int mMaleRatio,
                    int mFemaleRatio) {
         this.mDexNumber = mDexNumber;
@@ -71,10 +71,10 @@ public class Pokemon {
         this.mBase = mBase;
     }
 
-    public int getType() {
+    public Type getType() {
         return mType;
     }
-    public void setType(int mType) {
+    public void setType(Type mType) {
         this.mType = mType;
     }
 

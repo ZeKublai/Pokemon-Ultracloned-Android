@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Nov 12 19:56:30 SGT 2017
+#Mon Nov 13 00:16:39 SGT 2017
 210.set=ANDROID_RESOURCE
 282.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png
 14.set=ANDROID_RESOURCE
@@ -48,7 +48,7 @@
 49.set=ANDROID_RESOURCE
 92.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxhdpi-v4\\abc_scrubber_control_off_mtrl_alpha.png
 244.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png
-167.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\charizard_back.png
+167.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\anim\\abc_slide_out_top.xml
 275.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 198.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 121.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
@@ -132,7 +132,7 @@
 147.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 59.set=ANDROID_RESOURCE
 245.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xhdpi-v4\\notification_bg_low_pressed.9.png
-168.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\anim\\abc_slide_out_top.xml
+168.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\common_google_signin_btn_icon_light.xml
 276.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 199.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 122.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
@@ -210,7 +210,7 @@
 148.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 69.set=ANDROID_RESOURCE
 246.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxhdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png
-169.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\common_google_signin_btn_icon_light.xml
+169.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\select_dialog_singlechoice_material.xml
 277.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 200.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 123.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
@@ -274,7 +274,7 @@
 0.set=ANDROID_RESOURCE
 195.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_ic_star_black_16dp.png
 191.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
-170.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\select_dialog_singlechoice_material.xml
+170.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\squirtle_map.png
 162.set=ANDROID_RESOURCE
 268.set=ANDROID_RESOURCE
 37.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
@@ -355,7 +355,7 @@
 140.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 273.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\abc_action_mode_close_item_material.xml
 196.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\transforms\\mergeJavaRes\\debug\\0.jar\\build-data.properties
-171.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\squirtle_map.png
+171.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_btn_check_material.xml
 278.set=ANDROID_RESOURCE
 38.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 133.set=ANDROID_RESOURCE
@@ -411,7 +411,7 @@
 262.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\common_google_signin_btn_icon_dark.xml
 185.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\ivysaur_back.png
 6.set=ANDROID_RESOURCE
-160.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\notification_template_media_custom.xml
+160.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\tentacool_back.png
 168.set=ANDROID_RESOURCE
 221.set=ANDROID_RESOURCE
 25.set=ANDROID_RESOURCE
@@ -437,7 +437,7 @@
 197.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\raw\\opening.mp3
 120.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-v21\\abc_btn_colored_material.xml
 270.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
-172.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_btn_check_material.xml
+172.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\raw\\battle_song.wav
 288.set=ANDROID_RESOURCE
 39.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 143.set=ANDROID_RESOURCE
@@ -483,7 +483,7 @@
 28.set=ANDROID_RESOURCE
 80.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 236.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\abc_action_menu_layout.xml
-159.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\raw\\battle_song.mp3
+159.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\notification_template_media_custom.xml
 270.set=ANDROID_RESOURCE
 288.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png
 211.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\anim\\abc_popup_exit.xml
@@ -491,7 +491,7 @@
 74.set=ANDROID_RESOURCE
 263.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_spinner_textfield_background_material.xml
 186.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\abc_alert_dialog_title_material.xml
-161.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\tentacool_back.png
+161.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\select_dialog_item_material.xml
 192.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 290.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_ratingbar_indicator_material.xml
 231.set=ANDROID_RESOURCE
@@ -571,7 +571,7 @@ count=308
 264.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml
 187.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\color\\abc_btn_colored_text_material.xml
 110.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\anim\\abc_fade_in.xml
-162.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\select_dialog_item_material.xml
+162.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\mipmap-xxhdpi-v4\\ic_launcher_round.png
 193.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 300.set=ANDROID_RESOURCE
 291.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\transforms\\mergeJavaRes\\debug\\0.jar\\jsr305_annotations\\Jsr305_annotations.gwt.xml
@@ -653,7 +653,7 @@ count=308
 188.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout-v11\\notification_template_big_media_narrow.xml
 111.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\tauros_main.png
 240.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xhdpi-v4\\notification_bg_normal_pressed.9.png
-163.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\mipmap-xxhdpi-v4\\ic_launcher_round.png
+163.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_seekbar_thumb_material.xml
 194.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 292.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\abc_screen_toolbar.xml
 251.set=ANDROID_RESOURCE
@@ -735,7 +735,7 @@ count=308
 112.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxhdpi-v4\\abc_textfield_default_mtrl_alpha.9.png
 19.set=ANDROID_RESOURCE
 241.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout-v11\\notification_template_big_media.xml
-164.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_seekbar_thumb_material.xml
+164.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_16dp.png
 195.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 293.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\mipmap-xxhdpi-v4\\ic_launcher.png
 261.set=ANDROID_RESOURCE
@@ -810,7 +810,7 @@ count=308
 29.set=ANDROID_RESOURCE
 90.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\graveler_map.png
 242.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\abc_ic_clear_material.xml
-165.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_16dp.png
+165.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png
 273.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 196.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\transforms\\mergeJavaRes\\debug\\0.jar
 294.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml
@@ -887,7 +887,7 @@ count=308
 39.set=ANDROID_RESOURCE
 91.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\layout\\abc_action_mode_bar.xml
 243.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\pinsir_map.png
-166.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable-xxxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png
+166.file=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_\\res\\drawable\\charizard_back.png
 274.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 197.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_
 120.base=C\:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\debug\\resources-debug.ap_

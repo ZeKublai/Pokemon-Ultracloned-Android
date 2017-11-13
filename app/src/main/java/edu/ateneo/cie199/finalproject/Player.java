@@ -25,7 +25,7 @@ public class Player {
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new int[]{0, 0, 0, 0, 0, 0};
+        this.mBag = new int[]{10, 10, 10, 10, 10, 10};
     }
 
     public Player(String mName) {
@@ -33,7 +33,7 @@ public class Player {
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new int[]{0, 0, 0, 0, 0, 0};
+        this.mBag = new int[]{10, 10, 10, 10, 10, 10};
     }
 
     public Player(String mName, Pokemon starter) {
@@ -42,7 +42,7 @@ public class Player {
         for(int index = 1; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new int[]{0, 0, 0, 0, 0, 0};
+        this.mBag = new int[]{10, 10, 10, 10, 10, 10};
     }
 
     public String getName() {
@@ -112,5 +112,14 @@ public class Player {
     }
     public void setUltraBall(int value){
         mBag[5] = value;
+    }
+
+    public PokemonProfile getBuddy(){
+        for(int index = 0; index < mPokemons.length; index++){
+            if(mPokemons[index].getCurrentHP() > 0){
+                return mPokemons[index];
+            }
+        }
+        return new PokemonProfile();
     }
 }

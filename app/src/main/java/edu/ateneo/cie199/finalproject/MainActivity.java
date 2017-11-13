@@ -27,7 +27,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    MusicHandler music;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +38,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //Stop previous song
-        MusicBackground.opening_player.release();
-
         //Plays the music during oncreate
-        MusicBackground.MainSong(this,R.raw.main_song);
+        music = new MusicHandler();
+        music.loopMusic(this, R.raw.main_song);
     }
 
     @Override
@@ -57,9 +55,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng initialPosition = new LatLng(initLatitude,initLongitude);
 
         //INITIALIZING POKEMON & MOVES & TYPES
+        app.loadAllPokemonTypes();
         app.loadAllPokemon();
         app.loadAllPokemonMoves();
-        app.loadAllPokemonTypes();
 
         //INITIALIZING PLAYER
         //TODO LOAD PLAYER SAVE DATA FROM FILE INSTEAD OF HARD CODE
@@ -161,6 +159,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Intent CatchActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
                 startActivity(CatchActivityIntent);
+
                 return;
             }
         };
@@ -168,6 +167,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT);
 
                         //IF DESTINATION HAS BEEN SELECTED
                         if(!app.getSelectedMarker().equals(app.getPlayer().getMarker())) {
@@ -287,10 +288,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
                     imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getFrontImage());
+                    if(app.getPlayer().getBuddy().isEmpty()){
+                        btnAction.setClickable(false);
+                    }
+                    else{
+                        btnAction.setClickable(true);
+                    }
                 }
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(music == null){
+            music.loopMusic(this, MusicHandler.MUSIC_MAIN);
+        }
+        if(!music.getMusicPlayer().isPlaying()) {
+            music.getMusicPlayer().start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        music.getMusicPlayer().pause();
     }
 
     @Override

@@ -10,14 +10,14 @@ public class Move {
     public static int STATUS = 0;
 
     private String mName = "";
-    private int mType = 0;
+    private Type mType = new Type();
     private int mCategory = 0;
     private int mMaxPP = 0;
     private int mCurrentPP = 0;
     private int mPower = 0;
     private int mAccuracy = 0;
 
-    public Move(String mName, int mType, int mCategory, int mMaxPP, int mCurrentPP, int mPower,
+    public Move(String mName, Type mType, int mCategory, int mMaxPP, int mCurrentPP, int mPower,
                 int mAccuracy) {
         this.mName = mName;
         this.mType = mType;
@@ -39,11 +39,11 @@ public class Move {
         this.mName = mName;
     }
 
-    public int getType() {
+    public Type getType() {
         return mType;
     }
 
-    public void setType(int mType) {
+    public void setType(Type mType) {
         this.mType = mType;
     }
 
@@ -93,6 +93,15 @@ public class Move {
         }
         else{
             return false;
+        }
+    }
+
+    public String getButtonString(){
+        if(mName.equals("")){
+            return "\n";
+        }
+        else{
+            return mName + "\n" + mType.getName() + "\t PP" + mCurrentPP + "/" + mMaxPP;
         }
     }
 }

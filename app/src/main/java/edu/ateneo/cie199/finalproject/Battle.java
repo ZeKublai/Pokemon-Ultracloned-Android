@@ -192,8 +192,8 @@ public class Battle {
                         attackStat * attackerProfile.getMoves()[moveIndex].getPower() /
                         defenseStat) / 50) + 2;
 
-                double typeMultiplier = mTypeChart.get(attackerProfile.getMoves()[moveIndex]
-                        .getType()).getMultiplier()[defenderProfile.getDexData().getType()];
+                double typeMultiplier = attackerProfile.getMoves()[moveIndex]
+                        .getType().getMultiplier()[defenderProfile.getDexData().getType().getId()];
 
                 if(typeMultiplier == 2){
                     addMessage("It's super effective!", NO_UPDATE);
@@ -233,6 +233,8 @@ public class Battle {
             else{
                 addMessage(attackerProfile.getNickname() + "'s attack missed!", NO_UPDATE);
             }
+            attackerProfile.getMoves()[moveIndex].setCurrentPP(
+                    attackerProfile.getMoves()[moveIndex].getCurrentPP() - 1);
         }
         else{
             sendErrorMessage("There's no PP left for this move!");
