@@ -7,9 +7,15 @@
     tools:context="edu.ateneo.cie199.finalproject.TitleActivity">
 
     <TextView
+        android:id="@+id/lbl_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="106dp"
+        android:text="POKEMON GO RIPOFF"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -19,7 +25,10 @@
         android:id="@+id/btn_title_new_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="NEW GAME"
         tools:layout_editor_absoluteX="135dp"
         tools:layout_editor_absoluteY="219dp" />
 

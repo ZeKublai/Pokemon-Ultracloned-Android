@@ -10,12 +10,13 @@ import static java.lang.Math.floor;
 
 public class Battle {
     //BUTTON STATES
-    public static int MESSAGE_STATE_FIRST = 0;
-    public static int MESSAGE_STATE_LAST = 1;
-    public static int MAIN_STATE = 2;
-    public static int FIGHT_STATE = 3;
-    public static int POKEMON_STATE = 4;
-    public static int BAG_STATE = 5;
+    public static int STATE_MESSAGE_FIRST = 0;
+    public static int STATE_MESSAGE_LAST = 1;
+    public static int STATE_MAIN = 2;
+    public static int STATE_FIGHT = 3;
+    public static int STATE_POKEMON = 4;
+    public static int STATE_BAG = 5;
+    public static int STATE_USE_ITEM = 6;
 
     public static int DECISION_NONE = 0;
     public static int DECISION_ATTACK0 = 1;
@@ -30,43 +31,59 @@ public class Battle {
     public static int DECISION_SWAP4 = 9;
     public static int DECISION_SWAP5 = 10;
 
-    public static Integer NO_UPDATE = 0;
-    public static Integer UPDATE_ENEMY = 1;
-    public static Integer UPDATE_ENEMY_HP = 2;
-    public static Integer UPDATE_BUDDY = 3;
-    public static Integer UPDATE_BUDDY_EXP = 4;
-    public static Integer UPDATE_BUDDY_HP = 5;
+    public static int DECISION_ITEM0 = 11;
+    public static int DECISION_ITEM1 = 12;
+    public static int DECISION_ITEM2 = 13;
+    public static int DECISION_ITEM3 = 14;
+    public static int DECISION_ITEM4 = 15;
+    public static int DECISION_ITEM5 = 16;
 
-    private Player mPlayer;
+    private Player mPlayer = new Player();
+    private PokemonProfile mSelectedPokemon = new PokemonProfile();
+    private boolean mEnemyCaught = false;
     private ArrayList<Type> mTypeChart = new ArrayList<>();
 
     private int mPlayerDecision = DECISION_NONE;
     private int mEnemyDecision = DECISION_NONE;
 
-    private PokemonProfile mBuddy;
-    private PokemonProfile mEnemy;
+    private PokemonProfile mBuddy = new PokemonProfile();
+    private PokemonProfile mEnemy = new PokemonProfile();
 
-    private ArrayList<String> mMessages = new ArrayList<>();
-    private ArrayList<Integer> mUpdates = new ArrayList<>();
-    private int mPhase = 0;
+    private ArrayList<Message> mMessages = new ArrayList<>();
+    private int mState = 0;
+    private int mIndex = 0;
 
-    private int mCurrentMessage = 0;
+    private String MESSAGE_SWAP1 = "Good job, ";
+    private String MESSAGE_SWAP2 = "Go ";
+    private String MESSAGE_PLAYER_LOSS1 = " is out of Pokemon!";
+    private String MESSAGE_PLAYER_LOSS2 = " whited out!";
+    private String MESSAGE_FAINTED = " fainted";
+    private String MESSAGE_EXP_GAINED = " EXP points!";
+    private String MESSAGE_LEVEL_UP = " grew to LV. ";
+    private String MESSAGE_SUPER_EFFECTIVE = "It's super effective!";
+    private String MESSAGE_NOT_EFFECTIVE = "It's not very effective...";
+    private String MESSAGE_NO_EFFECT = "It doesn't affect foe ";
+    private String MESSAGE_CRITICAL = "A critical hit!";
+    private String MESSAGE_MISSED = "'s attack missed!";
+
+    private String ERROR_FAINTED = " has fainted and could not battle!";
+    private String ERROR_IN_BATTLE = " is already in battle!";
+    private String ERROR_NO_PP = "There's no PP left for this move!";
+
 
     public Battle(PokemonProfile mBuddy, PokemonProfile mEnemy) {
         this.mBuddy = mBuddy;
         this.mEnemy = mEnemy;
-        this.mPhase = 0;
+        this.mState = 0;
         this.mMessages = new ArrayList<>();
-        this.mUpdates = new ArrayList<>();
     }
 
     public Battle(PokemonProfile mBuddy, PokemonProfile mEnemy, Player mPlayer) {
         this.mBuddy = mBuddy;
         this.mEnemy = mEnemy;
         this.mPlayer = mPlayer;
-        this.mPhase = 0;
+        this.mState = 0;
         this.mMessages = new ArrayList<>();
-        this.mUpdates = new ArrayList<>();
     }
 
     public int getPlayerDecision() {
@@ -90,7 +107,8 @@ public class Battle {
         this.mTypeChart = mTypeChart;
     }
 
-    public boolean checkVictory(){
+    //CHECK FUNCTIONS
+    public boolean isEnemyFainted(){
         if(mEnemy.getCurrentHP() <= 0){
             return true;
         }
@@ -98,7 +116,7 @@ public class Battle {
             return false;
         }
     }
-    public boolean checkPokemonDefeat(int pokemonIndex){
+    public boolean isPokemonFainted(int pokemonIndex){
         if(mPlayer.getPokemons()[pokemonIndex].getCurrentHP() <= 0){
             return true;
         }
@@ -106,15 +124,23 @@ public class Battle {
             return false;
         }
     }
-    public boolean checkPlayerDefeat(){
+    public boolean isPlayerDefeated(){
         for(int index = 0; index < mPlayer.getPokemons().length; index++){
-            if(!checkPokemonDefeat(index)){
+            if(!isPokemonFainted(index)){
                 return false;
             }
         }
         return true;
     }
-    public boolean buddyFirst(){
+    public boolean isBuddyFainted(){
+        if(getBuddy().getCurrentHP() <= 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean isBuddyFirst(){
         if(mPlayerDecision > DECISION_ATTACK3){
             return true;
         }
@@ -129,167 +155,314 @@ public class Battle {
         }
     }
 
+    //BATTLE FUNCTIONS
     public void sendErrorMessage(String message){
         mMessages.clear();
-        addMessage(message, NO_UPDATE);
-        mPhase = MESSAGE_STATE_LAST;
+        addMessage(message, Message.NO_UPDATE);
+        mState = STATE_MESSAGE_LAST;
+    }
+
+    public void resetMessages(){
+        getMessages().clear();
+        setIndex(0);
+        setPlayerDecision(DECISION_NONE);
+        setEnemyDecision(DECISION_NONE);
+    }
+
+    public void firstMove(){
+        if(isBuddyFirst()){
+            doPlayerDecision();
+        }
+        else{
+            doEnemyDecision();
+        }
+    }
+
+    public void secondMove(){
+        if(isBuddyFirst()){
+            doEnemyDecision();
+        }
+        else{
+            doPlayerDecision();
+        }
     }
 
     public void switchBuddyPokemon(int pokemonIndex){
-        if(checkPokemonDefeat(pokemonIndex)){
-            sendErrorMessage(mPlayer.getPokemons()[pokemonIndex].getNickname()
-                    + " has fainted and could not battle!");
+        if(isPokemonFainted(pokemonIndex)){
+            sendErrorMessage(mPlayer.getPokemons()[pokemonIndex].getNickname() + ERROR_FAINTED);
         }
         else{
             if(!mBuddy.equals(mPlayer.getPokemons()[pokemonIndex])){
-                addMessage("Good job, " + mBuddy.getNickname() + "!", NO_UPDATE);
-
+                addMessage(MESSAGE_SWAP1 + mBuddy.getNickname() + "!", Message.NO_UPDATE);
                 mBuddy = mPlayer.getPokemons()[pokemonIndex];
-                addMessage("Go " + mBuddy.getNickname() + "!", UPDATE_BUDDY);
+                addMessage(MESSAGE_SWAP2 + mBuddy.getNickname() + "!", Message.UPDATE_BUDDY);
             }
             else{
-                sendErrorMessage(mBuddy.getNickname() + " is already in battle!");
+                sendErrorMessage(mBuddy.getNickname() + ERROR_IN_BATTLE);
             }
         }
     }
-    public void battleResult(){
-        addMessage(mEnemy.getNickname() + " fainted", NO_UPDATE);
-        addMessage(mBuddy.getNickname() + " gained "
-                + mEnemy.getLevel()* mBuddy.getLevel()
-                + " EXP points!", UPDATE_BUDDY_EXP);
-        mBuddy.setCurrentExp(mBuddy.getCurrentExp()
-                + mEnemy.getLevel()* mBuddy.getLevel());
 
-        if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
-            mBuddy.setCurrentExp(mBuddy.getCurrentExp()
-                    - mBuddy.getExperienceNeeded());
-            mBuddy.setLevel(mBuddy.getLevel() + 1);
-            addMessage(mBuddy.getNickname() + " grew to LV. " + mBuddy.getLevel()
-                    + "!", NO_UPDATE);
+    public boolean hasItem(int bagIndex){
+        Item selectedItem = mPlayer.getBag()[bagIndex];
+        if(selectedItem.getQuantity() == 0){
+            sendErrorMessage("You are out of " + mPlayer.getBag()[bagIndex].getName() + "!");
+            return false;
+        }
+        else{
+            addMessage(mPlayer.getName() + " used " + selectedItem.getName() + "!",
+                    Message.UPDATE_BUDDY_HP);
+            selectedItem.setQuantity(selectedItem.getQuantity() - 1);
+            return true;
         }
     }
 
-    public void attack(int moveIndex, PokemonProfile attackerProfile,
-                        PokemonProfile defenderProfile, Integer target){
-        if(attackerProfile.getMoves()[moveIndex].getCurrentPP() > 0){
-            addMessage(attackerProfile.getNickname() + " used "
-                    + attackerProfile.getMoves()[moveIndex].getName() + "!", target);
-            //PokemonGoApp app = (PokemonGoApp) getApplication();
-            if(PokemonGoApp.getIntegerRNG(100) <
-                    attackerProfile.getMoves()[moveIndex].getAccuracy()){
-                int attackStat = 0;
-                int defenseStat = 0;
-                if(attackerProfile.getMoves()[moveIndex].getCategory() == Move.PHYSICAL){
-                    attackStat = attackerProfile.getAttack();
-                    defenseStat = defenderProfile.getDefense();
+    public void usePotion(PokemonProfile profile){
+        if(hasItem(0)){
+            if(!mPlayer.usePotion(profile)){
+                sendErrorMessage("It had no effect...");
+            }
+        }
+    }
+
+    public void useSuperPotion(PokemonProfile profile){
+        if(hasItem(1)){
+            if(!mPlayer.useSuperPotion(profile)){
+                sendErrorMessage("It had no effect...");
+            }
+        }
+    }
+
+    public void useMaxRevive(PokemonProfile profile){
+        if(hasItem(2)){
+            if(!mPlayer.useMaxRevive(profile)){
+                sendErrorMessage("It had no effect...");
+            }
+        }
+    }
+
+    public void usePokeBall(){
+        if(hasItem(3)){
+            int result = mPlayer.usePokeball(mEnemy);
+            catchResults(result);
+        }
+    }
+
+    public PokemonProfile getSelectedPokemon() {
+        return mSelectedPokemon;
+    }
+    public void setSelectedPokemon(PokemonProfile mSelectedPokemon) {
+        this.mSelectedPokemon = mSelectedPokemon;
+    }
+
+    public void catchResults(int result){
+        String message = "";
+        for(int index = 1; index <= result; index++){
+            if(index == result){
+                if(result < 4){
+                    addMessage(mEnemy.getNickname() + " broke free!", Message.NO_UPDATE);
                 }
-                else if(attackerProfile.getMoves()[moveIndex].getCategory() == Move.SPECIAL){
-                    attackStat = attackerProfile.getSpAttack();
-                    defenseStat = defenderProfile.getSpDefense();
+                else if(result == 4){
+                    addMessage(mEnemy.getNickname() + " was caught!", Message.NO_UPDATE);
+                    mEnemyCaught = true;
+                    //TODO ADD CAUGHT POKEMON TO BOX
+                    if(mPlayer.getFreeSlot() != Player.MAX_POKEMON_SLOTS){
+                        mPlayer.getPokemons()[mPlayer.getFreeSlot()] = mEnemy;
+                        addMessage(mEnemy.getNickname() + " has been added to the party!", Message.NO_UPDATE);
+                    }
+                    else{
+                        //TODO ADD MORE BOXES???
+                        mPlayer.getBox().add(mEnemy);
+                        addMessage(mEnemy.getNickname() + " has been sent to BOX 1!", Message.NO_UPDATE);
+                    }
+
+                    mState = STATE_MESSAGE_LAST;
+                }
+            }
+            else{
+                message = message + index + "...";
+                addMessage(message, Message.NO_UPDATE);
+            }
+        }
+    }
+
+    public boolean isEnemyCaught() {
+        return mEnemyCaught;
+    }
+    public void setEnemyCaught(boolean mIsEnemyCaught) {
+        this.mEnemyCaught = mIsEnemyCaught;
+    }
+
+    public void useGreatBall(){
+        if(hasItem(4)){
+            mPlayer.useGreatBall(mEnemy);
+            int result = mPlayer.useGreatBall(mEnemy);
+            catchResults(result);
+        }
+    }
+
+    public void useUltraBall(){
+        if(hasItem(5)){
+            mPlayer.useUltraBall(mEnemy);
+            int result = mPlayer.useUltraBall(mEnemy);
+            catchResults(result);
+        }
+    }
+
+    public void enemyHasFainted(){
+        addMessage(mEnemy.getNickname() + MESSAGE_FAINTED, Message.NO_UPDATE);
+        addMessage(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel()
+                + MESSAGE_EXP_GAINED, Message.UPDATE_BUDDY_EXP);
+        mBuddy.setCurrentExp(mBuddy.getCurrentExp() + mEnemy.getLevel()* mBuddy.getLevel());
+        if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
+            buddyLevelUp();
+        }
+        //TODO ADD MONEY REWARD IF TRAINER
+        mState = STATE_MESSAGE_LAST;
+    }
+
+    public void buddyHasFainted(){
+        addMessage(mBuddy.getNickname() + MESSAGE_FAINTED, Message.NO_UPDATE);
+        if(isPlayerDefeated()){
+            playerLoses();
+        }
+        mState = STATE_MESSAGE_LAST;
+    }
+
+    public void playerLoses(){
+        addMessage(getPlayer().getName() + MESSAGE_PLAYER_LOSS1, Message.NO_UPDATE);
+        addMessage(getPlayer().getName() + MESSAGE_PLAYER_LOSS2, Message.NO_UPDATE);
+    }
+
+    public void buddyLevelUp(){
+        mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExperienceNeeded());
+        mBuddy.setLevel(mBuddy.getLevel() + 1);
+        addMessage(mBuddy.getNickname() + MESSAGE_LEVEL_UP + mBuddy.getLevel() + "!",
+                Message.NO_UPDATE);
+    }
+
+    public void attack(Move move, PokemonProfile attacker, PokemonProfile defender, Integer target){
+        if(move.getCurrentPP() > 0){
+            addMessage(attacker.getNickname() + " used " + move.getName() + "!", target);
+            if(PokemonGoApp.getIntegerRNG(Move.MAX_ACCURACY) < move.getAccuracy()){
+                int attackStat = attacker.getAttack(move);
+                int defenseStat = defender.getDefense(move);
+
+                double damage = floor(floor(floor(2 * attacker.getLevel() / 5 + 2) *
+                        attackStat * move.getPower() / defenseStat) / 50) + 2;
+
+                Type defenderType1 = defender.getDexData().getType1();
+                Type defenderType2 = defender.getDexData().getType2();
+
+                double typeMultiplier1 = move.getType().getMultiplier()[defenderType1.getId()];
+                double typeMultiplier2 = move.getType().getMultiplier()[defenderType2.getId()];
+                double totalTypeMultiplier = typeMultiplier1*typeMultiplier2;
+
+                if(totalTypeMultiplier >= 2){
+                    addMessage(MESSAGE_SUPER_EFFECTIVE, Message.NO_UPDATE);
+                }
+                else if(totalTypeMultiplier <= 0.5){
+                    addMessage(MESSAGE_NOT_EFFECTIVE, Message.NO_UPDATE);
+                }
+                else if(totalTypeMultiplier == 0){
+                    addMessage(MESSAGE_NO_EFFECT + defender.getNickname()
+                            + "...", Message.NO_UPDATE);
                 }
 
-                double damage = floor(floor(floor(2 * attackerProfile.getLevel() / 5 + 2) *
-                        attackStat * attackerProfile.getMoves()[moveIndex].getPower() /
-                        defenseStat) / 50) + 2;
-
-                double typeMultiplier = attackerProfile.getMoves()[moveIndex]
-                        .getType().getMultiplier()[defenderProfile.getDexData().getType().getId()];
-
-                if(typeMultiplier == 2){
-                    addMessage("It's super effective!", NO_UPDATE);
-                }
-                else if(typeMultiplier == 0.5){
-                    addMessage("It's not very effective...", NO_UPDATE);
-                }
-                else if(typeMultiplier == 0){
-                    addMessage("It doesn't affect foe " + defenderProfile.getNickname() + "...",
-                            NO_UPDATE);
-                }
-
-                damage = damage * typeMultiplier;
+                damage = damage * totalTypeMultiplier;
 
                 if(PokemonGoApp.getIntegerRNG(16) < 1){
                     damage = damage * 2;
-                    addMessage("A critical hit!", NO_UPDATE);
+                    addMessage(MESSAGE_CRITICAL, Message.NO_UPDATE);
                 }
 
                 if(damage < 1.0){
                     damage = 1.0;
                 }
 
-                defenderProfile.setCurrentHP(defenderProfile.getCurrentHP() - (int)(damage));
-                if(defenderProfile.getCurrentHP() < 0){
-                    defenderProfile.setCurrentHP(0);
-                    if(mBuddy.getCurrentHP() <= 0){
-                        addMessage(mBuddy.getNickname() + " fainted", NO_UPDATE);
-                        if(checkPlayerDefeat()){
-                            addMessage(getPlayer().getName() + " is out of Pokemon!", NO_UPDATE);
-                            addMessage(getPlayer().getName() + " whited out!", NO_UPDATE);
-                        }
-                        mPhase = MESSAGE_STATE_LAST;
+                defender.setCurrentHP(defender.getCurrentHP() - (int)(damage));
+                if(defender.getCurrentHP() < 0){
+                    defender.setCurrentHP(0);
+                    if(isBuddyFainted()){
+                        buddyHasFainted();
+                    }
+                    if(isEnemyFainted()){
+                        enemyHasFainted();
                     }
                 }
             }
             else{
-                addMessage(attackerProfile.getNickname() + "'s attack missed!", NO_UPDATE);
+                addMessage(attacker.getNickname() + MESSAGE_MISSED, Message.NO_UPDATE);
             }
-            attackerProfile.getMoves()[moveIndex].setCurrentPP(
-                    attackerProfile.getMoves()[moveIndex].getCurrentPP() - 1);
+            move.setCurrentPP(move.getCurrentPP() - 1);
         }
         else{
-            sendErrorMessage("There's no PP left for this move!");
-        }
-        if(checkVictory()){
-            battleResult();
-            mPhase = MESSAGE_STATE_LAST;
+            sendErrorMessage(ERROR_NO_PP);
         }
     }
 
-    public void executePlayer(int decision){
-        if(decision == DECISION_ATTACK0){
-            attack(0, getBuddy(), getEnemy(), UPDATE_ENEMY_HP);
+    public void doPlayerDecision(){
+        if(mPlayerDecision == DECISION_ATTACK0){
+            attack(mBuddy.getMoves()[0], getBuddy(), getEnemy(), Message.UPDATE_ENEMY_HP);
         }
-        else if(decision == DECISION_ATTACK1){
-            attack(1, getBuddy(), getEnemy(), UPDATE_ENEMY_HP);
+        else if(mPlayerDecision == DECISION_ATTACK1){
+            attack(mBuddy.getMoves()[1], getBuddy(), getEnemy(), Message.UPDATE_ENEMY_HP);
         }
-        else if(decision == DECISION_ATTACK2){
-            attack(2, getBuddy(), getEnemy(), UPDATE_ENEMY_HP);
+        else if(mPlayerDecision == DECISION_ATTACK2){
+            attack(mBuddy.getMoves()[2], getBuddy(), getEnemy(), Message.UPDATE_ENEMY_HP);
         }
-        else if(decision == DECISION_ATTACK3){
-            attack(3, getBuddy(), getEnemy(), UPDATE_ENEMY_HP);
+        else if(mPlayerDecision == DECISION_ATTACK3){
+            attack(mBuddy.getMoves()[3], getBuddy(), getEnemy(), Message.UPDATE_ENEMY_HP);
         }
-        else if(decision == DECISION_SWAP0){
+        else if(mPlayerDecision == DECISION_SWAP0){
             switchBuddyPokemon(0);
         }
-        else if(decision == DECISION_SWAP1){
+        else if(mPlayerDecision == DECISION_SWAP1){
             switchBuddyPokemon(1);
         }
-        else if(decision == DECISION_SWAP2){
+        else if(mPlayerDecision == DECISION_SWAP2){
             switchBuddyPokemon(2);
         }
-        else if(decision == DECISION_SWAP3){
+        else if(mPlayerDecision == DECISION_SWAP3){
             switchBuddyPokemon(3);
         }
-        else if(decision == DECISION_SWAP4){
+        else if(mPlayerDecision == DECISION_SWAP4){
             switchBuddyPokemon(4);
         }
-        else if(decision == DECISION_SWAP5){
-             switchBuddyPokemon(5);
+        else if(mPlayerDecision == DECISION_SWAP5){
+            switchBuddyPokemon(5);
+        }
+        else if(mPlayerDecision == DECISION_ITEM0){
+            usePotion(mSelectedPokemon);
+        }
+        else if(mPlayerDecision == DECISION_ITEM1){
+            useSuperPotion(mSelectedPokemon);
+        }
+        else if(mPlayerDecision == DECISION_ITEM2){
+            useMaxRevive(mSelectedPokemon);
+        }
+        else if(mPlayerDecision == DECISION_ITEM3){
+            usePokeBall();
+        }
+        else if(mPlayerDecision == DECISION_ITEM4){
+            useGreatBall();
+        }
+        else if(mPlayerDecision == DECISION_ITEM5){
+            useUltraBall();
         }
     }
-
-    public void executeEnemy(int decision){
-        if(decision == DECISION_ATTACK0){
-            attack(0, getEnemy(), getBuddy(), UPDATE_BUDDY_HP);
+    public void doEnemyDecision(){
+        if(mEnemyDecision == DECISION_ATTACK0){
+            attack(mEnemy.getMoves()[0], getEnemy(), getBuddy(), Message.UPDATE_BUDDY_HP);
         }
-        else if(decision == DECISION_ATTACK1){
-            attack(1, getEnemy(), getBuddy(), UPDATE_BUDDY_HP);
+        else if(mEnemyDecision == DECISION_ATTACK1){
+            attack(mEnemy.getMoves()[1], getEnemy(), getBuddy(), Message.UPDATE_BUDDY_HP);
         }
-        else if(decision == DECISION_ATTACK2){
-            attack(2, getEnemy(), getBuddy(), UPDATE_BUDDY_HP);
+        else if(mEnemyDecision == DECISION_ATTACK2){
+            attack(mEnemy.getMoves()[2], getEnemy(), getBuddy(), Message.UPDATE_BUDDY_HP);
         }
-        else if(decision == DECISION_ATTACK3){
-            attack(3, getEnemy(), getBuddy(), UPDATE_BUDDY_HP);
+        else if(mEnemyDecision == DECISION_ATTACK3){
+            attack(mEnemy.getMoves()[3], getEnemy(), getBuddy(), Message.UPDATE_BUDDY_HP);
         }
     }
 
@@ -314,33 +487,28 @@ public class Battle {
         this.mEnemy = mEnemy;
     }
 
-    public ArrayList<String> getMessages() {
+    public ArrayList<Message> getMessages() {
         return mMessages;
     }
-    public ArrayList<Integer> getUpdates() {
-        return mUpdates;
-    }
-
-    public void setMessages(ArrayList<String> mMessages) {
+    public void setMessages(ArrayList<Message> mMessages) {
         this.mMessages = mMessages;
     }
 
-    public int getPhase() {
-        return mPhase;
+    public int getState() {
+        return mState;
     }
-    public void setPhase(int mPhase) {
-        this.mPhase = mPhase;
+    public void setState(int mState) {
+        this.mState = mState;
     }
 
-    public int getCurrentMessage() {
-        return mCurrentMessage;
+    public int getIndex() {
+        return mIndex;
     }
-    public void setCurrentMessage(int mCurrentMessage) {
-        this.mCurrentMessage = mCurrentMessage;
+    public void setIndex(int mIndex) {
+        this.mIndex = mIndex;
     }
 
     public void addMessage(String message, Integer update){
-        mMessages.add(message);
-        mUpdates.add(update);
+        mMessages.add(new Message(message + "∇", update));
     }
 }

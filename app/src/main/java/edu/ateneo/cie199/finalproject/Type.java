@@ -7,25 +7,27 @@ import android.graphics.Color;
  */
 
 public class Type {
-    public static int NORMAL = 0;
-    public static int FIRE = 1;
-    public static int WATER = 2;
-    public static int ELECTRIC = 3;
-    public static int GRASS = 4;
-    public static int ICE = 5;
-    public static int FIGHTING = 6;
-    public static int POISON = 7;
-    public static int GROUND = 8;
-    public static int FLYING = 9;
-    public static int PSYCHIC = 10;
-    public static int BUG = 11;
-    public static int ROCK = 12;
-    public static int GHOST = 13;
-    public static int DRAGON = 14;
-    public static int DARK = 15;
-    public static int STEEL = 16;
-    public static int FAIRY = 17;
+    public static int NONE = 0;
+    public static int NORMAL = 1;
+    public static int FIRE = 2;
+    public static int WATER = 3;
+    public static int ELECTRIC = 4;
+    public static int GRASS = 5;
+    public static int ICE = 6;
+    public static int FIGHTING = 7;
+    public static int POISON = 8;
+    public static int GROUND = 9;
+    public static int FLYING = 10;
+    public static int PSYCHIC = 11;
+    public static int BUG = 12;
+    public static int ROCK = 13;
+    public static int GHOST = 14;
+    public static int DRAGON = 15;
+    public static int DARK = 16;
+    public static int STEEL = 17;
+    public static int FAIRY = 18;
 
+    public static int NONE_COLOR = Color.argb(0, 0, 0, 0);
     public static int NORMAL_COLOR = Color.argb(255, 151, 158, 123);
     public static int FIRE_COLOR = Color.argb(255, 244, 146, 0);
     public static int WATER_COLOR = Color.argb(255, 0, 116, 232);
@@ -48,9 +50,8 @@ public class Type {
     private String mName = "";
 
     private int mId = 0;
-
-    private int mColor = BattleActivity.FIGHT_COLOR;
-    private double[] mMultiplier = {1, 1, 1, 1, 1, 1,
+    private int mColor = NONE_COLOR;
+    private double[] mMultiplier = {1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1};
 

@@ -4,6 +4,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import static java.lang.Math.floor;
+import static java.lang.Math.pow;
 
 /**
  * Created by John on 11/3/2017.
@@ -15,7 +17,7 @@ public class Player {
 
     private String mName = "";
     private Marker mMarker = null;
-    private int[] mBag = new int[MAX_BAG_SLOTS];
+    private Item[] mBag = new Item[MAX_BAG_SLOTS];
 
     private PokemonProfile[] mPokemons = new PokemonProfile[MAX_POKEMON_SLOTS];
     private ArrayList<PokemonProfile> mBox = new ArrayList<>();
@@ -25,7 +27,12 @@ public class Player {
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new int[]{10, 10, 10, 10, 10, 10};
+        this.mBag = new Item[]{new Item("Potion", 10),
+                new Item("Super Potion", 10),
+                new Item("Max Revive", 10),
+                new Item("Poke Ball", 10),
+                new Item("Great Ball", 10),
+                new Item("Ultra Ball", 10)};
     }
 
     public Player(String mName) {
@@ -33,7 +40,12 @@ public class Player {
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new int[]{10, 10, 10, 10, 10, 10};
+        this.mBag = new Item[]{new Item("Potion", 10),
+                new Item("Super Potion", 10),
+                new Item("Max Revive", 10),
+                new Item("Poke Ball", 10),
+                new Item("Great Ball", 10),
+                new Item("Ultra Ball", 10)};
     }
 
     public Player(String mName, Pokemon starter) {
@@ -42,7 +54,12 @@ public class Player {
         for(int index = 1; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new int[]{10, 10, 10, 10, 10, 10};
+        this.mBag = new Item[]{new Item("Potion", 10),
+                new Item("Super Potion", 10),
+                new Item("Max Revive", 10),
+                new Item("Poke Ball", 10),
+                new Item("Great Ball", 10),
+                new Item("Ultra Ball", 10)};
     }
 
     public String getName() {
@@ -77,41 +94,135 @@ public class Player {
         this.mBox = mBox;
     }
 
-    public int getPotions(){
+    public Item getPotions(){
         return mBag[0];
     }
-    public int getSuperPotions(){
+    public Item getSuperPotions(){
         return mBag[1];
     }
-    public int getMaxRevives(){
+    public Item getMaxRevives(){
         return mBag[2];
     }
-    public int getPokeBall(){
+    public Item getPokeBall(){
         return mBag[3];
     }
-    public int getGreatBall(){
+    public Item getGreatBall(){
         return mBag[4];
     }
-    public int getUltraBall(){
+    public Item getUltraBall(){
         return mBag[5];
     }
-    public void setPotions(int value){
-        mBag[0] = value;
+    public Item[] getBag(){
+        return mBag;
     }
-    public void setSuperPotions(int value){
-        mBag[1] = value;
+
+    public void setPotions(Item item){
+        mBag[0] = item;
     }
-    public void setMaxRevives(int value){
-        mBag[2] = value;
+    public void setSuperPotions(Item item){
+        mBag[1] = item;
     }
-    public void setPokeBall(int value){
-        mBag[3] = value;
+    public void setMaxRevives(Item item){
+        mBag[2] = item;
     }
-    public void setGreatBall(int value){
-        mBag[4] = value;
+    public void setPokeBall(Item item){
+        mBag[3] = item;
     }
-    public void setUltraBall(int value){
-        mBag[5] = value;
+    public void setGreatBall(Item item){
+        mBag[4] = item;
+    }
+    public void setUltraBall(Item item){
+        mBag[5] = item;
+    }
+
+    public boolean usePotion(PokemonProfile profile){
+        if(profile.getCurrentHP() > 0){
+            profile.setCurrentHP(profile.getCurrentHP() + 20);
+            if(profile.getCurrentHP() > profile.getHP()){
+                profile.setCurrentHP(profile.getHP());
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean useSuperPotion(PokemonProfile profile){
+        if(profile.getCurrentHP() > 0){
+            profile.setCurrentHP(profile.getCurrentHP() + 50);
+            if(profile.getCurrentHP() > profile.getHP()){
+                profile.setCurrentHP(profile.getHP());
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean useMaxRevive(PokemonProfile profile){
+        if(profile.getCurrentHP() == 0){
+            profile.setCurrentHP(profile.getHP());
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public int getFinalCatchRate(PokemonProfile profile, double ballBonus){
+        double result = ((3.0*profile.getHP() - 2.0*profile.getCurrentHP())*ballBonus*
+                profile.getDexData().getCatchRate())/(3.0*profile.getHP());
+        return (int) result;
+    }
+
+    public int getSecondCatchRate(int finalCatchRate){
+        double result = floor(65536.0/(pow(255.0/((double)finalCatchRate), 3.0/16.0)));
+        return (int) result;
+    }
+
+    //TODO CATCH THAT THING
+    public int useBall(PokemonProfile profile, double ballBonus){
+        int finalCatchRate = getFinalCatchRate(profile, ballBonus);
+        int attempt1 = PokemonGoApp.getIntegerRNG(65535);
+        int attempt2 = PokemonGoApp.getIntegerRNG(65535);
+        int attempt3 = PokemonGoApp.getIntegerRNG(65535);
+        if(attempt1 >= getSecondCatchRate(finalCatchRate)){
+            return 1;
+        }
+        else{
+            if(attempt2 >= getSecondCatchRate(finalCatchRate)){
+                return 2;
+            }
+            else{
+                if(attempt3 >= getSecondCatchRate(finalCatchRate)){
+                    return 3;
+                }
+                else{
+                    return 4;
+                }
+            }
+        }
+    }
+
+    public int usePokeball(PokemonProfile profile){
+        return useBall(profile, 1.0);
+    }
+    public int useGreatBall(PokemonProfile profile){
+        return useBall(profile, 1.5);
+    }
+    public int useUltraBall(PokemonProfile profile){
+        return useBall(profile, 2.0);
+    }
+
+    public int getFreeSlot(){
+        for(int index = 0; index < mPokemons.length; index++){
+            if(mPokemons[index].getDexNumber() == Pokemon.MISSINGNO){
+                return index;
+            }
+        }
+        return MAX_POKEMON_SLOTS;
     }
 
     public PokemonProfile getBuddy(){
@@ -121,5 +232,13 @@ public class Player {
             }
         }
         return new PokemonProfile();
+    }
+
+    public void giveItem(Item item){
+        for(int index = 0; index < MAX_BAG_SLOTS; index++){
+            if(mBag[index].getName().equals(item.getName())){
+                mBag[index].setQuantity(mBag[index].getQuantity() + item.getQuantity());
+            }
+        }
     }
 }

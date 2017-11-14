@@ -55,6 +55,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng initialPosition = new LatLng(initLatitude,initLongitude);
 
         //INITIALIZING POKEMON & MOVES & TYPES
+        //TODO MAKE THIS FROM FILE
+        app.loadAllItems();
         app.loadAllPokemonTypes();
         app.loadAllPokemon();
         app.loadAllPokemonMoves();
@@ -70,6 +72,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.getPlayer().getPokemons()[0].getMoves()[1] = app.getAllMoves().get(5);
         app.getPlayer().getPokemons()[0].getMoves()[2] = app.getAllMoves().get(16);
         app.getPlayer().getPokemons()[1].getMoves()[0] = app.getAllMoves().get(19);
+        app.getPlayer().getPokemons()[1].getMoves()[1] = app.getAllMoves().get(25);
         app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA
@@ -106,17 +109,28 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                         //GENERATING POKEMON
                         Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
+                        Item spawnItem = app.getAllItems().get(app.getIntegerRNG(app.getAllItems().size()));
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
                         LatLng spawnPosition = new LatLng(originPosition.latitude + offsetLat,
                                 originPosition.longitude + offsetLng);
 
-                        Marker marker = app.getMap().addMarker(
-                                new MarkerOptions().position(spawnPosition).title(
-                                        spawnPokemon.getName()).icon(
-                                                BitmapDescriptorFactory.fromResource(
-                                                        spawnPokemon.getIcon())));
+                        Marker marker;
+                        if(app.getIntegerRNG(2) > 0){
+                            marker = app.getMap().addMarker(
+                                    new MarkerOptions().position(spawnPosition).title(
+                                            spawnPokemon.getName()).icon(
+                                            BitmapDescriptorFactory.fromResource(
+                                                    spawnPokemon.getIcon())));
+                        }
+                        else{
+                            marker = app.getMap().addMarker(
+                                    new MarkerOptions().position(spawnPosition).title(
+                                            spawnItem.getName()).icon(
+                                            BitmapDescriptorFactory.fromResource(
+                                                    spawnItem.getImageSide())));
+                        }
                         app.addMarkers(marker);
 
                         //DESPAWN
@@ -156,9 +170,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
                                 R.drawable.player_stand));
-
-                Intent CatchActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
-                startActivity(CatchActivityIntent);
+                if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
+                    app.getPlayer().giveItem(new Item(app.getCurrentGoal().getTitle(), 1));
+                }
+                else{
+                    Intent CatchActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(CatchActivityIntent);
+                }
 
                 return;
             }
@@ -287,12 +305,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
-                    imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getFrontImage());
-                    if(app.getPlayer().getBuddy().isEmpty()){
-                        btnAction.setClickable(false);
+                    if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
+                        imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageFront());
                     }
                     else{
-                        btnAction.setClickable(true);
+                        imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getFrontImage());
+                        if(app.getPlayer().getBuddy().isEmpty()){
+                            btnAction.setClickable(false);
+                        }
+                        else{
+                            btnAction.setClickable(true);
+                        }
                     }
                 }
                 return false;

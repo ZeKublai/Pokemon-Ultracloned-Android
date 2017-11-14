@@ -9,6 +9,8 @@ public class Move {
     public static int SPECIAL = 0;
     public static int STATUS = 0;
 
+    public static int MAX_ACCURACY = 100;
+
     private String mName = "";
     private Type mType = new Type();
     private int mCategory = 0;

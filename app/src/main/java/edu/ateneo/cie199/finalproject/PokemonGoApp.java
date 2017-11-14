@@ -31,6 +31,8 @@ public class PokemonGoApp extends Application{
     private ArrayList<Move> mMoves = new ArrayList<>();
     private ArrayList<Type> mTypes = new ArrayList<>();
 
+    private ArrayList<Item> mItems = new ArrayList<>();
+
     /**
      * This function returns a random number from 0 to a given length.
      * @param length    the upper bound for the random number generation
@@ -109,7 +111,7 @@ public class PokemonGoApp extends Application{
                 return mPokemons.get(index);
             }
         }
-        return mPokemons.get(0);
+        return new Pokemon();
     }
     public Pokemon getPokemon(int dexNumber){
         for(int index = 0; index < mPokemons.size(); index++){
@@ -117,7 +119,16 @@ public class PokemonGoApp extends Application{
                 return mPokemons.get(index);
             }
         }
-        return mPokemons.get(0);
+        return new Pokemon();
+    }
+
+    public Item getItem(String title){
+        for(int index = 0; index < mItems.size(); index++){
+            if(mItems.get(index).getName().equals(title)){
+                return mItems.get(index);
+            }
+        }
+        return new Item();
     }
 
     public ArrayList<Type> getAllTypes(){return mTypes;}
@@ -203,36 +214,42 @@ public class PokemonGoApp extends Application{
     }
 
     public void loadAllPokemonTypes(){
-        double[] normal = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f, 1};
-        double[] fire = new double[]{1, 0.5f, 0.5f, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5f, 1, 0.5f, 1, 2,
+        double[] normal = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f,
                 1};
-        double[] water = new double[]{1, 2, 0.5f, 1, 0.5f, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5f, 1, 1,
+        double[] fire = new double[]{1, 1, 0.5f, 0.5f, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5f, 1, 0.5f, 1,
+                2, 1};
+        double[] water = new double[]{1, 1, 2, 0.5f, 1, 0.5f, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5f, 1, 1,
                 1};
-        double[] electric = new double[]{1, 1, 2, 0.5f, 0.5f, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5f, 1, 1,
+        double[] electric = new double[]{1, 1, 1, 2, 0.5f, 0.5f, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5f, 1,
+                1, 1};
+        double[] grass = new double[]{1, 1, 0.5f, 2, 1, 0.5f, 1, 1, 0.5f, 2, 0.5f, 1, 0.5f, 2, 1,
+                0.5f, 1, 0.5f, 1};
+        double[] ice = new double[]{1, 1, 0.5f, 0.5f, 1, 2, 0.5f, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1,
+                0.5f, 1};
+        double[] fighting = new double[]{1, 2, 1, 1, 1, 1, 2, 1, 0.5f, 1, 0.5f, 0.5f, 0.5f, 2, 0, 1,
+                2, 2, 0.5f};
+        double[] poison = new double[]{1, 1, 1, 1, 1, 2, 1, 1, 0.5f, 0.5f, 1, 1, 1, 0.5f, 0.5f, 1,
+                1, 0, 2};
+        double[] ground = new double[]{1, 1, 2, 1, 2, 0.5f, 1, 1, 2, 1, 0, 1, 0.5f, 2, 1, 1, 1, 2,
                 1};
-        double[] grass = new double[]{1, 0.5f, 2, 1, 0.5f, 1, 1, 0.5f, 2, 0.5f, 1, 0.5f, 2, 1, 0.5f,
-                1, 0.5f, 1};
-        double[] ice = new double[]{1, 0.5f, 0.5f, 1, 2, 0.5f, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5f,
+        double[] flying = new double[]{1, 1, 1, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1,
+                0.5f, 1};
+        double[] psychic = new double[]{1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5f, 1, 1, 1, 1, 0, 0.5f,
                 1};
-        double[] fighting = new double[]{2, 1, 1, 1, 1, 2, 1, 0.5f, 1, 0.5f, 0.5f, 0.5f, 2, 0, 1, 2,
-                2, 0.5f};
-        double[] poison = new double[]{1, 1, 1, 1, 2, 1, 1, 0.5f, 0.5f, 1, 1, 1, 0.5f, 0.5f, 1, 1,
-                0, 2};
-        double[] ground = new double[]{1, 2, 1, 2, 0.5f, 1, 1, 2, 1, 0, 1, 0.5f, 2, 1, 1, 1, 2, 1};
-        double[] flying = new double[]{1, 1, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 0.5f,
+        double[] bug = new double[]{1, 1, 0.5f, 1, 1, 2, 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 0.5f, 1,
+                2, 0.5f, 0.5f};
+        double[] rock = new double[]{1, 1, 2, 1, 1, 1, 2, 0.5f, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 0.5f,
                 1};
-        double[] psychic = new double[]{1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5f, 1, 1, 1, 1, 0, 0.5f, 1};
-        double[] bug = new double[]{1, 0.5f, 1, 1, 2, 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 0.5f, 1, 2,
-                0.5f, 0.5f};
-        double[] rock = new double[]{1, 2, 1, 1, 1, 2, 0.5f, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 0.5f, 1};
-        double[] ghost = new double[]{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 1};
-        double[] dragon = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5f, 0};
-        double[] dark = new double[]{1, 1, 1, 1, 1, 1, 0.5f, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 0.5f};
-        double[] steel = new double[]{1, 0.5f, 0.5f, 0.5f, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5f,
-                2};
-        double[] fairy = new double[]{1, 0.5f, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 1, 1, 1, 2, 2, 0.5f,
+        double[] ghost = new double[]{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 1};
+        double[] dragon = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5f, 0};
+        double[] dark = new double[]{1, 1, 1, 1, 1, 1, 1, 0.5f, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1,
+                0.5f};
+        double[] steel = new double[]{1, 1, 0.5f, 0.5f, 0.5f, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1,
+                0.5f, 2};
+        double[] fairy = new double[]{1, 1, 0.5f, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 1, 1, 1, 2, 2, 0.5f,
                 1};
 
+        mTypes.add(new Type());
         mTypes.add(new Type(normal));
         mTypes.add(new Type(fire));
         mTypes.add(new Type(water));
@@ -252,63 +269,79 @@ public class PokemonGoApp extends Application{
         mTypes.add(new Type(steel));
         mTypes.add(new Type(fairy));
 
-        mTypes.get(0).setName("NORMAL");
-        mTypes.get(1).setName("FIRE");
-        mTypes.get(2).setName("WATER");
-        mTypes.get(3).setName("ELECTRIC");
-        mTypes.get(4).setName("GRASS");
-        mTypes.get(5).setName("ICE");
-        mTypes.get(6).setName("FIGHTING");
-        mTypes.get(7).setName("POISON");
-        mTypes.get(8).setName("GROUND");
-        mTypes.get(9).setName("FLYING");
-        mTypes.get(10).setName("PSYCHIC");
-        mTypes.get(11).setName("BUG");
-        mTypes.get(12).setName("ROCK");
-        mTypes.get(13).setName("GHOST");
-        mTypes.get(14).setName("DRAGON");
-        mTypes.get(15).setName("DARK");
-        mTypes.get(16).setName("STEEL");
-        mTypes.get(17).setName("FAIRY");
+        mTypes.get(1).setName("NORMAL");
+        mTypes.get(2).setName("FIRE");
+        mTypes.get(3).setName("WATER");
+        mTypes.get(4).setName("ELECTRIC");
+        mTypes.get(5).setName("GRASS");
+        mTypes.get(6).setName("ICE");
+        mTypes.get(7).setName("FIGHTING");
+        mTypes.get(8).setName("POISON");
+        mTypes.get(9).setName("GROUND");
+        mTypes.get(10).setName("FLYING");
+        mTypes.get(11).setName("PSYCHIC");
+        mTypes.get(12).setName("BUG");
+        mTypes.get(13).setName("ROCK");
+        mTypes.get(14).setName("GHOST");
+        mTypes.get(15).setName("DRAGON");
+        mTypes.get(16).setName("DARK");
+        mTypes.get(17).setName("STEEL");
+        mTypes.get(18).setName("FAIRY");
 
-        mTypes.get(0).setId(Type.NORMAL);
-        mTypes.get(1).setId(Type.FIRE);
-        mTypes.get(2).setId(Type.WATER);
-        mTypes.get(3).setId(Type.ELECTRIC);
-        mTypes.get(4).setId(Type.GRASS);
-        mTypes.get(5).setId(Type.ICE);
-        mTypes.get(6).setId(Type.FIGHTING);
-        mTypes.get(7).setId(Type.POISON);
-        mTypes.get(8).setId(Type.GROUND);
-        mTypes.get(9).setId(Type.FLYING);
-        mTypes.get(10).setId(Type.PSYCHIC);
-        mTypes.get(11).setId(Type.BUG);
-        mTypes.get(12).setId(Type.ROCK);
-        mTypes.get(13).setId(Type.GHOST);
-        mTypes.get(14).setId(Type.DRAGON);
-        mTypes.get(15).setId(Type.DARK);
-        mTypes.get(16).setId(Type.STEEL);
-        mTypes.get(17).setId(Type.FAIRY);
+        mTypes.get(1).setId(Type.NORMAL);
+        mTypes.get(2).setId(Type.FIRE);
+        mTypes.get(3).setId(Type.WATER);
+        mTypes.get(4).setId(Type.ELECTRIC);
+        mTypes.get(5).setId(Type.GRASS);
+        mTypes.get(6).setId(Type.ICE);
+        mTypes.get(7).setId(Type.FIGHTING);
+        mTypes.get(8).setId(Type.POISON);
+        mTypes.get(9).setId(Type.GROUND);
+        mTypes.get(10).setId(Type.FLYING);
+        mTypes.get(11).setId(Type.PSYCHIC);
+        mTypes.get(12).setId(Type.BUG);
+        mTypes.get(13).setId(Type.ROCK);
+        mTypes.get(14).setId(Type.GHOST);
+        mTypes.get(15).setId(Type.DRAGON);
+        mTypes.get(16).setId(Type.DARK);
+        mTypes.get(17).setId(Type.STEEL);
+        mTypes.get(18).setId(Type.FAIRY);
 
-        mTypes.get(0).setColor(Type.NORMAL_COLOR);
-        mTypes.get(1).setColor(Type.FIRE_COLOR);
-        mTypes.get(2).setColor(Type.WATER_COLOR);
-        mTypes.get(3).setColor(Type.ELECTRIC_COLOR);
-        mTypes.get(4).setColor(Type.GRASS_COLOR);
-        mTypes.get(5).setColor(Type.ICE_COLOR);
-        mTypes.get(6).setColor(Type.FIGHTING_COLOR);
-        mTypes.get(7).setColor(Type.POISON_COLOR);
-        mTypes.get(8).setColor(Type.GROUND_COLOR);
-        mTypes.get(9).setColor(Type.FLYING_COLOR);
-        mTypes.get(10).setColor(Type.PSYCHIC_COLOR);
-        mTypes.get(11).setColor(Type.BUG_COLOR);
-        mTypes.get(12).setColor(Type.ROCK_COLOR);
-        mTypes.get(13).setColor(Type.GHOST_COLOR);
-        mTypes.get(14).setColor(Type.DRAGON_COLOR);
-        mTypes.get(15).setColor(Type.DARK_COLOR);
-        mTypes.get(16).setColor(Type.STEEL_COLOR);
-        mTypes.get(17).setColor(Type.FAIRY_COLOR);
+        mTypes.get(1).setColor(Type.NORMAL_COLOR);
+        mTypes.get(2).setColor(Type.FIRE_COLOR);
+        mTypes.get(3).setColor(Type.WATER_COLOR);
+        mTypes.get(4).setColor(Type.ELECTRIC_COLOR);
+        mTypes.get(5).setColor(Type.GRASS_COLOR);
+        mTypes.get(6).setColor(Type.ICE_COLOR);
+        mTypes.get(7).setColor(Type.FIGHTING_COLOR);
+        mTypes.get(8).setColor(Type.POISON_COLOR);
+        mTypes.get(9).setColor(Type.GROUND_COLOR);
+        mTypes.get(10).setColor(Type.FLYING_COLOR);
+        mTypes.get(11).setColor(Type.PSYCHIC_COLOR);
+        mTypes.get(12).setColor(Type.BUG_COLOR);
+        mTypes.get(13).setColor(Type.ROCK_COLOR);
+        mTypes.get(14).setColor(Type.GHOST_COLOR);
+        mTypes.get(15).setColor(Type.DRAGON_COLOR);
+        mTypes.get(16).setColor(Type.DARK_COLOR);
+        mTypes.get(17).setColor(Type.STEEL_COLOR);
+        mTypes.get(18).setColor(Type.FAIRY_COLOR);
     }
 
+    public ArrayList<Item> getAllItems() {
+        return mItems;
+    }
+
+    public void setAllItems(ArrayList<Item> mItems) {
+        this.mItems = mItems;
+    }
+
+    public void loadAllItems(){
+        mItems.add(new Item("Potion", 0, R.drawable.bag_potion_icon, R.drawable.bag_potion));
+        mItems.add(new Item("Super Potion", 0, R.drawable.bag_superpotion_icon, R.drawable.bag_superpotion));
+        mItems.add(new Item("Max Revive", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxrevive));
+        mItems.add(new Item("Poke Ball", 0, R.drawable.bag_pokeball_icon, R.drawable.bag_pokeball));
+        mItems.add(new Item("Great Ball", 0, R.drawable.bag_greatball_icon, R.drawable.bag_greatball));
+        mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball));
+    }
 
 }

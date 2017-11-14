@@ -36,6 +36,7 @@ public class MusicHandler {
         mSfxPlayer.setLooping(false); // Set looping
         mSfxPlayer.setVolume(100, 100);
         mSfxPlayer.start();
+
     }
 
     public void stopMusic(){

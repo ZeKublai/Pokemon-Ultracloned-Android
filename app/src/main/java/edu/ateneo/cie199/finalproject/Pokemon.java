@@ -5,11 +5,14 @@ package edu.ateneo.cie199.finalproject;
  */
 
 public class Pokemon {
-    private int mDexNumber = 0;
+    public static int MISSINGNO = 0;
+
+    private int mDexNumber = MISSINGNO;
     private String mName = "MissingNo";
     private String mDescription = "??? Pokémon";
     private StatSet mBase = new StatSet();
-    private Type mType = new Type();
+    private Type mType1 = new Type();
+    private Type mType2 = new Type();
     private int mFrontImage = 0;
     private int mIcon = 0;
     private int mBackImage = 0;
@@ -17,14 +20,14 @@ public class Pokemon {
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
 
-    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, Type mType,
+    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, Type mType1,
                    int mFrontImage, int mIcon, int mBackImage, int mCatchRate, int mMaleRatio,
                    int mFemaleRatio) {
         this.mDexNumber = mDexNumber;
         this.mName = mName;
         this.mDescription = mDescription;
         this.mBase = mBase;
-        this.mType = mType;
+        this.mType1 = mType1;
         this.mFrontImage = mFrontImage;
         this.mIcon = mIcon;
         this.mBackImage = mBackImage;
@@ -71,11 +74,18 @@ public class Pokemon {
         this.mBase = mBase;
     }
 
-    public Type getType() {
-        return mType;
+    public Type getType1() {
+        return mType1;
     }
-    public void setType(Type mType) {
-        this.mType = mType;
+    public void setType1(Type mType1) {
+        this.mType1 = mType1;
+    }
+
+    public Type getType2() {
+        return mType2;
+    }
+    public void setType2(Type mType2) {
+        this.mType2 = mType2;
     }
 
     public int getFrontImage() {
@@ -114,7 +124,7 @@ public class Pokemon {
     }
 
     public boolean isEmpty(){
-        if(this.mDexNumber == 0){
+        if(this.mDexNumber == MISSINGNO){
             return true;
         }
         return false;
