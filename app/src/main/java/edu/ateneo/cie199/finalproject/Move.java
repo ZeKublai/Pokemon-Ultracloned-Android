@@ -30,6 +30,16 @@ public class Move {
         this.mAccuracy = mAccuracy;
     }
 
+    public Move(Move move){
+        this.mName = move.mName;
+        this.mType = move.mType;
+        this.mCategory = move.mCategory;
+        this.mMaxPP = move.mMaxPP;
+        this.mCurrentPP = move.mCurrentPP;
+        this.mPower = move.mPower;
+        this.mAccuracy = move.mAccuracy;
+    }
+
     public Move() {
     }
 

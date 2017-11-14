@@ -265,13 +265,11 @@ public class Battle {
                 else if(result == 4){
                     addMessage(mEnemy.getNickname() + " was caught!", Message.NO_UPDATE);
                     mEnemyCaught = true;
-                    //TODO ADD CAUGHT POKEMON TO BOX
                     if(mPlayer.getFreeSlot() != Player.MAX_POKEMON_SLOTS){
                         mPlayer.getPokemons()[mPlayer.getFreeSlot()] = mEnemy;
                         addMessage(mEnemy.getNickname() + " has been added to the party!", Message.NO_UPDATE);
                     }
                     else{
-                        //TODO ADD MORE BOXES???
                         mPlayer.getBox().add(mEnemy);
                         addMessage(mEnemy.getNickname() + " has been sent to BOX 1!", Message.NO_UPDATE);
                     }

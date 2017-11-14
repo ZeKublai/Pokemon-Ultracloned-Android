@@ -68,11 +68,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
         app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(2));
         app.getPlayer().getPokemons()[1] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(4));
-        app.getPlayer().getPokemons()[0].getMoves()[0] = app.getAllMoves().get(2);
-        app.getPlayer().getPokemons()[0].getMoves()[1] = app.getAllMoves().get(5);
-        app.getPlayer().getPokemons()[0].getMoves()[2] = app.getAllMoves().get(16);
-        app.getPlayer().getPokemons()[1].getMoves()[0] = app.getAllMoves().get(19);
-        app.getPlayer().getPokemons()[1].getMoves()[1] = app.getAllMoves().get(25);
+        app.getPlayer().getPokemons()[0].getMoves()[0] = new Move(app.getAllMoves().get(2));
+        app.getPlayer().getPokemons()[0].getMoves()[1] = new Move(app.getAllMoves().get(5));
+        app.getPlayer().getPokemons()[0].getMoves()[2] = new Move(app.getAllMoves().get(16));
+        app.getPlayer().getPokemons()[1].getMoves()[0] = new Move(app.getAllMoves().get(19));
+        app.getPlayer().getPokemons()[1].getMoves()[1] = new Move(app.getAllMoves().get(25));
         app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA
@@ -99,7 +99,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     public void run() {
 
                         //SPAWNER SETTINGS
-                        int maxSpawn = 10;
+                        int maxSpawn = 30;
                         double rangeMax = 0.01;
                         double rangeMin = -0.01;
 
@@ -117,7 +117,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                 originPosition.longitude + offsetLng);
 
                         Marker marker;
-                        if(app.getIntegerRNG(2) > 0){
+                        if(app.getIntegerRNG(5) > 0){
                             marker = app.getMap().addMarker(
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnPokemon.getName()).icon(

@@ -302,7 +302,7 @@ public class BattleActivity extends AppCompatActivity {
 
     private void viewMessages(){
         if(battle.getIndex() < battle.getMessages().size()){
-            updateBattle();
+            updateBattleScene();
             txvMessage.setText(battle.getMessages().get(battle.getIndex()).getMessage());
             if(battle.getIndex() == battle.getMessages().size() - 1
                     && battle.getState() == battle.STATE_MESSAGE_FIRST){
@@ -343,7 +343,7 @@ public class BattleActivity extends AppCompatActivity {
         finish();
     }
 
-    private void updateBattle(){
+    private void updateBattleScene(){
         if(battle.getMessages().get(battle.getIndex()).getUpdate() == Message.UPDATE_BUDDY){
             updateBuddyPokemon();
         }
@@ -517,17 +517,18 @@ public class BattleActivity extends AppCompatActivity {
         btn6.setText(battle.getPlayer().getPokemons()[5].getNickname());
         btn7.setText("BACK");
 
-        setPokemonButtonColor(battle.isPokemonFainted(0), btn1);
-        setPokemonButtonColor(battle.isPokemonFainted(1), btn2);
-        setPokemonButtonColor(battle.isPokemonFainted(2), btn3);
-        setPokemonButtonColor(battle.isPokemonFainted(3), btn4);
-        setPokemonButtonColor(battle.isPokemonFainted(4), btn5);
-        setPokemonButtonColor(battle.isPokemonFainted(5), btn6);
+        setPokemonButtonColor(0, btn1);
+        setPokemonButtonColor(1, btn2);
+        setPokemonButtonColor(2, btn3);
+        setPokemonButtonColor(3, btn4);
+        setPokemonButtonColor(4, btn5);
+        setPokemonButtonColor(5, btn6);
         btn7.setBackgroundColor(BACK_COLOR);
     }
 
-    private void setPokemonButtonColor(boolean isFainted, Button button){
-        if(isFainted){
+    private void setPokemonButtonColor(int profileIndex, Button button){
+        if(battle.isPokemonFainted(profileIndex) &&
+                !battle.getPlayer().getPokemons()[profileIndex].isEmpty()){
             button.setBackgroundColor(DEAD_COLOR);
         }
         else{
