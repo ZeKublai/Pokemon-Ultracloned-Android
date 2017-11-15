@@ -594,12 +594,14 @@ public class BattleActivity extends AppCompatActivity {
         btn7.setVisibility(View.VISIBLE);
         btnAction.setVisibility(View.INVISIBLE);
 
-        btn1.setText("Potion x" + battle.getPlayer().getPotions().getQuantity());
-        btn2.setText("Super Potion x" + battle.getPlayer().getSuperPotions().getQuantity());
-        btn3.setText("Max Revive x" + battle.getPlayer().getMaxRevives().getQuantity());
-        btn4.setText("Poke Ball x" + battle.getPlayer().getPokeBall().getQuantity());
-        btn5.setText("Great Ball x" + battle.getPlayer().getGreatBall().getQuantity());
-        btn6.setText("Ultra Ball x" + battle.getPlayer().getUltraBall().getQuantity());
+        Item[] items = battle.getPlayer().getBag();
+
+        btn1.setText(items[0].getName() + " x" + items[0].getQuantity());
+        btn2.setText(items[1].getName() + " x" + items[1].getQuantity());
+        btn3.setText(items[2].getName() + " x" + items[2].getQuantity());
+        btn4.setText(items[3].getName() + " x" + items[3].getQuantity());
+        btn5.setText(items[4].getName() + " x" + items[4].getQuantity());
+        btn6.setText(items[5].getName() + " x" + items[5].getQuantity());
         btn7.setText("BACK");
 
         btn1.setBackgroundColor(BAG_COLOR);

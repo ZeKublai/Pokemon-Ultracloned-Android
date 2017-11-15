@@ -28,14 +28,12 @@ public class Player {
             this.mPokemons[index] = new PokemonProfile();
         }
     }
-
     public Player(String mName) {
         this.mName = mName;
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
     }
-
     public Player(String mName, Pokemon starter) {
         this.mName = mName;
         this.mPokemons[0] = new PokemonProfile(0, starter);
@@ -72,45 +70,8 @@ public class Player {
         this.mBox = mBox;
     }
 
-    public Item getPotions(){
-        return mBag[0];
-    }
-    public Item getSuperPotions(){
-        return mBag[1];
-    }
-    public Item getMaxRevives(){
-        return mBag[2];
-    }
-    public Item getPokeBall(){
-        return mBag[3];
-    }
-    public Item getGreatBall(){
-        return mBag[4];
-    }
-    public Item getUltraBall(){
-        return mBag[5];
-    }
     public Item[] getBag(){
         return mBag;
-    }
-
-    public void setPotions(Item item){
-        mBag[0] = item;
-    }
-    public void setSuperPotions(Item item){
-        mBag[1] = item;
-    }
-    public void setMaxRevives(Item item){
-        mBag[2] = item;
-    }
-    public void setPokeBall(Item item){
-        mBag[3] = item;
-    }
-    public void setGreatBall(Item item){
-        mBag[4] = item;
-    }
-    public void setUltraBall(Item item){
-        mBag[5] = item;
     }
 
     public int getFreeSlot(){

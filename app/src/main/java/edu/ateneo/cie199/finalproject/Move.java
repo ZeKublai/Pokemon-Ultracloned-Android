@@ -6,8 +6,8 @@ package edu.ateneo.cie199.finalproject;
 
 public class Move {
     public static int PHYSICAL = 0;
-    public static int SPECIAL = 0;
-    public static int STATUS = 0;
+    public static int SPECIAL = 1;
+    public static int STATUS = 2;
 
     public static int MAX_ACCURACY = 100;
 

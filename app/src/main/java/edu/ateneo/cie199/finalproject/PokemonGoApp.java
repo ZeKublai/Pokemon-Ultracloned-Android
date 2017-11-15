@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -371,12 +373,18 @@ public class PokemonGoApp extends Application{
     }
 
     public void loadAllItems(){
-        mItems.add(new Item("Potion", 0, R.drawable.bag_potion_icon, R.drawable.bag_potion, R.drawable.bag_potion_icon));
-        mItems.add(new Item("Super Potion", 0, R.drawable.bag_superpotion_icon, R.drawable.bag_superpotion, R.drawable.bag_superpotion_icon));
-        mItems.add(new Item("Max Revive", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxrevive, R.drawable.bag_maxrevive_icon));
-        mItems.add(new Item("Poke Ball", 0, R.drawable.bag_pokeball_icon, R.drawable.bag_pokeball, R.drawable.bag_pokeball_sprite));
-        mItems.add(new Item("Great Ball", 0, R.drawable.bag_greatball_icon, R.drawable.bag_greatball, R.drawable.bag_greatball_sprite));
-        mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball, R.drawable.bag_ultraball_sprite));
+        mItems.add(new Item("Potion", 0, R.drawable.bag_potion_icon, R.drawable.bag_potion, R.drawable.bag_potion_icon, Item.POTION_HEAL));
+        mItems.add(new Item("Super Potion", 0, R.drawable.bag_superpotion_icon, R.drawable.bag_superpotion, R.drawable.bag_superpotion_icon, Item.SUPER_POTION_HEAL));
+        mItems.add(new Item("Hyper Potion", 0, R.drawable.bag_hyperpotion_icon, R.drawable.bag_hyperpotion, R.drawable.bag_hyperpotion_icon, Item.HYPER_POTION_HEAL));
+        mItems.add(new Item("Max Potion", 0, R.drawable.bag_maxpotion_icon, R.drawable.bag_maxpotion, R.drawable.bag_maxpotion_icon, Item.MAX_POTION_HEAL));
+        mItems.add(new Item("Revive", 0, R.drawable.bag_revive_icon, R.drawable.bag_revive, R.drawable.bag_revive_icon, Item.REVIVE_DIVIDER));
+        mItems.add(new Item("Max Revive", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxrevive, R.drawable.bag_maxrevive_icon, Item.MAX_REVIVE_DIVIDER));
+        mItems.add(new Item("Poke Ball", 0, R.drawable.bag_pokeball_icon, R.drawable.bag_pokeball, R.drawable.bag_pokeball_sprite, Item.NO_EFFECT));
+        mItems.add(new Item("Great Ball", 0, R.drawable.bag_greatball_icon, R.drawable.bag_greatball, R.drawable.bag_greatball_sprite, Item.NO_EFFECT));
+        mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball, R.drawable.bag_ultraball_sprite, Item.NO_EFFECT));
+        mItems.add(new Item("Elixir", 0, R.drawable.bag_elixir_icon, R.drawable.bag_elixir, R.drawable.bag_elixir_icon, Item.ELIXIR_RESTORE));
+        mItems.add(new Item("Max Elixir", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxelixir, R.drawable.bag_maxelixir_icon, Item.MAX_ELIXIR_RESTORE));
+
     }
 
     public void setFontForContainer(ViewGroup contentLayout, String fontName) {
@@ -387,6 +395,32 @@ public class PokemonGoApp extends Application{
             else if (view instanceof ViewGroup)
                 setFontForContainer((ViewGroup) view, fontName);
         }
+    }
+
+    public void loadPlayer(LatLng initialPosition) {
+
+        getPlayer().setMarker(getMap().addMarker(
+                new MarkerOptions().position(initialPosition).title("")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
+        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(2));
+        getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(4));
+        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(2));
+        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(5));
+        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(16));
+        getPlayer().getPokemons()[1].getMoves()[0] = new Move(getAllMoves().get(19));
+        getPlayer().getPokemons()[1].getMoves()[1] = new Move(getAllMoves().get(25));
+        getPlayer().getBag()[0] = new Item(getAllItems().get(0));
+        getPlayer().getBag()[1] = new Item(getAllItems().get(4));
+        getPlayer().getBag()[2] = new Item(getAllItems().get(9));
+        getPlayer().getBag()[3] = new Item(getAllItems().get(6));
+        getPlayer().getBag()[4] = new Item(getAllItems().get(7));
+        getPlayer().getBag()[5] = new Item(getAllItems().get(8));
+        getPlayer().getBag()[0].setQuantity(10);
+        getPlayer().getBag()[1].setQuantity(10);
+        getPlayer().getBag()[2].setQuantity(10);
+        getPlayer().getBag()[3].setQuantity(10);
+        getPlayer().getBag()[4].setQuantity(10);
+        getPlayer().getBag()[5].setQuantity(10);
     }
 
 }

@@ -62,31 +62,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.loadAllPokemonTypes();
         app.loadAllPokemon();
         app.loadAllPokemonMoves();
+        app.loadPlayer(initialPosition);
 
         //INITIALIZING PLAYER
         //TODO LOAD PLAYER SAVE DATA FROM FILE INSTEAD OF HARD CODE
-        app.getPlayer().setMarker(app.getMap().addMarker(
-                new MarkerOptions().position(initialPosition).title("")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
-        app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(2));
-        app.getPlayer().getPokemons()[1] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(4));
-        app.getPlayer().getPokemons()[0].getMoves()[0] = new Move(app.getAllMoves().get(2));
-        app.getPlayer().getPokemons()[0].getMoves()[1] = new Move(app.getAllMoves().get(5));
-        app.getPlayer().getPokemons()[0].getMoves()[2] = new Move(app.getAllMoves().get(16));
-        app.getPlayer().getPokemons()[1].getMoves()[0] = new Move(app.getAllMoves().get(19));
-        app.getPlayer().getPokemons()[1].getMoves()[1] = new Move(app.getAllMoves().get(25));
-        app.getPlayer().getBag()[0] = new Item(app.getAllItems().get(0));
-        app.getPlayer().getBag()[1] = new Item(app.getAllItems().get(1));
-        app.getPlayer().getBag()[2] = new Item(app.getAllItems().get(2));
-        app.getPlayer().getBag()[3] = new Item(app.getAllItems().get(3));
-        app.getPlayer().getBag()[4] = new Item(app.getAllItems().get(4));
-        app.getPlayer().getBag()[5] = new Item(app.getAllItems().get(5));
-        app.getPlayer().getBag()[0].setQuantity(10);
-        app.getPlayer().getBag()[1].setQuantity(10);
-        app.getPlayer().getBag()[2].setQuantity(10);
-        app.getPlayer().getBag()[3].setQuantity(10);
-        app.getPlayer().getBag()[4].setQuantity(10);
-        app.getPlayer().getBag()[5].setQuantity(10);
+
 
         app.setSpawnCount(app.getSpawnCount() + 1);
 
@@ -124,7 +104,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                         //GENERATING POKEMON
                         Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
-                        Item spawnItem = app.getAllItems().get(app.getIntegerRNG(app.getAllItems().size()));
+                        Item spawnItem = app.getPlayer().getBag()[app.getIntegerRNG(Player.MAX_BAG_SLOTS)];
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();

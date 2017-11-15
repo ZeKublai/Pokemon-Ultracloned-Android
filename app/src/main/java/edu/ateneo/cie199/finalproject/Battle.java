@@ -251,13 +251,13 @@ public class Battle {
             switchBuddyPokemon(5);
         }
         else if(mPlayerDecision == DECISION_ITEM0){
-            usePotion(mSelectedPokemon);
+            healPokemon(mSelectedPokemon);
         }
         else if(mPlayerDecision == DECISION_ITEM1){
-            useSuperPotion(mSelectedPokemon);
+            revivePokemon(mSelectedPokemon);
         }
         else if(mPlayerDecision == DECISION_ITEM2){
-            useMaxRevive(mSelectedPokemon);
+            restorePokemon(mSelectedPokemon);
         }
         else if(mPlayerDecision == DECISION_ITEM3){
             usePokeBall();
@@ -286,24 +286,23 @@ public class Battle {
             attack(mEnemy.getMoves()[3], getEnemy(), getBuddy(), Message.UPDATE_BUDDY_HP);
         }
     }
-
-    public void usePotion(PokemonProfile profile){
+    public void healPokemon(PokemonProfile profile){
         if(hasItem(0, Message.UPDATE_BUDDY_HP)){
-            if(!mPlayer.getBag()[0].usePotion(profile)){
+            if(!mPlayer.getBag()[0].healPokemon(profile)){
                 addMessage(Message.ERROR_NO_EFFECT, Message.NO_UPDATE);
             }
         }
     }
-    public void useSuperPotion(PokemonProfile profile){
+    public void revivePokemon(PokemonProfile profile){
         if(hasItem(1, Message.UPDATE_BUDDY_HP)){
-            if(!mPlayer.getBag()[1].useSuperPotion(profile)){
+            if(!mPlayer.getBag()[1].revivePokemon(profile)){
                 addMessage(Message.ERROR_NO_EFFECT, Message.NO_UPDATE);
             }
         }
     }
-    public void useMaxRevive(PokemonProfile profile){
+    public void restorePokemon(PokemonProfile profile){
         if(hasItem(2, Message.UPDATE_BUDDY_HP)){
-            if(!mPlayer.getBag()[2].useMaxRevive(profile)){
+            if(!mPlayer.getBag()[2].restorePP(profile)){
                 addMessage(Message.ERROR_NO_EFFECT, Message.NO_UPDATE);
             }
         }
