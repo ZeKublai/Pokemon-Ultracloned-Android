@@ -7,8 +7,10 @@ package edu.ateneo.cie199.finalproject;
 public class Item {
     private String mName = "";
     private int mQuantity = 0;
-    private int mImageSide = 0;
-    private int mImageFront = 0;
+    private int mImageIcon = 0;
+    private int mImageBig = 0;
+
+    private int mImageSprite = 0;
 
     public Item(String mName, int mQuantity) {
         this.mName = mName;
@@ -18,27 +20,44 @@ public class Item {
     public Item() {
     }
 
-    public Item(String mName, int mQuantity, int mImageSide, int mImageFront) {
+    public Item(Item item){
+        this.mName = item.mName;
+        this.mQuantity = item.mQuantity;
+        this.mImageIcon = item.mImageIcon;
+        this.mImageBig = item.mImageBig;
+        this.mImageSprite = item.mImageSprite;
+    }
+
+    public Item(String mName, int mQuantity, int mImageIcon, int mImageBig, int mImageSprite) {
         this.mName = mName;
         this.mQuantity = mQuantity;
-        this.mImageSide = mImageSide;
-        this.mImageFront = mImageFront;
+        this.mImageIcon = mImageIcon;
+        this.mImageBig = mImageBig;
+        this.mImageSprite = mImageSprite;
     }
 
-    public int getImageSide() {
-        return mImageSide;
+    public int getImageSprite() {
+        return mImageSprite;
     }
 
-    public void setImageSide(int mImageSide) {
-        this.mImageSide = mImageSide;
+    public void setImageSprite(int mImageSprite) {
+        this.mImageSprite = mImageSprite;
     }
 
-    public int getImageFront() {
-        return mImageFront;
+    public int getImageIcon() {
+        return mImageIcon;
     }
 
-    public void setImageFront(int mImageFront) {
-        this.mImageFront = mImageFront;
+    public void setImageIcon(int mImageSide) {
+        this.mImageIcon = mImageSide;
+    }
+
+    public int getImageBig() {
+        return mImageBig;
+    }
+
+    public void setImageBig(int mImageFront) {
+        this.mImageBig = mImageFront;
     }
 
     public String getName() {

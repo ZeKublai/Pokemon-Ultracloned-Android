@@ -11,6 +11,7 @@ public class Message {
     public static Integer UPDATE_BUDDY = 3;
     public static Integer UPDATE_BUDDY_EXP = 4;
     public static Integer UPDATE_BUDDY_HP = 5;
+    public static Integer UPDATE_CATCH = 6;
 
     public String mMessage = "";
     public int mUpdate = 0;

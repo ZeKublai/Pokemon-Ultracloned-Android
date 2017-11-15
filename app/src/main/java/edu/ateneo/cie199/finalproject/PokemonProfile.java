@@ -234,4 +234,13 @@ public class PokemonProfile {
             return false;
         }
     }
+
+    public String getButtonString(){
+        if(this.isEmpty()){
+            return "\n";
+        }
+        else{
+            return mNickname + "\n HP " + mCurrentHP + "/" + getHP();
+        }
+    }
 }

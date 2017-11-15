@@ -113,7 +113,7 @@ public class Move {
             return "\n";
         }
         else{
-            return mName + "\n" + mType.getName() + "\t PP" + mCurrentPP + "/" + mMaxPP;
+            return mName + "\n" + mType.getName() + "\t PP " + mCurrentPP + "/" + mMaxPP;
         }
     }
 }

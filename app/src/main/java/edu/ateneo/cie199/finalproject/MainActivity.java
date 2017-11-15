@@ -12,6 +12,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +33,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.setFontForContainer((RelativeLayout)findViewById(R.id.main_group), "generation6.ttf");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -73,6 +75,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.getPlayer().getPokemons()[0].getMoves()[2] = new Move(app.getAllMoves().get(16));
         app.getPlayer().getPokemons()[1].getMoves()[0] = new Move(app.getAllMoves().get(19));
         app.getPlayer().getPokemons()[1].getMoves()[1] = new Move(app.getAllMoves().get(25));
+        app.getPlayer().getBag()[0] = new Item(app.getAllItems().get(0));
+        app.getPlayer().getBag()[1] = new Item(app.getAllItems().get(1));
+        app.getPlayer().getBag()[2] = new Item(app.getAllItems().get(2));
+        app.getPlayer().getBag()[3] = new Item(app.getAllItems().get(3));
+        app.getPlayer().getBag()[4] = new Item(app.getAllItems().get(4));
+        app.getPlayer().getBag()[5] = new Item(app.getAllItems().get(5));
+        app.getPlayer().getBag()[0].setQuantity(10);
+        app.getPlayer().getBag()[1].setQuantity(10);
+        app.getPlayer().getBag()[2].setQuantity(10);
+        app.getPlayer().getBag()[3].setQuantity(10);
+        app.getPlayer().getBag()[4].setQuantity(10);
+        app.getPlayer().getBag()[5].setQuantity(10);
+
         app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA
@@ -129,7 +144,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnItem.getName()).icon(
                                             BitmapDescriptorFactory.fromResource(
-                                                    spawnItem.getImageSide())));
+                                                    spawnItem.getImageIcon())));
                         }
                         app.addMarkers(marker);
 
@@ -139,6 +154,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     app.getSelectedMarker())){
                                 app.setSelectedMarker(app.getPlayer().getMarker());
                                 txvMain.setText(app.getSelectedMarker().getTitle());
+                                imgButtonMain.setImageResource(R.drawable.player_main);
                             }
                             if(!(app.getMarkers().get(app.getSpawnCount() - maxSpawn).equals(
                                     app.getCurrentGoal()))) {
@@ -161,9 +177,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             public void run()
             {
                 app.deleteMarker(app.getCurrentGoal());
-                app.setSelectedMarker(app.getPlayer().getMarker());
-                txvMain.setText(app.getPlayer().getName());
-                imgButtonMain.setImageResource(R.drawable.player_main);
+                if(app.getSelectedMarker().equals(app.getCurrentGoal())){
+                    app.setSelectedMarker(app.getPlayer().getMarker());
+                    txvMain.setText(app.getPlayer().getName());
+                    imgButtonMain.setImageResource(R.drawable.player_main);
+                }
+
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
@@ -306,15 +325,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
                     if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
-                        imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageFront());
+                        imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageBig());
+                        btnAction.setClickable(true);
                     }
                     else{
-                        imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getFrontImage());
-                        if(app.getPlayer().getBuddy().isEmpty()){
+                        imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getMainImage());
+                        if(app.getPlayer().isPlayerDefeated()){
                             btnAction.setClickable(false);
-                        }
-                        else{
-                            btnAction.setClickable(true);
                         }
                     }
                 }

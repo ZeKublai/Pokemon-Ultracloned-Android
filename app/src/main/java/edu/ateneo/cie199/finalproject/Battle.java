@@ -40,6 +40,7 @@ public class Battle {
 
     private Player mPlayer = new Player();
     private PokemonProfile mSelectedPokemon = new PokemonProfile();
+    private Item mSelectedItem = new Item();
     private boolean mEnemyCaught = false;
     private ArrayList<Type> mTypeChart = new ArrayList<>();
 
@@ -86,6 +87,13 @@ public class Battle {
         this.mMessages = new ArrayList<>();
     }
 
+    public Item getSelectedItem() {
+        return mSelectedItem;
+    }
+    public void setSelectedItem(Item mSelectedItem) {
+        this.mSelectedItem = mSelectedItem;
+    }
+
     public int getPlayerDecision() {
         return mPlayerDecision;
     }
@@ -116,22 +124,7 @@ public class Battle {
             return false;
         }
     }
-    public boolean isPokemonFainted(int pokemonIndex){
-        if(mPlayer.getPokemons()[pokemonIndex].getCurrentHP() <= 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    public boolean isPlayerDefeated(){
-        for(int index = 0; index < mPlayer.getPokemons().length; index++){
-            if(!isPokemonFainted(index)){
-                return false;
-            }
-        }
-        return true;
-    }
+
     public boolean isBuddyFainted(){
         if(getBuddy().getCurrentHP() <= 0){
             return true;
@@ -188,7 +181,7 @@ public class Battle {
     }
 
     public void switchBuddyPokemon(int pokemonIndex){
-        if(isPokemonFainted(pokemonIndex)){
+        if(mPlayer.isPokemonFainted(pokemonIndex)){
             sendErrorMessage(mPlayer.getPokemons()[pokemonIndex].getNickname() + ERROR_FAINTED);
         }
         else{
@@ -203,22 +196,21 @@ public class Battle {
         }
     }
 
-    public boolean hasItem(int bagIndex){
-        Item selectedItem = mPlayer.getBag()[bagIndex];
-        if(selectedItem.getQuantity() == 0){
+    public boolean hasItem(int bagIndex, int updateTarget){
+        mSelectedItem = mPlayer.getBag()[bagIndex];
+        if(mSelectedItem.getQuantity() == 0){
             sendErrorMessage("You are out of " + mPlayer.getBag()[bagIndex].getName() + "!");
             return false;
         }
         else{
-            addMessage(mPlayer.getName() + " used " + selectedItem.getName() + "!",
-                    Message.UPDATE_BUDDY_HP);
-            selectedItem.setQuantity(selectedItem.getQuantity() - 1);
+            addMessage(mPlayer.getName() + " used " + mSelectedItem.getName() + "!", updateTarget);
+            mSelectedItem.setQuantity(mSelectedItem.getQuantity() - 1);
             return true;
         }
     }
 
     public void usePotion(PokemonProfile profile){
-        if(hasItem(0)){
+        if(hasItem(0, Message.UPDATE_BUDDY_HP)){
             if(!mPlayer.usePotion(profile)){
                 sendErrorMessage("It had no effect...");
             }
@@ -226,7 +218,7 @@ public class Battle {
     }
 
     public void useSuperPotion(PokemonProfile profile){
-        if(hasItem(1)){
+        if(hasItem(1, Message.UPDATE_BUDDY_HP)){
             if(!mPlayer.useSuperPotion(profile)){
                 sendErrorMessage("It had no effect...");
             }
@@ -234,7 +226,7 @@ public class Battle {
     }
 
     public void useMaxRevive(PokemonProfile profile){
-        if(hasItem(2)){
+        if(hasItem(2, Message.UPDATE_BUDDY_HP)){
             if(!mPlayer.useMaxRevive(profile)){
                 sendErrorMessage("It had no effect...");
             }
@@ -242,7 +234,7 @@ public class Battle {
     }
 
     public void usePokeBall(){
-        if(hasItem(3)){
+        if(hasItem(3, Message.UPDATE_CATCH)){
             int result = mPlayer.usePokeball(mEnemy);
             catchResults(result);
         }
@@ -257,31 +249,29 @@ public class Battle {
 
     public void catchResults(int result){
         String message = "";
-        for(int index = 1; index <= result; index++){
-            if(index == result){
-                if(result < 4){
-                    addMessage(mEnemy.getNickname() + " broke free!", Message.NO_UPDATE);
-                }
-                else if(result == 4){
-                    addMessage(mEnemy.getNickname() + " was caught!", Message.NO_UPDATE);
-                    mEnemyCaught = true;
-                    if(mPlayer.getFreeSlot() != Player.MAX_POKEMON_SLOTS){
-                        mPlayer.getPokemons()[mPlayer.getFreeSlot()] = mEnemy;
-                        addMessage(mEnemy.getNickname() + " has been added to the party!", Message.NO_UPDATE);
-                    }
-                    else{
-                        mPlayer.getBox().add(mEnemy);
-                        addMessage(mEnemy.getNickname() + " has been sent to BOX 1!", Message.NO_UPDATE);
-                    }
+        for(int index = 1; index < result; index++){
+            message = message + index + "...";
+            addMessage(message, Message.UPDATE_CATCH);
+        }
 
-                    mState = STATE_MESSAGE_LAST;
-                }
+        if(result < 4){
+            addMessage(mEnemy.getNickname() + " broke free!", Message.UPDATE_ENEMY);
+        }
+        else if(result == 4){
+            addMessage(mEnemy.getNickname() + " was caught!", Message.NO_UPDATE);
+            mEnemyCaught = true;
+            if(mPlayer.getFreeSlot() != Player.MAX_POKEMON_SLOTS){
+                mPlayer.getPokemons()[mPlayer.getFreeSlot()] = mEnemy;
+                addMessage(mEnemy.getNickname() + " has been added to the party!", Message.NO_UPDATE);
             }
             else{
-                message = message + index + "...";
-                addMessage(message, Message.NO_UPDATE);
+                mPlayer.getBox().add(mEnemy);
+                addMessage(mEnemy.getNickname() + " has been sent to BOX 1!", Message.NO_UPDATE);
             }
+
+            mState = STATE_MESSAGE_LAST;
         }
+
     }
 
     public boolean isEnemyCaught() {
@@ -292,7 +282,7 @@ public class Battle {
     }
 
     public void useGreatBall(){
-        if(hasItem(4)){
+        if(hasItem(4, Message.UPDATE_CATCH)){
             mPlayer.useGreatBall(mEnemy);
             int result = mPlayer.useGreatBall(mEnemy);
             catchResults(result);
@@ -300,7 +290,7 @@ public class Battle {
     }
 
     public void useUltraBall(){
-        if(hasItem(5)){
+        if(hasItem(5, Message.UPDATE_CATCH)){
             mPlayer.useUltraBall(mEnemy);
             int result = mPlayer.useUltraBall(mEnemy);
             catchResults(result);
@@ -321,7 +311,7 @@ public class Battle {
 
     public void buddyHasFainted(){
         addMessage(mBuddy.getNickname() + MESSAGE_FAINTED, Message.NO_UPDATE);
-        if(isPlayerDefeated()){
+        if(mPlayer.isPlayerDefeated()){
             playerLoses();
         }
         mState = STATE_MESSAGE_LAST;

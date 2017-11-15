@@ -13,30 +13,79 @@ public class Pokemon {
     private StatSet mBase = new StatSet();
     private Type mType1 = new Type();
     private Type mType2 = new Type();
-    private int mFrontImage = 0;
+    private int mLevelRequirement = 0;
+    private int mNextDex = 0;
+    private int mMainImage = 0;
     private int mIcon = 0;
     private int mBackImage = 0;
+    private int mSound = 0;
     private int mCatchRate = 0;
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
 
-    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, Type mType1,
-                   int mFrontImage, int mIcon, int mBackImage, int mCatchRate, int mMaleRatio,
-                   int mFemaleRatio) {
+
+
+    public Pokemon() {
+    }
+
+    public Pokemon(int mDexNumber,
+                   String mName,
+                   Type mType1,
+                   Type mType2,
+                   String mDescription,
+                   int mCatchRate,
+                   int mFemaleRatio,
+                   int mMaleRatio,
+                   int mBaseHP,
+                   int mBaseAttack,
+                   int mBaseDefense,
+                   int mBaseSpAttack,
+                   int mBaseSpDefense,
+                   int mBaseSpeed,
+                   int mLevelRequirement,
+                   int mNextDex,
+                   int mMainImage,
+                   int mBackImage,
+                   int mIcon,
+                   int mSound
+) {
         this.mDexNumber = mDexNumber;
         this.mName = mName;
         this.mDescription = mDescription;
-        this.mBase = mBase;
+        this.mBase = new StatSet(mBaseHP, mBaseAttack, mBaseDefense, mBaseSpAttack, mBaseSpDefense,
+                mBaseSpeed);
         this.mType1 = mType1;
-        this.mFrontImage = mFrontImage;
+        this.mType2 = mType2;
+        this.mLevelRequirement = mLevelRequirement;
+        this.mNextDex = mNextDex;
+        this.mMainImage = mMainImage;
         this.mIcon = mIcon;
         this.mBackImage = mBackImage;
+        this.mSound = mSound;
         this.mCatchRate = mCatchRate;
         this.mMaleRatio = mMaleRatio;
         this.mFemaleRatio = mFemaleRatio;
     }
 
-    public Pokemon() {
+    public int getSound() {
+        return mSound;
+    }
+    public void setSound(int mSound) {
+        this.mSound = mSound;
+    }
+
+    public int getLevelRequirement() {
+        return mLevelRequirement;
+    }
+    public void setLevelRequirement(int mLevelRequirement) {
+        this.mLevelRequirement = mLevelRequirement;
+    }
+
+    public int getNextDex() {
+        return mNextDex;
+    }
+    public void setNextDex(int mNextDex) {
+        this.mNextDex = mNextDex;
     }
 
     public int getMaleRatio() {
@@ -88,11 +137,11 @@ public class Pokemon {
         this.mType2 = mType2;
     }
 
-    public int getFrontImage() {
-        return mFrontImage;
+    public int getMainImage() {
+        return mMainImage;
     }
-    public void setFrontImage(int mFrontImage) {
-        this.mFrontImage = mFrontImage;
+    public void setMainImage(int mMainImage) {
+        this.mMainImage = mMainImage;
     }
 
     public int getIcon() {

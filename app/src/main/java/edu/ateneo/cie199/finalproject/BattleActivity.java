@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class BattleActivity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class BattleActivity extends AppCompatActivity {
     private TextView txvMessage;
     private TextView txvEnemyName;
     private TextView txvBuddyName;
+    private TextView txvEnemyLevel;
+    private TextView txvBuddyLevel;
     private ImageButton imgButtonEnemy;
     private ImageButton imgButtonBuddy;
 
@@ -46,9 +49,10 @@ public class BattleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_battle);
-
         final PokemonGoApp app = (PokemonGoApp) getApplication();
+        setContentView(R.layout.activity_battle);
+        app.setFontForContainer((RelativeLayout)findViewById(R.id.battle_group), "generation6.ttf");
+
         music = new MusicHandler();
         music.loopMusic(BattleActivity.this, MusicHandler.MUSIC_BATTLE);
 
@@ -69,10 +73,13 @@ public class BattleActivity extends AppCompatActivity {
 
         txvEnemyName = (TextView) findViewById(R.id.txv_battle_enemy_name);
         txvBuddyName = (TextView) findViewById(R.id.txv_battle_buddy_name);
+        txvEnemyLevel = (TextView) findViewById(R.id.txv_battle_enemy_level);
+        txvBuddyLevel = (TextView) findViewById(R.id.txv_battle_buddy_level);
         imgButtonEnemy = (ImageButton) findViewById(R.id.imgbtn_battle_enemy);
         imgButtonBuddy = (ImageButton) findViewById(R.id.imgbtn_battle_buddy);
         txvMessage = (TextView) findViewById(R.id.txv_battle_message);
 
+        imgButtonBuddy.setBackgroundResource(R.drawable.player_back);
         imgButtonEnemy.setBackgroundColor(TRANSPARENT_COLOR);
         imgButtonBuddy.setBackgroundColor(TRANSPARENT_COLOR);
 
@@ -275,6 +282,9 @@ public class BattleActivity extends AppCompatActivity {
                         else if(battle.getState() == battle.STATE_BAG){
                             mainState();
                         }
+                        else if(battle.getState() == battle.STATE_USE_ITEM){
+                            bagState();
+                        }
                     }
                 }
         );
@@ -322,7 +332,7 @@ public class BattleActivity extends AppCompatActivity {
                 endBattle();
             }
             else if(battle.isBuddyFainted()){
-                if(battle.isPlayerDefeated()){
+                if(battle.getPlayer().isPlayerDefeated()){
                     endBattle();
                 }
                 else{
@@ -359,18 +369,27 @@ public class BattleActivity extends AppCompatActivity {
         else if(battle.getMessages().get(battle.getIndex()).getUpdate() == Message.UPDATE_BUDDY_HP){
             updateBuddyHp();
         }
+        else if(battle.getMessages().get(battle.getIndex()).getUpdate() == Message.UPDATE_CATCH){
+            updateCatch();
+        }
+    }
+
+    public void updateCatch(){
+        imgButtonEnemy.setImageResource(battle.getSelectedItem().getImageSprite());
     }
 
     private void updateBuddyPokemon(){
         txvBuddyName.setText(battle.getBuddy().getNickname());
-        imgButtonBuddy.setImageResource(battle.getBuddy().getDexData().getBackImage());
+        txvBuddyLevel.setText("Lv" + battle.getBuddy().getLevel());
+        imgButtonBuddy.setBackgroundResource(battle.getBuddy().getDexData().getBackImage());
         updateBuddyHp();
         updateBuddyExp();
     }
 
     private void updateEnemyPokemon(){
         txvEnemyName.setText(battle.getEnemy().getNickname());
-        imgButtonEnemy.setImageResource(battle.getEnemy().getDexData().getFrontImage());
+        txvEnemyLevel.setText("Lv" + battle.getEnemy().getLevel());
+        imgButtonEnemy.setImageResource(battle.getEnemy().getDexData().getMainImage());
         updateEnemyHp();
     }
 
@@ -509,12 +528,12 @@ public class BattleActivity extends AppCompatActivity {
         btnRun.setVisibility(View.VISIBLE);
         btnAction.setVisibility(View.INVISIBLE);
 
-        btn1.setText(battle.getPlayer().getPokemons()[0].getNickname());
-        btn2.setText(battle.getPlayer().getPokemons()[1].getNickname());
-        btn3.setText(battle.getPlayer().getPokemons()[2].getNickname());
-        btn4.setText(battle.getPlayer().getPokemons()[3].getNickname());
-        btn5.setText(battle.getPlayer().getPokemons()[4].getNickname());
-        btn6.setText(battle.getPlayer().getPokemons()[5].getNickname());
+        btn1.setText(battle.getPlayer().getPokemons()[0].getButtonString());
+        btn2.setText(battle.getPlayer().getPokemons()[1].getButtonString());
+        btn3.setText(battle.getPlayer().getPokemons()[2].getButtonString());
+        btn4.setText(battle.getPlayer().getPokemons()[3].getButtonString());
+        btn5.setText(battle.getPlayer().getPokemons()[4].getButtonString());
+        btn6.setText(battle.getPlayer().getPokemons()[5].getButtonString());
         btn7.setText("BACK");
 
         setPokemonButtonColor(0, btn1);
@@ -527,7 +546,7 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void setPokemonButtonColor(int profileIndex, Button button){
-        if(battle.isPokemonFainted(profileIndex) &&
+        if(battle.getPlayer().isPokemonFainted(profileIndex) &&
                 !battle.getPlayer().getPokemons()[profileIndex].isEmpty()){
             button.setBackgroundColor(DEAD_COLOR);
         }

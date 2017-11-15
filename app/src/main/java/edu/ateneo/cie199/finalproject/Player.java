@@ -27,12 +27,6 @@ public class Player {
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new Item[]{new Item("Potion", 10),
-                new Item("Super Potion", 10),
-                new Item("Max Revive", 10),
-                new Item("Poke Ball", 10),
-                new Item("Great Ball", 10),
-                new Item("Ultra Ball", 10)};
     }
 
     public Player(String mName) {
@@ -40,12 +34,6 @@ public class Player {
         for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new Item[]{new Item("Potion", 10),
-                new Item("Super Potion", 10),
-                new Item("Max Revive", 10),
-                new Item("Poke Ball", 10),
-                new Item("Great Ball", 10),
-                new Item("Ultra Ball", 10)};
     }
 
     public Player(String mName, Pokemon starter) {
@@ -54,12 +42,6 @@ public class Player {
         for(int index = 1; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
-        this.mBag = new Item[]{new Item("Potion", 10),
-                new Item("Super Potion", 10),
-                new Item("Max Revive", 10),
-                new Item("Poke Ball", 10),
-                new Item("Great Ball", 10),
-                new Item("Ultra Ball", 10)};
     }
 
     public String getName() {
@@ -240,5 +222,21 @@ public class Player {
                 mBag[index].setQuantity(mBag[index].getQuantity() + item.getQuantity());
             }
         }
+    }
+    public boolean isPokemonFainted(int pokemonIndex){
+        if(mPokemons[pokemonIndex].getCurrentHP() <= 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean isPlayerDefeated(){
+        for(int index = 0; index < mPokemons.length; index++){
+            if(!isPokemonFainted(index)){
+                return false;
+            }
+        }
+        return true;
     }
 }
