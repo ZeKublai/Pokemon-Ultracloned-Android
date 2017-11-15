@@ -5,35 +5,85 @@ package edu.ateneo.cie199.finalproject;
  */
 
 public class Pokemon {
-    private int mDexNumber = 0;
+    public static int MISSINGNO = 0;
+
+    private int mDexNumber = MISSINGNO;
     private String mName = "MissingNo";
     private String mDescription = "??? Pokémon";
     private StatSet mBase = new StatSet();
-    private int mType = 0;
-    private int mFrontImage = 0;
+    private Type mType1 = new Type();
+    private Type mType2 = new Type();
+    private int mLevelRequirement = 0;
+    private int mNextDex = 0;
+    private int mMainImage = 0;
     private int mIcon = 0;
     private int mBackImage = 0;
+    private int mSound = 0;
     private int mCatchRate = 0;
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
 
-    public Pokemon(int mDexNumber, String mName, String mDescription, StatSet mBase, int mType,
-                   int mFrontImage, int mIcon, int mBackImage, int mCatchRate, int mMaleRatio,
-                   int mFemaleRatio) {
+    public Pokemon() {
+    }
+
+    public Pokemon(int mDexNumber,
+                   String mName,
+                   Type mType1,
+                   Type mType2,
+                   String mDescription,
+                   int mCatchRate,
+                   int mFemaleRatio,
+                   int mMaleRatio,
+                   int mBaseHP,
+                   int mBaseAttack,
+                   int mBaseDefense,
+                   int mBaseSpAttack,
+                   int mBaseSpDefense,
+                   int mBaseSpeed,
+                   int mLevelRequirement,
+                   int mNextDex,
+                   int mMainImage,
+                   int mBackImage,
+                   int mIcon,
+                   int mSound
+) {
         this.mDexNumber = mDexNumber;
         this.mName = mName;
         this.mDescription = mDescription;
-        this.mBase = mBase;
-        this.mType = mType;
-        this.mFrontImage = mFrontImage;
+        this.mBase = new StatSet(mBaseHP, mBaseAttack, mBaseDefense, mBaseSpAttack, mBaseSpDefense,
+                mBaseSpeed);
+        this.mType1 = mType1;
+        this.mType2 = mType2;
+        this.mLevelRequirement = mLevelRequirement;
+        this.mNextDex = mNextDex;
+        this.mMainImage = mMainImage;
         this.mIcon = mIcon;
         this.mBackImage = mBackImage;
+        this.mSound = mSound;
         this.mCatchRate = mCatchRate;
         this.mMaleRatio = mMaleRatio;
         this.mFemaleRatio = mFemaleRatio;
     }
 
-    public Pokemon() {
+    public int getSound() {
+        return mSound;
+    }
+    public void setSound(int mSound) {
+        this.mSound = mSound;
+    }
+
+    public int getLevelRequirement() {
+        return mLevelRequirement;
+    }
+    public void setLevelRequirement(int mLevelRequirement) {
+        this.mLevelRequirement = mLevelRequirement;
+    }
+
+    public int getNextDex() {
+        return mNextDex;
+    }
+    public void setNextDex(int mNextDex) {
+        this.mNextDex = mNextDex;
     }
 
     public int getMaleRatio() {
@@ -71,18 +121,25 @@ public class Pokemon {
         this.mBase = mBase;
     }
 
-    public int getType() {
-        return mType;
+    public Type getType1() {
+        return mType1;
     }
-    public void setType(int mType) {
-        this.mType = mType;
+    public void setType1(Type mType1) {
+        this.mType1 = mType1;
     }
 
-    public int getFrontImage() {
-        return mFrontImage;
+    public Type getType2() {
+        return mType2;
     }
-    public void setFrontImage(int mFrontImage) {
-        this.mFrontImage = mFrontImage;
+    public void setType2(Type mType2) {
+        this.mType2 = mType2;
+    }
+
+    public int getMainImage() {
+        return mMainImage;
+    }
+    public void setMainImage(int mMainImage) {
+        this.mMainImage = mMainImage;
     }
 
     public int getIcon() {
@@ -114,7 +171,7 @@ public class Pokemon {
     }
 
     public boolean isEmpty(){
-        if(this.mDexNumber == 0){
+        if(this.mDexNumber == MISSINGNO){
             return true;
         }
         return false;

@@ -1,4 +1,0 @@
-#Sat Nov 11 11:35:59 GMT+08:00 2017
-base.0=C\:\\Users\\MSi-PC\\AndroidStudioProjects\\cie199FinalProject\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-renamed.0=classes.dex
-file.0=C\:\\Users\\MSi-PC\\AndroidStudioProjects\\cie199FinalProject\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0\\classes.dex

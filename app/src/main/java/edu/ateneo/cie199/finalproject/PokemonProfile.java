@@ -14,10 +14,14 @@ public class PokemonProfile {
     public static int MAX_NATURE_VALUE = 110;
     public static int MAX_POKEMON_MOVES = 4;
 
+    public static int GENDER_NONE = 0;
+    public static int GENDER_MALE = 1;
+    public static int GENDER_FEMALE = 2;
+
     private int mId = 0;
     private int mDexNumber = 0;
     private String mNickname = "";
-    private boolean mGender = true;
+    private int mGender = GENDER_NONE;
     private int mLevel = 0;
     private int mCurrentHP = 0;
     private int mCurrentExp = 0;
@@ -35,13 +39,16 @@ public class PokemonProfile {
         this.mNickname = pokemon.getName();
         this.mDexData = pokemon;
 
-
-        if(PokemonGoApp.getIntegerRNG(pokemon.getFemaleRatio()
-                + pokemon.getMaleRatio()) > pokemon.getMaleRatio()){
-            this.mGender = false;
+        if(pokemon.getFemaleRatio() + pokemon.getMaleRatio() == 0){
+            this.mGender = GENDER_NONE;
         }
-        else{
-            this.mGender = true;
+        else {
+            if (PokemonGoApp.getIntegerRNG(pokemon.getFemaleRatio()
+                    + pokemon.getMaleRatio()) > pokemon.getMaleRatio()) {
+                this.mGender = GENDER_FEMALE;
+            } else {
+                this.mGender = GENDER_MALE;
+            }
         }
 
         this.mLevel = PokemonGoApp.getIntegerRNG(MAX_POKEMON_LEVEL) + 1;
@@ -63,12 +70,15 @@ public class PokemonProfile {
         this.mDexData = pokemon;
 
         Random s = new Random();
-
-        if(s.nextInt(pokemon.getFemaleRatio() + pokemon.getMaleRatio()) > pokemon.getMaleRatio()){
-            this.mGender = false;
+        if(pokemon.getFemaleRatio() + pokemon.getMaleRatio() == 0){
+            this.mGender = GENDER_NONE;
         }
-        else{
-            this.mGender = true;
+        else {
+            if (s.nextInt(pokemon.getFemaleRatio() + pokemon.getMaleRatio()) > pokemon.getMaleRatio()) {
+                this.mGender = GENDER_FEMALE;
+            } else {
+                this.mGender = GENDER_MALE;
+            }
         }
 
         this.mLevel = mLevel;
@@ -102,7 +112,7 @@ public class PokemonProfile {
         this.mDexData = mDexData;
     }
 
-    public boolean getGender() {
+    public int getGender() {
         return mGender;
     }
     public int getId() {
@@ -172,6 +182,28 @@ public class PokemonProfile {
                 mNature.getSpeed());
     }
 
+    public int getAttack(Move move){
+        if(move.getCategory() == Move.PHYSICAL){
+            return getAttack();
+        }
+        else if(move.getCategory() == Move.SPECIAL){
+            return getSpAttack();
+
+        }
+        return 0;
+    }
+    public int getDefense(Move move){
+        if(move.getCategory() == Move.PHYSICAL){
+            return getDefense();
+        }
+        else if(move.getCategory() == Move.SPECIAL){
+            return getSpDefense();
+
+        }
+        return 0;
+    }
+
+
     /*TODO
     Needs Tweaking
      */
@@ -200,6 +232,15 @@ public class PokemonProfile {
         }
         else{
             return false;
+        }
+    }
+
+    public String getButtonString(){
+        if(this.isEmpty()){
+            return "\n";
+        }
+        else{
+            return mNickname + "\n HP " + mCurrentHP + "/" + getHP();
         }
     }
 }
