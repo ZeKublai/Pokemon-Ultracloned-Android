@@ -47,7 +47,6 @@ public class Player {
     public String getName() {
         return mName;
     }
-
     public void setName(String mName) {
         this.mName = mName;
     }
@@ -55,7 +54,6 @@ public class Player {
     public Marker getMarker() {
         return mMarker;
     }
-
     public void setMarker(Marker mMarker) {
         this.mMarker = mMarker;
     }
@@ -63,7 +61,6 @@ public class Player {
     public PokemonProfile[] getPokemons() {
         return mPokemons;
     }
-
     public void setPokemons(PokemonProfile[] mPokemons) {
         this.mPokemons = mPokemons;
     }
@@ -71,7 +68,6 @@ public class Player {
     public ArrayList<PokemonProfile> getBox() {
         return mBox;
     }
-
     public void setBox(ArrayList<PokemonProfile> mBox) {
         this.mBox = mBox;
     }
@@ -115,87 +111,6 @@ public class Player {
     }
     public void setUltraBall(Item item){
         mBag[5] = item;
-    }
-
-    public boolean usePotion(PokemonProfile profile){
-        if(profile.getCurrentHP() > 0){
-            profile.setCurrentHP(profile.getCurrentHP() + 20);
-            if(profile.getCurrentHP() > profile.getHP()){
-                profile.setCurrentHP(profile.getHP());
-            }
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public boolean useSuperPotion(PokemonProfile profile){
-        if(profile.getCurrentHP() > 0){
-            profile.setCurrentHP(profile.getCurrentHP() + 50);
-            if(profile.getCurrentHP() > profile.getHP()){
-                profile.setCurrentHP(profile.getHP());
-            }
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public boolean useMaxRevive(PokemonProfile profile){
-        if(profile.getCurrentHP() == 0){
-            profile.setCurrentHP(profile.getHP());
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public int getFinalCatchRate(PokemonProfile profile, double ballBonus){
-        double result = ((3.0*profile.getHP() - 2.0*profile.getCurrentHP())*ballBonus*
-                profile.getDexData().getCatchRate())/(3.0*profile.getHP());
-        return (int) result;
-    }
-
-    public int getSecondCatchRate(int finalCatchRate){
-        double result = floor(65536.0/(pow(255.0/((double)finalCatchRate), 3.0/16.0)));
-        return (int) result;
-    }
-
-    //TODO CATCH THAT THING
-    public int useBall(PokemonProfile profile, double ballBonus){
-        int finalCatchRate = getFinalCatchRate(profile, ballBonus);
-        int attempt1 = PokemonGoApp.getIntegerRNG(65535);
-        int attempt2 = PokemonGoApp.getIntegerRNG(65535);
-        int attempt3 = PokemonGoApp.getIntegerRNG(65535);
-        if(attempt1 >= getSecondCatchRate(finalCatchRate)){
-            return 1;
-        }
-        else{
-            if(attempt2 >= getSecondCatchRate(finalCatchRate)){
-                return 2;
-            }
-            else{
-                if(attempt3 >= getSecondCatchRate(finalCatchRate)){
-                    return 3;
-                }
-                else{
-                    return 4;
-                }
-            }
-        }
-    }
-
-    public int usePokeball(PokemonProfile profile){
-        return useBall(profile, 1.0);
-    }
-    public int useGreatBall(PokemonProfile profile){
-        return useBall(profile, 1.5);
-    }
-    public int useUltraBall(PokemonProfile profile){
-        return useBall(profile, 2.0);
     }
 
     public int getFreeSlot(){

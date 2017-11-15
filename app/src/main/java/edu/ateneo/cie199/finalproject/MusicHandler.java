@@ -23,7 +23,7 @@ public class MusicHandler {
     public void loopMusic(Context ctx, int musicId){
         mMusicPlayer = MediaPlayer.create(ctx, musicId);
         mMusicPlayer.setLooping(true); // Set looping
-        mMusicPlayer.setVolume(30, 30);
+        mMusicPlayer.setVolume(20, 20);
         mMusicPlayer.start();
     }
 
@@ -34,7 +34,7 @@ public class MusicHandler {
     public void playSfx(Context ctx, int sfxId){
         mSfxPlayer = MediaPlayer.create(ctx, sfxId);
         mSfxPlayer.setLooping(false); // Set looping
-        mSfxPlayer.setVolume(100, 100);
+        mSfxPlayer.setVolume(150, 150);
         mSfxPlayer.start();
 
     }

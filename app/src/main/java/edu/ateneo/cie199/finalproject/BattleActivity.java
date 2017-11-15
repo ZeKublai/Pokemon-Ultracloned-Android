@@ -18,6 +18,7 @@ public class BattleActivity extends AppCompatActivity {
     public static int BAG_COLOR = Color.argb(255, 252, 190, 26);
     public static int RUN_COLOR = Color.argb(255, 43, 154, 255);
     public static int BACK_COLOR = Color.argb(255, 3, 111, 114);
+    public static int BAR_COLOR = Color.argb(255, 0, 225, 231);
     public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
 
     private Battle battle;
@@ -102,16 +103,16 @@ public class BattleActivity extends AppCompatActivity {
 
 
         barEnemyHP.getProgressDrawable().setColorFilter(
-                Color.argb(255, 0, 225, 231),android.graphics.PorterDuff.Mode.SRC_IN);
+                BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         barBuddyHP.getProgressDrawable().setColorFilter(
-                Color.argb(255, 0, 225, 231),android.graphics.PorterDuff.Mode.SRC_IN);
+                BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         barBuddyEXP.getProgressDrawable().setColorFilter(
                 RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
 
         updateEnemyPokemon();
 
         battle.addMessage("Wild " + battle.getEnemy().getNickname() + " appeared!",
-                Message.NO_UPDATE);
+                Message.UPDATE_ENEMY);
         battle.addMessage("Go " + battle.getBuddy().getNickname() + "!", Message.UPDATE_BUDDY);
         messageState();
 
@@ -294,7 +295,8 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
-                        endBattle();
+                        battle.setPlayerDecision(battle.DECISION_RUN);
+                        messageState();
                     }
                 }
         );
@@ -316,7 +318,6 @@ public class BattleActivity extends AppCompatActivity {
             txvMessage.setText(battle.getMessages().get(battle.getIndex()).getMessage());
             if(battle.getIndex() == battle.getMessages().size() - 1
                     && battle.getState() == battle.STATE_MESSAGE_FIRST){
-
                 battle.secondMove();
                 battle.setState(battle.STATE_MESSAGE_LAST);
             }
@@ -324,21 +325,16 @@ public class BattleActivity extends AppCompatActivity {
             battle.setIndex(battle.getIndex() + 1);
         }
         else{
-            battle.resetMessages();
-            if(battle.isEnemyCaught()){
+            if(battle.getPlayerDecision() == battle.DECISION_RUN){
                 endBattle();
             }
-            else if(battle.isEnemyFainted()){
+            battle.newTurn();
+            if(battle.isFinished()){
                 endBattle();
             }
             else if(battle.isBuddyFainted()){
-                if(battle.getPlayer().isPlayerDefeated()){
-                    endBattle();
-                }
-                else{
-                    txvMessage.setText("Swap next Pokemon?");
-                    pokemonState(battle.STATE_POKEMON);
-                }
+                txvMessage.setText("Swap next Pokemon?");
+                pokemonState(battle.STATE_POKEMON);
             }
             else{
                 mainState();
@@ -379,6 +375,8 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void updateBuddyPokemon(){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.getMusicHandler().playSfx(this, battle.getBuddy().getDexData().getSound());
         txvBuddyName.setText(battle.getBuddy().getNickname());
         txvBuddyLevel.setText("Lv" + battle.getBuddy().getLevel());
         imgButtonBuddy.setBackgroundResource(battle.getBuddy().getDexData().getBackImage());
@@ -387,6 +385,8 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void updateEnemyPokemon(){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.getMusicHandler().playSfx(this, battle.getEnemy().getDexData().getSound());
         txvEnemyName.setText(battle.getEnemy().getNickname());
         txvEnemyLevel.setText("Lv" + battle.getEnemy().getLevel());
         imgButtonEnemy.setImageResource(battle.getEnemy().getDexData().getMainImage());
@@ -396,12 +396,29 @@ public class BattleActivity extends AppCompatActivity {
     private void updateEnemyHp(){
         barEnemyHP.setMax(battle.getEnemy().getHP());
         barEnemyHP.setProgress(battle.getEnemy().getCurrentHP());
+        updateHpBarColor(battle.getEnemy().getCurrentHP(), battle.getEnemy().getHP(), barEnemyHP);
     }
 
     private void updateBuddyHp(){
         barBuddyHP.setMax(battle.getBuddy().getHP());
         barBuddyHP.setProgress(battle.getBuddy().getCurrentHP());
         txvBuddyHP.setText(battle.getBuddy().getCurrentHP() + "/" + battle.getBuddy().getHP());
+        updateHpBarColor(battle.getBuddy().getCurrentHP(), battle.getBuddy().getHP(), barBuddyHP);
+    }
+
+    private void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
+        if(currentHp > maxHp/2){
+            bar.getProgressDrawable().setColorFilter(
+                    BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(currentHp < maxHp/2 && currentHp > maxHp/5){
+            bar.getProgressDrawable().setColorFilter(
+                    BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(currentHp < maxHp/5){
+            bar.getProgressDrawable().setColorFilter(
+                    FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
     }
 
     private void updateBuddyExp(){

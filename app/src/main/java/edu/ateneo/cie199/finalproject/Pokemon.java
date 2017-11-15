@@ -23,8 +23,6 @@ public class Pokemon {
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
 
-
-
     public Pokemon() {
     }
 

@@ -12,16 +12,16 @@
         "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\layout\\abc_screen_toolbar.xml"
     },
     {
-        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_googleg_standard_color_18.png.flat",
-        "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.0.4.aar\\172fbc15b936f4983521c0b3e0922a1b\\res\\drawable-hdpi-v4\\googleg_standard_color_18.png"
+        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_focused_holo.9.png.flat",
+        "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\drawable-xxhdpi-v4\\abc_list_focused_holo.9.png"
     },
     {
         "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable_koffing_back.png.flat",
         "source": "C:\\Users\\John\\Desktop\\FinalProject\\app\\src\\main\\res\\drawable\\koffing_back.png"
     },
     {
-        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_list_focused_holo.9.png.flat",
-        "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\drawable-xxhdpi-v4\\abc_list_focused_holo.9.png"
+        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.0.4.aar\\172fbc15b936f4983521c0b3e0922a1b\\res\\drawable-hdpi-v4\\googleg_standard_color_18.png"
     },
     {
         "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
@@ -220,20 +220,20 @@
         "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\drawable-xxhdpi-v4\\abc_ab_share_pack_mtrl_alpha.9.png"
     },
     {
-        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable_dragonite_main.png.flat",
-        "source": "C:\\Users\\John\\Desktop\\FinalProject\\app\\src\\main\\res\\drawable\\dragonite_main.png"
-    },
-    {
         "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\layout_notification_template_icon_group.xml.flat",
         "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\layout\\notification_template_icon_group.xml"
     },
     {
-        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
-        "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\drawable-xxhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png"
+        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable_dragonite_main.png.flat",
+        "source": "C:\\Users\\John\\Desktop\\FinalProject\\app\\src\\main\\res\\drawable\\dragonite_main.png"
     },
     {
         "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable_blastoise_map.png.flat",
         "source": "C:\\Users\\John\\Desktop\\FinalProject\\app\\src\\main\\res\\drawable\\blastoise_map.png"
+    },
+    {
+        "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
+        "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-25.3.1.aar\\481850b4a4eb145adf05a21c8ea80f16\\res\\drawable-xxhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
         "merged": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\res\\merged\\debug\\drawable_growlithe_back.png.flat",
