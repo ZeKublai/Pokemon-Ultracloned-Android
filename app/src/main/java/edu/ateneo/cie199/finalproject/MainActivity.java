@@ -32,6 +32,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -40,7 +41,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Plays the music during oncreate
         music = new MusicHandler();
-        music.loopMusic(this, R.raw.main_song);
+        music.loopMusic(this, R.raw.main_song,app.getMusicSwitch());
     }
 
     @Override
@@ -155,6 +156,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         spawnTimer.schedule(spawnTask, 0, spawnRate); //execute in every X minutes
 
         final Button btnAction = (Button) findViewById(R.id.btn_main_action);
+        final Button btnSettings = (Button) findViewById(R.id.btn_settings);
         final Runnable engageMarker = new Runnable()
         {
             @Override
@@ -166,6 +168,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 imgButtonMain.setImageResource(R.drawable.player_main);
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
+                btnSettings.setClickable(true);
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
@@ -181,12 +184,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         };
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent SettingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(SettingsActivityIntent);
+            }
+        });
+
         btnAction.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
 
                         //IF DESTINATION HAS BEEN SELECTED
                         if(!app.getSelectedMarker().equals(app.getPlayer().getMarker())) {
@@ -195,6 +207,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             txvMain.setText(app.getCurrentGoal().getTitle());
 
                             btnAction.setClickable(false);
+                            btnSettings.setClickable(false);
                             app.getMap().getUiSettings().setAllGesturesEnabled(false);
                             Projection projection = app.getMap().getProjection();
 
@@ -315,6 +328,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         else{
                             btnAction.setClickable(true);
+                            btnSettings.setClickable(true);
                         }
                     }
                 }
@@ -326,10 +340,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.loopMusic(this, MusicHandler.MUSIC_MAIN);
+            music.loopMusic(this, MusicHandler.MUSIC_MAIN,app.getMusicSwitch());
         }
-        if(!music.getMusicPlayer().isPlaying()) {
+        if(!music.getMusicPlayer().isPlaying() && app.getMusicSwitch()){
             music.getMusicPlayer().start();
         }
     }
@@ -337,7 +352,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
-        music.getMusicPlayer().pause();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        if (app.getMusicSwitch()) {
+            music.getMusicPlayer().pause();
+        }
     }
 
     @Override

@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\John\\Desktop\\FinalProject\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
+            "outputFile": "C:\\For Android Studio\\cie199FinalProject\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.0.4.aar\\e53ff7eb30a8ec73062e6a06820845b7\\res\\values-ml\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "285",
-                        "endColumns": "218",
-                        "endOffsets": "503"
-                    },
-                    "to": {
-                        "startLines": "9",
-                        "startColumns": "4",
-                        "startOffsets": "1186",
-                        "endColumns": "218",
-                        "endOffsets": "1400"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\John\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.0.4.aar\\172fbc15b936f4983521c0b3e0922a1b\\res\\values-ml\\values.xml",
+                    "source": "C:\\Users\\Joseph Vincent\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.0.4.aar\\e0da0d5c3758f20e0d6fe2fcc16cdfa4\\res\\values-ml\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -35,6 +18,23 @@
                         "startOffsets": "105,226,437,578,701,924,1051,1405,1646,1764,1969,2107,2315,2506,2600,2699",
                         "endColumns": "120,210,140,122,222,126,134,240,117,204,137,207,190,93,98,120",
                         "endOffsets": "221,432,573,696,919,1046,1181,1641,1759,1964,2102,2310,2501,2595,2694,2815"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Joseph Vincent\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-11.0.4.aar\\51fd8c2cd00d54ea98a66323dd1495b5\\res\\values-ml\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "285",
+                        "endColumns": "218",
+                        "endOffsets": "503"
+                    },
+                    "to": {
+                        "startLines": "9",
+                        "startColumns": "4",
+                        "startOffsets": "1186",
+                        "endColumns": "218",
+                        "endOffsets": "1400"
                     }
                 }
             ]

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Turtle"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/btn_right" />
+        android:layout_toEndOf="@+id/btn_settings" />
 
     <Button
         android:id="@+id/btn_main_action"
@@ -47,12 +47,12 @@
         android:layout_marginEnd="14dp" />
 
     <Button
-        android:id="@+id/btn_right"
+        android:id="@+id/btn_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Walk"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:text="Settings" />
 
     <TextView
         android:id="@+id/txv_main_title"
@@ -68,7 +68,7 @@
         android:id="@+id/imgbtn_main_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_above="@+id/btn_right"
+        android:layout_above="@+id/btn_settings"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
 </RelativeLayout>

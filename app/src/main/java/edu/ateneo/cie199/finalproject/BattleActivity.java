@@ -50,7 +50,7 @@ public class BattleActivity extends AppCompatActivity {
 
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         music = new MusicHandler();
-        music.loopMusic(BattleActivity.this, MusicHandler.MUSIC_BATTLE);
+        music.loopMusic(BattleActivity.this, MusicHandler.MUSIC_BATTLE,app.getMusicSwitch());
 
         //TODO CHECK IF POKEMON IS DEAD
         battle = new Battle(app.getPlayer().getBuddy(),
@@ -112,7 +112,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_POKEMON){
                             battle.setPlayerDecision(battle.DECISION_SWAP0);
                             messageState();
@@ -134,7 +134,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_POKEMON){
                             battle.setPlayerDecision(battle.DECISION_SWAP1);
                             messageState();
@@ -156,7 +156,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK0);
                             messageState();
@@ -181,7 +181,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK1);
                             messageState();
@@ -206,7 +206,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_MAIN){
                             fightState();
                         }
@@ -234,7 +234,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_MAIN){
                             pokemonState(battle.STATE_POKEMON);
                         }
@@ -262,7 +262,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_MAIN){
                             bagState();
                         }
@@ -283,7 +283,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         endBattle();
                     }
                 }
@@ -293,7 +293,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         viewMessages();
                     }
                 }
@@ -582,8 +582,9 @@ public class BattleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.loopMusic(this, MusicHandler.MUSIC_BATTLE);
+            music.loopMusic(this, MusicHandler.MUSIC_BATTLE,app.getMusicSwitch());
         }
         if(!music.getMusicPlayer().isPlaying()) {
             music.getMusicPlayer().start();

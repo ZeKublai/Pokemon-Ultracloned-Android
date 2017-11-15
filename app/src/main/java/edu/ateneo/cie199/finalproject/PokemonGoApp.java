@@ -20,6 +20,9 @@ public class PokemonGoApp extends Application{
     private GoogleMap mMap;
     private Player mPlayer = new Player();
 
+    private boolean mMusicSwitch = true;
+    private boolean mSFXSwitch = true;
+
     private Marker mSelectedMarker = null;
     private Marker mCurrentGoal = null;
 
@@ -66,6 +69,14 @@ public class PokemonGoApp extends Application{
     public void setSelectedMarker(Marker marker){
         mSelectedMarker = marker;
     }
+
+    public boolean getMusicSwitch() { return mMusicSwitch;}
+    public boolean getSFXSwitch() {return mSFXSwitch;}
+
+    public void MusicOn() {mMusicSwitch = true;}
+    public void MusicOff() {mMusicSwitch = false;}
+    public void SFXOn() {mSFXSwitch = true;}
+    public void SFXOff() {mSFXSwitch = false;}
 
     public int getSpawnCount() {
         return mSpawnCount;
@@ -337,8 +348,8 @@ public class PokemonGoApp extends Application{
 
     public void loadAllItems(){
         mItems.add(new Item("Potion", 0, R.drawable.bag_potion_icon, R.drawable.bag_potion));
-        mItems.add(new Item("Super Potion", 0, R.drawable.bag_superpotion_icon, R.drawable.bag_superpotion));
-        mItems.add(new Item("Max Revive", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxrevive));
+        mItems.add(new Item("Super Potion", 0, R.drawable.bag_super_potion_icon, R.drawable.bag_superpotion));
+        mItems.add(new Item("Max Revive", 0, R.drawable.bag_max_revive_icon, R.drawable.bag_maxrevive));
         mItems.add(new Item("Poke Ball", 0, R.drawable.bag_pokeball_icon, R.drawable.bag_pokeball));
         mItems.add(new Item("Great Ball", 0, R.drawable.bag_greatball_icon, R.drawable.bag_greatball));
         mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball));
