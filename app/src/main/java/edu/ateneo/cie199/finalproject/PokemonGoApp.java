@@ -209,6 +209,7 @@ public class PokemonGoApp extends Application{
         addPokemon(new Pokemon(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite));
     }
 
+    //LOADS ALL MOVES
     public void loadAllPokemonMoves(){
         mMoves.add(new Move("Vine Whip", mTypes.get(Type.GRASS), Move.PHYSICAL, 25, 25, 45, 100));
         mMoves.add(new Move("Energy Ball", mTypes.get(Type.GRASS), Move.SPECIAL, 10, 10, 90, 100));
