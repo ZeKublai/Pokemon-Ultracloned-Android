@@ -55,7 +55,7 @@ public class BattleActivity extends AppCompatActivity {
         app.setFontForContainer((RelativeLayout)findViewById(R.id.battle_group), "generation6.ttf");
 
         music = new MusicHandler();
-        music.loopMusic(BattleActivity.this, MusicHandler.MUSIC_BATTLE);
+        music.loopMusic(BattleActivity.this, MusicHandler.MUSIC_BATTLE,app.getMusicSwitch());
 
         //TODO CHECK IF POKEMON IS DEAD
         battle = new Battle(app.getPlayer().getBuddy(),
@@ -120,7 +120,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_POKEMON){
                             battle.setPlayerDecision(battle.DECISION_SWAP0);
                             messageState();
@@ -142,7 +142,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_POKEMON){
                             battle.setPlayerDecision(battle.DECISION_SWAP1);
                             messageState();
@@ -164,7 +164,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK0);
                             messageState();
@@ -189,7 +189,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK1);
                             messageState();
@@ -214,7 +214,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_MAIN){
                             fightState();
                         }
@@ -242,7 +242,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_MAIN){
                             pokemonState(battle.STATE_POKEMON);
                         }
@@ -270,7 +270,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         if(battle.getState() == battle.STATE_MAIN){
                             bagState();
                         }
@@ -294,7 +294,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         battle.setPlayerDecision(battle.DECISION_RUN);
                         messageState();
                     }
@@ -305,7 +305,7 @@ public class BattleActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT);
+                        app.getMusicHandler().playSfx(BattleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                         viewMessages();
                     }
                 }
@@ -376,7 +376,7 @@ public class BattleActivity extends AppCompatActivity {
 
     private void updateBuddyPokemon(){
         PokemonGoApp app = (PokemonGoApp) getApplication();
-        app.getMusicHandler().playSfx(this, battle.getBuddy().getDexData().getSound());
+        app.getMusicHandler().playSfx(this, battle.getBuddy().getDexData().getSound(),app.getSFXSwitch());
         txvBuddyName.setText(battle.getBuddy().getNickname());
         txvBuddyLevel.setText("Lv" + battle.getBuddy().getLevel());
         imgButtonBuddy.setBackgroundResource(battle.getBuddy().getDexData().getBackImage());
@@ -386,7 +386,7 @@ public class BattleActivity extends AppCompatActivity {
 
     private void updateEnemyPokemon(){
         PokemonGoApp app = (PokemonGoApp) getApplication();
-        app.getMusicHandler().playSfx(this, battle.getEnemy().getDexData().getSound());
+        app.getMusicHandler().playSfx(this, battle.getEnemy().getDexData().getSound(),app.getSFXSwitch());
         txvEnemyName.setText(battle.getEnemy().getNickname());
         txvEnemyLevel.setText("Lv" + battle.getEnemy().getLevel());
         imgButtonEnemy.setImageResource(battle.getEnemy().getDexData().getMainImage());
@@ -621,8 +621,9 @@ public class BattleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.loopMusic(this, MusicHandler.MUSIC_BATTLE);
+            music.loopMusic(this, MusicHandler.MUSIC_BATTLE,app.getMusicSwitch());
         }
         if(!music.getMusicPlayer().isPlaying()) {
             music.getMusicPlayer().start();

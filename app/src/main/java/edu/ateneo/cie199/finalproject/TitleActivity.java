@@ -41,7 +41,7 @@ public class TitleActivity extends AppCompatActivity {
         if(music == null){
             music.loopMusic(this, MusicHandler.MUSIC_TITLE,app.getMusicSwitch());
         }
-        if(!music.getMusicPlayer().isPlaying()) {
+        if(app.getMusicSwitch()) {
             music.getMusicPlayer().start();
         }
     }
@@ -49,6 +49,8 @@ public class TitleActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        if(app.getMusicSwitch())
         music.getMusicPlayer().pause();
     }
 

@@ -47,6 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                app.getMusicHandler().playSfx(SettingsActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                 BackToMain();
             }
         });
