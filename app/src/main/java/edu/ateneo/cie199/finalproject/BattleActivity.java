@@ -328,16 +328,18 @@ public class BattleActivity extends AppCompatActivity {
             if(battle.getPlayerDecision() == battle.DECISION_RUN){
                 endBattle();
             }
-            battle.newTurn();
-            if(battle.isFinished()){
-                endBattle();
-            }
-            else if(battle.isBuddyFainted()){
-                txvMessage.setText("Swap next Pokemon?");
-                pokemonState(battle.STATE_POKEMON);
-            }
             else{
-                mainState();
+                battle.newTurn();
+                if(battle.isFinished()){
+                    endBattle();
+                }
+                else if(battle.isBuddyFainted()){
+                    txvMessage.setText("Swap next Pokemon?");
+                    pokemonState(battle.STATE_POKEMON);
+                }
+                else{
+                    mainState();
+                }
             }
         }
     }
