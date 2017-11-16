@@ -12,6 +12,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +34,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final PokemonGoApp app = (PokemonGoApp) getApplication();
-
+        app.setFontForContainer((RelativeLayout)findViewById(R.id.main_group), "generation6.ttf");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -41,7 +42,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Plays the music during oncreate
         music = new MusicHandler();
-        music.loopMusic(this, R.raw.main_song,app.getMusicSwitch());
+        music.loopMusic(this, R.raw.main_song);
     }
 
     @Override
@@ -61,19 +62,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.loadAllPokemonTypes();
         app.loadAllPokemon();
         app.loadAllPokemonMoves();
+        app.loadPlayer(initialPosition);
 
         //INITIALIZING PLAYER
         //TODO LOAD PLAYER SAVE DATA FROM FILE INSTEAD OF HARD CODE
-        app.getPlayer().setMarker(app.getMap().addMarker(
-                new MarkerOptions().position(initialPosition).title("")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
-        app.getPlayer().getPokemons()[0] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(2));
-        app.getPlayer().getPokemons()[1] = new PokemonProfile(app.getSpawnCount(), 50, app.getAllPokemons().get(4));
-        app.getPlayer().getPokemons()[0].getMoves()[0] = app.getAllMoves().get(2);
-        app.getPlayer().getPokemons()[0].getMoves()[1] = app.getAllMoves().get(5);
-        app.getPlayer().getPokemons()[0].getMoves()[2] = app.getAllMoves().get(16);
-        app.getPlayer().getPokemons()[1].getMoves()[0] = app.getAllMoves().get(19);
-        app.getPlayer().getPokemons()[1].getMoves()[1] = app.getAllMoves().get(25);
+
+
         app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA
@@ -100,7 +94,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     public void run() {
 
                         //SPAWNER SETTINGS
-                        int maxSpawn = 10;
+                        int maxSpawn = 30;
                         double rangeMax = 0.01;
                         double rangeMin = -0.01;
 
@@ -110,7 +104,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                         //GENERATING POKEMON
                         Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
-                        Item spawnItem = app.getAllItems().get(app.getIntegerRNG(app.getAllItems().size()));
+                        Item spawnItem = app.getPlayer().getBag()[app.getIntegerRNG(Player.MAX_BAG_SLOTS)];
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
@@ -118,7 +112,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                 originPosition.longitude + offsetLng);
 
                         Marker marker;
-                        if(app.getIntegerRNG(2) > 0){
+                        if(app.getIntegerRNG(5) > 0){
                             marker = app.getMap().addMarker(
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnPokemon.getName()).icon(
@@ -130,7 +124,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnItem.getName()).icon(
                                             BitmapDescriptorFactory.fromResource(
-                                                    spawnItem.getImageSide())));
+                                                    spawnItem.getImageIcon())));
                         }
                         app.addMarkers(marker);
 
@@ -140,6 +134,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     app.getSelectedMarker())){
                                 app.setSelectedMarker(app.getPlayer().getMarker());
                                 txvMain.setText(app.getSelectedMarker().getTitle());
+                                imgButtonMain.setImageResource(R.drawable.player_main);
                             }
                             if(!(app.getMarkers().get(app.getSpawnCount() - maxSpawn).equals(
                                     app.getCurrentGoal()))) {
@@ -156,19 +151,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         spawnTimer.schedule(spawnTask, 0, spawnRate); //execute in every X minutes
 
         final Button btnAction = (Button) findViewById(R.id.btn_main_action);
-        final Button btnSettings = (Button) findViewById(R.id.btn_settings);
         final Runnable engageMarker = new Runnable()
         {
             @Override
             public void run()
             {
                 app.deleteMarker(app.getCurrentGoal());
-                app.setSelectedMarker(app.getPlayer().getMarker());
-                txvMain.setText(app.getPlayer().getName());
-                imgButtonMain.setImageResource(R.drawable.player_main);
+                if(app.getSelectedMarker().equals(app.getCurrentGoal())){
+                    app.setSelectedMarker(app.getPlayer().getMarker());
+                    txvMain.setText(app.getPlayer().getName());
+                    imgButtonMain.setImageResource(R.drawable.player_main);
+                }
+
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
-                btnSettings.setClickable(true);
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
@@ -184,21 +180,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         };
-
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent SettingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(SettingsActivityIntent);
-            }
-        });
-
         btnAction.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
+                        app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT);
 
                         //IF DESTINATION HAS BEEN SELECTED
                         if(!app.getSelectedMarker().equals(app.getPlayer().getMarker())) {
@@ -207,7 +194,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             txvMain.setText(app.getCurrentGoal().getTitle());
 
                             btnAction.setClickable(false);
-                            btnSettings.setClickable(false);
                             app.getMap().getUiSettings().setAllGesturesEnabled(false);
                             Projection projection = app.getMap().getProjection();
 
@@ -319,16 +305,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
                     if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
-                        imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageFront());
+                        imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageBig());
+                        btnAction.setClickable(true);
                     }
                     else{
-                        imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getFrontImage());
-                        if(app.getPlayer().getBuddy().isEmpty()){
+                        imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getMainImage());
+                        if(app.getPlayer().isPlayerDefeated()){
                             btnAction.setClickable(false);
-                        }
-                        else{
-                            btnAction.setClickable(true);
-                            btnSettings.setClickable(true);
                         }
                     }
                 }
@@ -340,11 +323,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.loopMusic(this, MusicHandler.MUSIC_MAIN,app.getMusicSwitch());
+            music.loopMusic(this, MusicHandler.MUSIC_MAIN);
         }
-        if(!music.getMusicPlayer().isPlaying() && app.getMusicSwitch()){
+        if(!music.getMusicPlayer().isPlaying()) {
             music.getMusicPlayer().start();
         }
     }
@@ -352,10 +334,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
-        if (app.getMusicSwitch()) {
-            music.getMusicPlayer().pause();
-        }
+        music.getMusicPlayer().pause();
     }
 
     @Override

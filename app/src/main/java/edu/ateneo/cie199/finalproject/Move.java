@@ -6,8 +6,8 @@ package edu.ateneo.cie199.finalproject;
 
 public class Move {
     public static int PHYSICAL = 0;
-    public static int SPECIAL = 0;
-    public static int STATUS = 0;
+    public static int SPECIAL = 1;
+    public static int STATUS = 2;
 
     public static int MAX_ACCURACY = 100;
 
@@ -28,6 +28,16 @@ public class Move {
         this.mCurrentPP = mCurrentPP;
         this.mPower = mPower;
         this.mAccuracy = mAccuracy;
+    }
+
+    public Move(Move move){
+        this.mName = move.mName;
+        this.mType = move.mType;
+        this.mCategory = move.mCategory;
+        this.mMaxPP = move.mMaxPP;
+        this.mCurrentPP = move.mCurrentPP;
+        this.mPower = move.mPower;
+        this.mAccuracy = move.mAccuracy;
     }
 
     public Move() {
@@ -103,7 +113,7 @@ public class Move {
             return "\n";
         }
         else{
-            return mName + "\n" + mType.getName() + "\t PP" + mCurrentPP + "/" + mMaxPP;
+            return mName + "\n" + mType.getName() + "\t PP " + mCurrentPP + "/" + mMaxPP;
         }
     }
 }
