@@ -20,10 +20,11 @@ public class MusicHandler {
     private MediaPlayer mMusicPlayer;
     private MediaPlayer mSfxPlayer;
 
-    public void loopMusic(Context ctx, int musicId){
+    public void loopMusic(Context ctx, int musicId, boolean MusicEnabler){
         mMusicPlayer = MediaPlayer.create(ctx, musicId);
         mMusicPlayer.setLooping(true); // Set looping
-        mMusicPlayer.setVolume(20, 20);
+        if (MusicEnabler) {mMusicPlayer.setVolume(20, 20);}
+        else {mMusicPlayer.setVolume(0, 0);}
         mMusicPlayer.start();
     }
 
@@ -31,10 +32,11 @@ public class MusicHandler {
         return mMusicPlayer;
     }
 
-    public void playSfx(Context ctx, int sfxId){
+    public void playSfx(Context ctx, int sfxId, boolean SFXEnabler){
         mSfxPlayer = MediaPlayer.create(ctx, sfxId);
         mSfxPlayer.setLooping(false); // Set looping
-        mSfxPlayer.setVolume(150, 150);
+        if (SFXEnabler) {mSfxPlayer.setVolume(150, 150);}
+        else {mSfxPlayer.setVolume(0, 0);}
         mSfxPlayer.start();
 
     }

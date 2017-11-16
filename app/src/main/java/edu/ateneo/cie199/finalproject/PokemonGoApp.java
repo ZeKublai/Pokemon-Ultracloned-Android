@@ -30,7 +30,11 @@ public class PokemonGoApp extends Application{
     private Marker mSelectedMarker = null;
     private Marker mCurrentGoal = null;
 
+
     private MusicHandler musicHandler = new MusicHandler();
+    private boolean mMusicSwitch = true;
+    private boolean mSFXSwitch = true;
+
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
@@ -91,6 +95,14 @@ public class PokemonGoApp extends Application{
     public MusicHandler getMusicHandler() {
         return musicHandler;
     }
+
+    public boolean getMusicSwitch() { return mMusicSwitch;}
+    public boolean getSFXSwitch() {return mSFXSwitch;}
+
+    public void MusicOn() {mMusicSwitch = true;}
+    public void MusicOff() {mMusicSwitch = false;}
+    public void SFXOn() {mSFXSwitch = true;}
+    public void SFXOff() {mSFXSwitch = false;}
 
     public ArrayList<Marker> getMarkers(){
         return mMarkers;

@@ -19,14 +19,14 @@ public class TitleActivity extends AppCompatActivity {
 
         //Plays music
         music = new MusicHandler();
-        music.loopMusic(this, MusicHandler.MUSIC_TITLE);
+        music.loopMusic(this, MusicHandler.MUSIC_TITLE,app.getMusicSwitch());
 
         Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //sound effect
-                app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT);
+                app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
                 Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
                 startActivity(beginMainActivityIntent);
                 return;
@@ -37,10 +37,11 @@ public class TitleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.loopMusic(this, MusicHandler.MUSIC_TITLE);
+            music.loopMusic(this, MusicHandler.MUSIC_TITLE,app.getMusicSwitch());
         }
-        if(!music.getMusicPlayer().isPlaying()) {
+        if(app.getMusicSwitch()) {
             music.getMusicPlayer().start();
         }
     }
@@ -48,6 +49,8 @@ public class TitleActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        if(app.getMusicSwitch())
         music.getMusicPlayer().pause();
     }
 
