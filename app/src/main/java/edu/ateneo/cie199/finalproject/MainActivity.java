@@ -42,7 +42,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Plays the music during oncreate
         music = new MusicHandler();
-        music.loopMusic(this, R.raw.main_song,app.getMusicSwitch());
+        music.initMusic(this, R.raw.main_song);
+        music.playMusic(app.getMusicSwitch());
+        app.getMusicHandler().initButtonSfx(this);
     }
 
     @Override
@@ -150,8 +152,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         };
         spawnTimer.schedule(spawnTask, 0, spawnRate); //execute in every X minutes
 
+        final Button btnSettings = (Button) findViewById(R.id.btn_main_settings);
+        btnSettings.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
+                        Intent SettingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(SettingsActivityIntent);
+                    }
+                }
+        );
+
         final Button btnAction = (Button) findViewById(R.id.btn_main_action);
-        final Button btnSettings = (Button) findViewById(R.id.btn_right);
         final Runnable engageMarker = new Runnable()
         {
             @Override
@@ -166,7 +179,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
-                btnSettings.setClickable(true);
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
@@ -182,31 +194,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         };
-
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
-                Intent SettingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(SettingsActivityIntent);
-            }
-        });
-
         btnAction.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        app.getMusicHandler().playSfx(MainActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
 
                         //IF DESTINATION HAS BEEN SELECTED
-                        if(!app.getSelectedMarker().equals(app.getPlayer().getMarker())) {
+                        if(!app.getSelectedMarker().equals(app.getPlayer().getMarker()) && (!app.getPlayer().isPlayerDefeated() || app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty())) {
 
                             app.setCurrentGoal(app.getSelectedMarker());
                             txvMain.setText(app.getCurrentGoal().getTitle());
 
                             btnAction.setClickable(false);
-                            btnSettings.setClickable(false);
                             app.getMap().getUiSettings().setAllGesturesEnabled(false);
                             Projection projection = app.getMap().getProjection();
 
@@ -319,14 +320,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     txvMain.setText(app.getSelectedMarker().getTitle());
                     if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
                         imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageBig());
-                        btnAction.setClickable(true);
-                        btnSettings.setClickable(true);
                     }
                     else{
+                        app.getMusicHandler().playSfx(MainActivity.this, app.getPokemon(app.getSelectedMarker().getTitle()).getSound(), app.getSFXSwitch());
                         imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getMainImage());
-                        if(app.getPlayer().isPlayerDefeated()){
-                            btnAction.setClickable(false);
-                        }
                     }
                 }
                 return false;
@@ -337,20 +334,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.loopMusic(this, MusicHandler.MUSIC_MAIN,app.getMusicSwitch());
+            music.initMusic(this, MusicHandler.MUSIC_MAIN);
         }
-        if(app.getMusicSwitch()) {
-            music.getMusicPlayer().start();
+        if(!music.getMusicPlayer().isPlaying()) {
+            music.playMusic(app.getMusicSwitch());
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
-        if(app.getMusicSwitch())
         music.getMusicPlayer().pause();
     }
 

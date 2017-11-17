@@ -19,26 +19,39 @@ public class MusicHandler {
 
     private MediaPlayer mMusicPlayer;
     private MediaPlayer mSfxPlayer;
+    private MediaPlayer mButtonSfxPlayer;
 
-    public void loopMusic(Context ctx, int musicId, boolean MusicEnabler){
+    public void initMusic(Context ctx, int musicId){
         mMusicPlayer = MediaPlayer.create(ctx, musicId);
-        mMusicPlayer.setLooping(true); // Set looping
-        if (MusicEnabler) {mMusicPlayer.setVolume(20, 20);}
-        else {mMusicPlayer.setVolume(0, 0);}
-        mMusicPlayer.start();
+        mMusicPlayer.setLooping(true);
     }
 
     public MediaPlayer getMusicPlayer() {
         return mMusicPlayer;
     }
 
-    public void playSfx(Context ctx, int sfxId, boolean SFXEnabler){
-        mSfxPlayer = MediaPlayer.create(ctx, sfxId);
-        mSfxPlayer.setLooping(false); // Set looping
-        if (SFXEnabler) {mSfxPlayer.setVolume(150, 150);}
-        else {mSfxPlayer.setVolume(0, 0);}
-        mSfxPlayer.start();
+    public void setMusicVolume(boolean musicEnabler){
+        if (musicEnabler) {mMusicPlayer.setVolume(20, 20);}
+        else {mMusicPlayer.setVolume(0, 0);}
+    }
 
+    public void playMusic(boolean musicEnabler){
+        if(musicEnabler){
+            mMusicPlayer.start();
+        }
+    }
+
+    public void setButtonVolume(boolean sfxEnabler){
+        if (sfxEnabler) {mButtonSfxPlayer.setVolume(150, 150);}
+        else {mButtonSfxPlayer.setVolume(0, 0);}
+    }
+
+    public void playSfx(Context ctx, int sfxId, boolean sfxEnabler){
+        if(sfxEnabler){
+            mSfxPlayer = MediaPlayer.create(ctx, sfxId);
+            mSfxPlayer.setLooping(false);
+            mSfxPlayer.start();
+        }
     }
 
     public void stopMusic(){
@@ -46,11 +59,21 @@ public class MusicHandler {
         mMusicPlayer = null;
     }
 
+    public void initButtonSfx(Context ctx){
+        mButtonSfxPlayer = MediaPlayer.create(ctx, R.raw.btn_pressed);
+        mButtonSfxPlayer.setLooping(false); // Set looping
+    }
+
+    public void playButtonSfx(boolean sfxEnabler){
+        if(sfxEnabler){
+            mButtonSfxPlayer.start();
+        }
+    }
     /*
     public static void MainSong(Context ctx, int raw_id) {
         bg_player = MediaPlayer.create(ctx, raw_id);
         bg_player.setLooping(true); // Set looping
-        bg_player.setVolume(30, 30);
+        bg_player.setMusicVolume(30, 30);
 
         //player.release();
         bg_player.start();
@@ -59,7 +82,7 @@ public class MusicHandler {
     public static void BattleSong(Context ctx, int raw_id) {
         battle_player = MediaPlayer.create(ctx, raw_id);
         battle_player.setLooping(true); // Set looping
-        battle_player.setVolume(30, 30);
+        battle_player.setMusicVolume(30, 30);
 
         //player.release();
         battle_player.start();
@@ -68,7 +91,7 @@ public class MusicHandler {
     public static void ButtonPressed(Context ctx) {
         btn_player = MediaPlayer.create(ctx, R.raw.btn_pressed);
         btn_player.setLooping(false); // Set looping
-        btn_player.setVolume(100, 100);
+        btn_player.setMusicVolume(100, 100);
 
         //player.release();
         btn_player.start();
@@ -77,7 +100,7 @@ public class MusicHandler {
     public static void OpeningSong(Context ctx) {
         opening_player = MediaPlayer.create(ctx, R.raw.opening);
         opening_player.setLooping(true); // Set looping
-        opening_player.setVolume(50, 50);
+        opening_player.setMusicVolume(50, 50);
         //player.release();
         opening_player.start();
     }

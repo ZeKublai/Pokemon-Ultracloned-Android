@@ -51,6 +51,8 @@ public class Type {
 
     private int mId = 0;
     private int mColor = NONE_COLOR;
+
+    private int mIcon = 0;
     private double[] mMultiplier = {1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1};
@@ -97,6 +99,12 @@ public class Type {
         return mMultiplier;
     }
 
+    public int getIcon() {
+        return mIcon;
+    }
 
+    public void setIcon(int mIcon) {
+        this.mIcon = mIcon;
+    }
 
 }

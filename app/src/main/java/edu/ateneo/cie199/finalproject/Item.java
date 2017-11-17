@@ -166,4 +166,8 @@ public class Item {
         return useBall(profile, ULTRA_BALL_BONUS);
     }
 
+    public String getButtonString(){
+        return mName + " x" + mQuantity;
+    }
+
 }

@@ -237,10 +237,10 @@ public class PokemonProfile {
 
     public String getButtonString(){
         if(this.isEmpty()){
-            return "\n";
+            return "\n\n";
         }
         else{
-            return mNickname + "\n HP " + mCurrentHP + "/" + getHP();
+            return mNickname + "\n HP " + mCurrentHP + "/" + getHP() + "\n";
         }
     }
 }
