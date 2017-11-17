@@ -2,9 +2,16 @@ package edu.ateneo.cie199.finalproject;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +30,15 @@ import java.util.Random;
  */
 
 public class PokemonGoApp extends Application{
+
+    public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
+    public static int POKEMON_COLOR = Color.argb(255, 44, 224, 49);
+    public static int DEAD_COLOR = Color.argb(255, 137, 17, 6);
+    public static int BAG_COLOR = Color.argb(255, 252, 190, 26);
+    public static int RUN_COLOR = Color.argb(255, 43, 154, 255);
+    public static int BACK_COLOR = Color.argb(255, 3, 111, 114);
+    public static int BAR_COLOR = Color.argb(255, 0, 225, 231);
+    public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
 
     private GoogleMap mMap;
     private Player mPlayer = new Player();
@@ -435,7 +451,7 @@ public class PokemonGoApp extends Application{
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
         getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(2));
-        getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(4));
+        getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(5));
         getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(2));
         getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(5));
         getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(16));
@@ -453,6 +469,61 @@ public class PokemonGoApp extends Application{
         getPlayer().getBag()[3].setQuantity(10);
         getPlayer().getBag()[4].setQuantity(10);
         getPlayer().getBag()[5].setQuantity(10);
+    }
+
+    public void setButtonBorder(Button btn, int color){
+        ShapeDrawable shapedrawable = new ShapeDrawable();
+        shapedrawable.setShape(new RectShape());
+        shapedrawable.getPaint().setColor(color);
+        shapedrawable.getPaint().setStrokeWidth(30f);
+        shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
+        btn.setBackground(shapedrawable);
+    }
+
+    public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
+        btn.setClickable(!profile.isEmpty());
+        btn.setText(profile.getButtonString());
+        if(profile.getCurrentHP() <= 0 && !profile.isEmpty()){
+            setButtonBorder(btn, PokemonGoApp.DEAD_COLOR);
+        }
+        else{
+            setButtonBorder(btn, PokemonGoApp.POKEMON_COLOR);
+        }
+        if(!profile.isEmpty()){
+            btn.setVisibility(View.VISIBLE);
+            bar.setVisibility(View.VISIBLE);
+            bar.setMax(profile.getHP());
+            bar.setProgress(profile.getCurrentHP());
+            updateHpBarColor(profile.getCurrentHP(), profile.getHP(), bar);
+            icon.setVisibility(View.VISIBLE);
+            icon.setImageResource(profile.getDexData().getIcon());
+        }
+        else{
+            btn.setVisibility(View.INVISIBLE);
+            bar.setVisibility(View.INVISIBLE);
+            icon.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setBagButton(Button btn, Item item, ImageView icon){
+        btn.setText(item.getButtonString());
+        icon.setImageResource(item.getImageIcon());
+        setButtonBorder(btn, PokemonGoApp.BAG_COLOR);
+    }
+
+    public void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
+        if(currentHp > maxHp/2){
+            bar.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(currentHp < maxHp/2 && currentHp > maxHp/5){
+            bar.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(currentHp < maxHp/5){
+            bar.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
     }
 
 }

@@ -16,14 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class BattleActivity extends AppCompatActivity {
-    public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
-    public static int POKEMON_COLOR = Color.argb(255, 44, 224, 49);
-    public static int DEAD_COLOR = Color.argb(255, 137, 17, 6);
-    public static int BAG_COLOR = Color.argb(255, 252, 190, 26);
-    public static int RUN_COLOR = Color.argb(255, 43, 154, 255);
-    public static int BACK_COLOR = Color.argb(255, 3, 111, 114);
-    public static int BAR_COLOR = Color.argb(255, 0, 225, 231);
-    public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
 
     private Battle battle;
     MusicHandler music;
@@ -100,11 +92,11 @@ public class BattleActivity extends AppCompatActivity {
         imgButtonBuddy = (ImageButton) findViewById(R.id.imgbtn_battle_buddy);
         txvMessage = (TextView) findViewById(R.id.txv_battle_message);
 
-        imgButtonEnemy.setBackgroundColor(TRANSPARENT_COLOR);
-        imgButtonBuddy.setBackgroundColor(TRANSPARENT_COLOR);
+        imgButtonEnemy.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        imgButtonBuddy.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
 
         btnAction = (Button) findViewById(R.id.btn_battle_action);
-        btnAction.setBackgroundColor(TRANSPARENT_COLOR);
+        btnAction.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
         btn1 = (Button) findViewById(R.id.btn_battle_option1);
         btn2 = (Button) findViewById(R.id.btn_battle_option2);
         btn3 = (Button) findViewById(R.id.btn_battle_option3);
@@ -114,13 +106,13 @@ public class BattleActivity extends AppCompatActivity {
         btn7 = (Button) findViewById(R.id.btn_battle_option7);
         btnRun = (Button) findViewById(R.id.btn_battle_run);
 
-        btn1.setBackgroundColor(TRANSPARENT_COLOR);
-        btn2.setBackgroundColor(TRANSPARENT_COLOR);
-        btn3.setBackgroundColor(TRANSPARENT_COLOR);
-        btn4.setBackgroundColor(TRANSPARENT_COLOR);
-        btn5.setBackgroundColor(TRANSPARENT_COLOR);
-        btn6.setBackgroundColor(TRANSPARENT_COLOR);
-        btnRun.setBackgroundColor(RUN_COLOR);
+        btn1.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btn2.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btn3.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btn4.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btn5.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btn6.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btnRun.setBackgroundColor(PokemonGoApp.RUN_COLOR);
 
         barEnemyHP = (ProgressBar) findViewById(R.id.bar_battle_enemy_hp);
         barBuddyHP = (ProgressBar) findViewById(R.id.bar_battle_buddy_hp);
@@ -142,11 +134,11 @@ public class BattleActivity extends AppCompatActivity {
         barBtn6 = (ProgressBar) findViewById(R.id.bar_battle_btn6);
 
         barEnemyHP.getProgressDrawable().setColorFilter(
-                BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         barBuddyHP.getProgressDrawable().setColorFilter(
-                BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         barBuddyEXP.getProgressDrawable().setColorFilter(
-                RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                PokemonGoApp.RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
 
         updateEnemyPokemon();
         imgButtonBuddy.setBackgroundResource(R.drawable.player_back);
@@ -384,9 +376,9 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     private void endBattle(){
-        Intent MainActivityIntent = new Intent(BattleActivity.this, MainActivity.class);
-        MainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(MainActivityIntent, 0);
+        Intent mainActivityIntent = new Intent(BattleActivity.this, MainActivity.class);
+        mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(mainActivityIntent, 0);
         finish();
     }
 
@@ -437,29 +429,16 @@ public class BattleActivity extends AppCompatActivity {
     private void updateEnemyHp(){
         barEnemyHP.setMax(battle.getEnemy().getHP());
         barEnemyHP.setProgress(battle.getEnemy().getCurrentHP());
-        updateHpBarColor(battle.getEnemy().getCurrentHP(), battle.getEnemy().getHP(), barEnemyHP);
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.updateHpBarColor(battle.getEnemy().getCurrentHP(), battle.getEnemy().getHP(), barEnemyHP);
     }
 
     private void updateBuddyHp(){
         barBuddyHP.setMax(battle.getBuddy().getHP());
         barBuddyHP.setProgress(battle.getBuddy().getCurrentHP());
         txvBuddyHP.setText(battle.getBuddy().getCurrentHP() + "/" + battle.getBuddy().getHP());
-        updateHpBarColor(battle.getBuddy().getCurrentHP(), battle.getBuddy().getHP(), barBuddyHP);
-    }
-
-    private void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
-        if(currentHp > maxHp/2){
-            bar.getProgressDrawable().setColorFilter(
-                    BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-        else if(currentHp < maxHp/2 && currentHp > maxHp/5){
-            bar.getProgressDrawable().setColorFilter(
-                    BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-        else if(currentHp < maxHp/5){
-            bar.getProgressDrawable().setColorFilter(
-                    FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.updateHpBarColor(battle.getBuddy().getCurrentHP(), battle.getBuddy().getHP(), barBuddyHP);
     }
 
     private void updateBuddyExp(){
@@ -525,19 +504,20 @@ public class BattleActivity extends AppCompatActivity {
         btn6.setText("POKEMON");
         btn7.setText("BAG");
 
-        btn5.setBackgroundColor(FIGHT_COLOR);
-        btn6.setBackgroundColor(POKEMON_COLOR);
-        btn7.setBackgroundColor(BAG_COLOR);
+        btn5.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
+        btn6.setBackgroundColor(PokemonGoApp.POKEMON_COLOR);
+        btn7.setBackgroundColor(PokemonGoApp.BAG_COLOR);
         battle.setEnemyDecision(PokemonGoApp.getIntegerRNG(4) + 1);
         txvMessage.setText("What will " + battle.getBuddy().getNickname() + " do?");
     }
 
     private void setMoveButton(Button btn, Move move, ImageView icon){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
         btn.setClickable(!move.isEmpty());
         btn.setText(move.getButtonString());
         if(!move.isEmpty()){
             btn.setVisibility(View.VISIBLE);
-            setButtonBorder(btn, move.getType().getColor());
+            app.setButtonBorder(btn, move.getType().getColor());
             icon.setVisibility(View.VISIBLE);
             icon.setImageResource(move.getType().getIcon());
         }
@@ -550,7 +530,7 @@ public class BattleActivity extends AppCompatActivity {
     private void fightState(){
         setOptionBarsVisibility(View.INVISIBLE);
         setOptionIconsVisibilty(View.INVISIBLE);
-        setAllOptionsColor(TRANSPARENT_COLOR);
+        setAllOptionsColor(PokemonGoApp.TRANSPARENT_COLOR);
 
         battle.setState(battle.STATE_FIGHT);
         btn1.setClickable(false);
@@ -568,47 +548,23 @@ public class BattleActivity extends AppCompatActivity {
         disableButton(btnAction);
     }
 
-    public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
-        btn.setClickable(!profile.isEmpty());
-        btn.setText(profile.getButtonString());
-        if(profile.getCurrentHP() <= 0 && !profile.isEmpty()){
-            setButtonBorder(btn, DEAD_COLOR);
-        }
-        else{
-            setButtonBorder(btn, POKEMON_COLOR);
-        }
-        if(!profile.isEmpty()){
-            btn.setVisibility(View.VISIBLE);
-            bar.setVisibility(View.VISIBLE);
-            bar.setMax(profile.getHP());
-            bar.setProgress(profile.getCurrentHP());
-            updateHpBarColor(profile.getCurrentHP(), profile.getHP(), bar);
-            icon.setVisibility(View.VISIBLE);
-            icon.setImageResource(profile.getDexData().getIcon());
-        }
-        else{
-            btn.setVisibility(View.INVISIBLE);
-            bar.setVisibility(View.INVISIBLE);
-            icon.setVisibility(View.INVISIBLE);
-        }
-    }
-
     private void setAsBackButton(Button btn){
         btn.setClickable(true);
         btn.setText("BACK");
         btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(BACK_COLOR);
+        btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
     }
 
     private void pokemonState(int state){
         battle.setState(state);
-        setAllOptionsColor(TRANSPARENT_COLOR);
-        setPokemonButton(btn1, battle.getPlayer().getPokemons()[0], barBtn1, imgIconBtn1);
-        setPokemonButton(btn2, battle.getPlayer().getPokemons()[1], barBtn2, imgIconBtn2);
-        setPokemonButton(btn3, battle.getPlayer().getPokemons()[2], barBtn3, imgIconBtn3);
-        setPokemonButton(btn4, battle.getPlayer().getPokemons()[3], barBtn4, imgIconBtn4);
-        setPokemonButton(btn5, battle.getPlayer().getPokemons()[4], barBtn5, imgIconBtn5);
-        setPokemonButton(btn6, battle.getPlayer().getPokemons()[5], barBtn6, imgIconBtn6);
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        setAllOptionsColor(PokemonGoApp.TRANSPARENT_COLOR);
+        app.setPokemonButton(btn1, battle.getPlayer().getPokemons()[0], barBtn1, imgIconBtn1);
+        app.setPokemonButton(btn2, battle.getPlayer().getPokemons()[1], barBtn2, imgIconBtn2);
+        app.setPokemonButton(btn3, battle.getPlayer().getPokemons()[2], barBtn3, imgIconBtn3);
+        app.setPokemonButton(btn4, battle.getPlayer().getPokemons()[3], barBtn4, imgIconBtn4);
+        app.setPokemonButton(btn5, battle.getPlayer().getPokemons()[4], barBtn5, imgIconBtn5);
+        app.setPokemonButton(btn6, battle.getPlayer().getPokemons()[5], barBtn6, imgIconBtn6);
 
         setAsBackButton(btn7);
         btn7.setClickable(!(battle.getBuddy().getCurrentHP() <= 0));
@@ -682,35 +638,17 @@ public class BattleActivity extends AppCompatActivity {
         enableButton(btnRun);
         disableButton(btnAction);
 
-        setBagButton(btn1, battle.getPlayer().getBag()[0], imgIconBtn1);
-        setBagButton(btn2, battle.getPlayer().getBag()[1], imgIconBtn2);
-        setBagButton(btn3, battle.getPlayer().getBag()[2], imgIconBtn3);
-        setBagButton(btn4, battle.getPlayer().getBag()[3], imgIconBtn4);
-        setBagButton(btn5, battle.getPlayer().getBag()[4], imgIconBtn5);
-        setBagButton(btn6, battle.getPlayer().getBag()[5], imgIconBtn6);
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.setBagButton(btn1, battle.getPlayer().getBag()[0], imgIconBtn1);
+        app.setBagButton(btn2, battle.getPlayer().getBag()[1], imgIconBtn2);
+        app.setBagButton(btn3, battle.getPlayer().getBag()[2], imgIconBtn3);
+        app.setBagButton(btn4, battle.getPlayer().getBag()[3], imgIconBtn4);
+        app.setBagButton(btn5, battle.getPlayer().getBag()[4], imgIconBtn5);
+        app.setBagButton(btn6, battle.getPlayer().getBag()[5], imgIconBtn6);
 
-        setAllOptionsColor(TRANSPARENT_COLOR);
-        setButtonBorder(btn1, BAG_COLOR);
-        setButtonBorder(btn2, BAG_COLOR);
-        setButtonBorder(btn3, BAG_COLOR);
-        setButtonBorder(btn4, BAG_COLOR);
-        setButtonBorder(btn5, BAG_COLOR);
-        setButtonBorder(btn6, BAG_COLOR);
+        setAllOptionsColor(PokemonGoApp.TRANSPARENT_COLOR);
     }
 
-    private void setBagButton(Button btn, Item item, ImageView icon){
-        btn.setText(item.getButtonString());
-        icon.setImageResource(item.getImageIcon());
-    }
-
-    public void setButtonBorder(Button btn, int color){
-        ShapeDrawable shapedrawable = new ShapeDrawable();
-        shapedrawable.setShape(new RectShape());
-        shapedrawable.getPaint().setColor(color);
-        shapedrawable.getPaint().setStrokeWidth(30f);
-        shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
-        btn.setBackground(shapedrawable);
-    }
 
     @Override
     public void onBackPressed(){

@@ -40,7 +40,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />
         <activity android:name=".BattleActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ManageActivity"></activity>
     </application>
 
 </manifest>

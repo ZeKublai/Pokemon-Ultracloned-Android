@@ -158,11 +158,24 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        Intent SettingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                        startActivity(SettingsActivityIntent);
+                        Intent settingsActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(settingsActivityIntent);
                     }
                 }
         );
+
+        final Button btnPokemon = (Button) findViewById(R.id.btn_main_team);
+        btnPokemon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
+                        Intent manageActivityIntent = new Intent(MainActivity.this, ManageActivity.class);
+                        startActivity(manageActivityIntent);
+                    }
+                }
+        );
+        btnPokemon.setClickable(false);
 
         final Button btnAction = (Button) findViewById(R.id.btn_main_action);
         final Runnable engageMarker = new Runnable()
@@ -187,8 +200,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     app.getPlayer().giveItem(new Item(app.getCurrentGoal().getTitle(), 1));
                 }
                 else{
-                    Intent CatchActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
-                    startActivity(CatchActivityIntent);
+                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(battleActivityIntent);
                 }
 
                 return;
