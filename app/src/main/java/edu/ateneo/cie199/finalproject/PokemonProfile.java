@@ -238,7 +238,7 @@ public class PokemonProfile {
     Needs Tweaking
      */
     public int getExperienceNeeded(){
-        return mLevel*1000;
+        return mLevel*50;
     }
     public int getTotalExperience() {
         int totalExperience = 0;

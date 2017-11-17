@@ -180,15 +180,15 @@ public class Battle {
                             + "...", Message.NO_UPDATE);
                 }
 
+                if(damage < 1.0){
+                    damage = 1.0;
+                }
+
                 damage = damage * totalTypeMultiplier;
 
                 if(PokemonGoApp.getIntegerRNG(16) < 1){
                     damage = damage * 2;
                     addMessage(Message.MESSAGE_CRITICAL, Message.NO_UPDATE);
-                }
-
-                if(damage < 1.0){
-                    damage = 1.0;
                 }
 
                 defender.setCurrentHP(defender.getCurrentHP() - (int)(damage));
@@ -197,7 +197,7 @@ public class Battle {
                     if(isBuddyFainted()){
                         buddyHasFainted();
                     }
-                    if(isEnemyFainted()){
+                    else if(isEnemyFainted()){
                         enemyHasFainted();
                     }
                 }
@@ -354,9 +354,9 @@ public class Battle {
     }
     public void enemyHasFainted(){
         addMessage(mEnemy.getNickname() + Message.MESSAGE_FAINTED, Message.NO_UPDATE);
-        addMessage(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel()
+        addMessage(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel() * 10
                 + Message.MESSAGE_EXP_GAINED, Message.UPDATE_BUDDY_EXP);
-        mBuddy.setCurrentExp(mBuddy.getCurrentExp() + mEnemy.getLevel()* mBuddy.getLevel());
+        mBuddy.setCurrentExp(mBuddy.getCurrentExp() + mEnemy.getLevel() * mBuddy.getLevel() * 10);
         if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
             buddyLevelUp();
         }
@@ -378,7 +378,7 @@ public class Battle {
         mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExperienceNeeded());
         mBuddy.setLevel(mBuddy.getLevel() + 1);
         addMessage(mBuddy.getNickname() + Message.MESSAGE_LEVEL_UP + mBuddy.getLevel() + "!",
-                Message.NO_UPDATE);
+                Message.UPDATE_BUDDY);
     }
 
     //GETTER AND SETTER FUNCTIONS

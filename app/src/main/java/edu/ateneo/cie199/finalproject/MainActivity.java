@@ -1,8 +1,13 @@
 package edu.ateneo.cie199.finalproject;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +17,8 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -114,7 +121,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                 originPosition.longitude + offsetLng);
 
                         Marker marker;
-                        if(app.getIntegerRNG(5) > 0){
+                        if(app.getIntegerRNG(5) > 1){
                             marker = app.getMap().addMarker(
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnPokemon.getName()).icon(
@@ -189,6 +196,38 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     imgButtonMain.setImageResource(R.drawable.player_main);
                 }
 
+                if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
+                    int itemAmount = PokemonGoApp.getIntegerRNG(5) + 2;
+                    app.getPlayer().giveItem(new Item(app.getCurrentGoal().getTitle(), itemAmount));
+
+                    final Dialog dialog = new Dialog(MainActivity.this);
+                    dialog.setContentView(R.layout.custom_dialog);
+                    dialog.setTitle("Title...");
+
+                    // set the custom dialog components - text, image and button
+                    TextView txvDialog = (TextView) dialog.findViewById(R.id.txv_dialog_message);
+                    txvDialog.setText("You got " + itemAmount + " " + app.getCurrentGoal().getTitle() + "s!");
+                    txvDialog.setTypeface(Typeface.createFromAsset(getAssets(), "generation6.ttf"));
+                    ImageView dialogImage = (ImageView) dialog.findViewById(R.id.img_dialog);
+                    dialogImage.setImageResource(app.getItem(app.getCurrentGoal().getTitle()).getImageBig());
+
+                    Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+                    dialogButton.setTypeface(Typeface.createFromAsset(getAssets(), "generation6.ttf"));
+                    // if button is clicked, close the custom dialog
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
+                }
+                else{
+                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(battleActivityIntent);
+                }
+
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
                 btnSettings.setClickable(true);
@@ -197,13 +236,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
                                 R.drawable.player_stand));
-                if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
-                    app.getPlayer().giveItem(new Item(app.getCurrentGoal().getTitle(), 1));
-                }
-                else{
-                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
-                    startActivity(battleActivityIntent);
-                }
 
                 return;
             }

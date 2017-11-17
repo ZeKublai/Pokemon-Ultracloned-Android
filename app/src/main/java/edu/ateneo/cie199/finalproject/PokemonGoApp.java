@@ -463,7 +463,7 @@ public class PokemonGoApp extends Application{
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
-        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(0));
+        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3));
         getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
         getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
         getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
@@ -540,15 +540,15 @@ public class PokemonGoApp extends Application{
     }
 
     public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
-        if(currentHp > maxHp/2){
+        if(((double)currentHp) > ((double)maxHp)/2){
             bar.getProgressDrawable().setColorFilter(
                     PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }
-        else if(currentHp < maxHp/2 && currentHp > maxHp/5){
+        else if(((double)currentHp) < ((double)maxHp)/2 && ((double)currentHp) > ((double)maxHp)/5){
             bar.getProgressDrawable().setColorFilter(
                     PokemonGoApp.BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }
-        else if(currentHp < maxHp/5){
+        else if(((double)currentHp) < ((double)maxHp)/5){
             bar.getProgressDrawable().setColorFilter(
                     PokemonGoApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }

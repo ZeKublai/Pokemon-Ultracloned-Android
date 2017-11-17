@@ -39,6 +39,7 @@
         android:layout_centerVertical="true"
         android:text="NEW GAME"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="24sp"
         tools:layout_editor_absoluteX="135dp"
         tools:layout_editor_absoluteY="219dp" />
 
