@@ -90,6 +90,9 @@ public class Item {
     }
 
     public boolean healPokemon(PokemonProfile profile){
+        if(profile.getCurrentHP() == profile.getHP()){
+            return false;
+        }
         if(profile.getCurrentHP() > 0){
             profile.setCurrentHP(profile.getCurrentHP() + mEffect);
             if(profile.getCurrentHP() > profile.getHP()){
@@ -114,6 +117,9 @@ public class Item {
     }
 
     public boolean restorePP(PokemonProfile profile){
+        if(profile.allMovesPPisFull()){
+            return false;
+        }
         for(int index = 0; index < PokemonProfile.MAX_POKEMON_MOVES; index++){
             Move move = profile.getMoves()[index];
             move.setCurrentPP(move.getCurrentPP() + mEffect);

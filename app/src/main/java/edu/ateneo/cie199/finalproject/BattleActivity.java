@@ -69,20 +69,20 @@ public class BattleActivity extends AppCompatActivity {
         music.playMusic(app.getMusicSwitch());
         app.getMusicHandler().initButtonSfx(this);
 
-        //TODO CHECK IF POKEMON IS DEAD
+        //TODO BALANCING
         battle = new Battle(app.getPlayer().getBuddy(),
                 new PokemonProfile(app.getSpawnCount(),
-                        app.getPokemon(app.getCurrentGoal().getTitle())));
+                        app.getPokemon(app.getCurrentGoal().getTitle()), app.getPlayer().getAverageLevel()));
         battle.setPlayer(app.getPlayer());
         battle.setTypeChart(app.getAllTypes());
-        battle.getEnemy().getMoves()[0] = app.getAllMoves().get(
-                app.getIntegerRNG(app.getAllMoves().size()));
-        battle.getEnemy().getMoves()[1] = app.getAllMoves().get(
-                app.getIntegerRNG(app.getAllMoves().size()));
-        battle.getEnemy().getMoves()[2] = app.getAllMoves().get(
-                app.getIntegerRNG(app.getAllMoves().size()));
-        battle.getEnemy().getMoves()[3] = app.getAllMoves().get(
-                app.getIntegerRNG(app.getAllMoves().size()));
+        battle.getEnemy().getMoves()[0] = new Move(app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size())));
+        battle.getEnemy().getMoves()[1] = new Move(app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size())));
+        battle.getEnemy().getMoves()[2] = new Move(app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size())));
+        battle.getEnemy().getMoves()[3] = new Move(app.getAllMoves().get(
+                app.getIntegerRNG(app.getAllMoves().size())));
 
         txvEnemyName = (TextView) findViewById(R.id.txv_battle_enemy_name);
         txvBuddyName = (TextView) findViewById(R.id.txv_battle_buddy_name);
@@ -530,6 +530,8 @@ public class BattleActivity extends AppCompatActivity {
         setOptionIconsVisibilty(View.INVISIBLE);
         setAllOptionsColor(PokemonGoApp.TRANSPARENT_COLOR);
 
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+
         battle.setState(PokemonGoApp.STATE_FIGHT);
         btn1.setClickable(false);
         btn2.setClickable(false);
@@ -541,16 +543,9 @@ public class BattleActivity extends AppCompatActivity {
         btn1.setVisibility(View.INVISIBLE);
         btn2.setVisibility(View.INVISIBLE);
 
-        setAsBackButton(btn7);
+        app.setAsBackButton(btn7);
         enableButton(btnRun);
         disableButton(btnAction);
-    }
-
-    private void setAsBackButton(Button btn){
-        btn.setClickable(true);
-        btn.setText("BACK");
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
     }
 
     private void pokemonState(int state){
@@ -564,7 +559,7 @@ public class BattleActivity extends AppCompatActivity {
         app.setPokemonButton(btn5, battle.getPlayer().getPokemons()[4], barBtn5, imgIconBtn5);
         app.setPokemonButton(btn6, battle.getPlayer().getPokemons()[5], barBtn6, imgIconBtn6);
 
-        setAsBackButton(btn7);
+        app.setAsBackButton(btn7);
         btn7.setClickable(!(battle.getBuddy().getCurrentHP() <= 0));
 
         enableButton(btnRun);
@@ -632,7 +627,7 @@ public class BattleActivity extends AppCompatActivity {
         setOptionIconsVisibilty(View.VISIBLE);
         battle.setState(PokemonGoApp.STATE_BAG);
         enableAllOptions();
-        setAsBackButton(btn7);
+
         enableButton(btnRun);
         disableButton(btnAction);
 
@@ -643,6 +638,7 @@ public class BattleActivity extends AppCompatActivity {
         app.setBagButton(btn4, battle.getPlayer().getBag()[3], imgIconBtn4);
         app.setBagButton(btn5, battle.getPlayer().getBag()[4], imgIconBtn5);
         app.setBagButton(btn6, battle.getPlayer().getBag()[5], imgIconBtn6);
+        app.setAsBackButton(btn7);
     }
 
 

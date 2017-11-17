@@ -191,6 +191,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
+                btnSettings.setClickable(true);
+                btnPokemon.setClickable(true);
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
@@ -220,6 +222,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             txvMain.setText(app.getCurrentGoal().getTitle());
 
                             btnAction.setClickable(false);
+                            btnSettings.setClickable(false);
+                            btnPokemon.setClickable(false);
                             app.getMap().getUiSettings().setAllGesturesEnabled(false);
                             Projection projection = app.getMap().getProjection();
 

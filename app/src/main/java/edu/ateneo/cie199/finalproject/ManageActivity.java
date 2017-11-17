@@ -1,17 +1,23 @@
 package edu.ateneo.cie199.finalproject;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ManageActivity extends AppCompatActivity {
+
+    private int mMenuState;
+    private Item mSelectedItem;
+    private PokemonProfile mSelectedProfile1;
+    private PokemonProfile mSelectedProfile2;
 
     Button btn1;
     Button btn2;
@@ -23,6 +29,8 @@ public class ManageActivity extends AppCompatActivity {
     Button btnHeal;
     Button btnRevive;
     Button btnRestore;
+    Button btnBack;
+    Button btnSwap;
 
     ImageView icon1;
     ImageView icon2;
@@ -44,13 +52,43 @@ public class ManageActivity extends AppCompatActivity {
 
     TextView txvMessage;
 
+    private CustomList mPokemonAdapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
 
-        PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         app.setFontForContainer((RelativeLayout) findViewById(R.id.manager_group), "generation6.ttf");
+
+        mPokemonAdapter = new CustomList(ManageActivity.this, app.getPlayer().getBox());
+        final ListView lsvPokemons = (ListView)findViewById(R.id.lsv_pokemon_box);
+        lsvPokemons.setAdapter(mPokemonAdapter);
+
+        app.setFontForContainer((ListView) findViewById(R.id.lsv_pokemon_box), "generation6.ttf");
+        lsvPokemons.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                        if(getMenuState() == PokemonGoApp.STATE_MAIN){
+
+                        }
+                        else if(getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON1){
+                            PokemonGoApp app = (PokemonGoApp) getApplication();
+                            setSelectedProfile1(app.getPlayer().getBox().get(pos));
+                            view.setBackground(app.getShape(PokemonGoApp.BACK_COLOR));
+                            setMenuState(PokemonGoApp.STATE_SWAP_POKEMON2, "Select other Pokemon to switch.");
+                        }
+                        else if(getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON2){
+                            switchSecondPokemon(app.getPlayer().getBox().get(pos));
+                        }
+                        else{
+                            useItemManager(app.getPlayer().getBox().get(pos));
+                        }
+                    }
+                }
+        );
 
         btn1 = (Button) findViewById(R.id.btn_pokemon1);
         btn2 = (Button) findViewById(R.id.btn_pokemon2);
@@ -62,6 +100,7 @@ public class ManageActivity extends AppCompatActivity {
         btnHeal = (Button) findViewById(R.id.btn_pokemon_heal);
         btnRevive = (Button) findViewById(R.id.btn_pokemon_revive);
         btnRestore = (Button) findViewById(R.id.btn_pokemon_restore);
+        btnSwap = (Button) findViewById(R.id.btn_pokemon_swap);
 
         icon1 = (ImageView) findViewById(R.id.img_pokemon1);
         icon2 = (ImageView) findViewById(R.id.img_pokemon2);
@@ -83,9 +122,10 @@ public class ManageActivity extends AppCompatActivity {
 
         txvMessage = (TextView) findViewById(R.id.txv_pokemon_message);
 
-        txvMessage.setText("");
+        setMenuState(PokemonGoApp.STATE_MAIN, Message.MESSAGE_MANAGER_MAIN);
 
-        Button btnBack = (Button) findViewById(R.id.btn_pokemon_back);
+        btnBack = (Button) findViewById(R.id.btn_pokemon_back);
+        app.setAsBackButton(btnBack);
         btnBack.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -99,7 +139,77 @@ public class ManageActivity extends AppCompatActivity {
         );
 
         updatePokemons();
-        updateItems();
+        mPokemonAdapter.notifyDataSetChanged();
+        resetItemButtons();
+        setPokemonButton(btn1, app.getPlayer().getPokemons()[0]);
+        setPokemonButton(btn2, app.getPlayer().getPokemons()[1]);
+        setPokemonButton(btn3, app.getPlayer().getPokemons()[2]);
+        setPokemonButton(btn4, app.getPlayer().getPokemons()[3]);
+        setPokemonButton(btn5, app.getPlayer().getPokemons()[4]);
+        setPokemonButton(btn6, app.getPlayer().getPokemons()[5]);
+
+        resetSwitchButton();
+        btnSwap.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        swapState();
+                    }
+                }
+        );
+        setItemButton(btnHeal, app.getPlayer().getBag()[0], PokemonGoApp.STATE_HEAL_POKEMON);
+        setItemButton(btnRevive, app.getPlayer().getBag()[1], PokemonGoApp.STATE_REVIVE_POKEMON);
+        setItemButton(btnRestore, app.getPlayer().getBag()[2], PokemonGoApp.STATE_RESTORE_POKEMON);
+    }
+
+    public void setPokemonButton(Button button, PokemonProfile pokemonProfile){
+        final Button btn = button;
+        final PokemonProfile profile = pokemonProfile;
+        btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(getMenuState() == PokemonGoApp.STATE_MAIN){
+
+                        }
+                        else if(getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON1){
+                            switchFirstPokemon(btn, profile);
+                        }
+                        else if(getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON2){
+                            switchSecondPokemon(profile);
+                        }
+                        else{
+                            useItemManager(profile);
+                        }
+                    }
+                }
+        );
+    }
+
+    public void setItemButton(Button button, Item selectedItem, final int targetState){
+        final Button btn = button;
+        final Item item = selectedItem;
+        final int state = targetState;
+        btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectItem(targetState, item, btn);
+                    }
+                }
+        );
+    }
+
+    public void switchFirstPokemon(Button btn, PokemonProfile profile){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        setSelectedProfile1(profile);
+        setMenuState(PokemonGoApp.STATE_SWAP_POKEMON2, "Select other Pokemon to switch.");
+        app.setButtonBorder(btn, PokemonGoApp.BACK_COLOR);
+    }
+
+    public void switchSecondPokemon(PokemonProfile profile){
+        setSelectedProfile2(profile);
+        swapPokemon();
     }
 
     public void updatePokemons(){
@@ -112,10 +222,132 @@ public class ManageActivity extends AppCompatActivity {
         app.setPokemonButton(btn6, app.getPlayer().getPokemons()[5], bar6, icon6);
     }
 
-    public void updateItems(){
+    public void resetItemButtons(){
         PokemonGoApp app = (PokemonGoApp) getApplication();
         app.setBagButton(btnHeal, app.getPlayer().getBag()[0], iconHeal);
         app.setBagButton(btnRevive, app.getPlayer().getBag()[1], iconRevive);
         app.setBagButton(btnRestore, app.getPlayer().getBag()[2], iconRestore);
+        resetSwitchButton();
+    }
+
+    public void resetSwitchButton(){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        btnSwap.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        app.setButtonBorder(btnSwap, PokemonGoApp.RUN_COLOR);
+        btnSwap.setText("SWITCH");
+    }
+
+    public int getMenuState() {
+        return mMenuState;
+    }
+    public void setMenuState(int mMenuState, String message) {
+        this.mMenuState = mMenuState;
+        txvMessage.setText(message);
+    }
+
+    public Item getSelectedItem() {
+        return mSelectedItem;
+    }
+    public void setSelectedItem(Item mSelectedItem) {
+        this.mSelectedItem = mSelectedItem;
+    }
+
+    public PokemonProfile getSelectedProfile1() {
+        return mSelectedProfile1;
+    }
+    public void setSelectedProfile1(PokemonProfile mSelectedProfile1) {
+        this.mSelectedProfile1 = mSelectedProfile1;
+    }
+
+    public PokemonProfile getSelectedProfile2() {
+        return mSelectedProfile2;
+    }
+    public void setSelectedProfile2(PokemonProfile mSelectedProfile2) {
+        this.mSelectedProfile2 = mSelectedProfile2;
+    }
+
+    public boolean hasItem(){
+        if(mSelectedItem.getQuantity() <= 0){
+            txvMessage.setText("You are out of " + mSelectedItem.getName() + "!");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public void executeItem(boolean itemSuccess){
+        if(itemSuccess){
+            PokemonGoApp app = (PokemonGoApp) getApplication();
+            txvMessage.setText(app.getPlayer().getName() + " used " + mSelectedItem.getName() + "!");
+            mSelectedItem.setQuantity(mSelectedItem.getQuantity() - 1);
+        }
+        else{
+            txvMessage.setText("It will have no effect...");
+        }
+    }
+
+    public void useItemManager(PokemonProfile profile){
+        if(hasItem()){
+            if(getMenuState() == PokemonGoApp.STATE_HEAL_POKEMON){
+                executeItem(mSelectedItem.healPokemon(profile));
+                itemState(btnHeal);
+            }
+            else if(getMenuState() == PokemonGoApp.STATE_REVIVE_POKEMON){
+                executeItem(mSelectedItem.revivePokemon(profile));
+                itemState(btnRevive);
+            }
+            else if(getMenuState() == PokemonGoApp.STATE_RESTORE_POKEMON){
+                executeItem(mSelectedItem.restorePP(profile));
+                itemState(btnRestore);
+            }
+            mPokemonAdapter.notifyDataSetChanged();
+            updatePokemons();
+        }
+    }
+
+    public void swapState(){
+        if(getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON1 || getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON2){
+            setMenuState(PokemonGoApp.STATE_MAIN, Message.MESSAGE_MANAGER_MAIN);
+            resetItemButtons();
+            mPokemonAdapter.notifyDataSetChanged();
+            updatePokemons();
+        }
+        else{
+            PokemonGoApp app = (PokemonGoApp) getApplication();
+            resetItemButtons();
+            app.setAsCancelButton(btnSwap);
+            setMenuState(PokemonGoApp.STATE_SWAP_POKEMON1, "Switch which Pokemon?");
+        }
+    }
+
+    public void selectItem(int itemState, Item item, Button btn){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        if(getMenuState() == itemState){
+            resetItemButtons();
+            setMenuState(PokemonGoApp.STATE_MAIN, Message.MESSAGE_MANAGER_MAIN);
+        }
+        else{
+            setMenuState(itemState, "Use " + item.getName() + " on which Pokemon?");
+            setSelectedItem(item);
+            itemState(btn);
+        }
+    }
+
+    public void itemState(Button btn){
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        resetItemButtons();
+        app.setAsCancelButton(btn);
+    }
+
+    public void swapPokemon(){
+        PokemonProfile swap1 = new PokemonProfile(mSelectedProfile1);
+        PokemonProfile swap2 = new PokemonProfile(mSelectedProfile2);
+        mSelectedProfile1.loadProfile(swap2);
+        mSelectedProfile2.loadProfile(swap1);
+        mPokemonAdapter.notifyDataSetChanged();
+        updatePokemons();
+        setMenuState(PokemonGoApp.STATE_MAIN, Message.MESSAGE_MANAGER_MAIN);
+        resetItemButtons();
     }
 }

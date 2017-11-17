@@ -299,6 +299,19 @@
             android:layout_marginRight="2dp"
             android:layout_weight="1">
 
+            <Button
+                android:id="@+id/btn_pokemon_swap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_pokemon_heal"
+                android:layout_alignEnd="@+id/btn_pokemon_heal"
+                android:layout_alignParentStart="true"
+                android:layout_margin="1dp"
+                android:fontFamily="@font/generation6"
+                android:paddingLeft="55dp"
+                android:text="SWITCH"
+                android:textAlignment="viewStart" />
+
             <ImageView
                 android:id="@+id/img_pokemon_restore"
                 android:layout_width="40dp"

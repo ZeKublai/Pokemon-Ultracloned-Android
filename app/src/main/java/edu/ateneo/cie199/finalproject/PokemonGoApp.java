@@ -38,6 +38,12 @@ public class PokemonGoApp extends Application{
     public static int STATE_POKEMON = 4;
     public static int STATE_BAG = 5;
     public static int STATE_USE_ITEM = 6;
+    public static int STATE_HEAL_POKEMON = 7;
+    public static int STATE_REVIVE_POKEMON = 8;
+    public static int STATE_RESTORE_POKEMON = 9;
+    public static int STATE_SWAP_POKEMON1 = 10;
+    public static int STATE_SWAP_POKEMON2 = 11;
+
 
     public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
     public static int POKEMON_COLOR = Color.argb(255, 44, 224, 49);
@@ -440,7 +446,6 @@ public class PokemonGoApp extends Application{
         mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball, R.drawable.bag_ultraball_sprite, Item.NO_EFFECT));
         mItems.add(new Item("Elixir", 0, R.drawable.bag_elixir_icon, R.drawable.bag_elixir, R.drawable.bag_elixir_icon, Item.ELIXIR_RESTORE));
         mItems.add(new Item("Max Elixir", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxelixir, R.drawable.bag_maxelixir_icon, Item.MAX_ELIXIR_RESTORE));
-
     }
 
     public void setFontForContainer(ViewGroup contentLayout, String fontName) {
@@ -458,13 +463,23 @@ public class PokemonGoApp extends Application{
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
-        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(2));
+        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(0));
+        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+        getPlayer().getPokemons()[0].getMoves()[3] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+        /*
         getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(5));
+        getPlayer().getPokemons()[2] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(9));
+        getPlayer().getPokemons()[3] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(15));
+        getPlayer().getPokemons()[4] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(25));
+        getPlayer().getPokemons()[5] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(35));
         getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(2));
         getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(5));
         getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(16));
         getPlayer().getPokemons()[1].getMoves()[0] = new Move(getAllMoves().get(19));
         getPlayer().getPokemons()[1].getMoves()[1] = new Move(getAllMoves().get(25));
+        */
         getPlayer().getBag()[0] = new Item(getAllItems().get(0));
         getPlayer().getBag()[1] = new Item(getAllItems().get(4));
         getPlayer().getBag()[2] = new Item(getAllItems().get(9));
@@ -477,15 +492,20 @@ public class PokemonGoApp extends Application{
         getPlayer().getBag()[3].setQuantity(10);
         getPlayer().getBag()[4].setQuantity(10);
         getPlayer().getBag()[5].setQuantity(10);
+        //getPlayer().getBox().add(new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(45)));
     }
 
     public void setButtonBorder(Button btn, int color){
+        btn.setBackground(getShape(color));
+    }
+
+    public static ShapeDrawable getShape(int color){
         ShapeDrawable shapedrawable = new ShapeDrawable();
         shapedrawable.setShape(new RectShape());
         shapedrawable.getPaint().setColor(color);
         shapedrawable.getPaint().setStrokeWidth(30f);
         shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
-        btn.setBackground(shapedrawable);
+        return shapedrawable;
     }
 
     public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
@@ -519,7 +539,7 @@ public class PokemonGoApp extends Application{
         setButtonBorder(btn, PokemonGoApp.BAG_COLOR);
     }
 
-    public void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
+    public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
         if(currentHp > maxHp/2){
             bar.getProgressDrawable().setColorFilter(
                     PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -532,6 +552,20 @@ public class PokemonGoApp extends Application{
             bar.getProgressDrawable().setColorFilter(
                     PokemonGoApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }
+    }
+
+    public void setAsBackButton(Button btn){
+        btn.setClickable(true);
+        btn.setText("BACK");
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
+    }
+
+    public void setAsCancelButton(Button btn){
+        btn.setClickable(true);
+        btn.setText("CANCEL");
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
     }
 
 }

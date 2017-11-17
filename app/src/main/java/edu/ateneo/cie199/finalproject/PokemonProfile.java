@@ -33,7 +33,7 @@ public class PokemonProfile {
 
     private Move[] mMoves = new Move[MAX_POKEMON_MOVES];
 
-    public PokemonProfile(int mId, Pokemon pokemon) {
+    public PokemonProfile(int mId, Pokemon pokemon, int mLevel) {
         this.mId = mId;
         this.mDexNumber = pokemon.getDexNumber();
         this.mNickname = pokemon.getName();
@@ -51,7 +51,7 @@ public class PokemonProfile {
             }
         }
 
-        this.mLevel = PokemonGoApp.getIntegerRNG(MAX_POKEMON_LEVEL) + 1;
+        this.mLevel = PokemonGoApp.getIntegerRNG(mLevel) + 1;
         this.mIV = new StatSet(MAX_IV_VALUE);
         this.mEV = new StatSet();
         this.mNature = new StatSet(MAX_NATURE_VALUE);
@@ -93,6 +93,36 @@ public class PokemonProfile {
         }
     }
 
+    public PokemonProfile(PokemonProfile profile) {
+        this.mId = profile.mId;
+        this.mDexNumber = profile.mDexNumber;
+        this.mNickname = profile.mNickname;
+        this.mGender = profile.mGender;
+        this.mLevel = profile.mLevel;
+        this.mCurrentHP = profile.mCurrentHP;
+        this.mCurrentExp = profile.mCurrentExp;
+        this.mDexData = profile.mDexData;
+        this.mIV = profile.mIV;
+        this.mEV = profile.mEV;
+        this.mNature = profile.mNature;
+        this.mMoves = profile.mMoves;
+    }
+
+    public void loadProfile(PokemonProfile profile){
+        this.mId = profile.mId;
+        this.mDexNumber = profile.mDexNumber;
+        this.mNickname = profile.mNickname;
+        this.mGender = profile.mGender;
+        this.mLevel = profile.mLevel;
+        this.mCurrentHP = profile.mCurrentHP;
+        this.mCurrentExp = profile.mCurrentExp;
+        this.mDexData = profile.mDexData;
+        this.mIV = profile.mIV;
+        this.mEV = profile.mEV;
+        this.mNature = profile.mNature;
+        this.mMoves = profile.mMoves;
+    }
+
     public PokemonProfile() {
         for(int index = 0; index < mMoves.length; index++){
             mMoves[index] = new Move();
@@ -100,8 +130,8 @@ public class PokemonProfile {
     }
 
     private int getStat(int baseStat, int ivStat, int evStat, int level, int natureStat){
-        double stat = floor(floor((2 * baseStat + ivStat + evStat) * level / 100 + 5) 
-                * natureStat / 100);
+        double stat = floor(floor((2.0 * ((double)baseStat) + ((double)ivStat) + ((double)evStat)) *
+                ((double)level) / 100.0 + 5.0) * ((double)natureStat) / 100.0);
         return ((int) stat);
     }
 
@@ -228,6 +258,21 @@ public class PokemonProfile {
 
     public boolean isEmpty(){
         if(this.mDexNumber == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean allMovesPPisFull(){
+        int fullMoveCount = 0;
+        for(int index = 0; index < MAX_POKEMON_MOVES; index++){
+            if(mMoves[index].getCurrentPP() == mMoves[index].getMaxPP()){
+                fullMoveCount = fullMoveCount + 1;
+            }
+        }
+        if(fullMoveCount == MAX_POKEMON_MOVES){
             return true;
         }
         else{

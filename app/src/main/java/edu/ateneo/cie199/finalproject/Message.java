@@ -30,6 +30,7 @@ public class Message {
     public static String MESSAGE_CAUGHT = " was caught!";
     public static String MESSAGE_TO_PARTY = " has been added to the party!";
     public static String MESSAGE_TO_BOX = " has been sent to BOX 1!";
+    public static String MESSAGE_MANAGER_MAIN = "What would you like to do?";
 
     public static String ERROR_FAINTED = " has fainted and could not battle!";
     public static String ERROR_IN_BATTLE = " is already in battle!";

@@ -36,7 +36,7 @@ public class Player {
     }
     public Player(String mName, Pokemon starter) {
         this.mName = mName;
-        this.mPokemons[0] = new PokemonProfile(0, starter);
+        this.mPokemons[0] = new PokemonProfile(0, starter, 5);
         for(int index = 1; index < MAX_POKEMON_SLOTS; index++){
             this.mPokemons[index] = new PokemonProfile();
         }
@@ -82,7 +82,13 @@ public class Player {
         }
         return MAX_POKEMON_SLOTS;
     }
-
+    public int getAverageLevel(){
+        int totalLevel = 0;
+        for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
+            totalLevel = totalLevel + mPokemons[index].getLevel();
+        }
+        return totalLevel/getFreeSlot();
+    }
     public PokemonProfile getBuddy(){
         for(int index = 0; index < mPokemons.length; index++){
             if(mPokemons[index].getCurrentHP() > 0){
