@@ -10,14 +10,6 @@ import static java.lang.Math.floor;
 
 public class Battle {
     //BUTTON STATES
-    public static int STATE_MESSAGE_FIRST = 0;
-    public static int STATE_MESSAGE_LAST = 1;
-    public static int STATE_MAIN = 2;
-    public static int STATE_FIGHT = 3;
-    public static int STATE_POKEMON = 4;
-    public static int STATE_BAG = 5;
-    public static int STATE_USE_ITEM = 6;
-
     public static int DECISION_NONE = 0;
     public static int DECISION_ATTACK0 = 1;
     public static int DECISION_ATTACK1 = 2;
@@ -119,7 +111,7 @@ public class Battle {
     public void sendErrorMessage(String message){
         mMessages.clear();
         addMessage(message, Message.NO_UPDATE);
-        mState = STATE_MESSAGE_LAST;
+        mState = PokemonGoApp.STATE_MESSAGE_LAST;
     }
     public void newTurn(){
         getMessages().clear();
@@ -332,7 +324,7 @@ public class Battle {
     }
     public void runAway(){
         addMessage(Message.MESSAGE_RUN_AWAY, Message.NO_UPDATE);
-        setState(STATE_MESSAGE_LAST);
+        setState(PokemonGoApp.STATE_MESSAGE_LAST);
     }
     public void catchResults(int result){
         String message = "";
@@ -356,7 +348,7 @@ public class Battle {
                 addMessage(mEnemy.getNickname() + Message.MESSAGE_TO_BOX, Message.NO_UPDATE);
             }
 
-            mState = STATE_MESSAGE_LAST;
+            mState = PokemonGoApp.STATE_MESSAGE_LAST;
         }
 
     }
@@ -369,14 +361,14 @@ public class Battle {
             buddyLevelUp();
         }
         //TODO ADD MONEY REWARD IF TRAINER
-        mState = STATE_MESSAGE_LAST;
+        mState = PokemonGoApp.STATE_MESSAGE_LAST;
     }
     public void buddyHasFainted(){
         addMessage(mBuddy.getNickname() + Message.MESSAGE_FAINTED, Message.UPDATE_BUDDY);
         if(mPlayer.isPlayerDefeated()){
             playerLoses();
         }
-        mState = STATE_MESSAGE_LAST;
+        mState = PokemonGoApp.STATE_MESSAGE_LAST;
     }
     public void playerLoses(){
         addMessage(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS1, Message.NO_UPDATE);

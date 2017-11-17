@@ -175,7 +175,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
         );
-        btnPokemon.setClickable(false);
 
         final Button btnAction = (Button) findViewById(R.id.btn_main_action);
         final Runnable engageMarker = new Runnable()

@@ -31,6 +31,14 @@ import java.util.Random;
 
 public class PokemonGoApp extends Application{
 
+    public static int STATE_MESSAGE_FIRST = 0;
+    public static int STATE_MESSAGE_LAST = 1;
+    public static int STATE_MAIN = 2;
+    public static int STATE_FIGHT = 3;
+    public static int STATE_POKEMON = 4;
+    public static int STATE_BAG = 5;
+    public static int STATE_USE_ITEM = 6;
+
     public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
     public static int POKEMON_COLOR = Color.argb(255, 44, 224, 49);
     public static int DEAD_COLOR = Color.argb(255, 137, 17, 6);
