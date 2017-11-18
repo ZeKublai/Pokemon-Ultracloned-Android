@@ -33,6 +33,8 @@ public class Battle {
     public static int DECISION_RUN = 17;
 
     private Player mPlayer = new Player();
+
+    private Move mSelectedMove = new Move();
     private PokemonProfile mSelectedPokemon = new PokemonProfile();
     private Item mSelectedItem = new Item();
     private boolean mEnemyCaught = false;
@@ -87,19 +89,24 @@ public class Battle {
         else if(mEnemyDecision > DECISION_ATTACK3){
             return false;
         }
-        if(mBuddy.getSpeed() > mEnemy.getSpeed()){
-            return true;
-        }
-        else if(mBuddy.getSpeed() == mEnemy.getSpeed()){
-            if(PokemonGoApp.getIntegerRNG(2) > 0){
+        else{
+            if(mSelectedMove.getCurrentPP() <= 0){
                 return true;
+            }
+            if(mBuddy.getSpeed() > mEnemy.getSpeed()){
+                return true;
+            }
+            else if(mBuddy.getSpeed() == mEnemy.getSpeed()){
+                if(PokemonGoApp.getIntegerRNG(2) > 0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
             else{
                 return false;
             }
-        }
-        else{
-            return false;
         }
     }
     public boolean hasItem(int bagIndex, int updateTarget){
@@ -126,6 +133,9 @@ public class Battle {
         setIndex(0);
         setPlayerDecision(DECISION_NONE);
         setEnemyDecision(DECISION_NONE);
+        mSelectedItem = new Item();
+        mSelectedPokemon = new PokemonProfile();
+        mSelectedMove = new Move();
     }
     public void firstMove(){
         if(isBuddyFirst()){
@@ -470,6 +480,14 @@ public class Battle {
     public void setSelectedPokemon(PokemonProfile mSelectedPokemon) {
         this.mSelectedPokemon = mSelectedPokemon;
     }
+
+    public Move getSelectedMove() {
+        return mSelectedMove;
+    }
+    public void setSelectedMove(Move mSelectedMove) {
+        this.mSelectedMove = mSelectedMove;
+    }
+
 
     public ArrayList<Type> getTypeChart() {
         return mTypeChart;

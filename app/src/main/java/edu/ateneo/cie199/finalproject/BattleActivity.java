@@ -196,6 +196,7 @@ public class BattleActivity extends AppCompatActivity {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                         if(battle.getState() == PokemonGoApp.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK0);
+                            battle.setSelectedMove(battle.getBuddy().getMoves()[0]);
                             messageState();
                         }
                         else if(battle.getState() == PokemonGoApp.STATE_POKEMON){
@@ -221,6 +222,7 @@ public class BattleActivity extends AppCompatActivity {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                         if(battle.getState() == PokemonGoApp.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK1);
+                            battle.setSelectedMove(battle.getBuddy().getMoves()[1]);
                             messageState();
                         }
                         else if(battle.getState() == PokemonGoApp.STATE_POKEMON){
@@ -249,6 +251,7 @@ public class BattleActivity extends AppCompatActivity {
                         }
                         else if(battle.getState() == PokemonGoApp.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK2);
+                            battle.setSelectedMove(battle.getBuddy().getMoves()[2]);
                             messageState();
                         }
                         else if(battle.getState() == PokemonGoApp.STATE_POKEMON){
@@ -277,6 +280,7 @@ public class BattleActivity extends AppCompatActivity {
                         }
                         else if(battle.getState() == PokemonGoApp.STATE_FIGHT){
                             battle.setPlayerDecision(battle.DECISION_ATTACK3);
+                            battle.setSelectedMove(battle.getBuddy().getMoves()[3]);
                             messageState();
                         }
                         else if(battle.getState() == PokemonGoApp.STATE_POKEMON){
