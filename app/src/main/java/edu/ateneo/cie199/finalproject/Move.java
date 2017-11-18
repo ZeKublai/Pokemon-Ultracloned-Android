@@ -1,5 +1,13 @@
 package edu.ateneo.cie199.finalproject;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /**
  * Created by John on 11/5/2017.
  */
@@ -114,6 +122,42 @@ public class Move {
         }
         else{
             return mName + "\n" + mType.getName() + "\t PP " + mCurrentPP + "/" + mMaxPP;
+        }
+    }
+    public static int decodeCategory(String Category){
+        int categorynum;
+        if (Category.equals("Physical")){
+            categorynum = 0;
+        }
+        else if (Category.equals("Special")){
+            categorynum = 1;
+        }
+        else if(Category.equals("Status")){
+            categorynum = 2;
+        }
+        else{
+            return 3;
+        }
+        return categorynum;
+    }
+    public void parseMovesJsonStr(String movesJsonStr, ArrayList<Move> mMoves) throws JSONException {
+        if (movesJsonStr.isEmpty()){
+            JSONArray movesJsonArr = new JSONArray(movesJsonStr);
+            for (int iIdx = 0; iIdx < movesJsonArr.length(); iIdx++) {
+                JSONObject movesJsonObj = movesJsonArr.getJSONObject(iIdx);
+                String name = movesJsonObj.getString("Name");
+                String type = movesJsonObj.getString("Type");
+                int category = Move.decodeCategory(movesJsonObj.getString("Category"));
+                int power = Integer.parseInt(movesJsonObj.getString("Power"));
+                int acc = Integer.parseInt(movesJsonObj.getString("Accuracy"));
+                int maxpp = Integer.parseInt(movesJsonObj.getString("Max PP"));
+                Move m = new Move(name, type, category, maxpp, maxpp , power, acc);
+                mMoves.add(m);
+                Log.e("Test", mMoves.get(iIdx).toString());
+            }
+        }
+        else{
+            Log.e("Error", "Moves JSON is Null");
         }
     }
 }

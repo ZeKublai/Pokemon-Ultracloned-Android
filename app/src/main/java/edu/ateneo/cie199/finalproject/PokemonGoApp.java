@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -129,10 +130,10 @@ public class PokemonGoApp extends Application{
     public boolean getMusicSwitch() { return mMusicSwitch;}
     public boolean getSFXSwitch() {return mSFXSwitch;}
 
-    public void setMusicOn() {mMusicSwitch = true;}
-    public void setMusicOff() {mMusicSwitch = false;}
-    public void setSFXOn() {mSFXSwitch = true;}
-    public void setSFXOff() {mSFXSwitch = false;}
+    public void MusicOn() {mMusicSwitch = true;}
+    public void MusicOff() {mMusicSwitch = false;}
+    public void SFXOn() {mSFXSwitch = true;}
+    public void SFXOff() {mSFXSwitch = false;}
 
     public ArrayList<Marker> getMarkers(){
         return mMarkers;
@@ -405,25 +406,6 @@ public class PokemonGoApp extends Application{
         mTypes.get(16).setColor(Type.DARK_COLOR);
         mTypes.get(17).setColor(Type.STEEL_COLOR);
         mTypes.get(18).setColor(Type.FAIRY_COLOR);
-
-        mTypes.get(1).setIcon(R.drawable.normal);
-        mTypes.get(2).setIcon(R.drawable.fire);
-        mTypes.get(3).setIcon(R.drawable.water);
-        mTypes.get(4).setIcon(R.drawable.electric);
-        mTypes.get(5).setIcon(R.drawable.grass);
-        mTypes.get(6).setIcon(R.drawable.ice);
-        mTypes.get(7).setIcon(R.drawable.fighting);
-        mTypes.get(8).setIcon(R.drawable.poison);
-        mTypes.get(9).setIcon(R.drawable.ground);
-        mTypes.get(10).setIcon(R.drawable.flying);
-        mTypes.get(11).setIcon(R.drawable.psychic);
-        mTypes.get(12).setIcon(R.drawable.bug);
-        mTypes.get(13).setIcon(R.drawable.rock);
-        mTypes.get(14).setIcon(R.drawable.ghost);
-        mTypes.get(15).setIcon(R.drawable.dragon);
-        mTypes.get(16).setIcon(R.drawable.dark);
-        mTypes.get(17).setIcon(R.drawable.steel);
-        mTypes.get(18).setIcon(R.drawable.fairy);
     }
 
     public ArrayList<Item> getAllItems() {
@@ -446,6 +428,7 @@ public class PokemonGoApp extends Application{
         mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball, R.drawable.bag_ultraball_sprite, Item.NO_EFFECT));
         mItems.add(new Item("Elixir", 0, R.drawable.bag_elixir_icon, R.drawable.bag_elixir, R.drawable.bag_elixir_icon, Item.ELIXIR_RESTORE));
         mItems.add(new Item("Max Elixir", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxelixir, R.drawable.bag_maxelixir_icon, Item.MAX_ELIXIR_RESTORE));
+
     }
 
     public void setFontForContainer(ViewGroup contentLayout, String fontName) {
