@@ -285,7 +285,7 @@ public class PokemonProfile {
             return "\n\n";
         }
         else{
-            return mNickname + "\n HP " + mCurrentHP + "/" + getHP() + "\n";
+            return mNickname + "\nLv" + mLevel + "\tHP " + mCurrentHP + "/" + getHP() + "\n";
         }
     }
 }

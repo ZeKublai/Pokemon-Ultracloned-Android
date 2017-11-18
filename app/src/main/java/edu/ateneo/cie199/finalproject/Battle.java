@@ -87,8 +87,16 @@ public class Battle {
         else if(mEnemyDecision > DECISION_ATTACK3){
             return false;
         }
-        else if(mBuddy.getSpeed() > mEnemy.getSpeed()){
+        if(mBuddy.getSpeed() > mEnemy.getSpeed()){
             return true;
+        }
+        else if(mBuddy.getSpeed() == mEnemy.getSpeed()){
+            if(PokemonGoApp.getIntegerRNG(2) > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         else{
             return false;
@@ -128,7 +136,7 @@ public class Battle {
         }
     }
     public void secondMove(){
-        if(isBuddyFirst()){
+        if(isBuddyFirst() && !isFinished()){
             doEnemyDecision();
         }
         else{
@@ -353,6 +361,7 @@ public class Battle {
 
     }
     public void enemyHasFainted(){
+        //TODO ADD MONEY REWARD IF TRAINER
         addMessage(mEnemy.getNickname() + Message.MESSAGE_FAINTED, Message.NO_UPDATE);
         addMessage(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel() * 10
                 + Message.MESSAGE_EXP_GAINED, Message.UPDATE_BUDDY_EXP);
@@ -360,7 +369,6 @@ public class Battle {
         if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
             buddyLevelUp();
         }
-        //TODO ADD MONEY REWARD IF TRAINER
         mState = PokemonGoApp.STATE_MESSAGE_LAST;
     }
     public void buddyHasFainted(){

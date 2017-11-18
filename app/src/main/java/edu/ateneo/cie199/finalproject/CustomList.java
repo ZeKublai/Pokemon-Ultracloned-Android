@@ -47,7 +47,7 @@ public class CustomList extends ArrayAdapter<PokemonProfile>{
         barHp.setMax(profiles.get(position).getHP());
         barHp.setProgress(profiles.get(position).getCurrentHP());
         txtName.setText(profiles.get(position).getNickname());
-        txtHp.setText("HP " + profiles.get(position).getCurrentHP() + "/" + profiles.get(position).getHP());
+        txtHp.setText("Lv" + profiles.get(position).getLevel() + "\tHP " + profiles.get(position).getCurrentHP() + "/" + profiles.get(position).getHP());
         imageIcon.setImageResource(profiles.get(position).getDexData().getIcon());
 
         return rowView;
