@@ -1,26 +1,30 @@
 package edu.ateneo.cie199.finalproject;
 
-import android.app.AlertDialog;
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +40,9 @@ import java.util.TimerTask;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     MusicHandler music;
+    double initLatitude;
+    double initLongitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +59,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         music.initMusic(this, R.raw.main_song);
         music.playMusic(app.getMusicSwitch());
         app.getMusicHandler().initButtonSfx(this);
+
+        initLatitude = 14.639505276502305;
+        initLongitude = 121.07713580131532;
+
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -61,8 +73,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.getMap().getUiSettings().setMapToolbarEnabled(false);
 
         //INITIAL VALUES FOR TESTING
-        final double initLatitude = 14.640528;
-        final double initLongitude = 121.074899;
+
         LatLng initialPosition = new LatLng(initLatitude,initLongitude);
 
         //INITIALIZING POKEMON & MOVES & TYPES
@@ -217,6 +228,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     dialogButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                             dialog.dismiss();
                         }
                     });

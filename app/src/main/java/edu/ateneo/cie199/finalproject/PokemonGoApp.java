@@ -290,6 +290,80 @@ public class PokemonGoApp extends Application{
         mMoves.add(new Move("Thrash", mTypes.get(Type.NORMAL), Move.PHYSICAL, 10, 10, 120, 100));
         mMoves.add(new Move("Hidden Power", mTypes.get(Type.NORMAL), Move.SPECIAL, 15, 15, 60, 100));
         mMoves.add(new Move("Façade", mTypes.get(Type.NORMAL), Move.PHYSICAL, 20, 20, 70, 100));
+        mMoves.add(new Move("Body Slam", mTypes.get(Type.NORMAL), Move.PHYSICAL, 15, 15, 85, 100));
+        mMoves.add(new Move("Horn Attack", mTypes.get(Type.NORMAL), Move.PHYSICAL, 25, 25, 65, 100));
+
+        mMoves.add(new Move("Ice Ball", mTypes.get(Type.ICE), Move.PHYSICAL, 20, 20, 30, 90));
+        mMoves.add(new Move("Avalanche", mTypes.get(Type.ICE), Move.PHYSICAL, 10, 10, 60, 100));
+        mMoves.add(new Move("Freeze-Dry", mTypes.get(Type.ICE), Move.SPECIAL, 20, 20, 70, 100));
+        mMoves.add(new Move("Freeze Shock", mTypes.get(Type.ICE), Move.PHYSICAL, 5, 5, 140, 90));
+        mMoves.add(new Move("Ice Punch", mTypes.get(Type.ICE), Move.PHYSICAL, 15, 15, 75, 100));
+
+        mMoves.add(new Move("Brick Break", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 20, 20, 75, 100));
+        mMoves.add(new Move("Double Kick", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 30, 30, 30, 100));
+        mMoves.add(new Move("Dynamic Punch", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 5, 5, 100, 50));
+        mMoves.add(new Move("Karate Chop", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 25, 25, 50, 100));
+        mMoves.add(new Move("Submission", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 20, 20, 80, 80));
+
+        mMoves.add(new Move("Acid", mTypes.get(Type.POISON), Move.SPECIAL, 30, 30, 40, 100));
+        mMoves.add(new Move("Belch", mTypes.get(Type.POISON), Move.SPECIAL, 10, 10, 120, 90));
+        mMoves.add(new Move("Cross Poison", mTypes.get(Type.POISON), Move.PHYSICAL, 20, 20, 70, 100));
+        mMoves.add(new Move("Poison Jab", mTypes.get(Type.POISON), Move.PHYSICAL, 20, 20, 80, 100));
+        mMoves.add(new Move("Poison Tail", mTypes.get(Type.POISON), Move.PHYSICAL, 25, 25, 50, 100));
+
+        mMoves.add(new Move("Earth Power", mTypes.get(Type.GROUND), Move.SPECIAL, 10, 10, 90, 100));
+        mMoves.add(new Move("Sand Tomb", mTypes.get(Type.GROUND), Move.PHYSICAL, 15, 15, 35, 100));
+        mMoves.add(new Move("Mud Shot", mTypes.get(Type.GROUND), Move.SPECIAL, 15, 15, 55, 95));
+        mMoves.add(new Move("Precipic Blades", mTypes.get(Type.GROUND), Move.PHYSICAL, 10, 10, 120, 85));
+        mMoves.add(new Move("Mud Bomb", mTypes.get(Type.GROUND), Move.SPECIAL, 10, 10, 65, 90));
+
+        mMoves.add(new Move("Aerial Ace", mTypes.get(Type.FLYING), Move.PHYSICAL, 20, 20, 60, 100));
+        mMoves.add(new Move("Air Cutter", mTypes.get(Type.FLYING), Move.PHYSICAL, 25, 25, 60, 95));
+        mMoves.add(new Move("Brave Bird", mTypes.get(Type.FLYING), Move.PHYSICAL, 15, 15, 120, 85));
+        mMoves.add(new Move("Drill Peck", mTypes.get(Type.FLYING), Move.PHYSICAL, 20, 20, 80, 100));
+        mMoves.add(new Move("Peck", mTypes.get(Type.FLYING), Move.PHYSICAL, 35, 35, 35, 100));
+
+        mMoves.add(new Move("Confusion", mTypes.get(Type.PSYCHIC), Move.SPECIAL, 25, 25, 50, 100));
+        mMoves.add(new Move("Extrasensory", mTypes.get(Type.PSYCHIC), Move.SPECIAL, 20, 20, 80, 100));
+        mMoves.add(new Move("Heart Stamp ", mTypes.get(Type.PSYCHIC), Move.PHYSICAL, 25, 25, 60, 100));
+        mMoves.add(new Move("Psycho Cut", mTypes.get(Type.PSYCHIC), Move.PHYSICAL, 20, 20, 70, 100));
+        mMoves.add(new Move("Psycho Boost", mTypes.get(Type.PSYCHIC), Move.SPECIAL, 5, 5, 140, 85));
+
+        mMoves.add(new Move("Bug Bite", mTypes.get(Type.BUG), Move.PHYSICAL, 20, 20, 60, 100));
+        mMoves.add(new Move("X-Scissor", mTypes.get(Type.BUG), Move.PHYSICAL, 15, 15, 80, 100));
+        mMoves.add(new Move("Signal Beam", mTypes.get(Type.BUG), Move.SPECIAL, 15, 15, 75, 100));
+        mMoves.add(new Move("Fury Cutter", mTypes.get(Type.BUG), Move.PHYSICAL, 20, 20, 40, 95));
+        mMoves.add(new Move("Megahorn", mTypes.get(Type.BUG), Move.PHYSICAL, 10, 10, 120, 85));
+
+        mMoves.add(new Move("Astonish", mTypes.get(Type.GHOST), Move.PHYSICAL, 15, 15, 30, 100));
+        mMoves.add(new Move("Hex", mTypes.get(Type.GHOST), Move.SPECIAL, 10, 10, 65, 100));
+        mMoves.add(new Move("Shadow Ball", mTypes.get(Type.GHOST), Move.SPECIAL, 15, 15, 80, 100));
+        mMoves.add(new Move("Shadow Claw", mTypes.get(Type.GHOST), Move.PHYSICAL, 15, 15, 70, 100));
+        mMoves.add(new Move("Shadow Force", mTypes.get(Type.GHOST), Move.PHYSICAL, 5, 5, 120, 85));
+
+        mMoves.add(new Move("Dragon Claw", mTypes.get(Type.DRAGON), Move.PHYSICAL, 15, 15, 80, 100));
+        mMoves.add(new Move("Outrage", mTypes.get(Type.DRAGON), Move.PHYSICAL, 10, 10, 120, 85));
+        mMoves.add(new Move("Dragon Tail", mTypes.get(Type.DRAGON), Move.PHYSICAL, 10, 10, 60, 90));
+        mMoves.add(new Move("Dragon Pulse", mTypes.get(Type.DRAGON), Move.SPECIAL, 10, 10, 85, 100));
+        mMoves.add(new Move("Dragon Breath", mTypes.get(Type.DRAGON), Move.SPECIAL, 20, 20, 60, 100));
+
+        mMoves.add(new Move("Bite ", mTypes.get(Type.DARK), Move.PHYSICAL, 25, 25, 60, 100));
+        mMoves.add(new Move("Crunch", mTypes.get(Type.DARK), Move.PHYSICAL, 15, 15, 80, 100));
+        mMoves.add(new Move("Foul Play", mTypes.get(Type.DARK), Move.PHYSICAL, 15, 15, 95, 100));
+        mMoves.add(new Move("Night Slash", mTypes.get(Type.DARK), Move.PHYSICAL, 15, 15, 70, 100));
+        mMoves.add(new Move("Dark  Pulse", mTypes.get(Type.DARK), Move.SPECIAL, 15, 15, 80, 100));
+
+        mMoves.add(new Move("Bullet Punch", mTypes.get(Type.STEEL), Move.PHYSICAL, 30, 30, 40, 100));
+        mMoves.add(new Move("Iron Head", mTypes.get(Type.STEEL), Move.PHYSICAL, 15, 15, 80, 100));
+        mMoves.add(new Move("Steel Wing", mTypes.get(Type.STEEL), Move.PHYSICAL, 25, 25, 70, 90));
+        mMoves.add(new Move("Meteor Mash", mTypes.get(Type.STEEL), Move.PHYSICAL, 10, 10, 90, 90));
+        mMoves.add(new Move("Iron Tail", mTypes.get(Type.STEEL), Move.PHYSICAL, 15, 15, 120, 85));
+
+        mMoves.add(new Move("Dazzling Gleam", mTypes.get(Type.FAIRY), Move.SPECIAL, 10, 10, 80, 100));
+        mMoves.add(new Move("Fleur Cannon", mTypes.get(Type.FAIRY), Move.SPECIAL, 5, 5, 130, 85));
+        mMoves.add(new Move("Moon Blast", mTypes.get(Type.FAIRY), Move.SPECIAL, 15, 15, 95, 100));
+        mMoves.add(new Move("Play Rough", mTypes.get(Type.FAIRY), Move.PHYSICAL, 10, 10, 90, 90));
+        mMoves.add(new Move("Draining Kiss", mTypes.get(Type.FAIRY), Move.SPECIAL, 10, 10, 50, 100));
 
     }
 
