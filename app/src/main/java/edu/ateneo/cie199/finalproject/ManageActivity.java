@@ -51,6 +51,7 @@ public class ManageActivity extends AppCompatActivity {
     ProgressBar bar6;
 
     TextView txvMessage;
+    MusicHandler music;
 
     private CustomList mPokemonAdapter = null;
 
@@ -62,6 +63,11 @@ public class ManageActivity extends AppCompatActivity {
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         app.setFontForContainer((RelativeLayout) findViewById(R.id.manager_group), "generation6.ttf");
 
+        music = new MusicHandler();
+        music.initMusic(ManageActivity.this, MusicHandler.MUSIC_MANAGE);
+        music.playMusic(app.getMusicSwitch());
+        app.getMusicHandler().initButtonSfx(this);
+
         mPokemonAdapter = new CustomList(ManageActivity.this, app.getPlayer().getBox());
         final ListView lsvPokemons = (ListView)findViewById(R.id.lsv_pokemon_box);
         lsvPokemons.setAdapter(mPokemonAdapter);
@@ -71,6 +77,7 @@ public class ManageActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                         if(getMenuState() == PokemonGoApp.STATE_MAIN){
 
                         }
@@ -130,6 +137,7 @@ public class ManageActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                         Intent mainActivityIntent = new Intent(ManageActivity.this, MainActivity.class);
                         mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivityIfNeeded(mainActivityIntent, 0);
@@ -153,6 +161,7 @@ public class ManageActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                         swapState();
                     }
                 }
@@ -165,10 +174,12 @@ public class ManageActivity extends AppCompatActivity {
     public void setPokemonButton(Button button, PokemonProfile pokemonProfile){
         final Button btn = button;
         final PokemonProfile profile = pokemonProfile;
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
                         if(getMenuState() == PokemonGoApp.STATE_MAIN){
 
                         }
@@ -186,15 +197,17 @@ public class ManageActivity extends AppCompatActivity {
         );
     }
 
-    public void setItemButton(Button button, Item selectedItem, final int targetState){
+    public void setItemButton(Button button, Item selectedItem, int targetState){
         final Button btn = button;
         final Item item = selectedItem;
         final int state = targetState;
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        selectItem(targetState, item, btn);
+                        app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
+                        selectItem(state, item, btn);
                     }
                 }
         );
@@ -349,5 +362,28 @@ public class ManageActivity extends AppCompatActivity {
         updatePokemons();
         setMenuState(PokemonGoApp.STATE_MAIN, Message.MESSAGE_MANAGER_MAIN);
         resetItemButtons();
+    }
+
+    @Override
+    public void onBackPressed(){
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        if(music == null){
+            music.initMusic(this, MusicHandler.MUSIC_MANAGE);
+        }
+        if(!music.getMusicPlayer().isPlaying()) {
+            music.playMusic(app.getMusicSwitch());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        music.getMusicPlayer().pause();
     }
 }
