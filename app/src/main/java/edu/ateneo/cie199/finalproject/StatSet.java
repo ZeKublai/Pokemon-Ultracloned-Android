@@ -84,4 +84,10 @@ public class StatSet {
     public void setSpeed(int mEVSpeed) {
         this.mSpeed = mEVSpeed;
     }
+
+    @Override
+    public String toString() {
+        return this.mHP + "," + this.mAttack + "," + this.mDefense + "," +
+                this.mSpAttack + "," + this.mSpDefense + "," + this.mSpeed;
+    }
 }

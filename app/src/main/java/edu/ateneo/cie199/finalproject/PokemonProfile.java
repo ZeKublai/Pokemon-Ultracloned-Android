@@ -145,6 +145,7 @@ public class PokemonProfile {
     public int getGender() {
         return mGender;
     }
+    public void setGender(int mGender) {this.mGender = mGender;}
     public int getId() {
         return mId;
     }
@@ -185,6 +186,18 @@ public class PokemonProfile {
 
     public StatSet getEV(){
         return mEV;
+    }
+    public StatSet getIV() {return mIV;}
+    public StatSet getmNature() {return mNature;}
+
+    public void setEV(StatSet Stat){
+        this.mEV = Stat;
+    }
+    public void setIV(StatSet Stat){
+        this.mIV = Stat;
+    }
+    public void setNature(StatSet Stat){
+        this.mNature = Stat;
     }
 
     public int getHP(){

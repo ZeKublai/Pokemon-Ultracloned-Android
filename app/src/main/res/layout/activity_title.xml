@@ -27,6 +27,20 @@
             android:layout_below="@+id/img_title_logo"
             android:src="@drawable/mist" />
 
+        <Button
+            android:id="@+id/btn_title_continue_game"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="CONTINUE"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="135dp"
+            tools:layout_editor_absoluteY="219dp" />
+
     </FrameLayout>
 
     <Button

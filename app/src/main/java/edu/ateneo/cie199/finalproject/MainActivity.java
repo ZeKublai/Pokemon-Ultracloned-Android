@@ -72,7 +72,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.loadAllPokemon();
         app.loadAllPokemonMoves();
         app.loadPlayer(initialPosition);
-
+        if(app.getLoadData() == true) {
+            app.loadPlayerDate();
+        }
+        else{
+            app.initPlayer();
+        }
         //INITIALIZING PLAYER
         //TODO LOAD PLAYER SAVE DATA FROM FILE INSTEAD OF HARD CODE
 
@@ -395,10 +400,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onPause() {
         super.onPause();
         music.getMusicPlayer().pause();
+
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.savePlayerData();
     }
 
     @Override
     public void onBackPressed(){
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.savePlayerData();
     }
 }

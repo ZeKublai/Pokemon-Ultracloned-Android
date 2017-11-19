@@ -49,7 +49,20 @@ public class TitleActivity extends AppCompatActivity {
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                app.setLoadData(false);
                 //sound effect
+                app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
+                Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
+                startActivity(beginMainActivityIntent);
+                return;
+            }
+        });
+
+        Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
+        btnContinueGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                app.setLoadData(true);
                 app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
                 Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
                 startActivity(beginMainActivityIntent);

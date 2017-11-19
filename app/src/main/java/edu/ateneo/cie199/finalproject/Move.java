@@ -140,6 +140,7 @@ public class Move {
         }
         return categorynum;
     }
+    /*
     public void parseMovesJsonStr(String movesJsonStr, ArrayList<Move> mMoves) throws JSONException {
         if (movesJsonStr.isEmpty()){
             JSONArray movesJsonArr = new JSONArray(movesJsonStr);
@@ -159,5 +160,5 @@ public class Move {
         else{
             Log.e("Error", "Moves JSON is Null");
         }
-    }
+    }*/
 }

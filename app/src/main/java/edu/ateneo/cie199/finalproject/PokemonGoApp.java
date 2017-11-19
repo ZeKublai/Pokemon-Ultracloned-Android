@@ -1,7 +1,6 @@
 package edu.ateneo.cie199.finalproject;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -22,6 +21,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
@@ -57,10 +62,11 @@ public class PokemonGoApp extends Application{
 
     private GoogleMap mMap;
     private Player mPlayer = new Player();
-
+    private String playerDataFileName = "player_data.csv";
     private Marker mSelectedMarker = null;
     private Marker mCurrentGoal = null;
 
+    private boolean loadData = false;
 
     private MusicHandler musicHandler = new MusicHandler();
     private boolean mMusicSwitch = true;
@@ -74,7 +80,6 @@ public class PokemonGoApp extends Application{
     private ArrayList<Type> mTypes = new ArrayList<>();
 
     private ArrayList<Item> mItems = new ArrayList<>();
-
     /**
      * This function returns a random number from 0 to a given length.
      * @param length    the upper bound for the random number generation
@@ -94,7 +99,10 @@ public class PokemonGoApp extends Application{
     public Player getPlayer(){
         return mPlayer;
     }
-
+    public boolean getLoadData(){return loadData;}
+    public void setLoadData(boolean loadData) {
+        this.loadData = loadData;
+    }
     public GoogleMap getMap(){
         return mMap;
     }
@@ -130,10 +138,10 @@ public class PokemonGoApp extends Application{
     public boolean getMusicSwitch() { return mMusicSwitch;}
     public boolean getSFXSwitch() {return mSFXSwitch;}
 
-    public void MusicOn() {mMusicSwitch = true;}
-    public void MusicOff() {mMusicSwitch = false;}
-    public void SFXOn() {mSFXSwitch = true;}
-    public void SFXOff() {mSFXSwitch = false;}
+    public void setMusicOn() {mMusicSwitch = true;}
+    public void setMusicOff() {mMusicSwitch = false;}
+    public void setSFXOn() {mSFXSwitch = true;}
+    public void setSFXOff() {mSFXSwitch = false;}
 
     public ArrayList<Marker> getMarkers(){
         return mMarkers;
@@ -171,7 +179,14 @@ public class PokemonGoApp extends Application{
         }
         return new Pokemon();
     }
-
+    public Move findMove(String title){
+        for(Move move : this.getAllMoves()){
+            if(move.getName().equals(title)){
+                return move;
+            }
+        }
+        return new Move();
+    }
     public Item getItem(String title){
         for(int index = 0; index < mItems.size(); index++){
             if(mItems.get(index).getName().equals(title)){
@@ -440,12 +455,44 @@ public class PokemonGoApp extends Application{
                 setFontForContainer((ViewGroup) view, fontName);
         }
     }
-
+    //HARD CODED PLAYER STATE
     public void loadPlayer(LatLng initialPosition) {
 
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
+//        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3));
+//        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+//        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+//        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+//        getPlayer().getPokemons()[0].getMoves()[3] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
+//        /*
+//        getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(5));
+//        getPlayer().getPokemons()[2] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(9));
+//        getPlayer().getPokemons()[3] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(15));
+//        getPlayer().getPokemons()[4] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(25));
+//        getPlayer().getPokemons()[5] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(35));
+//        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(2));
+//        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(5));
+//        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(16));
+//        getPlayer().getPokemons()[1].getMoves()[0] = new Move(getAllMoves().get(19));
+//        getPlayer().getPokemons()[1].getMoves()[1] = new Move(getAllMoves().get(25));
+//        */
+//        getPlayer().getBag()[0] = new Item(getAllItems().get(0));
+//        getPlayer().getBag()[1] = new Item(getAllItems().get(4));
+//        getPlayer().getBag()[2] = new Item(getAllItems().get(9));
+//        getPlayer().getBag()[3] = new Item(getAllItems().get(6));
+//        getPlayer().getBag()[4] = new Item(getAllItems().get(7));
+//        getPlayer().getBag()[5] = new Item(getAllItems().get(8));
+//        getPlayer().getBag()[0].setQuantity(10);
+//        getPlayer().getBag()[1].setQuantity(10);
+//        getPlayer().getBag()[2].setQuantity(10);
+//        getPlayer().getBag()[3].setQuantity(10);
+//        getPlayer().getBag()[4].setQuantity(10);
+//        getPlayer().getBag()[5].setQuantity(10);
+        //getPlayer().getBox().add(new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(45)));
+    }
+    public void initPlayer(){
         getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3));
         getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
         getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
@@ -476,6 +523,193 @@ public class PokemonGoApp extends Application{
         getPlayer().getBag()[4].setQuantity(10);
         getPlayer().getBag()[5].setQuantity(10);
         //getPlayer().getBox().add(new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(45)));
+    }
+
+    /****************************************************/
+    /** Pokemon Cloned CSV Encoding / Decoding Functions /
+    /****************************************************/
+       /*
+        CSV Format Pokemon
+        0<Pokemon Count (n)>; 1<Id>, 2<DexNumber>, 3<name>, 4<Gender>, 5<currentLvl>, 6<currentHp>, 7<mCurrentExp>,
+        8<Move 1>, 9<Move1 PP>, ..14<Move 4>, 15<Move4 PP>, 16-21<IV Stats>, 22-27<EV Stats>, 28-33<Nature Stats> \n
+        34-66<Pokemon Profile 2> \n... 32n+1-32(n+1)+1<Pokemon Profile(n)>
+
+        CSV Format Item
+        <Item 1 Name>, <Item 1 Qty> ... <Item 6 Name>, <Item 6 Qty>
+
+         **Stat format:   <HP>, <Attack>, <Defense>, <SpAttack>, <SpDefense>, <Spd>
+       */
+
+    public String encodePokemonToCsv(){
+        String csvStr = "";
+        for(PokemonProfile pokemon : this.getPlayer().getPokemons()){
+            if(pokemon.getDexNumber() != 0) {
+                csvStr += extractPlayerPokemonData(pokemon);
+                csvStr += "\n";
+            }
+        }
+        return csvStr;
+    }
+    public String encodeItemsToCsv(){
+        String csvStr = "";
+        for(Item item : this.getPlayer().getBag()) {
+            if (!item.getName().isEmpty()) {
+                csvStr += item.getName() + ",";
+                csvStr += item.getQuantity() + "\n";
+            }
+        }
+        return csvStr;
+    }
+
+    public void decodePokemonFromCsv(String csvStr){
+        String playerPokemonData [] = csvStr.split("\n");
+        int dataIndex = 0;
+        int pokemonCount = 0;
+        for(String pokemonData : playerPokemonData){
+            Log.e("Debugging", Integer.toString(dataIndex));
+            Log.e("Debugging", pokemonData);
+            String playerData[] = pokemonData.split(",");
+                int dexNumber = Integer.parseInt(playerData[0].trim());
+                String name = playerData[1];
+                int gender = Integer.parseInt(playerData[2].trim());
+                int currentLvl = Integer.parseInt(playerData[3].trim());
+                int currentHp = Integer.parseInt(playerData[4].trim());
+                int currentExp = Integer.parseInt(playerData[5].trim());
+
+                PokemonProfile playerPokemon = new PokemonProfile(getSpawnCount(), currentLvl, getPokemon(dexNumber));
+
+                for (int moveCount = 0; moveCount<4; moveCount++){
+                    playerPokemon.getMoves()[moveCount] = new Move(findMove(playerData[6+(moveCount)*2].trim()));
+                    playerPokemon.getMoves()[moveCount].setCurrentPP(Integer.parseInt(playerData[7+(moveCount)*2].trim()));
+                }
+
+                int evHp = Integer.parseInt(playerData[14].trim());
+                int evAtk = Integer.parseInt(playerData[15].trim());
+                int evDef = Integer.parseInt(playerData[16].trim());
+                int evSpAtk = Integer.parseInt(playerData[17].trim());
+                int evSpDef = Integer.parseInt(playerData[18].trim());
+                int evSpd = Integer.parseInt(playerData[19].trim());
+                int ivHp = Integer.parseInt(playerData[20].trim());
+                int ivAtk = Integer.parseInt(playerData[21].trim());
+                int ivDef = Integer.parseInt(playerData[22].trim());
+                int ivSpAtk = Integer.parseInt(playerData[23].trim());
+                int ivSpDef = Integer.parseInt(playerData[24].trim());
+                int ivSpd = Integer.parseInt(playerData[25].trim());
+                int natureHp = Integer.parseInt(playerData[26].trim());
+                int natureAtk = Integer.parseInt(playerData[27].trim());
+                int natureDef = Integer.parseInt(playerData[28].trim());
+                int natureSpAtk = Integer.parseInt(playerData[29].trim());
+                int natureSpDef = Integer.parseInt(playerData[30].trim());
+                int natureSpd = Integer.parseInt(playerData[31].trim());
+                playerPokemon.setNickname(name);
+                playerPokemon.setGender(gender);
+                playerPokemon.setCurrentHP(currentHp);
+                playerPokemon.setCurrentExp(currentExp);
+                playerPokemon.setEV(new StatSet(evHp, evAtk, evDef, evSpAtk, evSpDef, evSpd));
+                playerPokemon.setIV(new StatSet(ivHp, ivAtk, ivDef, ivSpAtk, ivSpDef, ivSpd));
+                playerPokemon.setNature(new StatSet(natureHp, natureAtk, natureDef, natureSpAtk, natureSpDef, natureSpd));
+
+                this.getPlayer().getPokemons()[pokemonCount]= playerPokemon;
+                Log.e("Loading",
+                        this.getPlayer().getPokemons()[pokemonCount].getNickname()+" Loaded");
+                pokemonCount++;
+                dataIndex++;
+
+        }
+    }
+    public void decodeItemsFromCsv(String csvStr){
+        String allPlayerItems [] = csvStr.split("\n");
+        int itemCount = 0;
+        for (String playerItem : allPlayerItems){
+            String item[] = playerItem.split(",");
+            Log.e("Checker", Integer.toString(itemCount));
+            this.getPlayer().getBag()[itemCount] = getItem(item[0]);
+            this.getPlayer().getBag()[itemCount].setQuantity(Integer.parseInt(item[1].trim()));
+            itemCount += 1;
+            }
+        }
+
+
+    public boolean savePlayerData(){
+        File targetDirectory = getFilesDir();
+        if (targetDirectory.exists() == false) {
+            Log.w("Warning", "Directory does not exist. Creating the directory...");
+            return false;
+        }
+        else {
+            File targetFile = new File(targetDirectory,
+                    playerDataFileName);
+            try {
+                if (!targetFile.exists()) {
+                    targetFile.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(targetFile, true);
+                    String playerDatatoCsv = encodePokemonToCsv() +":"+ encodeItemsToCsv();
+                    fos.write(playerDatatoCsv.getBytes());
+                    fos.close();
+                    Log.d("Save Data", "Successfully Saved Data");
+                    Log.d("Save Data", playerDatatoCsv);
+                }
+                else{
+                    FileOutputStream overwrite = new FileOutputStream(targetFile, false);
+                    String playerDatatoCsv = encodePokemonToCsv() +":"+ encodeItemsToCsv();
+                    overwrite.write(playerDatatoCsv.getBytes());
+                    overwrite.close();
+                    Log.d("Save Data", "Successfully Saved Data");
+                    Log.d("Save Data", playerDatatoCsv);
+                }
+
+
+                return true;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    public boolean loadPlayerDate(){
+        File targetDirectory = getFilesDir();
+        if (targetDirectory.exists() == false) {
+            Log.w("Warning", "Directory does not exist. Creating the directory...");
+            return false;
+        }
+        else {
+            File targetFile = new File(targetDirectory,
+                    playerDataFileName);
+            int nBytesRead = 0;
+            byte buf[] = new byte[32];
+            String contentStr = "";
+
+            try {
+                InputStream is = new FileInputStream(targetFile);
+
+                while (is.available() > 0) {
+                    nBytesRead = is.read(buf, 0, 32);
+                    contentStr += new String(buf, 0, nBytesRead);
+                }
+
+                is.close();
+
+                } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+                 }
+            String playerData [] = contentStr.split(":");
+            int iterCount = 0;
+            for(String segment : playerData){
+                Log.e("Debug Decode", Integer.toString(iterCount));
+                Log.e("Debug Decode", segment);
+                iterCount += 1;
+            }
+            Log.e("Decoding Pokemon", playerData[0]);
+            Log.e("Decoding Items", playerData[playerData.length-1]);
+            decodePokemonFromCsv(playerData[0]);
+            decodeItemsFromCsv(playerData[playerData.length-1]);
+            return true;
+        }
     }
 
     public void setButtonBorder(Button btn, int color){
@@ -549,6 +783,30 @@ public class PokemonGoApp extends Application{
         btn.setText("CANCEL");
         btn.setVisibility(View.VISIBLE);
         btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
+    }
+
+    public String extractPlayerPokemonData(PokemonProfile playerPokemon){
+        String dexNumber = Integer.toString(playerPokemon.getDexNumber());
+        String nickName = playerPokemon.getNickname();
+        String gender = Integer.toString(playerPokemon.getGender());
+        String currentLvl = Integer.toString(playerPokemon.getLevel());
+        String currentHp = Integer.toString(playerPokemon.getCurrentHP());
+        String currentExp = Integer.toString(playerPokemon.getCurrentExp());
+        String moves = "";
+        for(Move move:playerPokemon.getMoves()){
+            moves += move.getName() + ",";
+            moves += move.getCurrentPP() + ",";
+        }
+        String playerPokemonIV = playerPokemon.getIV().toString();
+        String playerPokemonEV = playerPokemon.getEV().toString();
+        String playerPokemonNature = playerPokemon.getmNature().toString();
+
+        String extractData =  dexNumber + "," + nickName + "," + gender + "," + currentLvl
+                + "," + currentHp  + "," + currentExp  + "," + moves + playerPokemonEV  + "," + playerPokemonIV
+                + "," + playerPokemonNature;
+
+        return extractData;
+
     }
 
 }
