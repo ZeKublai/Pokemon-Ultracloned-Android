@@ -70,40 +70,4 @@ public class MusicHandler {
             mButtonSfxPlayer.start();
         }
     }
-    /*
-    public static void MainSong(Context ctx, int raw_id) {
-        bg_player = MediaPlayer.create(ctx, raw_id);
-        bg_player.setLooping(true); // Set looping
-        bg_player.setMusicVolume(30, 30);
-
-        //player.release();
-        bg_player.start();
-    }
-
-    public static void BattleSong(Context ctx, int raw_id) {
-        battle_player = MediaPlayer.create(ctx, raw_id);
-        battle_player.setLooping(true); // Set looping
-        battle_player.setMusicVolume(30, 30);
-
-        //player.release();
-        battle_player.start();
-    }
-
-    public static void ButtonPressed(Context ctx) {
-        btn_player = MediaPlayer.create(ctx, R.raw.btn_pressed);
-        btn_player.setLooping(false); // Set looping
-        btn_player.setMusicVolume(100, 100);
-
-        //player.release();
-        btn_player.start();
-    }
-
-    public static void OpeningSong(Context ctx) {
-        opening_player = MediaPlayer.create(ctx, R.raw.opening);
-        opening_player.setLooping(true); // Set looping
-        opening_player.setMusicVolume(50, 50);
-        //player.release();
-        opening_player.start();
-    }
-    */
 }

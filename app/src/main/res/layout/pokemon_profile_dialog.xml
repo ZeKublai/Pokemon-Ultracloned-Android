@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txv_battle_message"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/lbl_profile_dex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dex No." />
+
+            <TextView
+                android:id="@+id/txv_profile_dex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/lbl_profile_dex"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:id="@+id/lbl_profile_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_profile_dex"
+                android:text="Name" />
+
+            <TextView
+                android:id="@+id/txv_profile_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/lbl_profile_dex"
+                android:layout_toEndOf="@+id/lbl_profile_nickname"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:id="@+id/lbl_profile_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_profile_nickname"
+                android:layout_marginTop="71dp"
+                android:text="Type" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/lbl_profile_type"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/lbl_profile_type"
+                app:srcCompat="@drawable/normal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/lbl_profile_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HP" />
+
+            <TextView
+                android:id="@+id/txv_profile_hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/lbl_profile_hp"
+                android:textAlignment="viewEnd" />
+
+            <ProgressBar
+                android:id="@+id/bar_profile_hp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/txv_profile_hp"
+                android:layout_toEndOf="@+id/lbl_profile_hp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

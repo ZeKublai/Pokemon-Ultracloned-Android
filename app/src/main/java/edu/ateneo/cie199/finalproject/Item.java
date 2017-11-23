@@ -1,58 +1,20 @@
 package edu.ateneo.cie199.finalproject;
 
-import static java.lang.Math.floor;
-import static java.lang.Math.pow;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by John on 11/13/2017.
  */
 
-public class Item {
-    public static int NO_EFFECT = 0;
-    public static int POTION_HEAL = 20;
-    public static int SUPER_POTION_HEAL = 50;
-    public static int HYPER_POTION_HEAL = 200;
-    public static int MAX_POTION_HEAL = 9999;
-    public static int REVIVE_DIVIDER = 2;
-    public static int MAX_REVIVE_DIVIDER = 1;
-    public static int ELIXIR_RESTORE = 10;
-    public static int MAX_ELIXIR_RESTORE = 999;
-    public static double POKE_BALL_BONUS = 1;
-    public static double GREAT_BALL_BONUS = 1.5;
-    public static double ULTRA_BALL_BONUS = 2;
+public abstract class Item {
 
-    private String mName = "";
-    private int mQuantity = 0;
-    private int mImageIcon = 0;
-    private int mImageBig = 0;
-    private int mImageSprite = 0;
-    private int mEffect = 0;
-
-    public Item(String mName, int mQuantity) {
-        this.mName = mName;
-        this.mQuantity = mQuantity;
-    }
-
-    public Item() {
-    }
-
-    public Item(Item item){
-        this.mName = item.mName;
-        this.mQuantity = item.mQuantity;
-        this.mImageIcon = item.mImageIcon;
-        this.mImageBig = item.mImageBig;
-        this.mImageSprite = item.mImageSprite;
-        this.mEffect = item.mEffect;
-    }
-
-    public Item(String mName, int mQuantity, int mImageIcon, int mImageBig, int mImageSprite, int mEffect) {
-        this.mName = mName;
-        this.mQuantity = mQuantity;
-        this.mImageIcon = mImageIcon;
-        this.mImageBig = mImageBig;
-        this.mImageSprite = mImageSprite;
-        this.mEffect = mEffect;
-    }
+    protected String mName = "";
+    protected int mQuantity = 0;
+    protected int mImageIcon = 0;
+    protected int mImageBig = 0;
+    protected int mImageSprite = 0;
 
     public int getImageSprite() {
         return mImageSprite;
@@ -89,91 +51,22 @@ public class Item {
         this.mQuantity = mQuantity;
     }
 
-    public boolean healPokemon(PokemonProfile profile){
-        if(profile.getCurrentHP() == profile.getHP()){
-            return false;
-        }
-        if(profile.getCurrentHP() > 0){
-            profile.setCurrentHP(profile.getCurrentHP() + mEffect);
-            if(profile.getCurrentHP() > profile.getHP()){
-                profile.setCurrentHP(profile.getHP());
-            }
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-    public boolean revivePokemon(PokemonProfile profile){
-        if(profile.getCurrentHP() == 0){
-            profile.setCurrentHP(profile.getHP()/mEffect);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public boolean restorePP(PokemonProfile profile){
-        if(profile.allMovesPPisFull()){
-            return false;
-        }
-        for(int index = 0; index < PokemonProfile.MAX_POKEMON_MOVES; index++){
-            Move move = profile.getMoves()[index];
-            move.setCurrentPP(move.getCurrentPP() + mEffect);
-            if(move.getCurrentPP() > move.getMaxPP()){
-                move.setCurrentPP(move.getMaxPP());
-            }
-        }
-        return true;
-    }
-
-    public int getFinalCatchRate(PokemonProfile profile, double ballBonus){
-        double result = ((3.0*profile.getHP() - 2.0*profile.getCurrentHP())*ballBonus*
-                profile.getDexData().getCatchRate())/(3.0*profile.getHP());
-        return (int) result;
-    }
-    public int getSecondCatchRate(int finalCatchRate){
-        double result = floor(65536.0/(pow(255.0/((double)finalCatchRate), 3.0/16.0)));
-        return (int) result;
-    }
-
-    public int useBall(PokemonProfile profile, double ballBonus){
-        int finalCatchRate = getFinalCatchRate(profile, ballBonus);
-        int attempt1 = PokemonGoApp.getIntegerRNG(65535);
-        int attempt2 = PokemonGoApp.getIntegerRNG(65535);
-        int attempt3 = PokemonGoApp.getIntegerRNG(65535);
-        if(attempt1 >= getSecondCatchRate(finalCatchRate)){
-            return 1;
-        }
-        else{
-            if(attempt2 >= getSecondCatchRate(finalCatchRate)){
-                return 2;
-            }
-            else{
-                if(attempt3 >= getSecondCatchRate(finalCatchRate)){
-                    return 3;
-                }
-                else{
-                    return 4;
-                }
-            }
-        }
-    }
-    public int usePokeball(PokemonProfile profile){
-        return useBall(profile, POKE_BALL_BONUS);
-    }
-    public int useGreatBall(PokemonProfile profile){
-        return useBall(profile, GREAT_BALL_BONUS);
-    }
-    public int useUltraBall(PokemonProfile profile){
-        return useBall(profile, ULTRA_BALL_BONUS);
-    }
-
     public String getButtonString(){
         return mName + " x" + mQuantity;
     }
 
+    public abstract void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle);
+    public abstract void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag);
+    public abstract PokemonProfile getUpdateTarget(Battle battle);
+    public abstract PokemonProfile getExecuteTarget(Battle battle);
+    public abstract PokemonInfo getTargetInfo(Battle battle);
+
+    public void useItem(ArrayList<Item> bag){
+        this.mQuantity = this.mQuantity - 1;
+        if(this.mQuantity == 0){
+            bag.remove(this);
+        }
+    }
+
+    public abstract Item generateCopy();
 }

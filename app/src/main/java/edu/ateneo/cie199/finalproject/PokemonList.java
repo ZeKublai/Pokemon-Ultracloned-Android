@@ -1,7 +1,6 @@
 package edu.ateneo.cie199.finalproject;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,14 +16,14 @@ import java.util.ArrayList;
  * Created by John on 10/8/2017.
  */
 
-public class CustomList extends ArrayAdapter<PokemonProfile>{
+public class PokemonList extends ArrayAdapter<PokemonProfile>{
 
     private final Activity context;
     private final ArrayList<PokemonProfile> profiles;
     Typeface font;
 
-    public CustomList(Activity context, ArrayList<PokemonProfile> profiles) {
-        super(context, R.layout.list_single, profiles);
+    public PokemonList(Activity context, ArrayList<PokemonProfile> profiles) {
+        super(context, R.layout.list_pokemon, profiles);
         this.context = context;
         this.profiles = profiles;
         font = Typeface.createFromAsset(context.getAssets(), "generation6.ttf");
@@ -34,7 +32,7 @@ public class CustomList extends ArrayAdapter<PokemonProfile>{
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_single, null, true);
+        View rowView = inflater.inflate(R.layout.list_pokemon, null, true);
         TextView txtName = (TextView) rowView.findViewById(R.id.txv_pokemon_name);
         TextView txtHp = (TextView) rowView.findViewById(R.id.txv_pokemon_hp);
         ImageView imageIcon = (ImageView) rowView.findViewById(R.id.img_pokemon_icon);

@@ -236,7 +236,8 @@
         android:layout_height="350dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -251,277 +252,82 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/img_battle_btn5"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_battle_option5"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_battle_option5"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:id="@+id/img_battle_btn3"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_battle_option3"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_battle_option3"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:id="@+id/img_battle_btn1"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_battle_option1"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_battle_option1"
-                android:layout_margin="5dp" />
-
-            <Button
-                android:id="@+id/btn_battle_option7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="7"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_battle_option1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option3"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="1"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_btn1"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_battle_option1"
-                android:layout_alignEnd="@+id/btn_battle_option1"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/img_battle_btn1" />
-
-            <Button
-                android:id="@+id/btn_battle_option3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option5"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="3"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_btn3"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_battle_option3"
-                android:layout_alignEnd="@+id/btn_battle_option3"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/img_battle_btn3" />
-
-            <Button
-                android:id="@+id/btn_battle_option5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option7"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="5"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_btn5"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_battle_option5"
-                android:layout_alignEnd="@+id/btn_battle_option5"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/img_battle_btn5" />
-
+            <ListView
+                android:id="@+id/lsv_battle_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1">
 
-            <ProgressBar
-                android:id="@+id/bar_battle_btn6"
-                style="?android:attr/progressBarStyleHorizontal"
+            <Button
+                android:id="@+id/btn_battle_attack"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_battle_option6"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/img_battle_btn6" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_btn4"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_battle_option4"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/img_battle_btn4" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_btn2"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_battle_option2"
-                android:layout_alignEnd="@+id/btn_battle_option2"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="10dp"
-                android:layout_toEndOf="@+id/img_battle_btn2" />
-
-            <ImageView
-                android:id="@+id/img_battle_btn6"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_battle_option6"
                 android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_battle_option6"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:id="@+id/img_battle_btn2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_battle_option2"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_battle_option2"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:id="@+id/img_battle_btn4"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_battle_option4"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_battle_option4"
-                android:layout_margin="5dp" />
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/generation6"
+                android:text="ATTACK"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/btn_battle_option6"
+                android:id="@+id/btn_battle_pokemon"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_run"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
+                android:layout_below="@+id/btn_battle_attack"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="6"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
+                android:text="POKEMON"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_battle_bag"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_battle_pokemon"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/generation6"
+                android:text="BAG"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btn_battle_run"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
+                android:layout_below="@+id/btn_battle_bag"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
                 android:text="RUN"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
                 android:textAllCaps="false"
+                android:textColor="@android:color/white"
                 tools:layout_editor_absoluteX="56dp"
                 tools:layout_editor_absoluteY="79dp" />
-
-            <Button
-                android:id="@+id/btn_battle_option4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option6"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="4"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_battle_option2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option4"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@+id/btn_battle_run"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="2"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
 
         </RelativeLayout>
     </LinearLayout>

@@ -12,20 +12,21 @@ import java.util.ArrayList;
  * Created by John on 11/5/2017.
  */
 
-public class Move {
+public abstract class Move {
     public static int PHYSICAL = 0;
     public static int SPECIAL = 1;
     public static int STATUS = 2;
 
     public static int MAX_ACCURACY = 100;
+    public static double MIN_DAMAGE = 1.0;
 
-    private String mName = "";
-    private Type mType = new Type();
+    protected String mName = "";
+    protected Type mType = new Type();
     private int mCategory = 0;
-    private int mMaxPP = 0;
-    private int mCurrentPP = 0;
-    private int mPower = 0;
-    private int mAccuracy = 0;
+    protected int mMaxPP = 0;
+    protected int mCurrentPP = 0;
+    protected int mPower = 0;
+    protected int mAccuracy = 0;
 
     public Move(String mName, Type mType, int mCategory, int mMaxPP, int mCurrentPP, int mPower,
                 int mAccuracy) {
@@ -54,7 +55,6 @@ public class Move {
     public String getName() {
         return mName;
     }
-
     public void setName(String mName) {
         this.mName = mName;
     }
@@ -62,7 +62,6 @@ public class Move {
     public Type getType() {
         return mType;
     }
-
     public void setType(Type mType) {
         this.mType = mType;
     }
@@ -70,7 +69,6 @@ public class Move {
     public int getCategory() {
         return mCategory;
     }
-
     public void setCategory(int mCategory) {
         this.mCategory = mCategory;
     }
@@ -78,7 +76,6 @@ public class Move {
     public int getMaxPP() {
         return mMaxPP;
     }
-
     public void setMaxPP(int mMaxPP) {
         this.mMaxPP = mMaxPP;
     }
@@ -86,7 +83,6 @@ public class Move {
     public int getCurrentPP() {
         return mCurrentPP;
     }
-
     public void setCurrentPP(int mCurrentPP) {
         this.mCurrentPP = mCurrentPP;
     }
@@ -94,7 +90,6 @@ public class Move {
     public int getPower() {
         return mPower;
     }
-
     public void setPower(int mPower) {
         this.mPower = mPower;
     }
@@ -102,7 +97,6 @@ public class Move {
     public int getAccuracy() {
         return mAccuracy;
     }
-
     public void setAccuracy(int mAccuracy) {
         this.mAccuracy = mAccuracy;
     }
@@ -140,6 +134,14 @@ public class Move {
         }
         return categorynum;
     }
+
+    public abstract Move generateCopy();
+    public abstract void execute(int accuracyResult,
+                        int criticalResult,
+                        PokemonProfile attacker,
+                        PokemonProfile defender);
+
+    public abstract boolean executeRecoil(PokemonProfile attacker);
     /*
     public void parseMovesJsonStr(String movesJsonStr, ArrayList<Move> mMoves) throws JSONException {
         if (movesJsonStr.isEmpty()){

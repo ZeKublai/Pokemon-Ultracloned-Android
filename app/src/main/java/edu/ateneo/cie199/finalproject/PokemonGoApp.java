@@ -44,11 +44,8 @@ public class PokemonGoApp extends Application{
     public static int STATE_POKEMON = 4;
     public static int STATE_BAG = 5;
     public static int STATE_USE_ITEM = 6;
-    public static int STATE_HEAL_POKEMON = 7;
-    public static int STATE_REVIVE_POKEMON = 8;
-    public static int STATE_RESTORE_POKEMON = 9;
-    public static int STATE_SWAP_POKEMON1 = 10;
-    public static int STATE_SWAP_POKEMON2 = 11;
+    public static int STATE_SWAP_POKEMON1 = 7;
+    public static int STATE_SWAP_POKEMON2 = 8;
 
 
     public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
@@ -80,6 +77,7 @@ public class PokemonGoApp extends Application{
     private ArrayList<Type> mTypes = new ArrayList<>();
 
     private ArrayList<Item> mItems = new ArrayList<>();
+
     /**
      * This function returns a random number from 0 to a given length.
      * @param length    the upper bound for the random number generation
@@ -179,21 +177,23 @@ public class PokemonGoApp extends Application{
         }
         return new Pokemon();
     }
+
     public Move findMove(String title){
         for(Move move : this.getAllMoves()){
             if(move.getName().equals(title)){
                 return move;
             }
         }
-        return new Move();
+        return new MovePhysical();
     }
+
     public Item getItem(String title){
         for(int index = 0; index < mItems.size(); index++){
             if(mItems.get(index).getName().equals(title)){
                 return mItems.get(index);
             }
         }
-        return new Item();
+        return new ItemPotion();
     }
 
     public ArrayList<Type> getAllTypes(){return mTypes;}
@@ -269,118 +269,117 @@ public class PokemonGoApp extends Application{
 
     //LOADS ALL MOVES
     public void loadAllPokemonMoves(){
-        mMoves.add(new Move("Vine Whip", mTypes.get(Type.GRASS), Move.PHYSICAL, 25, 25, 45, 100));
-        mMoves.add(new Move("Energy Ball", mTypes.get(Type.GRASS), Move.SPECIAL, 10, 10, 90, 100));
-        mMoves.add(new Move("Razor Leaf", mTypes.get(Type.GRASS), Move.PHYSICAL, 25, 25, 55, 95));
-        mMoves.add(new Move("Giga Drain", mTypes.get(Type.GRASS), Move.SPECIAL, 10, 10, 75, 100));
-        mMoves.add(new Move("Frenzy Plant", mTypes.get(Type.GRASS), Move.SPECIAL, 5, 5, 150, 90));
+        mMoves.add(new MovePhysical("Vine Whip", mTypes.get(Type.GRASS), 25, 25, 45, 100));
+        mMoves.add(new MoveSpecial("Energy Ball", mTypes.get(Type.GRASS), 10, 10, 90, 100));
+        mMoves.add(new MovePhysical("Razor Leaf", mTypes.get(Type.GRASS), 25, 25, 55, 95));
+        mMoves.add(new MoveSpecial("Giga Drain", mTypes.get(Type.GRASS), 10, 10, 75, 100));
+        mMoves.add(new MoveSpecial("Frenzy Plant", mTypes.get(Type.GRASS), 5, 5, 150, 90));
 
-        mMoves.add(new Move("Ember", mTypes.get(Type.FIRE), Move.SPECIAL, 25, 25, 40, 100));
-        mMoves.add(new Move("Fire Fang", mTypes.get(Type.FIRE), Move.PHYSICAL, 15, 15, 65, 95));
-        mMoves.add(new Move("Fire Spin", mTypes.get(Type.FIRE), Move.SPECIAL, 15, 15, 35, 85));
-        mMoves.add(new Move("Flame Charge", mTypes.get(Type.FIRE), Move.PHYSICAL, 20, 20, 50, 100));
-        mMoves.add(new Move("Flamethrower", mTypes.get(Type.FIRE), Move.SPECIAL, 15, 15, 90, 100));
-        mMoves.add(new Move("Blast Burn", mTypes.get(Type.FIRE), Move.SPECIAL, 5, 5, 150, 90));
+        mMoves.add(new MoveSpecial("Ember", mTypes.get(Type.FIRE), 25, 25, 40, 100));
+        mMoves.add(new MovePhysical("Fire Fang", mTypes.get(Type.FIRE), 15, 15, 65, 95));
+        mMoves.add(new MoveSpecial("Fire Spin", mTypes.get(Type.FIRE), 15, 15, 35, 85));
+        mMoves.add(new MovePhysical("Flame Charge", mTypes.get(Type.FIRE), 20, 20, 50, 100));
+        mMoves.add(new MoveSpecial("Flamethrower", mTypes.get(Type.FIRE), 15, 15, 90, 100));
+        mMoves.add(new MoveSpecial("Blast Burn", mTypes.get(Type.FIRE), 5, 5, 150, 90));
 
-        mMoves.add(new Move("Aqua Jet", mTypes.get(Type.WATER), Move.PHYSICAL, 20, 20, 40, 100));
-        mMoves.add(new Move("Water Gun", mTypes.get(Type.WATER), Move.SPECIAL, 25, 25, 40, 100));
-        mMoves.add(new Move("Aqua Tail", mTypes.get(Type.WATER), Move.PHYSICAL, 10, 10, 90, 90));
-        mMoves.add(new Move("Waterfall", mTypes.get(Type.WATER), Move.PHYSICAL, 15, 15, 80, 100));
-        mMoves.add(new Move("Muddy Water", mTypes.get(Type.WATER), Move.SPECIAL, 10, 10, 90, 85));
-        mMoves.add(new Move("Hydro Cannon", mTypes.get(Type.WATER), Move.SPECIAL, 5, 5, 150, 90));
+        mMoves.add(new MovePhysical("Aqua Jet", mTypes.get(Type.WATER), 20, 20, 40, 100));
+        mMoves.add(new MoveSpecial("Water Gun", mTypes.get(Type.WATER), 25, 25, 40, 100));
+        mMoves.add(new MovePhysical("Aqua Tail", mTypes.get(Type.WATER), 10, 10, 90, 90));
+        mMoves.add(new MovePhysical("Waterfall", mTypes.get(Type.WATER), 15, 15, 80, 100));
+        mMoves.add(new MoveSpecial("Muddy Water", mTypes.get(Type.WATER), 10, 10, 90, 85));
+        mMoves.add(new MoveSpecial("Hydro Cannon", mTypes.get(Type.WATER), 5, 5, 150, 90));
 
-        mMoves.add(new Move("Thunder Punch", mTypes.get(Type.ELECTRIC), Move.PHYSICAL, 15, 15, 75, 100));
-        mMoves.add(new Move("Spark", mTypes.get(Type.ELECTRIC), Move.PHYSICAL, 20, 20, 65, 100));
-        mMoves.add(new Move("Charge Beam", mTypes.get(Type.ELECTRIC), Move.SPECIAL, 10, 10, 50, 90));
-        mMoves.add(new Move("Thunder Shock", mTypes.get(Type.ELECTRIC), Move.SPECIAL, 30, 30, 40, 100));
-        mMoves.add(new Move("Volt Tackle", mTypes.get(Type.ELECTRIC), Move.SPECIAL, 5, 5, 150, 90));
+        mMoves.add(new MovePhysical("Thunder Punch", mTypes.get(Type.ELECTRIC), 15, 15, 75, 100));
+        mMoves.add(new MovePhysical("Spark", mTypes.get(Type.ELECTRIC), 20, 20, 65, 100));
+        mMoves.add(new MoveSpecial("Charge Beam", mTypes.get(Type.ELECTRIC), 10, 10, 50, 90));
+        mMoves.add(new MoveSpecial("Thunder Shock", mTypes.get(Type.ELECTRIC), 30, 30, 40, 100));
+        mMoves.add(new MoveSpecial("Volt Tackle", mTypes.get(Type.ELECTRIC), 5, 5, 150, 90));
 
-        mMoves.add(new Move("Rock Throw", mTypes.get(Type.ROCK), Move.PHYSICAL, 15, 15, 50, 90));
-        mMoves.add(new Move("Rock Tomb", mTypes.get(Type.ROCK), Move.PHYSICAL, 15, 15, 60, 95));
-        mMoves.add(new Move("Stone Edge", mTypes.get(Type.ROCK), Move.PHYSICAL, 5, 5, 100, 90));
-        mMoves.add(new Move("Rollout", mTypes.get(Type.ROCK), Move.PHYSICAL, 20, 20, 30, 90));
-        mMoves.add(new Move("Rock Slide", mTypes.get(Type.ROCK), Move.PHYSICAL, 10, 10, 75, 90));
+        mMoves.add(new MovePhysical("Rock Throw", mTypes.get(Type.ROCK), 15, 15, 50, 90));
+        mMoves.add(new MovePhysical("Rock Tomb", mTypes.get(Type.ROCK), 15, 15, 60, 95));
+        mMoves.add(new MovePhysical("Stone Edge", mTypes.get(Type.ROCK), 5, 5, 100, 90));
+        mMoves.add(new MovePhysical("Rollout", mTypes.get(Type.ROCK), 20, 20, 30, 90));
+        mMoves.add(new MovePhysical("Rock Slide", mTypes.get(Type.ROCK), 10, 10, 75, 90));
 
-        mMoves.add(new Move("Tackle", mTypes.get(Type.NORMAL), Move.PHYSICAL, 35, 35, 40, 100));
-        mMoves.add(new Move("Take Down", mTypes.get(Type.NORMAL), Move.PHYSICAL, 20, 20, 90, 85));
-        mMoves.add(new Move("Thrash", mTypes.get(Type.NORMAL), Move.PHYSICAL, 10, 10, 120, 100));
-        mMoves.add(new Move("Hidden Power", mTypes.get(Type.NORMAL), Move.SPECIAL, 15, 15, 60, 100));
-        mMoves.add(new Move("Façade", mTypes.get(Type.NORMAL), Move.PHYSICAL, 20, 20, 70, 100));
-        mMoves.add(new Move("Body Slam", mTypes.get(Type.NORMAL), Move.PHYSICAL, 15, 15, 85, 100));
-        mMoves.add(new Move("Horn Attack", mTypes.get(Type.NORMAL), Move.PHYSICAL, 25, 25, 65, 100));
+        mMoves.add(new MovePhysical("Tackle", mTypes.get(Type.NORMAL), 35, 35, 40, 100));
+        mMoves.add(new MovePhysical("Take Down", mTypes.get(Type.NORMAL), 20, 20, 90, 85));
+        mMoves.add(new MovePhysical("Thrash", mTypes.get(Type.NORMAL), 10, 10, 120, 100));
+        mMoves.add(new MoveSpecial("Hidden Power", mTypes.get(Type.NORMAL), 15, 15, 60, 100));
+        mMoves.add(new MovePhysical("Façade", mTypes.get(Type.NORMAL), 20, 20, 70, 100));
+        mMoves.add(new MovePhysical("Body Slam", mTypes.get(Type.NORMAL), 15, 15, 85, 100));
+        mMoves.add(new MovePhysical("Horn Attack", mTypes.get(Type.NORMAL), 25, 25, 65, 100));
 
-        mMoves.add(new Move("Ice Ball", mTypes.get(Type.ICE), Move.PHYSICAL, 20, 20, 30, 90));
-        mMoves.add(new Move("Avalanche", mTypes.get(Type.ICE), Move.PHYSICAL, 10, 10, 60, 100));
-        mMoves.add(new Move("Freeze-Dry", mTypes.get(Type.ICE), Move.SPECIAL, 20, 20, 70, 100));
-        mMoves.add(new Move("Freeze Shock", mTypes.get(Type.ICE), Move.PHYSICAL, 5, 5, 140, 90));
-        mMoves.add(new Move("Ice Punch", mTypes.get(Type.ICE), Move.PHYSICAL, 15, 15, 75, 100));
+        mMoves.add(new MovePhysical("Ice Ball", mTypes.get(Type.ICE), 20, 20, 30, 90));
+        mMoves.add(new MovePhysical("Avalanche", mTypes.get(Type.ICE), 10, 10, 60, 100));
+        mMoves.add(new MoveSpecial("Freeze-Dry", mTypes.get(Type.ICE), 20, 20, 70, 100));
+        mMoves.add(new MovePhysical("Freeze Shock", mTypes.get(Type.ICE), 5, 5, 140, 90));
+        mMoves.add(new MovePhysical("Ice Punch", mTypes.get(Type.ICE), 15, 15, 75, 100));
 
-        mMoves.add(new Move("Brick Break", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 20, 20, 75, 100));
-        mMoves.add(new Move("Double Kick", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 30, 30, 30, 100));
-        mMoves.add(new Move("Dynamic Punch", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 5, 5, 100, 50));
-        mMoves.add(new Move("Karate Chop", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 25, 25, 50, 100));
-        mMoves.add(new Move("Submission", mTypes.get(Type.FIGHTING), Move.PHYSICAL, 20, 20, 80, 80));
+        mMoves.add(new MovePhysical("Brick Break", mTypes.get(Type.FIGHTING), 20, 20, 75, 100));
+        mMoves.add(new MovePhysical("Double Kick", mTypes.get(Type.FIGHTING), 30, 30, 30, 100));
+        mMoves.add(new MovePhysical("Dynamic Punch", mTypes.get(Type.FIGHTING), 5, 5, 100, 50));
+        mMoves.add(new MovePhysical("Karate Chop", mTypes.get(Type.FIGHTING), 25, 25, 50, 100));
+        mMoves.add(new MovePhysical("Submission", mTypes.get(Type.FIGHTING), 20, 20, 80, 80));
 
-        mMoves.add(new Move("Acid", mTypes.get(Type.POISON), Move.SPECIAL, 30, 30, 40, 100));
-        mMoves.add(new Move("Belch", mTypes.get(Type.POISON), Move.SPECIAL, 10, 10, 120, 90));
-        mMoves.add(new Move("Cross Poison", mTypes.get(Type.POISON), Move.PHYSICAL, 20, 20, 70, 100));
-        mMoves.add(new Move("Poison Jab", mTypes.get(Type.POISON), Move.PHYSICAL, 20, 20, 80, 100));
-        mMoves.add(new Move("Poison Tail", mTypes.get(Type.POISON), Move.PHYSICAL, 25, 25, 50, 100));
+        mMoves.add(new MoveSpecial("Acid", mTypes.get(Type.POISON), 30, 30, 40, 100));
+        mMoves.add(new MoveSpecial("Belch", mTypes.get(Type.POISON), 10, 10, 120, 90));
+        mMoves.add(new MovePhysical("Cross Poison", mTypes.get(Type.POISON), 20, 20, 70, 100));
+        mMoves.add(new MovePhysical("Poison Jab", mTypes.get(Type.POISON), 20, 20, 80, 100));
+        mMoves.add(new MovePhysical("Poison Tail", mTypes.get(Type.POISON), 25, 25, 50, 100));
 
-        mMoves.add(new Move("Earth Power", mTypes.get(Type.GROUND), Move.SPECIAL, 10, 10, 90, 100));
-        mMoves.add(new Move("Sand Tomb", mTypes.get(Type.GROUND), Move.PHYSICAL, 15, 15, 35, 100));
-        mMoves.add(new Move("Mud Shot", mTypes.get(Type.GROUND), Move.SPECIAL, 15, 15, 55, 95));
-        mMoves.add(new Move("Precipic Blades", mTypes.get(Type.GROUND), Move.PHYSICAL, 10, 10, 120, 85));
-        mMoves.add(new Move("Mud Bomb", mTypes.get(Type.GROUND), Move.SPECIAL, 10, 10, 65, 90));
+        mMoves.add(new MoveSpecial("Earth Power", mTypes.get(Type.GROUND), 10, 10, 90, 100));
+        mMoves.add(new MovePhysical("Sand Tomb", mTypes.get(Type.GROUND), 15, 15, 35, 100));
+        mMoves.add(new MoveSpecial("Mud Shot", mTypes.get(Type.GROUND), 15, 15, 55, 95));
+        mMoves.add(new MovePhysical("Precipic Blades", mTypes.get(Type.GROUND), 10, 10, 120, 85));
+        mMoves.add(new MoveSpecial("Mud Bomb", mTypes.get(Type.GROUND), 10, 10, 65, 90));
 
-        mMoves.add(new Move("Aerial Ace", mTypes.get(Type.FLYING), Move.PHYSICAL, 20, 20, 60, 100));
-        mMoves.add(new Move("Air Cutter", mTypes.get(Type.FLYING), Move.PHYSICAL, 25, 25, 60, 95));
-        mMoves.add(new Move("Brave Bird", mTypes.get(Type.FLYING), Move.PHYSICAL, 15, 15, 120, 85));
-        mMoves.add(new Move("Drill Peck", mTypes.get(Type.FLYING), Move.PHYSICAL, 20, 20, 80, 100));
-        mMoves.add(new Move("Peck", mTypes.get(Type.FLYING), Move.PHYSICAL, 35, 35, 35, 100));
+        mMoves.add(new MovePhysical("Aerial Ace", mTypes.get(Type.FLYING), 20, 20, 60, 100));
+        mMoves.add(new MovePhysical("Air Cutter", mTypes.get(Type.FLYING), 25, 25, 60, 95));
+        mMoves.add(new MovePhysical("Brave Bird", mTypes.get(Type.FLYING), 15, 15, 120, 85));
+        mMoves.add(new MovePhysical("Drill Peck", mTypes.get(Type.FLYING), 20, 20, 80, 100));
+        mMoves.add(new MovePhysical("Peck", mTypes.get(Type.FLYING), 35, 35, 35, 100));
 
-        mMoves.add(new Move("Confusion", mTypes.get(Type.PSYCHIC), Move.SPECIAL, 25, 25, 50, 100));
-        mMoves.add(new Move("Extrasensory", mTypes.get(Type.PSYCHIC), Move.SPECIAL, 20, 20, 80, 100));
-        mMoves.add(new Move("Heart Stamp ", mTypes.get(Type.PSYCHIC), Move.PHYSICAL, 25, 25, 60, 100));
-        mMoves.add(new Move("Psycho Cut", mTypes.get(Type.PSYCHIC), Move.PHYSICAL, 20, 20, 70, 100));
-        mMoves.add(new Move("Psycho Boost", mTypes.get(Type.PSYCHIC), Move.SPECIAL, 5, 5, 140, 85));
+        mMoves.add(new MoveSpecial("Confusion", mTypes.get(Type.PSYCHIC), 25, 25, 50, 100));
+        mMoves.add(new MoveSpecial("Extrasensory", mTypes.get(Type.PSYCHIC), 20, 20, 80, 100));
+        mMoves.add(new MovePhysical("Heart Stamp ", mTypes.get(Type.PSYCHIC), 25, 25, 60, 100));
+        mMoves.add(new MovePhysical("Psycho Cut", mTypes.get(Type.PSYCHIC), 20, 20, 70, 100));
+        mMoves.add(new MoveSpecial("Psycho Boost", mTypes.get(Type.PSYCHIC), 5, 5, 140, 85));
 
-        mMoves.add(new Move("Bug Bite", mTypes.get(Type.BUG), Move.PHYSICAL, 20, 20, 60, 100));
-        mMoves.add(new Move("X-Scissor", mTypes.get(Type.BUG), Move.PHYSICAL, 15, 15, 80, 100));
-        mMoves.add(new Move("Signal Beam", mTypes.get(Type.BUG), Move.SPECIAL, 15, 15, 75, 100));
-        mMoves.add(new Move("Fury Cutter", mTypes.get(Type.BUG), Move.PHYSICAL, 20, 20, 40, 95));
-        mMoves.add(new Move("Megahorn", mTypes.get(Type.BUG), Move.PHYSICAL, 10, 10, 120, 85));
+        mMoves.add(new MovePhysical("Bug Bite", mTypes.get(Type.BUG), 20, 20, 60, 100));
+        mMoves.add(new MovePhysical("X-Scissor", mTypes.get(Type.BUG), 15, 15, 80, 100));
+        mMoves.add(new MoveSpecial("Signal Beam", mTypes.get(Type.BUG), 15, 15, 75, 100));
+        mMoves.add(new MovePhysical("Fury Cutter", mTypes.get(Type.BUG), 20, 20, 40, 95));
+        mMoves.add(new MovePhysical("Megahorn", mTypes.get(Type.BUG), 10, 10, 120, 85));
 
-        mMoves.add(new Move("Astonish", mTypes.get(Type.GHOST), Move.PHYSICAL, 15, 15, 30, 100));
-        mMoves.add(new Move("Hex", mTypes.get(Type.GHOST), Move.SPECIAL, 10, 10, 65, 100));
-        mMoves.add(new Move("Shadow Ball", mTypes.get(Type.GHOST), Move.SPECIAL, 15, 15, 80, 100));
-        mMoves.add(new Move("Shadow Claw", mTypes.get(Type.GHOST), Move.PHYSICAL, 15, 15, 70, 100));
-        mMoves.add(new Move("Shadow Force", mTypes.get(Type.GHOST), Move.PHYSICAL, 5, 5, 120, 85));
+        mMoves.add(new MovePhysical("Astonish", mTypes.get(Type.GHOST), 15, 15, 30, 100));
+        mMoves.add(new MoveSpecial("Hex", mTypes.get(Type.GHOST), 10, 10, 65, 100));
+        mMoves.add(new MoveSpecial("Shadow Ball", mTypes.get(Type.GHOST), 15, 15, 80, 100));
+        mMoves.add(new MovePhysical("Shadow Claw", mTypes.get(Type.GHOST), 15, 15, 70, 100));
+        mMoves.add(new MovePhysical("Shadow Force", mTypes.get(Type.GHOST), 5, 5, 120, 85));
 
-        mMoves.add(new Move("Dragon Claw", mTypes.get(Type.DRAGON), Move.PHYSICAL, 15, 15, 80, 100));
-        mMoves.add(new Move("Outrage", mTypes.get(Type.DRAGON), Move.PHYSICAL, 10, 10, 120, 85));
-        mMoves.add(new Move("Dragon Tail", mTypes.get(Type.DRAGON), Move.PHYSICAL, 10, 10, 60, 90));
-        mMoves.add(new Move("Dragon Pulse", mTypes.get(Type.DRAGON), Move.SPECIAL, 10, 10, 85, 100));
-        mMoves.add(new Move("Dragon Breath", mTypes.get(Type.DRAGON), Move.SPECIAL, 20, 20, 60, 100));
+        mMoves.add(new MovePhysical("Dragon Claw", mTypes.get(Type.DRAGON), 15, 15, 80, 100));
+        mMoves.add(new MovePhysical("Outrage", mTypes.get(Type.DRAGON), 10, 10, 120, 85));
+        mMoves.add(new MovePhysical("Dragon Tail", mTypes.get(Type.DRAGON), 10, 10, 60, 90));
+        mMoves.add(new MoveSpecial("Dragon Pulse", mTypes.get(Type.DRAGON), 10, 10, 85, 100));
+        mMoves.add(new MoveSpecial("Dragon Breath", mTypes.get(Type.DRAGON), 20, 20, 60, 100));
 
-        mMoves.add(new Move("Bite ", mTypes.get(Type.DARK), Move.PHYSICAL, 25, 25, 60, 100));
-        mMoves.add(new Move("Crunch", mTypes.get(Type.DARK), Move.PHYSICAL, 15, 15, 80, 100));
-        mMoves.add(new Move("Foul Play", mTypes.get(Type.DARK), Move.PHYSICAL, 15, 15, 95, 100));
-        mMoves.add(new Move("Night Slash", mTypes.get(Type.DARK), Move.PHYSICAL, 15, 15, 70, 100));
-        mMoves.add(new Move("Dark  Pulse", mTypes.get(Type.DARK), Move.SPECIAL, 15, 15, 80, 100));
+        mMoves.add(new MovePhysical("Bite ", mTypes.get(Type.DARK), 25, 25, 60, 100));
+        mMoves.add(new MovePhysical("Crunch", mTypes.get(Type.DARK), 15, 15, 80, 100));
+        mMoves.add(new MovePhysical("Foul Play", mTypes.get(Type.DARK), 15, 15, 95, 100));
+        mMoves.add(new MovePhysical("Night Slash", mTypes.get(Type.DARK), 15, 15, 70, 100));
+        mMoves.add(new MoveSpecial("Dark  Pulse", mTypes.get(Type.DARK), 15, 15, 80, 100));
 
-        mMoves.add(new Move("Bullet Punch", mTypes.get(Type.STEEL), Move.PHYSICAL, 30, 30, 40, 100));
-        mMoves.add(new Move("Iron Head", mTypes.get(Type.STEEL), Move.PHYSICAL, 15, 15, 80, 100));
-        mMoves.add(new Move("Steel Wing", mTypes.get(Type.STEEL), Move.PHYSICAL, 25, 25, 70, 90));
-        mMoves.add(new Move("Meteor Mash", mTypes.get(Type.STEEL), Move.PHYSICAL, 10, 10, 90, 90));
-        mMoves.add(new Move("Iron Tail", mTypes.get(Type.STEEL), Move.PHYSICAL, 15, 15, 120, 85));
+        mMoves.add(new MovePhysical("Bullet Punch", mTypes.get(Type.STEEL), 30, 30, 40, 100));
+        mMoves.add(new MovePhysical("Iron Head", mTypes.get(Type.STEEL), 15, 15, 80, 100));
+        mMoves.add(new MovePhysical("Steel Wing", mTypes.get(Type.STEEL), 25, 25, 70, 90));
+        mMoves.add(new MovePhysical("Meteor Mash", mTypes.get(Type.STEEL), 10, 10, 90, 90));
+        mMoves.add(new MovePhysical("Iron Tail", mTypes.get(Type.STEEL), 15, 15, 120, 85));
 
-        mMoves.add(new Move("Dazzling Gleam", mTypes.get(Type.FAIRY), Move.SPECIAL, 10, 10, 80, 100));
-        mMoves.add(new Move("Fleur Cannon", mTypes.get(Type.FAIRY), Move.SPECIAL, 5, 5, 130, 85));
-        mMoves.add(new Move("Moon Blast", mTypes.get(Type.FAIRY), Move.SPECIAL, 15, 15, 95, 100));
-        mMoves.add(new Move("Play Rough", mTypes.get(Type.FAIRY), Move.PHYSICAL, 10, 10, 90, 90));
-        mMoves.add(new Move("Draining Kiss", mTypes.get(Type.FAIRY), Move.SPECIAL, 10, 10, 50, 100));
-
+        mMoves.add(new MoveSpecial("Dazzling Gleam", mTypes.get(Type.FAIRY), 10, 10, 80, 100));
+        mMoves.add(new MoveSpecial("Fleur Cannon", mTypes.get(Type.FAIRY), 5, 5, 130, 85));
+        mMoves.add(new MoveSpecial("Moon Blast", mTypes.get(Type.FAIRY), 15, 15, 95, 100));
+        mMoves.add(new MovePhysical("Play Rough", mTypes.get(Type.FAIRY), 10, 10, 90, 90));
+        mMoves.add(new MoveSpecial("Draining Kiss", mTypes.get(Type.FAIRY), 10, 10, 50, 100));
     }
 
     public void loadAllPokemonTypes(){
@@ -495,29 +494,66 @@ public class PokemonGoApp extends Application{
         mTypes.get(16).setColor(Type.DARK_COLOR);
         mTypes.get(17).setColor(Type.STEEL_COLOR);
         mTypes.get(18).setColor(Type.FAIRY_COLOR);
+
+        mTypes.get(1).setIcon(R.drawable.normal);
+        mTypes.get(2).setIcon(R.drawable.fire);
+        mTypes.get(3).setIcon(R.drawable.water);
+        mTypes.get(4).setIcon(R.drawable.electric);
+        mTypes.get(5).setIcon(R.drawable.grass);
+        mTypes.get(6).setIcon(R.drawable.ice);
+        mTypes.get(7).setIcon(R.drawable.fighting);
+        mTypes.get(8).setIcon(R.drawable.poison);
+        mTypes.get(9).setIcon(R.drawable.ground);
+        mTypes.get(10).setIcon(R.drawable.flying);
+        mTypes.get(11).setIcon(R.drawable.psychic);
+        mTypes.get(12).setIcon(R.drawable.bug);
+        mTypes.get(13).setIcon(R.drawable.rock);
+        mTypes.get(14).setIcon(R.drawable.ghost);
+        mTypes.get(15).setIcon(R.drawable.dragon);
+        mTypes.get(16).setIcon(R.drawable.dark);
+        mTypes.get(17).setIcon(R.drawable.steel);
+        mTypes.get(18).setIcon(R.drawable.fairy);
     }
 
     public ArrayList<Item> getAllItems() {
         return mItems;
     }
-
     public void setAllItems(ArrayList<Item> mItems) {
         this.mItems = mItems;
     }
 
-    public void loadAllItems(){
-        mItems.add(new Item("Potion", 0, R.drawable.bag_potion_icon, R.drawable.bag_potion, R.drawable.bag_potion_icon, Item.POTION_HEAL));
-        mItems.add(new Item("Super Potion", 0, R.drawable.bag_superpotion_icon, R.drawable.bag_superpotion, R.drawable.bag_superpotion_icon, Item.SUPER_POTION_HEAL));
-        mItems.add(new Item("Hyper Potion", 0, R.drawable.bag_hyperpotion_icon, R.drawable.bag_hyperpotion, R.drawable.bag_hyperpotion_icon, Item.HYPER_POTION_HEAL));
-        mItems.add(new Item("Max Potion", 0, R.drawable.bag_maxpotion_icon, R.drawable.bag_maxpotion, R.drawable.bag_maxpotion_icon, Item.MAX_POTION_HEAL));
-        mItems.add(new Item("Revive", 0, R.drawable.bag_revive_icon, R.drawable.bag_revive, R.drawable.bag_revive_icon, Item.REVIVE_DIVIDER));
-        mItems.add(new Item("Max Revive", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxrevive, R.drawable.bag_maxrevive_icon, Item.MAX_REVIVE_DIVIDER));
-        mItems.add(new Item("Poke Ball", 0, R.drawable.bag_pokeball_icon, R.drawable.bag_pokeball, R.drawable.bag_pokeball_sprite, Item.NO_EFFECT));
-        mItems.add(new Item("Great Ball", 0, R.drawable.bag_greatball_icon, R.drawable.bag_greatball, R.drawable.bag_greatball_sprite, Item.NO_EFFECT));
-        mItems.add(new Item("Ultra Ball", 0, R.drawable.bag_ultraball_icon, R.drawable.bag_ultraball, R.drawable.bag_ultraball_sprite, Item.NO_EFFECT));
-        mItems.add(new Item("Elixir", 0, R.drawable.bag_elixir_icon, R.drawable.bag_elixir, R.drawable.bag_elixir_icon, Item.ELIXIR_RESTORE));
-        mItems.add(new Item("Max Elixir", 0, R.drawable.bag_maxrevive_icon, R.drawable.bag_maxelixir, R.drawable.bag_maxelixir_icon, Item.MAX_ELIXIR_RESTORE));
 
+    public void loadAllItems(){
+
+        mItems.add(new ItemPotion());
+        mItems.add(new ItemSuperPotion());
+        mItems.add(new ItemHyperPotion());
+        mItems.add(new ItemMaxPotion());
+        mItems.add(new ItemRevive());
+        mItems.add(new ItemMaxRevive());
+        mItems.add(new ItemPokeBall());
+        mItems.add(new ItemGreatBall());
+        mItems.add(new ItemUltraBall());
+        mItems.add(new ItemElixir());
+        mItems.add(new ItemMaxElixir());
+
+    }
+
+    public Item getGeneratedItem(String name){
+        for(int index = 0; index < mItems.size(); index++){
+            if(mItems.get(index).getName().equals(name)){
+                return mItems.get(index).generateCopy();
+            }
+        }
+        return new ItemPotion(10);
+    }
+
+    public Item generateRandomItem(){
+        return mItems.get(getIntegerRNG(mItems.size()));
+    }
+
+    public Move generateRandomMove(){
+        return mMoves.get(getIntegerRNG(mMoves.size())).generateCopy();
     }
 
     public void setFontForContainer(ViewGroup contentLayout, String fontName) {
@@ -531,72 +567,95 @@ public class PokemonGoApp extends Application{
     }
     //HARD CODED PLAYER STATE
     public void loadPlayer(LatLng initialPosition) {
-
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
-//        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3));
-//        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-//        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-//        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-//        getPlayer().getPokemons()[0].getMoves()[3] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-//        /*
-//        getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(5));
-//        getPlayer().getPokemons()[2] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(9));
-//        getPlayer().getPokemons()[3] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(15));
-//        getPlayer().getPokemons()[4] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(25));
-//        getPlayer().getPokemons()[5] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(35));
-//        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(2));
-//        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(5));
-//        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(16));
-//        getPlayer().getPokemons()[1].getMoves()[0] = new Move(getAllMoves().get(19));
-//        getPlayer().getPokemons()[1].getMoves()[1] = new Move(getAllMoves().get(25));
-//        */
-//        getPlayer().getBag()[0] = new Item(getAllItems().get(0));
-//        getPlayer().getBag()[1] = new Item(getAllItems().get(4));
-//        getPlayer().getBag()[2] = new Item(getAllItems().get(9));
-//        getPlayer().getBag()[3] = new Item(getAllItems().get(6));
-//        getPlayer().getBag()[4] = new Item(getAllItems().get(7));
-//        getPlayer().getBag()[5] = new Item(getAllItems().get(8));
-//        getPlayer().getBag()[0].setQuantity(10);
-//        getPlayer().getBag()[1].setQuantity(10);
-//        getPlayer().getBag()[2].setQuantity(10);
-//        getPlayer().getBag()[3].setQuantity(10);
-//        getPlayer().getBag()[4].setQuantity(10);
-//        getPlayer().getBag()[5].setQuantity(10);
-        //getPlayer().getBox().add(new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(45)));
     }
     public void initPlayer(){
-        getPlayer().getPokemons()[0] = new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3));
-        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-        getPlayer().getPokemons()[0].getMoves()[3] = new Move(getAllMoves().get(getIntegerRNG(getAllMoves().size())));
-        /*
-        getPlayer().getPokemons()[1] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(5));
-        getPlayer().getPokemons()[2] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(9));
-        getPlayer().getPokemons()[3] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(15));
-        getPlayer().getPokemons()[4] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(25));
-        getPlayer().getPokemons()[5] = new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(35));
-        getPlayer().getPokemons()[0].getMoves()[0] = new Move(getAllMoves().get(2));
-        getPlayer().getPokemons()[0].getMoves()[1] = new Move(getAllMoves().get(5));
-        getPlayer().getPokemons()[0].getMoves()[2] = new Move(getAllMoves().get(16));
-        getPlayer().getPokemons()[1].getMoves()[0] = new Move(getAllMoves().get(19));
-        getPlayer().getPokemons()[1].getMoves()[1] = new Move(getAllMoves().get(25));
-        */
-        getPlayer().getBag()[0] = new Item(getAllItems().get(0));
-        getPlayer().getBag()[1] = new Item(getAllItems().get(4));
-        getPlayer().getBag()[2] = new Item(getAllItems().get(9));
-        getPlayer().getBag()[3] = new Item(getAllItems().get(6));
-        getPlayer().getBag()[4] = new Item(getAllItems().get(7));
-        getPlayer().getBag()[5] = new Item(getAllItems().get(8));
-        getPlayer().getBag()[0].setQuantity(10);
-        getPlayer().getBag()[1].setQuantity(10);
-        getPlayer().getBag()[2].setQuantity(10);
-        getPlayer().getBag()[3].setQuantity(10);
-        getPlayer().getBag()[4].setQuantity(10);
-        getPlayer().getBag()[5].setQuantity(10);
-        //getPlayer().getBox().add(new PokemonProfile(getSpawnCount(), 50, getAllPokemons().get(45)));
+        getPlayer().getPokemons().add(new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3)));
+        getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().add(new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(6)));
+        getPlayer().getPokemons().get(1).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().get(1).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().get(1).getMoves().add(generateRandomMove());
+        getPlayer().getPokemons().get(1).getMoves().add(generateRandomMove());
+
+        getPlayer().getBag().add(new ItemPotion(10));
+        getPlayer().getBag().add(new ItemRevive(10));
+        getPlayer().getBag().add(new ItemElixir(10));
+        getPlayer().getBag().add(new ItemPokeBall(10));
+        getPlayer().getBag().add(new ItemGreatBall(10));
+        getPlayer().getBag().add(new ItemUltraBall(10));
+    }
+
+    public void setButtonBorder(Button btn, int color){
+        btn.setBackground(getShape(color));
+    }
+
+    public static ShapeDrawable getShape(int color){
+        ShapeDrawable shapedrawable = new ShapeDrawable();
+        shapedrawable.setShape(new RectShape());
+        shapedrawable.getPaint().setColor(color);
+        shapedrawable.getPaint().setStrokeWidth(30f);
+        shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
+        return shapedrawable;
+    }
+
+    public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
+        btn.setClickable(!profile.isEmpty());
+        btn.setText(profile.getButtonString());
+        if(profile.getCurrentHP() <= 0 && !profile.isEmpty()){
+            setButtonBorder(btn, PokemonGoApp.DEAD_COLOR);
+        }
+        else{
+            setButtonBorder(btn, PokemonGoApp.POKEMON_COLOR);
+        }
+        if(!profile.isEmpty()){
+            btn.setVisibility(View.VISIBLE);
+            bar.setVisibility(View.VISIBLE);
+            bar.setMax(profile.getHP());
+            bar.setProgress(profile.getCurrentHP());
+            updateHpBarColor(profile.getCurrentHP(), profile.getHP(), bar);
+            icon.setVisibility(View.VISIBLE);
+            icon.setImageResource(profile.getDexData().getIcon());
+        }
+        else{
+            btn.setVisibility(View.INVISIBLE);
+            bar.setVisibility(View.INVISIBLE);
+            icon.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
+        if(((double)currentHp) > ((double)maxHp)/2){
+            bar.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(((double)currentHp) < ((double)maxHp)/2 && ((double)currentHp) > ((double)maxHp)/5){
+            bar.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+        else if(((double)currentHp) < ((double)maxHp)/5){
+            bar.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+    }
+
+    public void setAsBackButton(Button btn){
+        btn.setClickable(true);
+        btn.setText("BACK");
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
+    }
+
+    public void setAsCancelButton(Button btn){
+        btn.setClickable(true);
+        btn.setText("CANCEL");
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
     }
 
     /****************************************************/
@@ -613,6 +672,7 @@ public class PokemonGoApp extends Application{
 
          **Stat format:   <HP>, <Attack>, <Defense>, <SpAttack>, <SpDefense>, <Spd>
        */
+
 
     public String encodePokemonToCsv(){
         String csvStr = "";
@@ -653,8 +713,8 @@ public class PokemonGoApp extends Application{
                 PokemonProfile playerPokemon = new PokemonProfile(getSpawnCount(), currentLvl, getPokemon(dexNumber));
 
                 for (int moveCount = 0; moveCount<4; moveCount++){
-                    playerPokemon.getMoves()[moveCount] = new Move(findMove(playerData[6+(moveCount)*2].trim()));
-                    playerPokemon.getMoves()[moveCount].setCurrentPP(Integer.parseInt(playerData[7+(moveCount)*2].trim()));
+                    playerPokemon.getMoves().add(findMove(playerData[6+(moveCount)*2].trim()));
+                    playerPokemon.getMoves().get(moveCount).setCurrentPP(Integer.parseInt(playerData[7+(moveCount)*2].trim()));
                 }
 
                 int evHp = Integer.parseInt(playerData[14].trim());
@@ -683,9 +743,9 @@ public class PokemonGoApp extends Application{
                 playerPokemon.setIV(new StatSet(ivHp, ivAtk, ivDef, ivSpAtk, ivSpDef, ivSpd));
                 playerPokemon.setNature(new StatSet(natureHp, natureAtk, natureDef, natureSpAtk, natureSpDef, natureSpd));
 
-                this.getPlayer().getPokemons()[pokemonCount]= playerPokemon;
+                this.getPlayer().getPokemons().add(playerPokemon);
                 Log.e("Loading",
-                        this.getPlayer().getPokemons()[pokemonCount].getNickname()+" Loaded");
+                        this.getPlayer().getPokemons().get(pokemonCount).getNickname()+" Loaded");
                 pokemonCount++;
                 dataIndex++;
 
@@ -697,8 +757,8 @@ public class PokemonGoApp extends Application{
         for (String playerItem : allPlayerItems){
             String item[] = playerItem.split(",");
             Log.e("Checker", Integer.toString(itemCount));
-            this.getPlayer().getBag()[itemCount] = getItem(item[0]);
-            this.getPlayer().getBag()[itemCount].setQuantity(Integer.parseInt(item[1].trim()));
+            this.getPlayer().getBag().add(getGeneratedItem(item[0]));
+            this.getPlayer().getBag().get(itemCount).setQuantity(Integer.parseInt(item[1].trim()));
             itemCount += 1;
             }
         }
@@ -786,79 +846,6 @@ public class PokemonGoApp extends Application{
         }
     }
 
-    public void setButtonBorder(Button btn, int color){
-        btn.setBackground(getShape(color));
-    }
-
-    public static ShapeDrawable getShape(int color){
-        ShapeDrawable shapedrawable = new ShapeDrawable();
-        shapedrawable.setShape(new RectShape());
-        shapedrawable.getPaint().setColor(color);
-        shapedrawable.getPaint().setStrokeWidth(30f);
-        shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
-        return shapedrawable;
-    }
-
-    public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
-        btn.setClickable(!profile.isEmpty());
-        btn.setText(profile.getButtonString());
-        if(profile.getCurrentHP() <= 0 && !profile.isEmpty()){
-            setButtonBorder(btn, PokemonGoApp.DEAD_COLOR);
-        }
-        else{
-            setButtonBorder(btn, PokemonGoApp.POKEMON_COLOR);
-        }
-        if(!profile.isEmpty()){
-            btn.setVisibility(View.VISIBLE);
-            bar.setVisibility(View.VISIBLE);
-            bar.setMax(profile.getHP());
-            bar.setProgress(profile.getCurrentHP());
-            updateHpBarColor(profile.getCurrentHP(), profile.getHP(), bar);
-            icon.setVisibility(View.VISIBLE);
-            icon.setImageResource(profile.getDexData().getIcon());
-        }
-        else{
-            btn.setVisibility(View.INVISIBLE);
-            bar.setVisibility(View.INVISIBLE);
-            icon.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void setBagButton(Button btn, Item item, ImageView icon){
-        btn.setText(item.getButtonString());
-        icon.setImageResource(item.getImageIcon());
-        setButtonBorder(btn, PokemonGoApp.BAG_COLOR);
-    }
-
-    public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
-        if(((double)currentHp) > ((double)maxHp)/2){
-            bar.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-        else if(((double)currentHp) < ((double)maxHp)/2 && ((double)currentHp) > ((double)maxHp)/5){
-            bar.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-        else if(((double)currentHp) < ((double)maxHp)/5){
-            bar.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-    }
-
-    public void setAsBackButton(Button btn){
-        btn.setClickable(true);
-        btn.setText("BACK");
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
-    }
-
-    public void setAsCancelButton(Button btn){
-        btn.setClickable(true);
-        btn.setText("CANCEL");
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
-    }
-
     public String extractPlayerPokemonData(PokemonProfile playerPokemon){
         String dexNumber = Integer.toString(playerPokemon.getDexNumber());
         String nickName = playerPokemon.getNickname();
@@ -873,7 +860,7 @@ public class PokemonGoApp extends Application{
         }
         String playerPokemonIV = playerPokemon.getIV().toString();
         String playerPokemonEV = playerPokemon.getEV().toString();
-        String playerPokemonNature = playerPokemon.getmNature().toString();
+        String playerPokemonNature = playerPokemon.getNature().toString();
 
         String extractData =  dexNumber + "," + nickName + "," + gender + "," + currentLvl
                 + "," + currentHp  + "," + currentExp  + "," + moves + playerPokemonEV  + "," + playerPokemonIV
