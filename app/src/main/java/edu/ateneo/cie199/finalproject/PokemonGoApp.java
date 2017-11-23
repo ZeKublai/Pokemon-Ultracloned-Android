@@ -616,7 +616,7 @@ public class PokemonGoApp extends Application{
 
     public String encodePokemonToCsv(){
         String csvStr = "";
-        for(PokemonProfile pokemon : this.getPlayer().getPokemons()){
+        for(PokemonProfile pokemon : this.getPlayer().getBox()){
             if(pokemon.getDexNumber() != 0) {
                 csvStr += extractPlayerPokemonData(pokemon);
                 csvStr += "\n";
@@ -702,6 +702,23 @@ public class PokemonGoApp extends Application{
             itemCount += 1;
             }
         }
+
+    public boolean fileExists(){
+        File targetDirectory = getFilesDir();
+
+        if(targetDirectory.exists()){
+            File targetFile = new File(targetDirectory, playerDataFileName);
+            if(targetFile.exists()){
+                Log.e("File Exists", "File can be loaded");
+                return true;
+            }
+            else{
+                Log.e("No File", "File does not exists");
+                return false;
+            }
+        }
+        return false;
+    }
 
 
     public boolean savePlayerData(){

@@ -43,9 +43,15 @@ public class TitleActivity extends AppCompatActivity {
                 backgroundTwo.setTranslationX(translationX - width);
             }
         });
-        animator.start();
 
+        Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
         Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
+        if(!app.fileExists()){
+            btnContinueGame.setClickable(false);
+            btnContinueGame.setVisibility(btnContinueGame.INVISIBLE);
+        }
+
+
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +64,6 @@ public class TitleActivity extends AppCompatActivity {
             }
         });
 
-        Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
         btnContinueGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
