@@ -1,5 +1,6 @@
 package edu.ateneo.cie199.finalproject;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.floor;
@@ -13,6 +14,7 @@ public class PokemonProfile {
     public static int MAX_IV_VALUE = 31;
     public static int MAX_NATURE_VALUE = 110;
     public static int MAX_POKEMON_MOVES = 4;
+    public static int MIN_HP = 0;
 
     public static int GENDER_NONE = 0;
     public static int GENDER_MALE = 1;
@@ -31,7 +33,7 @@ public class PokemonProfile {
     private StatSet mEV = new StatSet();
     private StatSet mNature = new StatSet();
 
-    private Move[] mMoves = new Move[MAX_POKEMON_MOVES];
+    private ArrayList<Move> mMoves = new ArrayList<>();
 
     public PokemonProfile(int mId, Pokemon pokemon, int mLevel) {
         this.mId = mId;
@@ -57,10 +59,6 @@ public class PokemonProfile {
         this.mNature = new StatSet(MAX_NATURE_VALUE);
         this.mCurrentHP = getHP();
         this.mCurrentExp = 0;
-
-        for(int index = 0; index < mMoves.length; index++){
-            mMoves[index] = new Move();
-        }
     }
 
     public PokemonProfile(int mId, int mLevel, Pokemon pokemon) {
@@ -87,10 +85,6 @@ public class PokemonProfile {
         this.mNature = new StatSet(MAX_NATURE_VALUE);
         this.mCurrentHP = getHP();
         this.mCurrentExp = 0;
-
-        for(int index = 0; index < mMoves.length; index++){
-            mMoves[index] = new Move();
-        }
     }
 
     public PokemonProfile(PokemonProfile profile) {
@@ -124,9 +118,6 @@ public class PokemonProfile {
     }
 
     public PokemonProfile() {
-        for(int index = 0; index < mMoves.length; index++){
-            mMoves[index] = new Move();
-        }
     }
 
     private int getStat(int baseStat, int ivStat, int evStat, int level, int natureStat){
@@ -188,7 +179,7 @@ public class PokemonProfile {
         return mEV;
     }
     public StatSet getIV() {return mIV;}
-    public StatSet getmNature() {return mNature;}
+    public StatSet getNature() {return mNature;}
 
     public void setEV(StatSet Stat){
         this.mEV = Stat;
@@ -262,10 +253,10 @@ public class PokemonProfile {
         return totalExperience;
     }
 
-    public Move[] getMoves() {
+    public ArrayList<Move> getMoves() {
         return mMoves;
     }
-    public void setMoves(Move[] mMoves) {
+    public void setMoves(ArrayList mMoves) {
         this.mMoves = mMoves;
     }
 
@@ -281,7 +272,7 @@ public class PokemonProfile {
     public boolean allMovesPPisFull(){
         int fullMoveCount = 0;
         for(int index = 0; index < MAX_POKEMON_MOVES; index++){
-            if(mMoves[index].getCurrentPP() == mMoves[index].getMaxPP()){
+            if(mMoves.get(index).getCurrentPP() == mMoves.get(index).getMaxPP()){
                 fullMoveCount = fullMoveCount + 1;
             }
         }
@@ -300,5 +291,14 @@ public class PokemonProfile {
         else{
             return mNickname + "\nLv" + mLevel + "\tHP " + mCurrentHP + "/" + getHP() + "\n";
         }
+    }
+
+    public boolean noMorePP(){
+        for(int index = 0; index < mMoves.size(); index++){
+            if(mMoves.get(index).getCurrentPP() > 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

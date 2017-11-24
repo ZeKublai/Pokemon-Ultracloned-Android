@@ -8,10 +8,49 @@
     android:background="@drawable/title_bg"
     tools:context="edu.ateneo.cie199.finalproject.TitleActivity">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ImageView
+        android:id="@+id/img_title_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_title_new_game"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/title_logo" />
+
+    <Button
+        android:id="@+id/btn_title_new_game"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:text="NEW GAME"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="219dp" />
+
+    <Button
+        android:id="@+id/btn_title_continue_game"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_title_new_game"
+        android:layout_margin="10dp"
+        android:text="CONTINUE"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="219dp" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/btn_title_new_game">
+        android:layout_alignBottom="@+id/btn_title_continue_game"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/img_title_logo">
 
         <ImageView
             android:id="@+id/background_one"
@@ -27,43 +66,7 @@
             android:layout_below="@+id/img_title_logo"
             android:src="@drawable/mist" />
 
-        <Button
-            android:id="@+id/btn_title_continue_game"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="CONTINUE"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="24sp"
-            tools:layout_editor_absoluteX="135dp"
-            tools:layout_editor_absoluteY="219dp" />
-
     </FrameLayout>
-
-    <Button
-        android:id="@+id/btn_title_new_game"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:text="NEW GAME"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="135dp"
-        tools:layout_editor_absoluteY="219dp" />
-
-    <ImageView
-        android:id="@+id/img_title_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_title_new_game"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/title_logo" />
 
     <TextView
         android:id="@+id/txv_title_footer"
@@ -72,6 +75,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:text=" © 2017 Pokémon/Nintendo" />
+        android:text=" © 2017 Pokémon/Nintendo"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

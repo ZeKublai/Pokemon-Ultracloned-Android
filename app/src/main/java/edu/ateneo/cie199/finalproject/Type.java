@@ -70,7 +70,6 @@ public class Type {
     public int getId() {
         return mId;
     }
-
     public void setId(int mId) {
         this.mId = mId;
     }
@@ -78,7 +77,6 @@ public class Type {
     public int getColor() {
         return mColor;
     }
-
     public void setColor(int mColor) {
         this.mColor = mColor;
     }
@@ -86,7 +84,6 @@ public class Type {
     public String getName() {
         return mName;
     }
-
     public void setName(String mName) {
         this.mName = mName;
     }
@@ -94,7 +91,6 @@ public class Type {
     public Type(double[] mMultiplier) {
         this.mMultiplier = mMultiplier;
     }
-
     public double[] getMultiplier(){
         return mMultiplier;
     }
@@ -102,7 +98,6 @@ public class Type {
     public int getIcon() {
         return mIcon;
     }
-
     public void setIcon(int mIcon) {
         this.mIcon = mIcon;
     }

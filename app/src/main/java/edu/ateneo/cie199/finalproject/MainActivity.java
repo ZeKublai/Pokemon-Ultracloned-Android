@@ -1,21 +1,14 @@
 package edu.ateneo.cie199.finalproject;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -24,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -89,8 +81,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         else{
             app.initPlayer();
         }
-        //INITIALIZING PLAYER
-        //TODO LOAD PLAYER SAVE DATA FROM FILE INSTEAD OF HARD CODE
 
 
         app.setSpawnCount(app.getSpawnCount() + 1);
@@ -129,7 +119,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                         //GENERATING POKEMON
                         Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
-                        Item spawnItem = app.getPlayer().getBag()[app.getIntegerRNG(Player.MAX_BAG_SLOTS)];
+                        Item spawnItem = app.generateRandomItem();
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
@@ -213,19 +203,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
-                    int itemAmount = PokemonGoApp.getIntegerRNG(5) + 2;
-                    app.getPlayer().giveItem(new Item(app.getCurrentGoal().getTitle(), itemAmount));
+
+                    Item item = app.getGeneratedItem(app.getCurrentGoal().getTitle()).generateCopy();
+                    app.getPlayer().giveItem(item);
 
                     final Dialog dialog = new Dialog(MainActivity.this);
-                    dialog.setContentView(R.layout.custom_dialog);
-                    dialog.setTitle("Title...");
+                    dialog.setContentView(R.layout.got_item_dialog);
+                    dialog.setTitle("");
 
                     // set the custom dialog components - text, image and button
                     TextView txvDialog = (TextView) dialog.findViewById(R.id.txv_dialog_message);
-                    txvDialog.setText("You got " + itemAmount + " " + app.getCurrentGoal().getTitle() + "s!");
+                    txvDialog.setText("You got " + item.getQuantity() + " " + app.getCurrentGoal().getTitle() + "s!");
                     txvDialog.setTypeface(Typeface.createFromAsset(getAssets(), "generation6.ttf"));
                     ImageView dialogImage = (ImageView) dialog.findViewById(R.id.img_dialog);
-                    dialogImage.setImageResource(app.getItem(app.getCurrentGoal().getTitle()).getImageBig());
+                    dialogImage.setImageResource(item.getImageBig());
 
                     Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog_ok);
                     dialogButton.setTypeface(Typeface.createFromAsset(getAssets(), "generation6.ttf"));
@@ -326,7 +317,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                             final LatLng startLatLng = projection.fromScreenLocation(startPoint);
                             final long moveStart = SystemClock.uptimeMillis();
-                            final long moveDuration = 10000;
+                            final long moveDuration = 5000;
                             final Interpolator moveInterpolator = new LinearInterpolator();
 
                             moveHandler.postDelayed(new Runnable() {
@@ -384,7 +375,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
                     if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
-                        imgButtonMain.setImageResource(app.getItem(marker.getTitle()).getImageBig());
+                        imgButtonMain.setImageResource(app.getGeneratedItem(marker.getTitle()).getImageBig());
                     }
                     else{
                         app.getMusicHandler().playSfx(MainActivity.this, app.getPokemon(app.getSelectedMarker().getTitle()).getSound(), app.getSFXSwitch());

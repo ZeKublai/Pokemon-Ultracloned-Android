@@ -57,7 +57,8 @@
                     android:layout_alignBottom="@+id/btn_pokemon5"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/btn_pokemon5"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/img_pokemon3"
@@ -66,7 +67,8 @@
                     android:layout_alignBottom="@+id/btn_pokemon3"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/btn_pokemon3"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/img_pokemon1"
@@ -75,7 +77,8 @@
                     android:layout_alignBottom="@+id/btn_pokemon1"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/btn_pokemon1"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/btn_pokemon1"
@@ -89,7 +92,8 @@
                     android:paddingLeft="55dp"
                     android:text="1"
                     android:textAlignment="viewStart"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/bar_pokemon1"
@@ -101,7 +105,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/img_pokemon1" />
+                    android:layout_toEndOf="@+id/img_pokemon1"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/btn_pokemon3"
@@ -115,7 +120,8 @@
                     android:paddingLeft="55dp"
                     android:text="3"
                     android:textAlignment="viewStart"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/bar_pokemon3"
@@ -126,7 +132,8 @@
                     android:layout_alignEnd="@+id/bar_pokemon5"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="6dp"
-                    android:layout_toEndOf="@+id/img_pokemon3" />
+                    android:layout_toEndOf="@+id/img_pokemon3"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/btn_pokemon5"
@@ -140,7 +147,8 @@
                     android:paddingLeft="55dp"
                     android:text="5"
                     android:textAlignment="viewStart"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/bar_pokemon5"
@@ -152,7 +160,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/img_pokemon5" />
+                    android:layout_toEndOf="@+id/img_pokemon5"
+                    android:visibility="invisible" />
 
             </RelativeLayout>
 
@@ -171,7 +180,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/img_pokemon6" />
+                    android:layout_toEndOf="@+id/img_pokemon6"
+                    android:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/bar_pokemon4"
@@ -183,7 +193,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/img_pokemon4" />
+                    android:layout_toEndOf="@+id/img_pokemon4"
+                    android:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/bar_pokemon2"
@@ -195,7 +206,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toEndOf="@+id/img_pokemon2" />
+                    android:layout_toEndOf="@+id/img_pokemon2"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/img_pokemon6"
@@ -204,7 +216,8 @@
                     android:layout_alignBottom="@+id/btn_pokemon6"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/btn_pokemon6"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/img_pokemon2"
@@ -213,7 +226,8 @@
                     android:layout_alignBottom="@+id/btn_pokemon2"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/btn_pokemon2"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/img_pokemon4"
@@ -222,7 +236,8 @@
                     android:layout_alignBottom="@+id/btn_pokemon4"
                     android:layout_alignParentStart="true"
                     android:layout_alignTop="@+id/btn_pokemon4"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/btn_pokemon6"
@@ -236,7 +251,8 @@
                     android:paddingLeft="55dp"
                     android:text="6"
                     android:textAlignment="viewStart"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/btn_pokemon4"
@@ -250,7 +266,8 @@
                     android:paddingLeft="55dp"
                     android:text="4"
                     android:textAlignment="viewStart"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
 
                 <Button
                     android:id="@+id/btn_pokemon2"
@@ -264,7 +281,8 @@
                     android:paddingLeft="55dp"
                     android:text="2"
                     android:textAlignment="viewStart"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -295,121 +313,52 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1">
 
             <Button
-                android:id="@+id/btn_pokemon_swap"
+                android:id="@+id/btn_pokemon_switch"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_pokemon_heal"
-                android:layout_alignEnd="@+id/btn_pokemon_heal"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="SWITCH"
-                android:textAlignment="viewStart" />
-
-            <ImageView
-                android:id="@+id/img_pokemon_restore"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_pokemon_restore"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_pokemon_restore"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:id="@+id/img_pokemon_heal"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_pokemon_heal"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_pokemon_heal"
-                android:layout_margin="5dp" />
-
-            <ImageView
-                android:id="@+id/img_pokemon_revive"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_pokemon_revive"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/btn_pokemon_revive"
-                android:layout_margin="5dp" />
-
-            <Button
-                android:id="@+id/btn_pokemon_restore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_pokemon_back"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="RESTORE"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
+                android:text="SWITCH"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <ListView
+                android:id="@+id/lsv_player_bag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_pokemon_back"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_pokemon_switch"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp" />
 
             <Button
                 android:id="@+id/btn_pokemon_back"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
                 android:text="BACK"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
                 android:textAllCaps="false"
+                android:textColor="@android:color/white"
                 tools:layout_editor_absoluteX="56dp"
                 tools:layout_editor_absoluteY="79dp" />
-
-            <Button
-                android:id="@+id/btn_pokemon_revive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_pokemon_restore"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="REVIVE"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_pokemon_heal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_pokemon_revive"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@+id/btn_pokemon_back"
-                android:layout_margin="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
-                android:layout_marginTop="1dp"
-                android:fontFamily="@font/generation6"
-                android:paddingLeft="55dp"
-                android:text="HEAL"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false" />
 
         </RelativeLayout>
     </LinearLayout>
