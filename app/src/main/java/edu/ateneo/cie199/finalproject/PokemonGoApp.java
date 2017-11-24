@@ -3,6 +3,7 @@ package edu.ateneo.cie199.finalproject;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +15,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,6 +41,7 @@ public class PokemonGoApp extends Application{
     private Marker mCurrentGoal = null;
 
     private MusicHandler musicHandler = new MusicHandler();
+    private HttpClient mHttpClient = new DefaultHttpClient();
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
@@ -91,6 +102,8 @@ public class PokemonGoApp extends Application{
     public MusicHandler getMusicHandler() {
         return musicHandler;
     }
+
+    public HttpClient getmHttpClient(){ return mHttpClient; }
 
     public ArrayList<Marker> getMarkers(){
         return mMarkers;
@@ -207,6 +220,33 @@ public class PokemonGoApp extends Application{
         addPokemon(new Pokemon(147, "Dratini", mTypes.get(Type.DRAGON), mTypes.get(Type.NONE), "It is born large to start with. It repeatedly sheds its skin as it steadily grows longer.", 45, 1, 1, 41, 64, 45, 50, 50, 50, 0, 148, R.drawable.dratini_main, R.drawable.dratini_back, R.drawable.dratini_map, R.raw.dratini));
         addPokemon(new Pokemon(148, "Dragonair", mTypes.get(Type.DRAGON), mTypes.get(Type.NONE), "According to a witness, its body was surrounded by a strange aura that gave it a mystical look.", 45, 1, 1, 61, 84, 65, 70, 70, 70, 30, 149, R.drawable.dragonair_main, R.drawable.dragonair_back, R.drawable.dragonair_map, R.raw.dragonair));
         addPokemon(new Pokemon(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite));
+    }
+
+    public String getAllMovesApi(){
+        HttpClient hc = this.getmHttpClient();
+        HttpGet request = new HttpGet("http://local.localtunnel.me/moves/moves");
+        HttpResponse response;
+        String message = null;
+        try {
+            response = hc.execute(request);
+            int retStatus = response.getStatusLine().getStatusCode();
+            if (retStatus != HttpStatus.SC_OK) {
+                Log.e("Error", "Invalid status code");
+            }
+            else {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    message = EntityUtils.toString(entity);
+                } else {
+                    Log.e("Tangina", "Tangina talaga");
+                }
+            }
+
+        } catch (IOException e) {
+            Log.e("Error", "IOException occurred");
+        }
+
+        return message;
     }
 
     //LOADS ALL MOVES
