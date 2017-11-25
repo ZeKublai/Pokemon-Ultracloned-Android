@@ -116,4 +116,16 @@ public class Move {
             return mName + "\n" + mType.getName() + "\t PP " + mCurrentPP + "/" + mMaxPP;
         }
     }
+
+    public static int decodeCategory(String Category){
+        if(Category.equals("Physical")){
+            return 0;
+        }
+        else if (Category.equals("Special")){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 }

@@ -97,6 +97,64 @@ public class Type {
         return mMultiplier;
     }
 
-
-
+    public static int getIdfromString(String type){
+        if(type.equals("None")){
+            return NONE;
+        }
+        else if(type.equals("Normal")){
+            return NORMAL;
+        }
+        else if(type.equals("Fire")){
+            return FIRE;
+        }
+        else if(type.equals("Water")){
+            return WATER;
+        }
+        else if(type.equals("Electric")){
+            return ELECTRIC;
+        }
+        else if(type.equals("Grass")){
+            return GRASS;
+        }
+        else if(type.equals("Ice")){
+            return ICE;
+        }
+        else if (type.equals("Fighting")){
+            return FIGHTING;
+        }
+        else if(type.equals("Poison")){
+            return POISON;
+        }
+        else if(type.equals("Ground")){
+            return GROUND;
+        }
+        else if(type.equals("Flying")){
+            return FLYING;
+        }
+        else if(type.equals("Psychic")){
+            return PSYCHIC;
+        }
+        else if(type.equals("Bug")){
+            return BUG;
+        }
+        else if(type.equals("Rock")){
+            return ROCK;
+        }
+        else if(type.equals("Ghost")){
+            return GHOST;
+        }
+        else if(type.equals("Dragon")){
+            return DRAGON;
+        }
+        else if(type.equals("Dark")){
+            return DARK;
+        }
+        else if(type.equals("Steel")){
+            return STEEL;
+        }
+        else if(type.equals("Fairy")){
+            return FAIRY;
+        }
+        return 0;
+    }
 }

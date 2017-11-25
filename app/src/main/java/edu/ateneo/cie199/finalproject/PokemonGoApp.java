@@ -22,6 +22,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -42,6 +45,8 @@ public class PokemonGoApp extends Application{
 
     private MusicHandler musicHandler = new MusicHandler();
     private HttpClient mHttpClient = new DefaultHttpClient();
+
+    private String movesApiUrl = "https://local.localtunnel.me/moves/moves";
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
@@ -98,6 +103,7 @@ public class PokemonGoApp extends Application{
     public void setCurrentGoal(Marker marker) {
         this.mCurrentGoal = marker;
     }
+    public String getMovesApiUrl() { return movesApiUrl; }
 
     public MusicHandler getMusicHandler() {
         return musicHandler;
@@ -222,23 +228,23 @@ public class PokemonGoApp extends Application{
         addPokemon(new Pokemon(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite));
     }
 
-    public String getAllMovesApi(){
+    public String getStringFromApi(String url){
         HttpClient hc = this.getmHttpClient();
-        HttpGet request = new HttpGet("http://local.localtunnel.me/moves/moves");
+        HttpGet request = new HttpGet(url);
         HttpResponse response;
         String message = null;
         try {
             response = hc.execute(request);
             int retStatus = response.getStatusLine().getStatusCode();
             if (retStatus != HttpStatus.SC_OK) {
-                Log.e("Error", "Invalid status code");
+                Log.e("Error", String.valueOf(retStatus));
             }
             else {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     message = EntityUtils.toString(entity);
                 } else {
-                    Log.e("Tangina", "Tangina talaga");
+                    Log.e("Entity Null", "HTTP Entity response is Null");
                 }
             }
 
@@ -247,6 +253,54 @@ public class PokemonGoApp extends Application{
         }
 
         return message;
+    }
+
+    public void parseJsonMoveData(String jsonData, ArrayList<Move> mTest) throws JSONException {
+        if (jsonData!=null){
+            JSONArray poiArr = new JSONArray(jsonData);
+            for (int iIdx = 0; iIdx < poiArr.length(); iIdx++) {
+                JSONObject placeObj = poiArr.getJSONObject(iIdx);
+                String name = placeObj.getString("Name");
+                Type type = mTypes.get(Type.getIdfromString(placeObj.getString("Type")));
+                int category = Move.decodeCategory(placeObj.getString("Category"));
+                int power = Integer.parseInt(placeObj.getString("Power"));
+                int acc = Integer.parseInt(placeObj.getString("Accuracy"));
+                int maxpp = Integer.parseInt(placeObj.getString("Max PP"));
+                Move m = new Move(name, type, category, maxpp, maxpp , power, acc);
+                mTest.add(m);
+                Log.e("Test", mTest.get(iIdx).toString());
+            }
+        }
+        else{
+            Log.e("Error", "json is null");
+        }
+    }
+
+    public void parseJsonPokemonData(String jsonData, ArrayList<Pokemon> mTest) throws JSONException {
+        if (jsonData != null) {
+            JSONArray poiArr = new JSONArray(jsonData);
+            for (int iIdx = 0; iIdx < poiArr.length(); iIdx++) {
+                JSONObject placeObj = poiArr.getJSONObject(iIdx);
+                int dex = Integer.parseInt(placeObj.getString("Dex #"));
+                String name = placeObj.getString("Name");
+                Type typeOne = mTypes.get(Type.getIdfromString(placeObj.getString("Type 1")));
+                Type typeTwo = mTypes.get(Type.getIdfromString(placeObj.getString("Type 2")));
+                String desc = placeObj.getString("Description");
+                int catchRate = Integer.parseInt(placeObj.getString("Catch Rate"));
+                int category = Move.decodeCategory(placeObj.getString("Category"));
+                int power = Integer.parseInt(placeObj.getString("Power"));
+                int acc = Integer.parseInt(placeObj.getString("Accuracy"));
+                int maxpp = Integer.parseInt(placeObj.getString("Max PP"));
+//                Pokemon m = new Pokemon(name, type, category, maxpp, maxpp , power, acc);
+//                mTest.add(m);
+                Log.e("Test", mTest.get(iIdx).toString());
+            }
+        }
+        else{
+            Log.e("Error", "json is null");
+        }
+
+
     }
 
     //LOADS ALL MOVES
@@ -290,6 +344,13 @@ public class PokemonGoApp extends Application{
         mMoves.add(new Move("Façade", mTypes.get(Type.NORMAL), Move.PHYSICAL, 20, 20, 70, 100));
 
     }
+
+    public void loadAllMovesApi() throws JSONException {
+        String jsonMoves = getStringFromApi(movesApiUrl);
+        parseJsonMoveData(jsonMoves, mMoves);
+    }
+
+
 
     public void loadAllPokemonTypes(){
         double[] normal = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f,
