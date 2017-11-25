@@ -22,7 +22,6 @@ public abstract class Move {
 
     protected String mName = "";
     protected Type mType = new Type();
-    private int mCategory = 0;
     protected int mMaxPP = 0;
     protected int mCurrentPP = 0;
     protected int mPower = 0;
@@ -32,7 +31,6 @@ public abstract class Move {
                 int mAccuracy) {
         this.mName = mName;
         this.mType = mType;
-        this.mCategory = mCategory;
         this.mMaxPP = mMaxPP;
         this.mCurrentPP = mCurrentPP;
         this.mPower = mPower;
@@ -42,7 +40,6 @@ public abstract class Move {
     public Move(Move move){
         this.mName = move.mName;
         this.mType = move.mType;
-        this.mCategory = move.mCategory;
         this.mMaxPP = move.mMaxPP;
         this.mCurrentPP = move.mCurrentPP;
         this.mPower = move.mPower;
@@ -64,13 +61,6 @@ public abstract class Move {
     }
     public void setType(Type mType) {
         this.mType = mType;
-    }
-
-    public int getCategory() {
-        return mCategory;
-    }
-    public void setCategory(int mCategory) {
-        this.mCategory = mCategory;
     }
 
     public int getMaxPP() {

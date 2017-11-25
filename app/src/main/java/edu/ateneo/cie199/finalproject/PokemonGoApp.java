@@ -1,17 +1,28 @@
 package edu.ateneo.cie199.finalproject;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.media.Image;
+import android.support.v7.widget.PopupMenu;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -572,7 +586,7 @@ public class PokemonGoApp extends Application{
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
     }
     public void initPlayer(){
-        getPlayer().getPokemons().add(new PokemonProfile(getSpawnCount(), 5, getAllPokemons().get(3)));
+        getPlayer().getPokemons().add(new PokemonProfile(getSpawnCount(), 15, getAllPokemons().get(3)));
         getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
         getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
         getPlayer().getPokemons().get(0).getMoves().add(generateRandomMove());
@@ -593,6 +607,13 @@ public class PokemonGoApp extends Application{
 
     public void setButtonBorder(Button btn, int color){
         btn.setBackground(getShape(color));
+    }
+
+    public void applyFontToMenuItem(MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(getAssets(), "generation6.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
     }
 
     public static ShapeDrawable getShape(int color){
@@ -649,6 +670,13 @@ public class PokemonGoApp extends Application{
         btn.setText("BACK");
         btn.setVisibility(View.VISIBLE);
         btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
+    }
+
+    public void setAsOkButton(Button btn){
+        btn.setClickable(true);
+        btn.setText("OK");
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
     }
 
     public void setAsCancelButton(Button btn){
@@ -870,4 +898,103 @@ public class PokemonGoApp extends Application{
 
     }
 
+    public void loadPokemonDetails(final Dialog dialog, Activity ctx, final PokemonProfile profile){
+            setFontForContainer((RelativeLayout) dialog.findViewById(R.id.pokemon_profile_group), "generation6.ttf");
+            dialog.setTitle("");
+
+            // set the custom dialog components - text, image and button
+            TextView txvDexNumber = (TextView) dialog.findViewById(R.id.txv_profile_dex);
+            TextView txvName = (TextView) dialog.findViewById(R.id.txv_profile_name);
+            ImageView imgType1 = (ImageView) dialog.findViewById(R.id.img_profile_type1);
+            ImageView imgType2 = (ImageView) dialog.findViewById(R.id.img_profile_type2);
+            TextView txvOT = (TextView) dialog.findViewById(R.id.txv_profile_ot);
+            TextView txvId = (TextView) dialog.findViewById(R.id.txv_profile_id);
+            TextView txvExp = (TextView) dialog.findViewById(R.id.txv_profile_exp);
+            TextView txvNextLevel = (TextView) dialog.findViewById(R.id.txv_profile_nextlevel);
+            ProgressBar barExp = (ProgressBar) dialog.findViewById(R.id.bar_profile_exp);
+            TextView txvGender = (TextView) dialog.findViewById(R.id.txv_profile_gender);
+            TextView txvLevel = (TextView) dialog.findViewById(R.id.txv_profile_level);
+            ImageView imgProfile = (ImageView) dialog.findViewById(R.id.img_profile_main);
+            TextView txvHp = (TextView) dialog.findViewById(R.id.txv_profile_hp);
+            ProgressBar barHp = (ProgressBar) dialog.findViewById(R.id.bar_profile_hp);
+            TextView txvAttack = (TextView) dialog.findViewById(R.id.txv_profile_attack);
+            TextView txvDefense = (TextView) dialog.findViewById(R.id.txv_profile_defense);
+            TextView txvSpAttack = (TextView) dialog.findViewById(R.id.txv_profile_sp_attack);
+            TextView txvSpDefense = (TextView) dialog.findViewById(R.id.txv_profile_sp_defense);
+            TextView txvSpeed = (TextView) dialog.findViewById(R.id.txv_profile_speed);
+            ListView lsvMoves = (ListView) dialog.findViewById(R.id.lsv_profile_moves);
+
+            txvDexNumber.setText(profile.getDexData().getDexNumber() + "");
+            txvName.setText(profile.getDexData().getName());
+            imgType1.setImageResource(profile.getDexData().getType1().getIcon());
+            imgType2.setImageResource(profile.getDexData().getType2().getIcon());
+
+            //TODO Implement when trading is possible
+            txvOT.setText(mPlayer.getName());
+
+            txvId.setText(profile.getId() + "");
+            txvExp.setText(profile.getTotalExperience() + "");
+            txvNextLevel.setText(profile.getExperienceNeeded() - profile.getCurrentExp() + "");
+            barExp.setMax(profile.getExperienceNeeded());
+            barExp.setProgress(profile.getCurrentExp());
+            barExp.getProgressDrawable().setColorFilter(
+                    PokemonGoApp.RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+            txvGender.setText(profile.getGenderString());
+            txvLevel.setText("Lv. " + profile.getLevel());
+            imgProfile.setBackgroundResource(profile.getDexData().getMainImage());
+            txvHp.setText(profile.getCurrentHP() + "/" + profile.getHP());
+            barHp.setMax(profile.getHP());
+            barHp.setProgress(profile.getCurrentHP());
+            barHp.getProgressDrawable().setColorFilter(
+                PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+
+            txvAttack.setText(profile.getAttack() + "");
+            txvDefense.setText(profile.getDefense() + "");
+            txvSpAttack.setText(profile.getSpAttack() + "");
+            txvSpDefense.setText(profile.getSpDefense() + "");
+            txvSpeed.setText(profile.getSpeed() + "");
+
+            MoveList mMoves = new MoveList(ctx, profile.getMoves());
+            lsvMoves.setAdapter(mMoves);
+
+            dialog.show();
+    }
+
+    public void showPokedexDialog(Context ctx, Pokemon selectedPokemon){
+
+        final Dialog dexDialog = new Dialog(ctx);
+        dexDialog.setContentView(R.layout.pokedex_dialog);
+        setFontForContainer((RelativeLayout) dexDialog.findViewById(R.id.dex_group), "generation6.ttf");
+        dexDialog.setTitle("");
+
+        // set the custom dialog components - text, image and button
+        TextView txvNumber = (TextView) dexDialog.findViewById(R.id.txv_dex_number);
+        TextView txvName = (TextView) dexDialog.findViewById(R.id.txv_dex_name);
+        ImageView imgType1 = (ImageView) dexDialog.findViewById(R.id.img_dex_type1);
+        ImageView imgType2 = (ImageView) dexDialog.findViewById(R.id.img_dex_type2);
+        TextView txvHeight = (TextView) dexDialog.findViewById(R.id.txv_dex_height);
+        TextView txvWeight = (TextView) dexDialog.findViewById(R.id.txv_dex_weight);
+        ImageView imgMain = (ImageView) dexDialog.findViewById(R.id.img_dex_main);
+
+        txvNumber.setText(selectedPokemon.getDexNumber() + "");
+        txvName.setText(selectedPokemon.getName());
+        imgType1.setImageResource(selectedPokemon.getType1().getIcon());
+        imgType2.setImageResource(selectedPokemon.getType2().getIcon());
+        txvHeight.setText(selectedPokemon.getHeight());
+        txvWeight.setText(selectedPokemon.getWeight());
+        imgMain.setBackgroundResource(selectedPokemon.getMainImage());
+
+        Button dialogButton = (Button) dexDialog.findViewById(R.id.btn_dex_ok);
+        setAsOkButton(dialogButton);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMusicHandler().playButtonSfx(getSFXSwitch());
+                dexDialog.dismiss();
+            }
+        });
+
+        dexDialog.show();
+    }
 }

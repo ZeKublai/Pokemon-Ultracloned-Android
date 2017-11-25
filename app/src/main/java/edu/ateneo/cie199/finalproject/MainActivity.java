@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
@@ -97,6 +98,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         txvMain.setText(app.getPlayer().getName());
         imgButtonMain.setImageResource(R.drawable.player_main);
         imgButtonMain.setBackgroundColor(Color.argb(0, 0, 0, 0));
+
+        imgButtonMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
+                            app.showPokedexDialog(MainActivity.this, app.getPokemon(app.getSelectedMarker().getTitle()));
+                        }
+                    }
+                }
+        );
 
         //SPAWNER
         final Handler spawnHandler = new Handler();
@@ -386,6 +398,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+
 
     @Override
     protected void onResume() {

@@ -1,74 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pokemon_profile_group"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btn_profile_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:text="Back"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txv_battle_message"
+        android:layout_alignParentTop="true"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/lbl_profile_dex"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/relativeLayout8"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dex No." />
+                android:layout_below="@+id/relativeLayout7"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
 
-            <TextView
-                android:id="@+id/txv_profile_dex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/lbl_profile_dex"
-                android:textAlignment="viewEnd" />
+                <EditText
+                    android:id="@+id/edt_profile_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="5dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/lbl_profile_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/lbl_profile_dex"
-                android:text="Name" />
+                <TextView
+                    android:id="@+id/txv_profile_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/edt_profile_nickname"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp" />
 
-            <TextView
-                android:id="@+id/txv_profile_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/lbl_profile_dex"
-                android:layout_toEndOf="@+id/lbl_profile_nickname"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    android:id="@+id/txv_profile_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/edt_profile_nickname"
+                    android:layout_alignStart="@+id/edt_profile_nickname"
+                    android:layout_alignTop="@+id/edt_profile_nickname"
+                    android:textAlignment="textEnd" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/lbl_profile_type"
+            <RelativeLayout
+                android:id="@+id/relativeLayout7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/lbl_profile_nickname"
-                android:layout_marginTop="71dp"
-                android:text="Type" />
+                android:layout_margin="5dp">
+
+                <ProgressBar
+                    android:id="@+id/bar_profile_exp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txv_profile_nextlevel"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/edt_profile_name"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_dex"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Name"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_dex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_dex"
+                    android:textAlignment="viewEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/lbl_profile_id"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_id"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_dex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Dex No."
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_ot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/lbl_profile_type"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_ot"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_nextlevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/txv_profile_ot"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_nextlevel"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_ot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_type"
+                    android:layout_marginLeft="5dp"
+                    android:text="OT"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/img_profile_type2"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/lbl_profile_type"
+                    android:layout_alignTop="@+id/lbl_profile_type"
+                    android:layout_toEndOf="@+id/lbl_profile_type" />
+
+                <TextView
+                    android:id="@+id/txv_profile_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_exp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_nextlevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txv_profile_exp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="To Next Lv."
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txv_profile_name"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Type"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_id"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Exp. Points"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_ot"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="ID No."
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/lbl_profile_name"
+                    android:layout_alignBottom="@+id/lbl_profile_name"
+                    android:layout_alignEnd="@+id/txv_profile_dex"
+                    android:layout_toEndOf="@+id/lbl_profile_name"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/img_profile_type1"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_profile_type2"
+                    android:layout_alignEnd="@+id/txv_profile_ot"
+                    android:layout_alignTop="@+id/img_profile_type2"
+                    android:layout_toEndOf="@+id/img_profile_type2" />
+            </RelativeLayout>
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/lbl_profile_type"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/lbl_profile_type"
-                app:srcCompat="@drawable/normal" />
+                android:id="@+id/img_profile_main"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/relativeLayout8"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -77,29 +278,167 @@
             android:layout_margin="5dp"
             android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/lbl_profile_hp"
+            <RelativeLayout
+                android:id="@+id/relativeLayout6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HP" />
+                android:layout_margin="5dp">
 
-            <TextView
-                android:id="@+id/txv_profile_hp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/lbl_profile_hp"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    android:id="@+id/txv_profile_attack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/bar_profile_hp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_attack"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
 
-            <ProgressBar
-                android:id="@+id/bar_profile_hp"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/txv_profile_hp"
-                android:layout_toEndOf="@+id/lbl_profile_hp" />
+                <TextView
+                    android:id="@+id/txv_profile_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/lbl_profile_defense"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_defense"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_sp_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_sp_attack"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Sp. Def"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_sp_attack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/lbl_profile_sp_attack"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_sp_attack"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="HP"
+                    android:textSize="12sp" />
+
+                <ProgressBar
+                    android:id="@+id/bar_profile_hp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/txv_profile_hp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_hp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/lbl_profile_speed"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_speed"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_sp_attack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_defense"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Sp. Atk"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_sp_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/lbl_profile_sp_defense"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_sp_defense"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_sp_defense"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Speed"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txv_profile_hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/lbl_profile_hp"
+                    android:textAlignment="viewEnd"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_attack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/bar_profile_hp"
+                    android:layout_marginLeft="5dp"
+                    android:text="Attack"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_profile_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lbl_profile_attack"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Defense"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lsv_profile_moves"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/relativeLayout6"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp" />
+
         </RelativeLayout>
     </LinearLayout>
 

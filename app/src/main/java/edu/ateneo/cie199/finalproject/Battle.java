@@ -194,6 +194,9 @@ public class Battle {
         mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExperienceNeeded());
         mBuddy.setLevel(mBuddy.getLevel() + 1);
         addMessage(new MessageUpdatePokemon(mBuddy.getNickname() + Message.MESSAGE_LEVEL_UP + mBuddy.getLevel() + "!", mBuddyInfo, mBuddy));
+        if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
+            buddyLevelUp();
+        }
     }
 
     //GETTER AND SETTER FUNCTIONS

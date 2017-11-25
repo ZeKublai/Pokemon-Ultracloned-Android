@@ -13,7 +13,6 @@ import static java.lang.Math.pow;
 
 public class Player {
     public static int MAX_POKEMON_SLOTS = 6;
-    public static int MAX_BAG_SLOTS = 6;
 
     private String mName = "";
     private Marker mMarker = null;
@@ -106,6 +105,12 @@ public class Player {
             return false;
         }
     }
+
+    public void transferPokemon(PokemonProfile profile, ArrayList<PokemonProfile> origin, ArrayList<PokemonProfile> destination){
+        destination.add(profile);
+        origin.remove(profile);
+    }
+
     public boolean isPlayerDefeated(){
         for(int index = 0; index < mPokemons.size(); index++){
             if(!isPokemonFainted(index)){
