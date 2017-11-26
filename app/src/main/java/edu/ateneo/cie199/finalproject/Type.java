@@ -51,6 +51,8 @@ public class Type {
 
     private int mId = 0;
     private int mColor = NONE_COLOR;
+
+    private int mIcon = 0;
     private double[] mMultiplier = {1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1};
@@ -68,7 +70,6 @@ public class Type {
     public int getId() {
         return mId;
     }
-
     public void setId(int mId) {
         this.mId = mId;
     }
@@ -76,7 +77,6 @@ public class Type {
     public int getColor() {
         return mColor;
     }
-
     public void setColor(int mColor) {
         this.mColor = mColor;
     }
@@ -84,7 +84,6 @@ public class Type {
     public String getName() {
         return mName;
     }
-
     public void setName(String mName) {
         this.mName = mName;
     }
@@ -92,7 +91,6 @@ public class Type {
     public Type(double[] mMultiplier) {
         this.mMultiplier = mMultiplier;
     }
-
     public double[] getMultiplier(){
         return mMultiplier;
     }
@@ -157,4 +155,11 @@ public class Type {
         }
         return 0;
     }
+    public int getIcon() {
+        return mIcon;
+    }
+    public void setIcon(int mIcon) {
+        this.mIcon = mIcon;
+    }
+
 }

@@ -5,16 +5,9 @@ package edu.ateneo.cie199.finalproject;
  */
 
 public class Message {
-    public static Integer NO_UPDATE = 0;
-    public static Integer UPDATE_ENEMY = 1;
-    public static Integer UPDATE_ENEMY_HP = 2;
-    public static Integer UPDATE_BUDDY = 3;
-    public static Integer UPDATE_BUDDY_EXP = 4;
-    public static Integer UPDATE_BUDDY_HP = 5;
-    public static Integer UPDATE_CATCH = 6;
 
-    public static String MESSAGE_SWAP1 = "Good job, ";
-    public static String MESSAGE_SWAP2 = "Go ";
+    public static String MESSAGE_SWITCH1 = "Good job, ";
+    public static String MESSAGE_SWITCH2 = "Go ";
     public static String MESSAGE_PLAYER_LOSS1 = " is out of Pokemon!";
     public static String MESSAGE_PLAYER_LOSS2 = " whited out!";
     public static String MESSAGE_FAINTED = " fainted";
@@ -30,33 +23,67 @@ public class Message {
     public static String MESSAGE_CAUGHT = " was caught!";
     public static String MESSAGE_TO_PARTY = " has been added to the party!";
     public static String MESSAGE_TO_BOX = " has been sent to BOX 1!";
+    public static String MESSAGE_MANAGER_MAIN = "What would you like to do?";
+    public static String MESSAGE_HP_RESTORED = "'s HP has been restored!";
+    public static String MESSAGE_PP_RESTORED = "'s PP has been restored!";
+    public static String MESSAGE_REVIVED = " has been revived!";
+    public static String MESSAGE_SELECT_SWITCH = "Select other Pokemon to switch.";
 
     public static String ERROR_FAINTED = " has fainted and could not battle!";
     public static String ERROR_IN_BATTLE = " is already in battle!";
     public static String ERROR_NO_PP = "There's no PP left for this move!";
     public static String ERROR_NO_EFFECT = "It had no effect...";
+    public static String ERROR_ECHO = "Jerome's words echoed... There's a time and place for everything, but not now.";
 
-    public String mMessage = "";
-    public int mUpdate = 0;
+    protected String mMessage = "";
+    protected PokemonInfo mDisplay;
 
-    public Message(String mMessage, int mUpdate) {
+    public Message(String mMessage, PokemonInfo mDisplay){
         this.mMessage = mMessage;
-        this.mUpdate = mUpdate;
+        this.mDisplay = mDisplay;
+    }
+
+    public Message(String mMessage){
+        this.mMessage = mMessage;
+    }
+    public Message(){
+        this.mMessage = "";
     }
 
     public String getMessage() {
         return mMessage;
     }
-
     public void setMessage(String mMessage) {
         this.mMessage = mMessage;
     }
 
-    public int getUpdate() {
-        return mUpdate;
+    public void executeUpdate(Battle battle){
     }
 
-    public void setUpdate(int mUpdate) {
-        this.mUpdate = mUpdate;
+    public boolean isEmpty(){
+        if(this.mMessage.equals("")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public PokemonInfo getTarget(Battle battle){
+        if(mDisplay instanceof PokemonInfoBuddy){
+            return battle.getBuddyInfo();
+        }
+        else{
+            return battle.getEnemyInfo();
+        }
+    }
+
+    public void updateBattleInfo(Battle battle){
+        if(mDisplay instanceof PokemonInfoBuddy){
+            battle.setBuddyInfo(mDisplay);
+        }
+        else if(mDisplay instanceof PokemonInfo){
+            battle.setEnemyInfo(mDisplay);
+        }
     }
 }

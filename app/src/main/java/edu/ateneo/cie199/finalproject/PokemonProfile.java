@@ -1,5 +1,6 @@
 package edu.ateneo.cie199.finalproject;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.floor;
@@ -13,6 +14,7 @@ public class PokemonProfile {
     public static int MAX_IV_VALUE = 31;
     public static int MAX_NATURE_VALUE = 110;
     public static int MAX_POKEMON_MOVES = 4;
+    public static int MIN_HP = 0;
 
     public static int GENDER_NONE = 0;
     public static int GENDER_MALE = 1;
@@ -31,9 +33,9 @@ public class PokemonProfile {
     private StatSet mEV = new StatSet();
     private StatSet mNature = new StatSet();
 
-    private Move[] mMoves = new Move[MAX_POKEMON_MOVES];
+    private ArrayList<Move> mMoves = new ArrayList<>();
 
-    public PokemonProfile(int mId, Pokemon pokemon) {
+    public PokemonProfile(int mId, Pokemon pokemon, int mLevel) {
         this.mId = mId;
         this.mDexNumber = pokemon.getDexNumber();
         this.mNickname = pokemon.getName();
@@ -51,16 +53,12 @@ public class PokemonProfile {
             }
         }
 
-        this.mLevel = PokemonGoApp.getIntegerRNG(MAX_POKEMON_LEVEL) + 1;
+        this.mLevel = PokemonGoApp.getIntegerRNG(mLevel) + 1;
         this.mIV = new StatSet(MAX_IV_VALUE);
         this.mEV = new StatSet();
         this.mNature = new StatSet(MAX_NATURE_VALUE);
         this.mCurrentHP = getHP();
         this.mCurrentExp = 0;
-
-        for(int index = 0; index < mMoves.length; index++){
-            mMoves[index] = new Move();
-        }
     }
 
     public PokemonProfile(int mId, int mLevel, Pokemon pokemon) {
@@ -87,21 +85,44 @@ public class PokemonProfile {
         this.mNature = new StatSet(MAX_NATURE_VALUE);
         this.mCurrentHP = getHP();
         this.mCurrentExp = 0;
+    }
 
-        for(int index = 0; index < mMoves.length; index++){
-            mMoves[index] = new Move();
-        }
+    public PokemonProfile(PokemonProfile profile) {
+        this.mId = profile.mId;
+        this.mDexNumber = profile.mDexNumber;
+        this.mNickname = profile.mNickname;
+        this.mGender = profile.mGender;
+        this.mLevel = profile.mLevel;
+        this.mCurrentHP = profile.mCurrentHP;
+        this.mCurrentExp = profile.mCurrentExp;
+        this.mDexData = profile.mDexData;
+        this.mIV = profile.mIV;
+        this.mEV = profile.mEV;
+        this.mNature = profile.mNature;
+        this.mMoves = profile.mMoves;
+    }
+
+    public void loadProfile(PokemonProfile profile){
+        this.mId = profile.mId;
+        this.mDexNumber = profile.mDexNumber;
+        this.mNickname = profile.mNickname;
+        this.mGender = profile.mGender;
+        this.mLevel = profile.mLevel;
+        this.mCurrentHP = profile.mCurrentHP;
+        this.mCurrentExp = profile.mCurrentExp;
+        this.mDexData = profile.mDexData;
+        this.mIV = profile.mIV;
+        this.mEV = profile.mEV;
+        this.mNature = profile.mNature;
+        this.mMoves = profile.mMoves;
     }
 
     public PokemonProfile() {
-        for(int index = 0; index < mMoves.length; index++){
-            mMoves[index] = new Move();
-        }
     }
 
     private int getStat(int baseStat, int ivStat, int evStat, int level, int natureStat){
-        double stat = floor(floor((2 * baseStat + ivStat + evStat) * level / 100 + 5) 
-                * natureStat / 100);
+        double stat = floor(floor((2.0 * ((double)baseStat) + ((double)ivStat) + ((double)evStat)) *
+                ((double)level) / 100.0 + 5.0) * ((double)natureStat) / 100.0);
         return ((int) stat);
     }
 
@@ -115,6 +136,7 @@ public class PokemonProfile {
     public int getGender() {
         return mGender;
     }
+    public void setGender(int mGender) {this.mGender = mGender;}
     public int getId() {
         return mId;
     }
@@ -156,6 +178,18 @@ public class PokemonProfile {
     public StatSet getEV(){
         return mEV;
     }
+    public StatSet getIV() {return mIV;}
+    public StatSet getNature() {return mNature;}
+
+    public void setEV(StatSet Stat){
+        this.mEV = Stat;
+    }
+    public void setIV(StatSet Stat){
+        this.mIV = Stat;
+    }
+    public void setNature(StatSet Stat){
+        this.mNature = Stat;
+    }
 
     public int getHP(){
         return ((int) floor((2 * mDexData.getBase().getHP()
@@ -182,47 +216,41 @@ public class PokemonProfile {
                 mNature.getSpeed());
     }
 
-    public int getAttack(Move move){
-        if(move.getCategory() == Move.PHYSICAL){
-            return getAttack();
+    public boolean canEvolve(Pokemon nextDex){
+        if(nextDex.isEmpty()){
+            return false;
         }
-        else if(move.getCategory() == Move.SPECIAL){
-            return getSpAttack();
-
+        if(mLevel >= nextDex.getLevelRequirement()){
+            return true;
         }
-        return 0;
-    }
-    public int getDefense(Move move){
-        if(move.getCategory() == Move.PHYSICAL){
-            return getDefense();
+        else{
+            return false;
         }
-        else if(move.getCategory() == Move.SPECIAL){
-            return getSpDefense();
-
-        }
-        return 0;
     }
 
+    public void evolve(Pokemon nextDex){
+        this.mDexData = nextDex;
+    }
 
     /*TODO
     Needs Tweaking
      */
     public int getExperienceNeeded(){
-        return mLevel*1000;
+        return mLevel*100;
     }
     public int getTotalExperience() {
         int totalExperience = 0;
         for(int index = 1; index < mLevel; index++){
-            totalExperience = totalExperience + mLevel*1000;
+            totalExperience = totalExperience + index*100;
         }
         totalExperience = totalExperience + mCurrentExp;
         return totalExperience;
     }
 
-    public Move[] getMoves() {
+    public ArrayList<Move> getMoves() {
         return mMoves;
     }
-    public void setMoves(Move[] mMoves) {
+    public void setMoves(ArrayList mMoves) {
         this.mMoves = mMoves;
     }
 
@@ -235,12 +263,46 @@ public class PokemonProfile {
         }
     }
 
-    public String getButtonString(){
-        if(this.isEmpty()){
-            return "\n";
+    public boolean allMovesPPisFull(){
+        int fullMoveCount = 0;
+        for(int index = 0; index < MAX_POKEMON_MOVES; index++){
+            if(mMoves.get(index).getCurrentPP() == mMoves.get(index).getMaxPP()){
+                fullMoveCount = fullMoveCount + 1;
+            }
+        }
+        if(fullMoveCount == MAX_POKEMON_MOVES){
+            return true;
         }
         else{
-            return mNickname + "\n HP " + mCurrentHP + "/" + getHP();
+            return false;
         }
+    }
+
+    public String getButtonString(){
+        if(this.isEmpty()){
+            return "\n\n";
+        }
+        else{
+            return mNickname + "\nLv" + mLevel + "\tHP " + mCurrentHP + "/" + getHP() + "\n";
+        }
+    }
+
+    public boolean noMorePP(){
+        for(int index = 0; index < mMoves.size(); index++){
+            if(mMoves.get(index).getCurrentPP() > 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String getGenderString(){
+        if(mGender == GENDER_MALE){
+            return "♂";
+        }
+        else if(mGender == GENDER_FEMALE){
+            return "♀";
+        }
+        return "";
     }
 }

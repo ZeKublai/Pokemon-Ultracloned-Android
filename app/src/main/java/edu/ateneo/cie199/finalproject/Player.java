@@ -13,33 +13,22 @@ import static java.lang.Math.pow;
 
 public class Player {
     public static int MAX_POKEMON_SLOTS = 6;
-    public static int MAX_BAG_SLOTS = 6;
 
     private String mName = "";
     private Marker mMarker = null;
-    private Item[] mBag = new Item[MAX_BAG_SLOTS];
+    private ArrayList<Item> mBag = new ArrayList<>();
 
-    private PokemonProfile[] mPokemons = new PokemonProfile[MAX_POKEMON_SLOTS];
+    private ArrayList<PokemonProfile> mPokemons = new ArrayList<>();
     private ArrayList<PokemonProfile> mBox = new ArrayList<>();
 
     public Player() {
         this.mName = "Red";
-        for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
-            this.mPokemons[index] = new PokemonProfile();
-        }
     }
     public Player(String mName) {
         this.mName = mName;
-        for(int index = 0; index < MAX_POKEMON_SLOTS; index++){
-            this.mPokemons[index] = new PokemonProfile();
-        }
     }
     public Player(String mName, Pokemon starter) {
         this.mName = mName;
-        this.mPokemons[0] = new PokemonProfile(0, starter);
-        for(int index = 1; index < MAX_POKEMON_SLOTS; index++){
-            this.mPokemons[index] = new PokemonProfile();
-        }
     }
 
     public String getName() {
@@ -56,10 +45,10 @@ public class Player {
         this.mMarker = mMarker;
     }
 
-    public PokemonProfile[] getPokemons() {
+    public ArrayList<PokemonProfile> getPokemons() {
         return mPokemons;
     }
-    public void setPokemons(PokemonProfile[] mPokemons) {
+    public void setPokemons(ArrayList<PokemonProfile> mPokemons) {
         this.mPokemons = mPokemons;
     }
 
@@ -70,45 +59,60 @@ public class Player {
         this.mBox = mBox;
     }
 
-    public Item[] getBag(){
+    public ArrayList<Item> getBag(){
         return mBag;
     }
 
     public int getFreeSlot(){
-        for(int index = 0; index < mPokemons.length; index++){
-            if(mPokemons[index].getDexNumber() == Pokemon.MISSINGNO){
-                return index;
-            }
-        }
-        return MAX_POKEMON_SLOTS;
+        return mPokemons.size();
     }
-
+    public int getAverageLevel(){
+        int totalLevel = 0;
+        for(int index = 0; index < mPokemons.size(); index++){
+            totalLevel = totalLevel + mPokemons.get(index).getLevel();
+        }
+        return totalLevel/mPokemons.size();
+    }
     public PokemonProfile getBuddy(){
-        for(int index = 0; index < mPokemons.length; index++){
-            if(mPokemons[index].getCurrentHP() > 0){
-                return mPokemons[index];
+        for(int index = 0; index < mPokemons.size(); index++){
+            if(mPokemons.get(index).getCurrentHP() > 0){
+                return mPokemons.get(index);
             }
         }
         return new PokemonProfile();
     }
 
-    public void giveItem(Item item){
-        for(int index = 0; index < MAX_BAG_SLOTS; index++){
-            if(mBag[index].getName().equals(item.getName())){
-                mBag[index].setQuantity(mBag[index].getQuantity() + item.getQuantity());
+    public boolean increaseItem(Item item){
+        for(int index = 0; index < mBag.size(); index++){
+            if(mBag.get(index).getClass().equals(item.getClass())) {
+                mBag.get(index).setQuantity(mBag.get(index).getQuantity() + item.getQuantity());
+                return true;
             }
+        }
+        return false;
+    }
+
+    public void giveItem(Item item){
+        if(!increaseItem(item)){
+            mBag.add(item);
         }
     }
     public boolean isPokemonFainted(int pokemonIndex){
-        if(mPokemons[pokemonIndex].getCurrentHP() <= 0){
+        if(mPokemons.get(pokemonIndex).getCurrentHP() <= 0){
             return true;
         }
         else{
             return false;
         }
     }
+
+    public void transferPokemon(PokemonProfile profile, ArrayList<PokemonProfile> origin, ArrayList<PokemonProfile> destination){
+        destination.add(profile);
+        origin.remove(profile);
+    }
+
     public boolean isPlayerDefeated(){
-        for(int index = 0; index < mPokemons.length; index++){
+        for(int index = 0; index < mPokemons.size(); index++){
             if(!isPokemonFainted(index)){
                 return false;
             }

@@ -8,7 +8,7 @@
     tools:context="edu.ateneo.cie199.finalproject.BattleActivity">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout3"
+        android:id="@+id/battle_scene_group"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_alignParentStart="true"
@@ -33,50 +33,65 @@
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/imgbtn_battle_enemy">
 
-            <TextView
-                android:id="@+id/lbl_battle_enemy_hp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/txv_battle_enemy_name"
-                android:layout_marginLeft="20dp"
-                android:fontFamily="@font/generation6"
-                android:text="HP"
-                android:textSize="15sp" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_enemy_hp"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/lbl_battle_enemy_hp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/txv_battle_enemy_name"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_toEndOf="@+id/lbl_battle_enemy_hp" />
-
-            <TextView
-                android:id="@+id/txv_battle_enemy_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/bar_battle_enemy_hp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/generation6"
-                android:textSize="25sp" />
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/enemy_bubble">
 
-            <TextView
-                android:id="@+id/txv_battle_enemy_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/bar_battle_enemy_hp"
-                android:layout_alignEnd="@+id/bar_battle_enemy_hp"
-                android:layout_alignTop="@+id/txv_battle_enemy_name"
-                android:text="\t"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    android:id="@+id/txv_battle_enemy_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/bar_battle_enemy_hp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/generation6"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txv_battle_enemy_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/bar_battle_enemy_hp"
+                    android:layout_alignEnd="@+id/bar_battle_enemy_hp"
+                    android:layout_alignTop="@+id/txv_battle_enemy_name"
+                    android:text="\t"
+                    android:textAlignment="viewEnd" />
+
+                <ProgressBar
+                    android:id="@+id/bar_battle_enemy_hp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/lbl_battle_enemy_hp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/txv_battle_enemy_name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toEndOf="@+id/lbl_battle_enemy_hp" />
+
+                <TextView
+                    android:id="@+id/lbl_battle_enemy_hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/txv_battle_enemy_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/generation6"
+                    android:text="HP"
+                    android:textSize="10sp" />
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -98,82 +113,95 @@
             android:layout_below="@+id/relativeLayout"
             android:layout_toEndOf="@+id/imgbtn_battle_buddy">
 
-            <TextView
-                android:id="@+id/lbl_battle_buddy_exp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txv_battle_buddy_hp"
-                android:layout_marginLeft="20dp"
-                android:layout_toStartOf="@+id/bar_battle_buddy_hp"
-                android:fontFamily="@font/generation6"
-                android:text="EXP"
-                android:textSize="10sp" />
-
-            <ProgressBar
-                android:id="@+id/bar_battle_buddy_exp"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/lbl_battle_buddy_exp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/lbl_battle_buddy_exp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_toEndOf="@+id/lbl_battle_buddy_exp" />
-
-            <TextView
-                android:id="@+id/txv_battle_buddy_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/generation6"
-                android:textSize="25sp" />
+                android:background="@drawable/buddy_bubble">
 
-            <TextView
-                android:id="@+id/lbl_battle_buddy_HP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txv_battle_buddy_name"
-                android:layout_marginLeft="20dp"
-                android:fontFamily="@font/generation6"
-                android:text="HP"
-                android:textSize="15sp" />
+                <ProgressBar
+                    android:id="@+id/bar_battle_buddy_exp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/lbl_battle_buddy_exp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/lbl_battle_buddy_exp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toEndOf="@+id/lbl_battle_buddy_exp" />
 
-            <ProgressBar
-                android:id="@+id/bar_battle_buddy_hp"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/lbl_battle_buddy_HP"
-                android:layout_alignEnd="@+id/txv_battle_buddy_name"
-                android:layout_below="@+id/txv_battle_buddy_name"
-                android:layout_toEndOf="@+id/lbl_battle_buddy_HP" />
+                <TextView
+                    android:id="@+id/lbl_battle_buddy_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txv_battle_buddy_hp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toStartOf="@+id/bar_battle_buddy_hp"
+                    android:fontFamily="@font/generation6"
+                    android:text="EXP"
+                    android:textSize="8sp" />
 
-            <TextView
-                android:id="@+id/txv_battle_buddy_hp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/bar_battle_buddy_exp"
-                android:layout_alignStart="@+id/lbl_battle_buddy_HP"
-                android:layout_below="@+id/lbl_battle_buddy_HP"
-                android:fontFamily="@font/generation6"
-                android:textAlignment="textEnd"
-                android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/txv_battle_buddy_hp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/bar_battle_buddy_exp"
+                    android:layout_alignStart="@+id/lbl_battle_buddy_HP"
+                    android:layout_below="@+id/lbl_battle_buddy_HP"
+                    android:fontFamily="@font/generation6"
+                    android:textAlignment="textEnd"
+                    android:textSize="8sp" />
 
-            <TextView
-                android:id="@+id/txv_battle_buddy_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/bar_battle_buddy_hp"
-                android:layout_alignEnd="@+id/txv_battle_buddy_name"
-                android:layout_alignTop="@+id/txv_battle_buddy_name"
-                android:text="\t"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    android:id="@+id/lbl_battle_buddy_HP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txv_battle_buddy_name"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/generation6"
+                    android:text="HP"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/txv_battle_buddy_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/generation6"
+                    android:textSize="18sp" />
+
+                <ProgressBar
+                    android:id="@+id/bar_battle_buddy_hp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/lbl_battle_buddy_HP"
+                    android:layout_alignEnd="@+id/txv_battle_buddy_name"
+                    android:layout_below="@+id/txv_battle_buddy_name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toEndOf="@+id/lbl_battle_buddy_HP" />
+
+                <TextView
+                    android:id="@+id/txv_battle_buddy_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/bar_battle_buddy_hp"
+                    android:layout_alignEnd="@+id/txv_battle_buddy_name"
+                    android:layout_alignTop="@+id/txv_battle_buddy_name"
+                    android:text="\t"
+                    android:textAlignment="viewEnd" />
+            </RelativeLayout>
 
         </RelativeLayout>
     </RelativeLayout>
@@ -181,14 +209,26 @@
     <TextView
         android:id="@+id/txv_battle_message"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativeLayout3"
-        android:layout_margin="10dp"
+        android:layout_below="@+id/battle_scene_group"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/generation6"
         android:text="Message"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/img_battle_message"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/battle_scene_group"
+        android:background="@drawable/message_box" />
 
     <Button
         android:id="@+id/btn_battle_action"
@@ -196,9 +236,11 @@
         android:layout_height="350dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -210,137 +252,82 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1">
 
-            <Button
-                android:id="@+id/btn_battle_option7"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:fontFamily="@font/generation6"
-                android:text="7"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_battle_option1"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option3"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:elevation="0dp"
-                android:fontFamily="@font/generation6"
-                android:text="1"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_battle_option3"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option5"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:fontFamily="@font/generation6"
-                android:text="3"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_battle_option5"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option7"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:fontFamily="@font/generation6"
-                android:text="5"
-                android:textAllCaps="false" />
-
+            <ListView
+                android:id="@+id/lsv_battle_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1">
 
             <Button
-                android:id="@+id/btn_battle_option6"
-                style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/btn_battle_attack"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_run"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/generation6"
-                android:text="6"
-                android:textAllCaps="false" />
+                android:text="ATTACK"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_battle_pokemon"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_battle_attack"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/generation6"
+                android:text="POKEMON"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btn_battle_bag"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_battle_pokemon"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/generation6"
+                android:text="BAG"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btn_battle_run"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
+                android:layout_below="@+id/btn_battle_bag"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/generation6"
                 android:text="RUN"
+                android:textAlignment="center"
                 android:textAllCaps="false"
+                android:textColor="@android:color/white"
                 tools:layout_editor_absoluteX="56dp"
                 tools:layout_editor_absoluteY="79dp" />
-
-            <Button
-                android:id="@+id/btn_battle_option4"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option6"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:fontFamily="@font/generation6"
-                android:text="4"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/btn_battle_option2"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btn_battle_option4"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:fontFamily="@font/generation6"
-                android:text="2"
-                android:textAllCaps="false" />
 
         </RelativeLayout>
     </LinearLayout>
