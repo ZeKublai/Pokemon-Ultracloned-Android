@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
@@ -67,20 +66,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         //INITIAL VALUES FOR TESTING
 
-        LatLng initialPosition = new LatLng(initLatitude,initLongitude);
+        LatLng initialPosition = new LatLng(initLatitude, initLongitude);
 
         //INITIALIZING POKEMON & MOVES & TYPES
-        //TODO MAKE THIS FROM FILE
-        app.loadAllItems();
-        app.loadAllPokemonTypes();
-        app.loadAllPokemon();
-        app.loadAllPokemonMoves();
+
         app.loadPlayer(initialPosition);
         if(app.getLoadData() == true) {
-            app.loadPlayerDate();
+            //app.loadPlayerDate();
         }
         else{
-            app.initPlayer();
+            //app.initPlayer();
         }
 
 
@@ -96,7 +91,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         final TextView txvMain = (TextView) findViewById(R.id.txv_main_title);
         app.setSelectedMarker(app.getPlayer().getMarker());
         txvMain.setText(app.getPlayer().getName());
-        imgButtonMain.setImageResource(R.drawable.player_main);
+        imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
         imgButtonMain.setBackgroundColor(Color.argb(0, 0, 0, 0));
 
         imgButtonMain.setOnClickListener(
@@ -113,7 +108,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         //SPAWNER
         final Handler spawnHandler = new Handler();
         final Timer spawnTimer = new Timer();
-        final int spawnRate = 6000;
+        final int spawnRate = 1000;
         TimerTask spawnTask = new TimerTask() {
             @Override
             public void run() {
@@ -161,7 +156,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     app.getSelectedMarker())){
                                 app.setSelectedMarker(app.getPlayer().getMarker());
                                 txvMain.setText(app.getSelectedMarker().getTitle());
-                                imgButtonMain.setImageResource(R.drawable.player_main);
+                                imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
                             }
                             if(!(app.getMarkers().get(app.getSpawnCount() - maxSpawn).equals(
                                     app.getCurrentGoal()))) {
@@ -211,7 +206,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if(app.getSelectedMarker().equals(app.getCurrentGoal())){
                     app.setSelectedMarker(app.getPlayer().getMarker());
                     txvMain.setText(app.getPlayer().getName());
-                    imgButtonMain.setImageResource(R.drawable.player_main);
+                    imgButtonMain.setImageResource(R.drawable.boy_main);
                 }
 
                 if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
@@ -255,7 +250,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
-                                R.drawable.player_stand));
+                                app.getPlayer().getGender().getStandImage()));
 
                 return;
             }
@@ -350,12 +345,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     if(elapsed%500 > 0 && elapsed%500 <= 250) {
                                         app.getPlayer().getMarker().setIcon(
                                                 BitmapDescriptorFactory.fromResource(
-                                                        R.drawable.player_walk1));
+                                                        app.getPlayer().getGender().getWalkImage1()));
                                     }
                                     else {
                                         app.getPlayer().getMarker().setIcon(
                                                 BitmapDescriptorFactory.fromResource(
-                                                        R.drawable.player_walk2));
+                                                        app.getPlayer().getGender().getWalkImage2()));
                                     }
                                     if (t < 1.0) {
                                         // Post again 16ms later.
@@ -382,7 +377,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if(app.getSelectedMarker().getTitle().isEmpty()){
                     txvMain.setText(app.getPlayer().getName());
-                    imgButtonMain.setImageResource(R.drawable.player_main);
+                    imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
                 }
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());

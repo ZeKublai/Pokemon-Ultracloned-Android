@@ -20,6 +20,13 @@ public class TitleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_title);
 
         final PokemonGoApp app = (PokemonGoApp) getApplication();
+
+        //TODO MAKE THIS FROM FILE
+        app.loadAllItems();
+        app.loadAllPokemonTypes();
+        app.loadAllPokemonMoves();
+        app.loadAllPokemon();
+
         app.setFontForContainer((RelativeLayout)findViewById(R.id.title_group), "generation6.ttf");
         //Plays music
         music = new MusicHandler();
@@ -52,8 +59,8 @@ public class TitleActivity extends AppCompatActivity {
                 app.setLoadData(false);
                 //sound effect
                 app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
-                startActivity(beginMainActivityIntent);
+                Intent beginIntroActivityIntent = new Intent(TitleActivity.this, IntroductionActivity.class);
+                startActivity(beginIntroActivityIntent);
                 return;
             }
         });

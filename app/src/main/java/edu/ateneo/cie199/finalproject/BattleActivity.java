@@ -26,9 +26,6 @@ public class BattleActivity extends AppCompatActivity {
     private Button btnRun;
 
     private TextView txvMessage;
-    private MoveList mMoveAdapter = null;
-    private PokemonList mPokemonAdapter = null;
-    private ItemList mItemAdapter = null;
     private ListView lsvOptions;
 
     @Override
@@ -102,23 +99,20 @@ public class BattleActivity extends AppCompatActivity {
         btnBag = (Button) findViewById(R.id.btn_battle_bag);
         btnRun = (Button) findViewById(R.id.btn_battle_run);
 
-        initButtons();
-
-        mMoveAdapter = new MoveList(BattleActivity.this, battle.getBuddy().getMoves());
-        mPokemonAdapter = new PokemonList(BattleActivity.this, battle.getPlayer().getPokemons());
-        mItemAdapter = new ItemList(BattleActivity.this, battle.getPlayer().getBag());
+        battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
+        battle.setPokemonAdapter(new PokemonList(BattleActivity.this, battle.getPlayer().getPokemons()));
+        battle.setItemAdapter(new ItemList(BattleActivity.this, battle.getPlayer().getBag()));
 
         lsvOptions = (ListView)findViewById(R.id.lsv_battle_options);
-        messageState();
 
+        battle.setBattleState(new BattleStandbyState(btnFight, btnPokemon, btnBag, btnRun, btnAction, lsvOptions, battle, txvMessage));
         app.setFontForContainer((ListView) findViewById(R.id.lsv_battle_options), "generation6.ttf");
 
         lsvOptions.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                if(battle.getState() == PokemonGoApp.STATE_POKEMON){
-                    getPokemonDialog(battle.getPlayer().getPokemons().get(pos));
-                }
+                app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
+                battle.getBattleState().executeLongPressListView(app, BattleActivity.this, pos);
                 return true;
             }
         });
@@ -128,30 +122,7 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        if(battle.getState() == PokemonGoApp.STATE_FIGHT){
-                            battle.setSelectedMove(battle.getBuddy().getMoves().get(pos));
-                            battle.setPlayerDecision(new DecisionAttack(battle.getBuddy(), battle.getEnemy(), battle.getSelectedMove(), battle.getEnemyInfo()));
-                            messageState();
-                        }
-                        else if(battle.getState() == PokemonGoApp.STATE_POKEMON){
-                            battle.setPlayerDecision(new DecisionSwitch(battle.getPlayer().getPokemons().get(pos), battle.getBuddy(), battle.getBuddyInfo()));
-                            messageState();
-                        }
-                        else if(battle.getState() == PokemonGoApp.STATE_BAG){
-                            battle.setSelectedItem(battle.getPlayer().getBag().get(pos));
-                            if(battle.getSelectedItem() instanceof ItemTargetEnemy){
-                                battle.setPlayerDecision(new DecisionUse(battle.getSelectedItem()));
-                                messageState();
-                            }
-                            else{
-                                pokemonState(PokemonGoApp.STATE_USE_ITEM);
-                            }
-                        }
-                        else if(battle.getState() == PokemonGoApp.STATE_USE_ITEM){
-                            battle.setSelectedPokemon(battle.getPlayer().getPokemons().get(pos));
-                            battle.setPlayerDecision(new DecisionUse(battle.getSelectedItem()));
-                            messageState();
-                        }
+                        battle.getBattleState().executeListView(pos);
                     }
                 }
         );
@@ -161,13 +132,7 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        if(battle.getBuddy().noMorePP()){
-                            battle.setPlayerDecision(new DecisionAttack(battle.getBuddy(), battle.getEnemy(), new MoveStruggle(battle), battle.getEnemyInfo()));
-                            messageState();
-                        }
-                        else{
-                            fightState();
-                        }
+                        battle.getBattleState().executeFightButton();
                     }
                 }
         );
@@ -176,7 +141,7 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        pokemonState(PokemonGoApp.STATE_POKEMON);
+                        battle.getBattleState().executePokemonButton();
                     }
                 }
         );
@@ -185,7 +150,7 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        bagState();
+                        battle.getBattleState().executeBagButton();
                     }
                 }
         );
@@ -195,8 +160,7 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        battle.setPlayerDecision(new DecisionRun());
-                        messageState();
+                        battle.getBattleState().executeRunButton();
                     }
                 }
         );
@@ -206,43 +170,19 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        viewMessages();
+                        if(!(battle.getIndex() < battle.getMessages().size())){
+                            battle.getMoveAdapter().notifyDataSetChanged();
+                            battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
+                            battle.getPokemonAdapter().notifyDataSetChanged();
+                            battle.getItemAdapter().notifyDataSetChanged();
+                            if(battle.isFinished()){
+                                endBattle();
+                            }
+                        }
+                        battle.getBattleState().executeActionButton();
                     }
                 }
         );
-    }
-
-    private void viewMessages(){
-        if(battle.getIndex() < battle.getMessages().size()){
-            battle.getMessages().get(battle.getIndex()).executeUpdate(battle);
-            txvMessage.setText(battle.getMessages().get(battle.getIndex()).getMessage());
-            if(battle.getIndex() == battle.getMessages().size() - 1
-                    && battle.getState() == PokemonGoApp.STATE_MESSAGE_FIRST){
-                battle.secondMove();
-                battle.checkVictory();
-                battle.setState(PokemonGoApp.STATE_MESSAGE_LAST);
-            }
-
-            battle.setIndex(battle.getIndex() + 1);
-        }
-        else{
-            battle.newTurn();
-            mMoveAdapter.notifyDataSetChanged();
-            mMoveAdapter = new MoveList(BattleActivity.this, battle.getBuddy().getMoves());
-            mPokemonAdapter.notifyDataSetChanged();
-            mItemAdapter.notifyDataSetChanged();
-            if(battle.isFinished()){
-                endBattle();
-            }
-            else if(battle.isBuddyFainted()){
-                txvMessage.setText("Swap next Pokemon?");
-                pokemonState(PokemonGoApp.STATE_POKEMON);
-            }
-            else{
-                mainState();
-            }
-
-        }
     }
 
     private void endBattle(){
@@ -250,106 +190,6 @@ public class BattleActivity extends AppCompatActivity {
         mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityIfNeeded(mainActivityIntent, 0);
         finish();
-    }
-
-    private void messageState(){
-        battle.setState(PokemonGoApp.STATE_MESSAGE_FIRST);
-        setButtons(false, View.INVISIBLE);
-        enableButton(btnAction);
-        hideAllOptions();
-
-        battle.initializeMessages();
-        viewMessages();
-    }
-
-    private void setButtons(boolean clickable, int visibility){
-        btnFight.setClickable(clickable);
-        btnPokemon.setClickable(clickable);
-        btnBag.setClickable(clickable);
-        btnRun.setClickable(clickable);
-
-        btnFight.setVisibility(visibility);
-        btnPokemon.setVisibility(visibility);
-        btnBag.setVisibility(visibility);
-        btnRun.setVisibility(visibility);
-    }
-
-    private void mainState(){
-        battle.setState(PokemonGoApp.STATE_MAIN);
-        setButtons(true, View.VISIBLE);
-        disableButton(btnAction);
-        hideAllOptions();
-        initButtons();
-        battle.setEnemyDecision(battle.generateEnemyDecision());
-        txvMessage.setText("What will " + battle.getBuddy().getNickname() + " do?");
-    }
-
-    private void initButtons(){
-        btnFight.setText("FIGHT");
-        btnPokemon.setText("POKEMON");
-        btnBag.setText("BAG");
-        btnRun.setText("RUN");
-        btnFight.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
-        btnPokemon.setBackgroundColor(PokemonGoApp.POKEMON_COLOR);
-        btnBag.setBackgroundColor(PokemonGoApp.BAG_COLOR);
-        btnRun.setBackgroundColor(PokemonGoApp.RUN_COLOR);
-    }
-
-    private void showAllOptions(){
-        lsvOptions.setClickable(true);
-        lsvOptions.setVisibility(View.VISIBLE);
-    }
-
-    private void hideAllOptions(){
-        lsvOptions.setClickable(false);
-        lsvOptions.setVisibility(View.INVISIBLE);
-    }
-
-    private void fightState(){
-        battle.setState(PokemonGoApp.STATE_FIGHT);
-        lsvOptions.setAdapter(mMoveAdapter);
-        showAllOptions();
-        txvMessage.setText("What will " + battle.getBuddy().getNickname() + " do?");
-
-        enableButton(btnRun);
-        disableButton(btnAction);
-    }
-
-    private void pokemonState(int state){
-        battle.setState(state);
-        lsvOptions.setAdapter(mPokemonAdapter);
-        showAllOptions();
-
-        if(state == PokemonGoApp.STATE_USE_ITEM){
-            txvMessage.setText("Use " + battle.getSelectedItem().getName() + " on which Pokemon?");
-        }
-        else{
-            txvMessage.setText("Which Pokemon to switch?");
-        }
-
-        enableButton(btnRun);
-        disableButton(btnAction);
-    }
-
-    private void disableButton(Button btn){
-        btn.setClickable(false);
-        btn.setVisibility(View.INVISIBLE);
-    }
-
-    private void enableButton(Button btn){
-        btn.setVisibility(View.VISIBLE);
-        btn.setClickable(true);
-    }
-
-    private void bagState(){
-        battle.setState(PokemonGoApp.STATE_BAG);
-        lsvOptions.setAdapter(mItemAdapter);
-        showAllOptions();
-
-        txvMessage.setText("Which item will you use?");
-
-        enableButton(btnRun);
-        disableButton(btnAction);
     }
 
     public void getPokemonDialog(final PokemonProfile profile){

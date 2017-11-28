@@ -29,7 +29,7 @@ public class PokemonInfoBuddy extends PokemonInfo {
         this.mBarExp = mBarExp;
         this.mImage = mImage;
         mImage.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
-        mImage.setBackgroundResource(R.drawable.player_back);
+        mImage.setBackgroundResource(R.drawable.boy_back);
         mBarHP.getProgressDrawable().setColorFilter(
                 PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         mBarExp.getProgressDrawable().setColorFilter(

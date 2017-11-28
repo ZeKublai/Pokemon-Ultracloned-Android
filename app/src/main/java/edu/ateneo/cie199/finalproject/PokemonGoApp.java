@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.media.Image;
-import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -32,8 +29,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,7 +37,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -72,6 +66,11 @@ public class PokemonGoApp extends Application{
     public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
 
     private GoogleMap mMap;
+
+    public void setPlayer(Player mPlayer) {
+        this.mPlayer = mPlayer;
+    }
+
     private Player mPlayer = new Player();
     private String playerDataFileName = "player_data.csv";
     private Marker mSelectedMarker = null;
@@ -583,7 +582,7 @@ public class PokemonGoApp extends Application{
     public void loadPlayer(LatLng initialPosition) {
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
+                        .icon(BitmapDescriptorFactory.fromResource(mPlayer.getGender().getStandImage()))));
     }
     public void initPlayer(){
         getPlayer().getPokemons().add(new PokemonProfile(getSpawnCount(), 15, getAllPokemons().get(3)));
@@ -679,7 +678,7 @@ public class PokemonGoApp extends Application{
         btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
     }
 
-    public void setAsCancelButton(Button btn){
+    public static void setAsCancelButton(Button btn){
         btn.setClickable(true);
         btn.setText("CANCEL");
         btn.setVisibility(View.VISIBLE);

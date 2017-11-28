@@ -29,11 +29,16 @@ public class Battle {
     private PokemonProfile mEnemy = new PokemonProfile();
 
     private ArrayList<Message> mMessages = new ArrayList<>();
-    private int mState = PokemonGoApp.STATE_MESSAGE_LAST;
+
+    private BattleState mBattleState;
+
+    private MoveList mMoveAdapter;
+    private PokemonList mPokemonAdapter;
+    private ItemList mItemAdapter;
+
     private int mIndex = 0;
 
     public Battle(){
-        this.mState = PokemonGoApp.STATE_MESSAGE_LAST;
         this.mMessages = new ArrayList<>();
     }
 
@@ -58,9 +63,6 @@ public class Battle {
         if(!(mPlayerDecision instanceof DecisionAttack)){
             return true;
         }
-        else if(!(mEnemyDecision instanceof DecisionAttack)){
-            return false;
-        }
         else{
             if(mBuddy.getSpeed() > mEnemy.getSpeed()){
                 return true;
@@ -82,9 +84,11 @@ public class Battle {
     //BATTLE FUNCTIONS
     public void checkErrorMessage(){
         if(mPlayerDecision.isError()){
-            mMessages.clear();
             addMessage(mPlayerDecision.getErrorMessage());
-            mState = PokemonGoApp.STATE_MESSAGE_LAST;
+            this.mBattleState = mBattleState.standbyState();
+        }
+        else{
+            this.mBattleState = mBattleState.firstMoveState();
         }
     }
     public void newTurn(){
@@ -103,16 +107,18 @@ public class Battle {
         }
     }
     public void secondMove(){
-        if(isBuddyFirst() && !isFinished()){
-            doEnemyDecision();
-        }
-        else{
-            doPlayerDecision();
+        if(!isFinished()){
+            if(isBuddyFirst()){
+                doEnemyDecision();
+            }
+            else{
+                doPlayerDecision();
+            }
         }
     }
     public void initializeMessages(){
         setIndex(0);
-        checkErrorMessage();
+        mMessages.clear();
         firstMove();
         checkVictory();
         checkCaught();
@@ -152,6 +158,7 @@ public class Battle {
             enemyHasFainted();
         }
     }
+
     public void checkCaught(){
         if(mEnemyCaught){
             if(mPlayer.getFreeSlot() < Player.MAX_POKEMON_SLOTS){
@@ -162,8 +169,7 @@ public class Battle {
                 mPlayer.getBox().add(mEnemy);
                 addMessage(new Message(mEnemy.getNickname() + Message.MESSAGE_TO_BOX));
             }
-
-            mState = PokemonGoApp.STATE_MESSAGE_LAST;
+            this.mBattleState = mBattleState.standbyState();
         }
     }
     public boolean isFinished(){
@@ -178,18 +184,16 @@ public class Battle {
         if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
             buddyLevelUp();
         }
-        mState = PokemonGoApp.STATE_MESSAGE_LAST;
+        this.mBattleState = mBattleState.standbyState();
     }
     public void buddyHasFainted(){
         if(mPlayer.isPlayerDefeated()){
-            playerLoses();
+            addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS1));
+            addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS2));
         }
-        mState = PokemonGoApp.STATE_MESSAGE_LAST;
+        this.mBattleState = mBattleState.standbyState();
     }
-    public void playerLoses(){
-        addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS1));
-        addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS2));
-    }
+
     public void buddyLevelUp(){
         mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExperienceNeeded());
         mBuddy.setLevel(mBuddy.getLevel() + 1);
@@ -226,13 +230,6 @@ public class Battle {
     }
     public void setMessages(ArrayList<Message> mMessages) {
         this.mMessages = mMessages;
-    }
-
-    public int getState() {
-        return mState;
-    }
-    public void setState(int mState) {
-        this.mState = mState;
     }
 
     public int getIndex() {
@@ -317,5 +314,33 @@ public class Battle {
     }
     public void setTypeChart(ArrayList<Type> mTypeChart) {
         this.mTypeChart = mTypeChart;
+    }
+
+    public BattleState getBattleState() {
+        return mBattleState;
+    }
+    public void setBattleState(BattleState mBattleState) {
+        this.mBattleState = mBattleState;
+    }
+
+    public MoveList getMoveAdapter() {
+        return mMoveAdapter;
+    }
+    public void setMoveAdapter(MoveList mMoveAdapter) {
+        this.mMoveAdapter = mMoveAdapter;
+    }
+
+    public PokemonList getPokemonAdapter() {
+        return mPokemonAdapter;
+    }
+    public void setPokemonAdapter(PokemonList mPokemonAdapter) {
+        this.mPokemonAdapter = mPokemonAdapter;
+    }
+
+    public ItemList getItemAdapter() {
+        return mItemAdapter;
+    }
+    public void setItemAdapter(ItemList mItemAdapter) {
+        this.mItemAdapter = mItemAdapter;
     }
 }

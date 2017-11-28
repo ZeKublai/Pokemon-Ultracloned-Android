@@ -16,7 +16,8 @@ public class DecisionRun extends Decision {
     @Override
     public void updateResults(Battle battle){
         battle.addMessage(new Message(Message.MESSAGE_RUN_AWAY));
-        battle.setState(PokemonGoApp.STATE_MESSAGE_LAST);
+        //battle.setState(PokemonGoApp.STATE_MESSAGE_LAST);
+        battle.setBattleState(battle.getBattleState().secondMoveState());
     }
 
     @Override

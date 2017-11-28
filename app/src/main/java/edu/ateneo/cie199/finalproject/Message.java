@@ -77,7 +77,6 @@ public class Message {
             return battle.getEnemyInfo();
         }
     }
-
     public void updateBattleInfo(Battle battle){
         if(mDisplay instanceof PokemonInfoBuddy){
             battle.setBuddyInfo(mDisplay);
