@@ -604,12 +604,12 @@ public class PokemonGoApp extends Application{
         getPlayer().getBag().add(new ItemUltraBall(10));
     }
 
-    public void setButtonBorder(Button btn, int color){
+    public static void setButtonBorder(Button btn, int color){
         btn.setBackground(getShape(color));
     }
 
-    public void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "generation6.ttf");
+    public static void applyFontToMenuItem(Activity ctx, MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(ctx.getAssets(), "generation6.ttf");
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
         mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mi.setTitle(mNewTitle);
@@ -622,31 +622,6 @@ public class PokemonGoApp extends Application{
         shapedrawable.getPaint().setStrokeWidth(30f);
         shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
         return shapedrawable;
-    }
-
-    public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
-        btn.setClickable(!profile.isEmpty());
-        btn.setText(profile.getButtonString());
-        if(profile.getCurrentHP() <= 0 && !profile.isEmpty()){
-            setButtonBorder(btn, PokemonGoApp.DEAD_COLOR);
-        }
-        else{
-            setButtonBorder(btn, PokemonGoApp.POKEMON_COLOR);
-        }
-        if(!profile.isEmpty()){
-            btn.setVisibility(View.VISIBLE);
-            bar.setVisibility(View.VISIBLE);
-            bar.setMax(profile.getHP());
-            bar.setProgress(profile.getCurrentHP());
-            updateHpBarColor(profile.getCurrentHP(), profile.getHP(), bar);
-            icon.setVisibility(View.VISIBLE);
-            icon.setImageResource(profile.getDexData().getIcon());
-        }
-        else{
-            btn.setVisibility(View.INVISIBLE);
-            bar.setVisibility(View.INVISIBLE);
-            icon.setVisibility(View.INVISIBLE);
-        }
     }
 
     public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
@@ -664,7 +639,7 @@ public class PokemonGoApp extends Application{
         }
     }
 
-    public void setAsBackButton(Button btn){
+    public static void setAsBackButton(Button btn){
         btn.setClickable(true);
         btn.setText("BACK");
         btn.setVisibility(View.VISIBLE);
@@ -683,6 +658,13 @@ public class PokemonGoApp extends Application{
         btn.setText("CANCEL");
         btn.setVisibility(View.VISIBLE);
         btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
+    }
+
+    public static void setAsSwitchButton(Button btn){
+        btn.setClickable(true);
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
+        btn.setText("SWITCH");
     }
 
     /****************************************************/
