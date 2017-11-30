@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ateneo.cie199.finalproject.SettingsActivity">
+
+    <Switch
+        android:id="@+id/switch_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="74dp"
+        android:layout_marginTop="124dp" />
+
+    <Switch
+        android:id="@+id/switch_sfx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/switch_music"
+        android:layout_below="@+id/switch_music"
+        android:layout_marginTop="64dp" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="117dp"
+        android:text="back" />
+
+    <TextView
+        android:id="@+id/lbl_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/switch_music"
+        android:layout_marginEnd="21dp"
+        android:layout_toStartOf="@+id/btn_back"
+        android:text="Music"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/lbl_sfx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/lbl_music"
+        android:layout_alignTop="@+id/switch_sfx"
+        android:text="Sound Effects"
+        android:textSize="20sp" />
+
+</RelativeLayout>

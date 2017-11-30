@@ -47,7 +47,9 @@ public class Pokemon {
                    int mMainImage,
                    int mBackImage,
                    int mIcon,
-                   int mSound//,
+                   int mSound
+                   //TODO Uncomment this someday
+                   //,
     //               String mHeight,
     //               String mWeight
     ) {

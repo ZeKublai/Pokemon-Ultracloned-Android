@@ -16,6 +16,14 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.MenuItem;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
+import android.media.Image;
+import android.support.v7.widget.PopupMenu;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,6 +53,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import org.w3c.dom.Text;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -93,6 +109,9 @@ public class PokemonGoApp extends Application{
     private boolean loadData = false;
 
     private MusicHandler musicHandler = new MusicHandler();
+    private boolean mMusicSwitch = true;
+    private boolean mSFXSwitch = true;
+
     private boolean mMusicSwitch = true;
     private boolean mSFXSwitch = true;
 
@@ -171,8 +190,6 @@ public class PokemonGoApp extends Application{
     public void setMusicOff() {mMusicSwitch = false;}
     public void setSFXOn() {mSFXSwitch = true;}
     public void setSFXOff() {mSFXSwitch = false;}
-
-    public HttpClient getmHttpClient(){ return mHttpClient; }
 
     public ArrayList<Marker> getMarkers(){
         return mMarkers;

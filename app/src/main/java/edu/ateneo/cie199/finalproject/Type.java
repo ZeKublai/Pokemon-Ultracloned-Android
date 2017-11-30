@@ -95,6 +95,12 @@ public class Type {
         return mMultiplier;
     }
 
+    public int getIcon() {
+        return mIcon;
+    }
+    public void setIcon(int mIcon) {
+        this.mIcon = mIcon;
+    }
     public static int getIdfromString(String type){
         if(type.equals("None")){
             return NONE;

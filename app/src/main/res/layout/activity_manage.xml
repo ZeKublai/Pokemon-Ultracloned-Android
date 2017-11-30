@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/manager_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ateneo.cie199.finalproject.ManageActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout4"
+        android:background="@drawable/message_box">
+
+        <TextView
+            android:id="@+id/txv_pokemon_message"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/generation6"
+            android:text="Message"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/pokemon_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_pokemon5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/btn_pokemon5"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/btn_pokemon5"
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/img_pokemon3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/btn_pokemon3"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/btn_pokemon3"
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/img_pokemon1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/btn_pokemon1"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/btn_pokemon1"
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btn_pokemon1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="1dp"
+                    android:fontFamily="@font/generation6"
+                    android:paddingLeft="55dp"
+                    android:text="1"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
+
+                <ProgressBar
+                    android:id="@+id/bar_pokemon1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_pokemon1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/img_pokemon1"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btn_pokemon3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/btn_pokemon1"
+                    android:layout_margin="1dp"
+                    android:fontFamily="@font/generation6"
+                    android:paddingLeft="55dp"
+                    android:text="3"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
+
+                <ProgressBar
+                    android:id="@+id/bar_pokemon3"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_pokemon3"
+                    android:layout_alignEnd="@+id/bar_pokemon5"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_toEndOf="@+id/img_pokemon3"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btn_pokemon5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/btn_pokemon3"
+                    android:layout_margin="1dp"
+                    android:fontFamily="@font/generation6"
+                    android:paddingLeft="55dp"
+                    android:text="5"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
+
+                <ProgressBar
+                    android:id="@+id/bar_pokemon5"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_pokemon5"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/img_pokemon5"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ProgressBar
+                    android:id="@+id/bar_pokemon6"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_pokemon6"
+                    android:layout_alignEnd="@+id/btn_pokemon6"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/img_pokemon6"
+                    android:visibility="invisible" />
+
+                <ProgressBar
+                    android:id="@+id/bar_pokemon4"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_pokemon4"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/img_pokemon4"
+                    android:visibility="invisible" />
+
+                <ProgressBar
+                    android:id="@+id/bar_pokemon2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_pokemon2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/img_pokemon2"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/img_pokemon6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/btn_pokemon6"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/btn_pokemon6"
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/img_pokemon2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/btn_pokemon2"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/btn_pokemon2"
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/img_pokemon4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@+id/btn_pokemon4"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/btn_pokemon4"
+                    android:layout_margin="5dp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btn_pokemon6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/btn_pokemon4"
+                    android:layout_margin="1dp"
+                    android:fontFamily="@font/generation6"
+                    android:paddingLeft="55dp"
+                    android:text="6"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btn_pokemon4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignStart="@+id/btn_pokemon6"
+                    android:layout_below="@+id/btn_pokemon2"
+                    android:layout_margin="1dp"
+                    android:fontFamily="@font/generation6"
+                    android:paddingLeft="55dp"
+                    android:text="4"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btn_pokemon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="1dp"
+                    android:fontFamily="@font/generation6"
+                    android:paddingLeft="55dp"
+                    android:text="2"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout5"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1">
+
+            <ListView
+                android:id="@+id/lsv_pokemon_box"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btn_pokemon_switch"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/generation6"
+                android:text="SWITCH"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <ListView
+                android:id="@+id/lsv_player_bag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_pokemon_back"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_pokemon_switch"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp" />
+
+            <Button
+                android:id="@+id/btn_pokemon_back"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/generation6"
+                android:text="BACK"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                tools:layout_editor_absoluteX="56dp"
+                tools:layout_editor_absoluteY="79dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

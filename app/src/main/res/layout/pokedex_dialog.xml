@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dex_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/img_dex_main"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:id="@+id/txv_dex_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/img_dex_main"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/img_dex_main"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txv_dex_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/img_dex_type2"
+        android:layout_alignTop="@+id/txv_dex_number"
+        android:layout_marginRight="5dp"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/img_dex_type1"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:layout_alignStart="@+id/txv_dex_number"
+        android:layout_below="@+id/txv_dex_number"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <ImageView
+        android:id="@+id/img_dex_type2"
+        android:layout_width="32dp"
+        android:layout_height="14dp"
+        android:layout_alignEnd="@+id/txv_dex_number"
+        android:layout_alignTop="@+id/img_dex_type1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@+id/img_dex_type1" />
+
+    <TextView
+        android:id="@+id/txv_dex_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/txv_dex_number"
+        android:layout_below="@+id/img_dex_type1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/lbl_dex_height" />
+
+    <TextView
+        android:id="@+id/lbl_dex_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txv_dex_height"
+        android:layout_alignBottom="@+id/txv_dex_height"
+        android:layout_marginLeft="40dp"
+        android:layout_toEndOf="@+id/img_dex_main"
+        android:text="HT" />
+
+    <TextView
+        android:id="@+id/lbl_dex_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/lbl_dex_height"
+        android:layout_below="@+id/txv_dex_height"
+        android:text="WT" />
+
+    <TextView
+        android:id="@+id/txv_dex_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_dex_main"
+        android:layout_alignEnd="@+id/txv_dex_height"
+        android:layout_alignStart="@+id/txv_dex_height" />
+
+    <TextView
+        android:id="@+id/txv_dex_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/txv_dex_number"
+        android:layout_alignStart="@+id/img_dex_main"
+        android:layout_below="@+id/img_dex_main"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btn_dex_ok"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/txv_dex_description"
+        android:layout_alignStart="@+id/txv_dex_description"
+        android:layout_below="@+id/txv_dex_description"
+        android:layout_marginBottom="10dp"
+        android:text="OK"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>
