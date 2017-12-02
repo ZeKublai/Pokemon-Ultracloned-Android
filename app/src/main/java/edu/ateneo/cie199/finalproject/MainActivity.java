@@ -127,6 +127,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         //GENERATING POKEMON
                         Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
                         Item spawnItem = app.generateRandomItem();
+                        Trainer spawnTrainer = app.getTrainers().get(app.getIntegerRNG(app.getTrainers().size())).generateTrainer();
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
@@ -134,12 +135,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                 originPosition.longitude + offsetLng);
 
                         Marker marker;
-                        if(app.getIntegerRNG(5) > 1){
+                        int rollRNG = app.getIntegerRNG(5);
+                        if(rollRNG > 2){
                             marker = app.getMap().addMarker(
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnPokemon.getName()).icon(
                                             BitmapDescriptorFactory.fromResource(
                                                     spawnPokemon.getIcon())));
+                        }
+                        else if(rollRNG == 1){
+                            marker = app.getMap().addMarker(
+                                    new MarkerOptions().position(spawnPosition).title(
+                                            spawnTrainer.getName()).icon(
+                                            BitmapDescriptorFactory.fromResource(
+                                                    spawnTrainer.getImageIcon())));
                         }
                         else{
                             marker = app.getMap().addMarker(
@@ -208,9 +217,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     txvMain.setText(app.getPlayer().getName());
                     imgButtonMain.setImageResource(R.drawable.boy_main);
                 }
-
-                if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
-
+                if(!app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
+                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(battleActivityIntent);
+                }
+                else if(!app.getTrainer(app.getCurrentGoal().getTitle()).isEmpty()){
+                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(battleActivityIntent);
+                }
+                else{
                     Item item = app.getGeneratedItem(app.getCurrentGoal().getTitle()).generateCopy();
                     app.getPlayer().giveItem(item);
 
@@ -238,10 +253,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                     dialog.show();
                 }
-                else{
-                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
-                    startActivity(battleActivityIntent);
-                }
 
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
@@ -263,7 +274,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
 
                         //IF DESTINATION HAS BEEN SELECTED
-                        if(!app.getSelectedMarker().equals(app.getPlayer().getMarker()) && (!app.getPlayer().isPlayerDefeated() || app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty())) {
+                        if(!app.getSelectedMarker().equals(app.getPlayer().getMarker()) &&
+                                ((!app.getPlayer().isDefeated() && (!app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty() || !app.getTrainer(app.getSelectedMarker().getTitle()).isEmpty())) ||
+                                        (app.getTrainer(app.getSelectedMarker().getTitle()).isEmpty() && app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()))) {
 
                             app.setCurrentGoal(app.getSelectedMarker());
                             txvMain.setText(app.getCurrentGoal().getTitle());
@@ -381,12 +394,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
-                    if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
-                        imgButtonMain.setImageResource(app.getGeneratedItem(marker.getTitle()).getImageBig());
-                    }
-                    else{
+                    if(!app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
                         app.getMusicHandler().playSfx(MainActivity.this, app.getPokemon(app.getSelectedMarker().getTitle()).getSound(), app.getSFXSwitch());
                         imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getMainImage());
+                    }
+                    else if(!app.getTrainer(app.getSelectedMarker().getTitle()).isEmpty()){
+                        imgButtonMain.setImageResource(app.getTrainer(marker.getTitle()).getImageMain());
+                    }
+                    else{
+                        imgButtonMain.setImageResource(app.getGeneratedItem(marker.getTitle()).getImageBig());
                     }
                 }
                 return false;

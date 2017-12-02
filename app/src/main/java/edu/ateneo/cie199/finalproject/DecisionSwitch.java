@@ -10,6 +10,10 @@ public class DecisionSwitch extends Decision {
     private PokemonProfile mCurrentBuddy;
     private PokemonInfo mDisplayInfo;
 
+    public DecisionSwitch(){
+
+    }
+
     public DecisionSwitch(PokemonProfile mNewBuddy, PokemonProfile mCurrentBuddy, PokemonInfo info) {
         this.mNewBuddy = mNewBuddy;
         this.mCurrentBuddy = mCurrentBuddy;

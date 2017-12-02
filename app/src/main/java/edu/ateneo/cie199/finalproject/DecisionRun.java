@@ -5,7 +5,18 @@ package edu.ateneo.cie199.finalproject;
  */
 
 public class DecisionRun extends Decision {
-    public DecisionRun() {
+    private Battle mBattle;
+    public DecisionRun(Battle mBattle) {
+        this.mBattle = mBattle;
+    }
+    @Override
+    public Message getErrorMessage(){
+        return new Message("You can't run away from a trainer battle!");
+    }
+
+    @Override
+    public boolean isError(){
+        return (mBattle instanceof TrainerBattle);
     }
 
     @Override
@@ -16,8 +27,7 @@ public class DecisionRun extends Decision {
     @Override
     public void updateResults(Battle battle){
         battle.addMessage(new Message(Message.MESSAGE_RUN_AWAY));
-        //battle.setState(PokemonGoApp.STATE_MESSAGE_LAST);
-        battle.setBattleState(battle.getBattleState().secondMoveState());
+        battle.setBattleState(battle.getBattleState().standbyState());
     }
 
     @Override

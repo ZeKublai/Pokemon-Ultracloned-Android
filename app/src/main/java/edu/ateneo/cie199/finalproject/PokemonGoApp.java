@@ -88,8 +88,8 @@ public class PokemonGoApp extends Application{
     private ArrayList<Pokemon> mPokemons = new ArrayList<>();
     private ArrayList<Move> mMoves = new ArrayList<>();
     private ArrayList<Type> mTypes = new ArrayList<>();
-
     private ArrayList<Item> mItems = new ArrayList<>();
+    private ArrayList<Trainer> mTrainers = new ArrayList<>();
 
     /**
      * This function returns a random number from 0 to a given length.
@@ -190,7 +190,14 @@ public class PokemonGoApp extends Application{
         }
         return new Pokemon();
     }
-
+    public Trainer getTrainer(String title){
+        for(int index = 0; index < mTrainers.size(); index++){
+            if(mTrainers.get(index).getName().equals(title)){
+                return mTrainers.get(index);
+            }
+        }
+        return new Trainer();
+    }
     public Move findMove(String title){
         for(Move move : this.getAllMoves()){
             if(move.getName().equals(title)){
@@ -212,6 +219,13 @@ public class PokemonGoApp extends Application{
     public ArrayList<Type> getAllTypes(){return mTypes;}
     public ArrayList<Move> getAllMoves(){return mMoves;}
 
+    public ArrayList<Trainer> getTrainers() {
+        return mTrainers;
+    }
+    public void setTrainers(ArrayList<Trainer> mTrainers) {
+        this.mTrainers = mTrainers;
+    }
+
     public void moveMapCamera(LatLng position, float zoom){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom));
     }
@@ -227,6 +241,10 @@ public class PokemonGoApp extends Application{
     }
 
     //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
+    public void loadAllTrainers(){
+        mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
+    }
+
     public void loadAllPokemon(){
         addPokemon(new Pokemon(1, "Bulbasaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.", 190, 1, 7, 45, 49, 49, 65, 65, 45, 0, 2, R.drawable.bulbasaur_main, R.drawable.bulbasaur_back, R.drawable.bulbasaur_map, R.raw.bulbasaur));
         addPokemon(new Pokemon(2, "Ivysaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "The bulb on its back grows by drawing energy. It gives off an aroma when it is ready to bloom.", 45, 1, 7, 60, 62, 63, 80, 80, 60, 16, 3, R.drawable.ivysaur_main, R.drawable.ivysaur_back, R.drawable.ivysaur_map, R.raw.ivysaur));

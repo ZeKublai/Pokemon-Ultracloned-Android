@@ -14,13 +14,13 @@ import static java.lang.Math.pow;
 public class Player {
     public static int MAX_POKEMON_SLOTS = 6;
 
-    private String mName = "";
+    protected String mName = "";
     private Marker mMarker = null;
 
     private Gender mGender = new Gender();
-    private ArrayList<Item> mBag = new ArrayList<>();
-    private ArrayList<PokemonProfile> mPokemons = new ArrayList<>();
-    private ArrayList<PokemonProfile> mBox = new ArrayList<>();
+    protected ArrayList<Item> mBag = new ArrayList<>();
+    protected ArrayList<PokemonProfile> mPokemons = new ArrayList<>();
+    protected ArrayList<PokemonProfile> mBox = new ArrayList<>();
 
     public Player() {
         this.mName = "Red";
@@ -129,7 +129,7 @@ public class Player {
         origin.remove(profile);
     }
 
-    public boolean isPlayerDefeated(){
+    public boolean isDefeated(){
         for(int index = 0; index < mPokemons.size(); index++){
             if(!isPokemonFainted(index)){
                 return false;

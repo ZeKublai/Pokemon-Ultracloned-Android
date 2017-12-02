@@ -40,19 +40,28 @@ public class ItemPokeBall extends ItemTargetEnemy {
 
     @Override
     public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
-        int result = getResult(profile);
-        String message = "... ";
-        battle.addMessage(new MessageUpdateCatch(message, getTargetInfo(battle), battle.getSelectedItem()));
-        for(int index = 1; index < result; index++){
-            message = message + index + "... ";
+        if(battle instanceof TrainerBattle){
+            String message = ((TrainerBattle) battle).getTrainer().getName() + " blocked the ball!";
+            battle.addMessage(new Message(message));
+            message = ((TrainerBattle) battle).getTrainer().getName() + ": Flicking balls at other people is cheating!";
+            battle.addMessage(new Message(message));
+
+        }
+        else{
+            int result = getResult(profile);
+            String message = "... ";
             battle.addMessage(new MessageUpdateCatch(message, getTargetInfo(battle), battle.getSelectedItem()));
-        }
-        if(result < 4){
-            battle.addMessage(new MessageUpdatePokemon(profile.getNickname() + Message.MESSAGE_ESCAPED, getTargetInfo(battle), getUpdateTarget(battle)));
-        }
-        else if(result == 4){
-            battle.addMessage(new Message(profile.getNickname() + Message.MESSAGE_CAUGHT));
-            battle.setEnemyCaught(true);
+            for(int index = 1; index < result; index++){
+                message = message + index + "... ";
+                battle.addMessage(new MessageUpdateCatch(message, getTargetInfo(battle), battle.getSelectedItem()));
+            }
+            if(result < 4){
+                battle.addMessage(new MessageUpdatePokemon(profile.getNickname() + Message.MESSAGE_ESCAPED, getTargetInfo(battle), getUpdateTarget(battle)));
+            }
+            else if(result == 4){
+                battle.addMessage(new Message(profile.getNickname() + Message.MESSAGE_CAUGHT));
+                battle.setEnemyCaught(true);
+            }
         }
     }
 

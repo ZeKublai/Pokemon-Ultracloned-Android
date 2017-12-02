@@ -2,44 +2,61 @@ package edu.ateneo.cie199.finalproject;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.floor;
-
 /**
  * Created by John on 11/7/2017.
  */
 
 public class Battle {
-    private Player mPlayer = new Player();
+    protected Player mPlayer = new Player();
 
-    private Move mSelectedMove;
-    private PokemonProfile mSelectedPokemon = new PokemonProfile();
-    private Item mSelectedItem;
-    private boolean mEnemyCaught = false;
+    protected Move mSelectedMove;
+    protected PokemonProfile mSelectedPokemon = new PokemonProfile();
+    protected Item mSelectedItem;
+    protected boolean mEnemyCaught = false;
 
-    private boolean mRanAway = false;
-    private ArrayList<Type> mTypeChart = new ArrayList<>();
+    protected boolean mRanAway = false;
+    protected ArrayList<Type> mTypeChart = new ArrayList<>();
 
-    private Decision mPlayerDecision = new Decision();
-    private Decision mEnemyDecision = new Decision();
+    protected Decision mPlayerDecision = new Decision();
+    protected Decision mEnemyDecision = new Decision();
 
-    private PokemonInfo mBuddyInfo;
-    private PokemonInfo mEnemyInfo;
+    protected PokemonInfo mBuddyInfo;
+    protected PokemonInfo mEnemyInfo;
 
-    private PokemonProfile mBuddy = new PokemonProfile();
-    private PokemonProfile mEnemy = new PokemonProfile();
+    protected PokemonProfile mBuddy = new PokemonProfile();
+    protected PokemonProfile mEnemy = new PokemonProfile();
 
-    private ArrayList<Message> mMessages = new ArrayList<>();
+    protected ArrayList<Message> mMessages = new ArrayList<>();
 
-    private BattleState mBattleState;
+    protected BattleState mBattleState;
 
-    private MoveList mMoveAdapter;
-    private PokemonList mPokemonAdapter;
-    private ItemList mItemAdapter;
+    protected MoveList mMoveAdapter;
+    protected PokemonList mPokemonAdapter;
+    protected ItemList mItemAdapter;
 
-    private int mIndex = 0;
+    protected int mIndex = 0;
 
     public Battle(){
         this.mMessages = new ArrayList<>();
+    }
+
+    public Battle(PokemonGoApp app, PokemonInfoBuddy mBuddyInfo, PokemonInfo mEnemyInfo){
+        this.mBuddyInfo = mBuddyInfo;
+        this.mEnemyInfo = mEnemyInfo;
+
+        this.mPlayer = app.getPlayer();
+        this.mBuddy = app.getPlayer().getBuddy();
+        this.mTypeChart = app.getAllTypes();
+
+        this.mEnemy = new PokemonProfile(app.getSpawnCount(), app.getPokemon(app.getCurrentGoal().getTitle()), app.getPlayer().getAverageLevel());
+        this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
+        this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
+        this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
+        this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
+        this.mEnemyInfo.updatePokemon(this.mEnemy);
+
+        addMessage(new MessageUpdatePokemon("Wild " + this.mEnemy.getNickname() + " appeared!", this.mEnemyInfo, this.mEnemy));
+        addMessage(new MessageUpdatePokemon("Go " + this.mBuddy.getNickname() + "!", this.mBuddyInfo, this.mBuddy));
     }
 
     //CHECK FUNCTIONS
@@ -173,7 +190,7 @@ public class Battle {
         }
     }
     public boolean isFinished(){
-        return (isEnemyCaught()||isEnemyFainted()||getPlayer().isPlayerDefeated()||mRanAway);
+        return (isEnemyCaught()||isEnemyFainted()||getPlayer().isDefeated()||isRanAway());
     }
     public void enemyHasFainted(){
         //TODO ADD MONEY REWARD IF TRAINER
@@ -187,7 +204,7 @@ public class Battle {
         this.mBattleState = mBattleState.standbyState();
     }
     public void buddyHasFainted(){
-        if(mPlayer.isPlayerDefeated()){
+        if(mPlayer.isDefeated()){
             addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS1));
             addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS2));
         }

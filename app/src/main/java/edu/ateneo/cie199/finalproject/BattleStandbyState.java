@@ -31,7 +31,9 @@ public class BattleStandbyState extends BattleState {
         setButtons(false, View.INVISIBLE);
         enableButton(mActionButton);
         hideOptions();
-        viewMessages();
+        if(!(mBattle.isEnemyFainted() || mBattle.isBuddyFainted()) || mBattle.getPlayerDecision().isError()){
+            viewMessages();
+        }
     }
 
     @Override
@@ -75,8 +77,16 @@ public class BattleStandbyState extends BattleState {
             mBattle.setIndex(mBattle.getIndex() + 1);
         }
         else{
-            mBattle.newTurn();
-            mBattle.setBattleState(mainState());
+            if(mBattle.isFinished()){
+
+            }
+            else if(mBattle.isEnemyFainted() || mBattle.isBuddyFainted()){
+                mBattle.setBattleState(pokemonState());
+            }
+            else{
+                mBattle.newTurn();
+                mBattle.setBattleState(mainState());
+            }
         }
     }
 }

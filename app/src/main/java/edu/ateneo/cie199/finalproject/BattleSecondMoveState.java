@@ -82,9 +82,16 @@ public class BattleSecondMoveState extends BattleState {
             if(mBattle.isFinished()){
 
             }
-            else if(mBattle.isBuddyFainted()){
-                mMessage.setText("Swap next Pokemon?");
-                mBattle.setBattleState(pokemonState());
+            else if(mBattle.isEnemyFainted() || mBattle.isBuddyFainted()){
+                if(mBattle.isEnemyFainted() && mBattle.getPlayer().getPokemons().size() == 1 && mBattle instanceof TrainerBattle){
+                    TrainerBattle battle = (TrainerBattle) mBattle;
+                    battle.setEnemy(battle.getTrainer().getBuddy());
+                    battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
+                    battle.setBattleState(standbyState());
+                }
+                else {
+                    mBattle.setBattleState(pokemonState());
+                }
             }
             else{
                 mBattle.newTurn();

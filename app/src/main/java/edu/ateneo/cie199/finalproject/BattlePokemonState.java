@@ -33,17 +33,39 @@ public class BattlePokemonState extends BattleMainState{
         initButtons();
         mOptionList.setAdapter(mBattle.getPokemonAdapter());
         showOptions();
-        mMessage.setText("Which Pokemon to switch?");
+        if(mBattle instanceof TrainerBattle && mBattle.isEnemyFainted()){
+            TrainerBattle battle = (TrainerBattle) mBattle;
+            mMessage.setText(battle.getTrainer().getName() + " is about to send out " + battle.getTrainer().getBuddy().getNickname() + "! Switch next Pokemon?");
+        }
+        else {
+            mMessage.setText("Which Pokemon to switch?");
+        }
 
         enableButton(mRunButton);
         disableButton(mActionButton);
-        PokemonGoApp.setAsCancelButton(mPokemonButton);
+        if(!mBattle.isBuddyFainted()) {
+            PokemonGoApp.setAsCancelButton(mPokemonButton);
+        }
     }
 
     @Override
     public void executeListView(int pos){
         mBattle.setPlayerDecision(new DecisionSwitch(mBattle.getPlayer().getPokemons().get(pos), mBattle.getBuddy(), mBattle.getBuddyInfo()));
-        mBattle.checkErrorMessage();
+        if(mBattle.isEnemyFainted() && mBattle instanceof TrainerBattle){
+            mBattle.doPlayerDecision();
+            if(mBattle.getPlayerDecision().isError()){
+                mBattle.addMessage(mBattle.getPlayerDecision().getErrorMessage());
+            }
+            else{
+                TrainerBattle battle = (TrainerBattle) mBattle;
+                battle.setEnemy(battle.getTrainer().getBuddy());
+                battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
+            }
+            mBattle.setBattleState(standbyState());
+        }
+        else{
+            mBattle.checkErrorMessage();
+        }
     }
 
     @Override
@@ -54,7 +76,16 @@ public class BattlePokemonState extends BattleMainState{
 
     @Override
     public void executePokemonButton(){
-        mBattle.setBattleState(mainState());
+        if(mBattle.isEnemyFainted() && mBattle instanceof TrainerBattle){
+            TrainerBattle battle = (TrainerBattle) mBattle;
+            battle.addMessage(new Message(battle.getPlayer().getName() + " did not switch Pokemon..."));
+            battle.setEnemy(battle.getTrainer().getBuddy());
+            battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
+            battle.setBattleState(standbyState());
+        }
+        else{
+            mBattle.setBattleState(mainState());
+        }
     }
 
     public void getPokemonDialog(final PokemonGoApp app, Activity ctx, final PokemonProfile profile){

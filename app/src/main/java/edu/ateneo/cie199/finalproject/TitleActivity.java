@@ -26,6 +26,7 @@ public class TitleActivity extends AppCompatActivity {
         app.loadAllPokemonTypes();
         app.loadAllPokemonMoves();
         app.loadAllPokemon();
+        app.loadAllTrainers();
 
         app.setFontForContainer((RelativeLayout)findViewById(R.id.title_group), "generation6.ttf");
         //Plays music

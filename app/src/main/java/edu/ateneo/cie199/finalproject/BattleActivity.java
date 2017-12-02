@@ -43,40 +43,49 @@ public class BattleActivity extends AppCompatActivity {
         app.getMusicHandler().initButtonSfx(this);
 
         //BATTLE INITIALIZATION
-        battle = new Battle();
-        battle.setBuddy(app.getPlayer().getBuddy());
-        battle.setPlayer(app.getPlayer());
-        battle.setTypeChart(app.getAllTypes());
 
-        //TODO: ENEMY INITIALIZATION NEEDS MODIFICATION
-        battle.setEnemy(new PokemonProfile(app.getSpawnCount(), app.getPokemon(app.getCurrentGoal().getTitle()), app.getPlayer().getAverageLevel()));
-        battle.getEnemy().getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
-        battle.getEnemy().getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
-        battle.getEnemy().getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
-        battle.getEnemy().getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
+        txvMessage = (TextView) findViewById(R.id.txv_battle_message);
+        btnAction = (Button) findViewById(R.id.btn_battle_action);
+        btnAction.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
 
-        //UI INITIALIZATION
-        battle.setBuddyInfo(new PokemonInfoBuddy((TextView) findViewById(R.id.txv_battle_buddy_name),
+        btnFight = (Button) findViewById(R.id.btn_battle_attack);
+        btnPokemon = (Button) findViewById(R.id.btn_battle_pokemon);
+        btnBag = (Button) findViewById(R.id.btn_battle_bag);
+        btnRun = (Button) findViewById(R.id.btn_battle_run);
+        lsvOptions = (ListView)findViewById(R.id.lsv_battle_options);
+        app.setFontForContainer((ListView) findViewById(R.id.lsv_battle_options), "generation6.ttf");
+
+        PokemonInfoBuddy buddyInfo = new PokemonInfoBuddy(
+                (TextView) findViewById(R.id.txv_battle_buddy_name),
                 (TextView) findViewById(R.id.txv_battle_buddy_hp),
                 (TextView) findViewById(R.id.txv_battle_buddy_level),
                 (ProgressBar) findViewById(R.id.bar_battle_buddy_hp),
                 (ProgressBar) findViewById(R.id.bar_battle_buddy_exp),
-                (ImageButton) findViewById(R.id.imgbtn_battle_buddy)));
+                (ImageButton) findViewById(R.id.imgbtn_battle_buddy));
 
-        battle.getBuddyInfo().getImage().setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getPokemonDialog(battle.getBuddy());
-                    }
-                }
-        );
-
-        battle.setEnemyInfo(new PokemonInfo((TextView) findViewById(R.id.txv_battle_enemy_name),
+        PokemonInfo enemyInfo = new PokemonInfo((TextView) findViewById(R.id.txv_battle_enemy_name),
                 (TextView) findViewById(R.id.txv_battle_enemy_level),
                 (ProgressBar) findViewById(R.id.bar_battle_enemy_hp),
-                (ImageButton) findViewById(R.id.imgbtn_battle_enemy)));
+                (ImageButton) findViewById(R.id.imgbtn_battle_enemy));
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //TODO: ENEMY INITIALIZATION NEEDS MODIFICATION
+        if(!app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
+            battle = new Battle(app, buddyInfo, enemyInfo);
+        }
+        else{
+            battle = new TrainerBattle(app, buddyInfo, enemyInfo);
+        }
+
+        //UI INITIALIZATION
+
+
+        battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
+        battle.setPokemonAdapter(new PokemonList(BattleActivity.this, battle.getPlayer().getPokemons()));
+        battle.setItemAdapter(new ItemList(BattleActivity.this, battle.getPlayer().getBag()));
+        battle.setBattleState(new BattleStandbyState(btnFight, btnPokemon, btnBag, btnRun, btnAction, lsvOptions, battle, txvMessage));
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         battle.getEnemyInfo().getImage().setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -86,28 +95,14 @@ public class BattleActivity extends AppCompatActivity {
                 }
         );
 
-        battle.getEnemyInfo().updatePokemon(battle.getEnemy());
-        battle.addMessage(new MessageUpdatePokemon("Wild " + battle.getEnemy().getNickname() + " appeared!", battle.getEnemyInfo(), battle.getEnemy()));
-        battle.addMessage(new MessageUpdatePokemon("Go " + battle.getBuddy().getNickname() + "!", battle.getBuddyInfo(), battle.getBuddy()));
-
-        txvMessage = (TextView) findViewById(R.id.txv_battle_message);
-
-        btnAction = (Button) findViewById(R.id.btn_battle_action);
-        btnAction.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
-
-        btnFight = (Button) findViewById(R.id.btn_battle_attack);
-        btnPokemon = (Button) findViewById(R.id.btn_battle_pokemon);
-        btnBag = (Button) findViewById(R.id.btn_battle_bag);
-        btnRun = (Button) findViewById(R.id.btn_battle_run);
-
-        battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
-        battle.setPokemonAdapter(new PokemonList(BattleActivity.this, battle.getPlayer().getPokemons()));
-        battle.setItemAdapter(new ItemList(BattleActivity.this, battle.getPlayer().getBag()));
-
-        lsvOptions = (ListView)findViewById(R.id.lsv_battle_options);
-
-        battle.setBattleState(new BattleStandbyState(btnFight, btnPokemon, btnBag, btnRun, btnAction, lsvOptions, battle, txvMessage));
-        app.setFontForContainer((ListView) findViewById(R.id.lsv_battle_options), "generation6.ttf");
+        battle.getBuddyInfo().getImage().setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getPokemonDialog(battle.getBuddy());
+                    }
+                }
+        );
 
         lsvOptions.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

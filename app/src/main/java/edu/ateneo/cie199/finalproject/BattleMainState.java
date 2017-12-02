@@ -74,8 +74,8 @@ public class BattleMainState extends BattleState {
 
     @Override
     public void executeRunButton(){
-        mBattle.setPlayerDecision(new DecisionRun());
-        mBattle.setBattleState(firstMoveState());
+        mBattle.setPlayerDecision(new DecisionRun(mBattle));
+        mBattle.checkErrorMessage();
     }
 
     @Override
