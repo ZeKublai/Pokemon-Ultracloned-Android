@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -28,6 +30,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +40,32 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     MusicHandler music;
     double initLatitude;
     double initLongitude;
+    randSpawn spawn = null;
+    int pokemonIndex= 0 ;
+    int itemIndex = 0;
+    double lat = 0.00;
+    double longitude = 0.00;
+    public class randSpawn extends AsyncTask<String, String, Void > {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            PokemonGoApp app = (PokemonGoApp) getApplication();
+            String header[] = {"index"};
+            String jsonSpawn = app.postStringToApi(app.getRandPokemonApiUrl(), strings, header);
+            try {
+                JSONObject spawnDetails = app.parseRandSpawner(jsonSpawn);
+                pokemonIndex = spawnDetails.getInt("dexNumber");
+                Log.e("dexNumber", Integer.toString(spawnDetails.getInt("dexNumber")));
+                itemIndex = (int) Math.floor(spawnDetails.getInt("dexNumber"))/5;
+                Log.e("itemIndex", Integer.toString((int) Math.floor(spawnDetails.getInt("dexNumber")/5)));
+                lat = spawnDetails.getDouble("lat");
+                longitude = spawnDetails.getDouble("long");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +103,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         //INITIALIZING POKEMON & MOVES & TYPES
         //TODO MAKE THIS FROM FILE
         app.loadAllItems();
-        app.loadAllPokemonTypes();
-        app.loadAllPokemon();
+        //app.loadAllPokemon();
         //app.loadAllPokemonMoves();
         app.loadPlayer(initialPosition);
         if(app.getLoadData() == true) {
@@ -84,7 +114,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
 
-        app.setSpawnCount(app.getSpawnCount() + 1);
+        //app.setSpawnCount(app.getSpawnCount() + 1);
 
         //INITIALIZING CAMERA
         final float initZoom = 14.5f;
@@ -119,7 +149,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             public void run() {
                 spawnHandler.post(new Runnable() {
                     public void run() {
-
+                        spawn = new randSpawn();
                         //SPAWNER SETTINGS
                         int maxSpawn = 30;
                         double rangeMax = 0.01;
@@ -129,14 +159,22 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         double offsetLat = rangeMin + (rangeMax - rangeMin) * app.getDoubleRNG();
                         double offsetLng = rangeMin + (rangeMax - rangeMin) * app.getDoubleRNG();
 
+                        //API CALL FOR RAND VALUES
+                        String index[] = {Integer.toString(app.getSpawnCount())};
+                        spawn.execute(index);
+
                         //GENERATING POKEMON
-                        Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
-                        Item spawnItem = app.generateRandomItem();
+                        Pokemon spawnPokemon = app.getAllPokemons().get(pokemonIndex);
+                        Log.e("Spawn Pkmn", Integer.toString(pokemonIndex));
+                        Log.e("Spawn Item", Integer.toString(itemIndex));
+                        Item spawnItem = app.getAllItems().get(itemIndex);
+
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
-                        LatLng spawnPosition = new LatLng(originPosition.latitude + offsetLat,
-                                originPosition.longitude + offsetLng);
+                        Log.e("Lat, Long", Double.toString(lat)+", " + Double.toString(longitude));
+                        LatLng spawnPosition = new LatLng(lat,
+                                longitude);
 
                         Marker marker;
                         if(app.getIntegerRNG(5) > 1){

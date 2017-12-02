@@ -14,23 +14,44 @@ import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 
+import java.security.spec.PKCS8EncodedKeySpec;
+
 public class TitleActivity extends AppCompatActivity {
     MusicHandler music;
-//
-//    private class MovesAPI extends AsyncTask<String, Void, Void>{
-//
-//        @Override
-//        protected Void doInBackground(String... strings) {
-//            final PokemonGoApp app = (PokemonGoApp) getApplication();
-//            String jsonMoves = app.getStringFromApi(app.getMovesApiUrl());
-//            try {
-//                app.parseJsonMoveData(jsonMoves, app.getAllMoves());
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//    }
+
+    private class APIData extends AsyncTask<String, Void, Void>{
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            final PokemonGoApp app = (PokemonGoApp) getApplication();
+            app.loadAllPokemonTypes();
+            try {
+                Log.d("Load Moves", "LOADING MOVES..");
+                app.loadAllMovesApi();
+            } catch (JSONException e) {
+                Log.e("PARSE ERROR", "FAILED TO PARSE JSON MOVE DATA");
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class PokemonAPI extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            final PokemonGoApp app = (PokemonGoApp) getApplication();
+            try {
+                Log.d("Load Pokemons", "LOADING PKMN...");
+                app.loadAllPokemonApi();
+            }
+            catch (JSONException e){
+                Log.e("Parsing err", "Failed to save json Pokemon data");
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +85,21 @@ public class TitleActivity extends AppCompatActivity {
         animator.start();
 
         Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
-//        try {
-//            MovesAPI moves = new MovesAPI();
-//            moves.execute();
-//        }
-//        catch(Error e){
-//            Log.e("Erorr", "Something went wrong");
-//        }
+        try {
+            APIData data = new APIData();
+            data.execute();
+        }
+        catch(Error e){
+            Log.e("Erorr", "Something went wrong");
+        }
 
+        try{
+            PokemonAPI data = new PokemonAPI();
+            data.execute();
+        }
+        catch(Error e){
+            Log.e("Error", "Unable to request Pokemon API");
+        }
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

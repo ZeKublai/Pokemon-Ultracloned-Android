@@ -44,9 +44,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,6 +74,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,12 +118,12 @@ public class PokemonGoApp extends Application{
     private boolean mMusicSwitch = true;
     private boolean mSFXSwitch = true;
 
-    private boolean mMusicSwitch = true;
-    private boolean mSFXSwitch = true;
 
     private HttpClient mHttpClient = new DefaultHttpClient();
 
-    private String movesApiUrl = "https://local.localtunnel.me/moves/moves";
+    private String movesApiUrl = "https://rrttp.localtunnel.me/moves/moves";//"http://192.168.43.195:8000/moves/moves";
+    private String pokemonApiUrl = "https://rrttp.localtunnel.me/pokemon/get_all_pokemon";//"http://192.168.43.195:8000/pokemon/get_all_pokemon";
+    private String randPokemonApiUrl = "https://rrttp.localtunnel.me/pokemon/random_list";//"http://192.168.43.195:8000/pokemon/random_list";
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
@@ -177,12 +183,12 @@ public class PokemonGoApp extends Application{
     public void setCurrentGoal(Marker marker) {
         this.mCurrentGoal = marker;
     }
-    public String getMovesApiUrl() { return movesApiUrl; }
+    public String getRandPokemonApiUrl() {return randPokemonApiUrl;}
 
     public MusicHandler getMusicHandler() {
         return musicHandler;
     }
-
+    public HttpClient getmHttpClient(){ return mHttpClient; }
     public boolean getMusicSwitch() { return mMusicSwitch;}
     public boolean getSFXSwitch() {return mSFXSwitch;}
 
@@ -317,10 +323,10 @@ public class PokemonGoApp extends Application{
         addPokemon(new Pokemon(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite));
     }
 
-    public String getStringFromApi(String url){
+    public String getStringFromApi(String url) throws IOException {
         HttpClient hc = this.getmHttpClient();
         HttpGet request = new HttpGet(url);
-        HttpResponse response;
+        HttpResponse response = null;
         String message = null;
         try {
             response = hc.execute(request);
@@ -334,23 +340,59 @@ public class PokemonGoApp extends Application{
                     message = EntityUtils.toString(entity);
                 } else {
                     Log.e("Entity Null", "HTTP Entity response is Null");
+                    response.getEntity().consumeContent();
                 }
             }
 
         } catch (IOException e) {
-            Log.e("Error", "IOException occurred");
+            Log.e("Error", "IOException occurred for "+ url);
         }
 
         return message;
     }
 
-    public void parseJsonMoveData(String jsonData, ArrayList<Move> mTest) throws JSONException {
+    public String postStringToApi(String url, String data[],String header[]) {
+        HttpClient hc = new DefaultHttpClient();
+        HttpPost request = new HttpPost(url);
+        List<NameValuePair> postParams = new ArrayList<>();
+        String message = "";
+        for (int index = 0; index < data.length; index++) {
+            postParams.add(new BasicNameValuePair(header[index], data[index]));
+        }
+        try {
+            request.setEntity(new UrlEncodedFormEntity(postParams));
+            HttpResponse response = hc.execute(request);
+            int retStatus = response.getStatusLine().getStatusCode();
+            if (retStatus != HttpStatus.SC_OK) {
+                Log.e("Error", String.valueOf(retStatus));
+            } else {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    message = EntityUtils.toString(entity);
+                    Log.e("Entity Respons", message);
+                } else {
+                    Log.e("Entity Null", "HTTP Entity response is Null");
+                }
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+
+    public void parseJsonMoveData(String jsonData) throws JSONException {
         if (jsonData!=null){
             JSONArray poiArr = new JSONArray(jsonData);
             for (int iIdx = 0; iIdx < poiArr.length(); iIdx++) {
                 JSONObject placeObj = poiArr.getJSONObject(iIdx);
                 String name = placeObj.getString("Name");
-                Type type = mTypes.get(Type.getIdfromString(placeObj.getString("Type")));
+                Type type = mTypes.get(this.getTypeIdFromString(placeObj.getString("Type")));
                 int category = Move.decodeCategory(placeObj.getString("Category"));
                 int power = Integer.parseInt(placeObj.getString("Power"));
                 int acc = Integer.parseInt(placeObj.getString("Accuracy"));
@@ -369,32 +411,54 @@ public class PokemonGoApp extends Application{
         }
     }
 
-    public void parseJsonPokemonData(String jsonData, ArrayList<Pokemon> mTest) throws JSONException {
+    public void parseJsonPokemonData(String jsonData) throws JSONException {
         if (jsonData != null) {
             JSONArray poiArr = new JSONArray(jsonData);
             for (int iIdx = 0; iIdx < poiArr.length(); iIdx++) {
                 JSONObject placeObj = poiArr.getJSONObject(iIdx);
                 int dex = Integer.parseInt(placeObj.getString("Dex #"));
                 String name = placeObj.getString("Name");
-                Type typeOne = mTypes.get(Type.getIdfromString(placeObj.getString("Type 1")));
-                Type typeTwo = mTypes.get(Type.getIdfromString(placeObj.getString("Type 2")));
+                Type typeOne = mTypes.get(this.getTypeIdFromString(placeObj.getString("Type 1")));
+                Type typeTwo = mTypes.get(this.getTypeIdFromString(placeObj.getString("Type 2")));
                 String desc = placeObj.getString("Description");
                 int catchRate = Integer.parseInt(placeObj.getString("Catch Rate"));
-                int category = Move.decodeCategory(placeObj.getString("Category"));
-                int power = Integer.parseInt(placeObj.getString("Power"));
-                int acc = Integer.parseInt(placeObj.getString("Accuracy"));
-                int maxpp = Integer.parseInt(placeObj.getString("Max PP"));
+                int femaleRatio = Integer.parseInt(placeObj.getString("Female Ratio (%)"));
+                int maleRatio = Integer.parseInt(placeObj.getString("Male Ratio (%)"));
+                int hp = Integer.parseInt(placeObj.getString("Base HP"));
+                int atk = Integer.parseInt(placeObj.getString("Base Atk"));
+                int def = Integer.parseInt(placeObj.getString("Base Def"));
+                int spAtk = Integer.parseInt(placeObj.getString("Base SP Atk"));
+                int spDef = Integer.parseInt(placeObj.getString("Base SP Def"));
+                int spd = Integer.parseInt(placeObj.getString("speed"));
+                int lv1Req = Integer.parseInt(placeObj.getString("Lvl Req"));
+                int nextDex = Integer.parseInt(placeObj.getString("NextDex"));
+                int mainImg = getResources().getIdentifier(placeObj.getString("Main Img"), "drawable", getPackageName());
+                int backImg = getResources().getIdentifier(placeObj.getString("Back Img"), "drawable", getPackageName());
+                int mapImg = getResources().getIdentifier(placeObj.getString("Map IMG"), "drawable", getPackageName());
+                int rawImg = getResources().getIdentifier(placeObj.getString("Raw Img"), "raw", getPackageName());
+                addPokemon(new Pokemon(dex, name, typeOne, typeTwo, desc, catchRate, femaleRatio, maleRatio, hp, atk, def, spAtk, spDef, spd, lv1Req, nextDex,
+                        mainImg, backImg, mapImg, rawImg));
 //                Pokemon m = new Pokemon(name, type, category, maxpp, maxpp , power, acc);
 //                mTest.add(m);
-                Log.e("Test", mTest.get(iIdx).toString());
+                Log.e("Test", mPokemons.get(iIdx).toString());
             }
         }
         else{
             Log.e("Error", "json is null");
         }
-
-
     }
+
+    public JSONObject parseRandSpawner(String jsonData) throws JSONException {
+        if(jsonData!=null) {
+            JSONObject randJson = new JSONObject(jsonData);
+            return randJson;
+        }
+        else{
+            Log.e("Error Parsing Rand", "JSON Data Random List is Null");
+            return null;
+        }
+    }
+
 
     //LOADS ALL MOVES
     public void loadAllPokemonMoves(){
@@ -512,10 +576,23 @@ public class PokemonGoApp extends Application{
     }
 
     public void loadAllMovesApi() throws JSONException {
-        String jsonMoves = getStringFromApi(movesApiUrl);
-        parseJsonMoveData(jsonMoves, mMoves);
+        String jsonMoves = null;
+        try {
+            jsonMoves = getStringFromApi(movesApiUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        parseJsonMoveData(jsonMoves);
     }
-
+    public void loadAllPokemonApi() throws JSONException {
+        String jsonMoves = null;
+        try {
+            jsonMoves = getStringFromApi(pokemonApiUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        parseJsonPokemonData(jsonMoves);
+    }
 
 
     public void loadAllPokemonTypes(){
@@ -651,6 +728,49 @@ public class PokemonGoApp extends Application{
         mTypes.get(18).setIcon(R.drawable.fairy);
     }
 
+    public int getTypeIdFromString(String type) {
+        if (type.equals("None")) {
+            return Type.NONE;
+        } else if (type.equals("Normal")) {
+            return Type.NORMAL;
+        } else if (type.equals("Fire")) {
+            return Type.FIRE;
+        } else if (type.equals("Water")) {
+            return Type.WATER;
+        } else if (type.equals("Electric")) {
+            return Type.ELECTRIC;
+        } else if (type.equals("Grass")) {
+            return Type.GRASS;
+        } else if (type.equals("Ice")) {
+            return Type.ICE;
+        } else if (type.equals("Fighting")) {
+            return Type.FIGHTING;
+        } else if (type.equals("Poison")) {
+            return Type.POISON;
+        } else if (type.equals("Ground")) {
+            return Type.GROUND;
+        } else if (type.equals("Flying")) {
+            return Type.FLYING;
+        } else if (type.equals("Psychic")) {
+            return Type.PSYCHIC;
+        } else if (type.equals("Bug")) {
+            return Type.BUG;
+        } else if (type.equals("Rock")) {
+            return Type.ROCK;
+        } else if (type.equals("Ghost")) {
+            return Type.GHOST;
+        } else if (type.equals("Dragon")) {
+            return Type.DRAGON;
+        } else if (type.equals("Dark")) {
+            return Type.DARK;
+        } else if (type.equals("Steel")) {
+            return Type.STEEL;
+        } else if (type.equals("Fairy")) {
+            return Type.FAIRY;
+        }
+        return 0;
+    }
+
     public ArrayList<Item> getAllItems() {
         return mItems;
     }
@@ -674,6 +794,7 @@ public class PokemonGoApp extends Application{
         mItems.add(new ItemMaxElixir());
 
     }
+
 
     public Item getGeneratedItem(String name){
         for(int index = 0; index < mItems.size(); index++){
@@ -832,8 +953,15 @@ public class PokemonGoApp extends Application{
                 csvStr += "\n";
             }
         }
+        for(PokemonProfile pokemon : this.getPlayer().getBox()){
+            if(pokemon.getDexNumber() != 0){
+                csvStr += extractPlayerPokemonData(pokemon);
+                csvStr+= "\n";
+            }
+        }
         return csvStr;
     }
+
     public String encodeItemsToCsv(){
         String csvStr = "";
         for(Item item : this.getPlayer().getBag()) {
@@ -892,10 +1020,15 @@ public class PokemonGoApp extends Application{
                 playerPokemon.setEV(new StatSet(evHp, evAtk, evDef, evSpAtk, evSpDef, evSpd));
                 playerPokemon.setIV(new StatSet(ivHp, ivAtk, ivDef, ivSpAtk, ivSpDef, ivSpd));
                 playerPokemon.setNature(new StatSet(natureHp, natureAtk, natureDef, natureSpAtk, natureSpDef, natureSpd));
-
-                this.getPlayer().getPokemons().add(playerPokemon);
-                Log.e("Loading",
-                        this.getPlayer().getPokemons().get(pokemonCount).getNickname()+" Loaded");
+                if(dataIndex < 6) {
+                    this.getPlayer().getPokemons().add(playerPokemon);
+                    Log.e("Loading",
+                            this.getPlayer().getPokemons().get(pokemonCount).getNickname() + " Loaded to Profile");
+                }
+                else{
+                    this.getPlayer().getBox().add(playerPokemon);
+                    Log.e("Adding to Box", this.getPlayer().getBox().get(pokemonCount-getPlayer().getPokemons().size()).getNickname()+ "Loaded to Box");
+                }
                 pokemonCount++;
                 dataIndex++;
 
