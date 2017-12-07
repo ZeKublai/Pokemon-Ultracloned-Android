@@ -22,6 +22,8 @@ public class Pokemon {
     private int mCatchRate = 0;
     private int mMaleRatio = 0;
     private int mFemaleRatio = 0;
+    private String mHeight = "";
+    private String mWeight = "";
 
     public Pokemon() {
     }
@@ -45,8 +47,10 @@ public class Pokemon {
                    int mMainImage,
                    int mBackImage,
                    int mIcon,
-                   int mSound
-) {
+                   int mSound,
+                   String mHeight,
+                   String mWeight
+    ) {
         this.mDexNumber = mDexNumber;
         this.mName = mName;
         this.mDescription = mDescription;
@@ -63,6 +67,8 @@ public class Pokemon {
         this.mCatchRate = mCatchRate;
         this.mMaleRatio = mMaleRatio;
         this.mFemaleRatio = mFemaleRatio;
+        this.mHeight = mHeight;
+        this.mWeight = mWeight;
     }
 
     public int getSound() {
@@ -175,5 +181,19 @@ public class Pokemon {
             return true;
         }
         return false;
+    }
+
+    public String getHeight() {
+        return mHeight;
+    }
+    public void setHeight(String mHeight) {
+        this.mHeight = mHeight;
+    }
+
+    public String getWeight() {
+        return mWeight;
+    }
+    public void setWeight(String mWeight) {
+        this.mWeight = mWeight;
     }
 }

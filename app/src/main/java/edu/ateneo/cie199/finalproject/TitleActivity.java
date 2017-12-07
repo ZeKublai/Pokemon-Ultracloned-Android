@@ -1,18 +1,24 @@
 package edu.ateneo.cie199.finalproject;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import org.json.JSONException;
 
 public class TitleActivity extends AppCompatActivity {
-
     MusicHandler music;
+    int REQUEST_DATA_LOADED = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +51,29 @@ public class TitleActivity extends AppCompatActivity {
         });
         animator.start();
 
-        Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
+        Button btnNewGame = (Button) findViewById(R.id.btn_load_new_game);
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 app.setLoadData(false);
                 //sound effect
                 app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
-                startActivity(beginMainActivityIntent);
+                Intent beginMainActivityIntent = new Intent(TitleActivity.this, LoadingScreenActivity.class);
+                beginMainActivityIntent.putExtra("Continue?", app.getLoadData());
+                startActivityForResult(beginMainActivityIntent, REQUEST_DATA_LOADED);
                 return;
             }
         });
 
-        Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
+        Button btnContinueGame = (Button) findViewById(R.id.btn_load_continue_game);
         btnContinueGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 app.setLoadData(true);
                 app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
-                startActivity(beginMainActivityIntent);
+                Intent beginMainActivityIntent = new Intent(TitleActivity.this, LoadingScreenActivity.class);
+                beginMainActivityIntent.putExtra("Continue?", app.getLoadData());
+                startActivityForResult(beginMainActivityIntent, REQUEST_DATA_LOADED);
                 return;
             }
         });
@@ -93,4 +101,18 @@ public class TitleActivity extends AppCompatActivity {
     public void onBackPressed(){
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("INTENT FINISH", Integer.toString(requestCode));
+        Log.e("INTENT result", Integer.toString(resultCode));
+        String msg = "";
+        if(requestCode == REQUEST_DATA_LOADED && resultCode == RESULT_CANCELED ) {
+             msg = data.getStringExtra("MSG");
+        }
+        Toast.makeText(TitleActivity.this, msg, Toast.LENGTH_LONG).show();
+
+    }
+
 }

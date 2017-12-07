@@ -41,9 +41,10 @@ public class ItemPokeBall extends ItemTargetEnemy {
     @Override
     public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
         int result = getResult(profile);
-        String message = "";
+        String message = "... ";
+        battle.addMessage(new MessageUpdateCatch(message, getTargetInfo(battle), battle.getSelectedItem()));
         for(int index = 1; index < result; index++){
-            message = message + index + "...";
+            message = message + index + "... ";
             battle.addMessage(new MessageUpdateCatch(message, getTargetInfo(battle), battle.getSelectedItem()));
         }
         if(result < 4){

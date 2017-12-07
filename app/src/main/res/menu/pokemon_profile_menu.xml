@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_summary"
+        android:title="SUMMARY"/>
+    <item
+        android:id="@+id/action_evolve"
+        android:title="EVOLVE"/>
+    <item
+        android:id="@+id/action_release"
+        android:title="RELEASE"/>
+    <item
+        android:id="@+id/action_send_to_box"
+        android:title="SEND TO BOX"/>
+</menu>

@@ -307,7 +307,8 @@
             <ListView
                 android:id="@+id/lsv_pokemon_box"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp" />
         </RelativeLayout>
 
         <RelativeLayout

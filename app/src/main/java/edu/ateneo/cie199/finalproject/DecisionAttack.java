@@ -93,10 +93,10 @@ public class DecisionAttack extends Decision {
 
     public Message getMissedMessage(){
         if(mAccuracyResult < mMove.getAccuracy()){
-            return new Message(mAttacker.getNickname() + Message.MESSAGE_MISSED);
+            return new Message();
         }
         else{
-            return new Message();
+            return new Message(mAttacker.getNickname() + Message.MESSAGE_MISSED);
         }
     }
 

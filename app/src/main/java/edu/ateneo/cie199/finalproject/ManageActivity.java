@@ -1,11 +1,15 @@
 package edu.ateneo.cie199.finalproject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -93,7 +97,7 @@ public class ManageActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                        executePokemonButton(view, app.getPlayer().getBox().get(pos));
+                        executePokemonButton(view, app.getPlayer().getBox().get(pos), app.getPlayer().getBox(), app.getPlayer().getPokemons(), "ADD TO PARTY", app.getPlayer().getPokemons().size() < Player.MAX_POKEMON_SLOTS);
                     }
                 }
         );
@@ -172,9 +176,13 @@ public class ManageActivity extends AppCompatActivity {
         for(int index = 0; index < btnPokemons.size(); index++){
             btnPokemons.get(index).setClickable(false);
             btnPokemons.get(index).setVisibility(View.INVISIBLE);
+            imgPokemons.get(index).setVisibility(View.INVISIBLE);
+            barPokemons.get(index).setVisibility(View.INVISIBLE);
         }
 
         for(int index = 0; index < app.getPlayer().getPokemons().size(); index++){
+            barPokemons.get(index).setVisibility(View.VISIBLE);
+            imgPokemons.get(index).setVisibility(View.VISIBLE);
             barPokemons.get(index).setVisibility(View.VISIBLE);
             initializePokemonButton(btnPokemons.get(index), app.getPlayer().getPokemons().get(index));
         }
@@ -190,7 +198,7 @@ public class ManageActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    executePokemonButton(btn, profile);
+                        executePokemonButton(btn, profile, app.getPlayer().getPokemons(), app.getPlayer().getBox(), "SEND TO BOX", true);
                     }
                 }
         );
@@ -224,11 +232,16 @@ public class ManageActivity extends AppCompatActivity {
         switchPokemon();
     }
 
-    public void executePokemonButton(View view, PokemonProfile profile){
-        PokemonGoApp app = (PokemonGoApp) getApplication();
+    public void executePokemonButton(View view,
+                                     PokemonProfile profile,
+                                     ArrayList<PokemonProfile> origin,
+                                     ArrayList<PokemonProfile> destination,
+                                     String transferLabel,
+                                     boolean canTransfer){
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
         if(getMenuState() == PokemonGoApp.STATE_MAIN){
-
+            showPokemonMenu(view, profile, origin, destination, transferLabel, canTransfer);
         }
         else if(getMenuState() == PokemonGoApp.STATE_SWAP_POKEMON1){
             switchFirstPokemon(view, profile);
@@ -304,6 +317,82 @@ public class ManageActivity extends AppCompatActivity {
         mPokemonAdapter.notifyDataSetChanged();
         updatePokemons();
         setMenuState(PokemonGoApp.STATE_MAIN, Message.MESSAGE_MANAGER_MAIN);
+    }
+
+    public void showPokemonMenu(View view,
+                                final PokemonProfile profile,
+                                final ArrayList<PokemonProfile> origin,
+                                final ArrayList<PokemonProfile> destination,
+                                String transferLabel,
+                                boolean canTransfer){
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        PopupMenu popup = new PopupMenu(ManageActivity.this, view);
+        popup.getMenuInflater().inflate(R.menu.pokemon_profile_menu, popup.getMenu());
+
+        popup.getMenu().getItem(1).setVisible(profile.canEvolve(app.getPokemon(profile.getDexData().getNextDex())));
+        popup.getMenu().getItem(2).setVisible(app.getPlayer().getPokemons().size() + app.getPlayer().getBox().size() > 1);
+        popup.getMenu().getItem(3).setTitle(transferLabel);
+        popup.getMenu().getItem(3).setVisible(canTransfer);
+
+        for(int index = 0; index < popup.getMenu().size(); index++){
+            app.applyFontToMenuItem(popup.getMenu().getItem(index));
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.action_summary :{
+                        final Dialog dialog = new Dialog(ManageActivity.this);
+                        dialog.setContentView(R.layout.pokemon_profile_dialog);
+                        final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);
+                        edtNickname.setText(profile.getNickname());
+                        app.loadPokemonDetails(dialog, ManageActivity.this, profile);
+                        Button btnDialogOk = (Button) dialog.findViewById(R.id.btn_profile_back);
+                        btnDialogOk.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
+
+                                if(edtNickname.getText().toString().length() > 15){
+                                    edtNickname.setError("Nickname is too long!");
+                                }
+                                else{
+                                    if(edtNickname.getText().toString().isEmpty()){
+                                        profile.setNickname(profile.getDexData().getName());
+                                    }
+                                    else{
+                                        profile.setNickname(edtNickname.getText().toString());
+                                    }
+                                    updatePokemons();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+                        app.setAsOkButton(btnDialogOk);
+                        break;
+                    }
+                    case R.id.action_evolve :{
+                        profile.evolve(app.getPokemon(profile.getDexData().getNextDex()));
+                        txvMessage.setText(profile.getNickname() + " has evolved into a " + profile.getDexData().getName() + "!");
+                        break;
+                    }
+                    case R.id.action_release :{
+                        txvMessage.setText("Bye bye " + profile.getNickname() + "!");
+                        origin.remove(profile);
+                        break;
+                    }
+                    case R.id.action_send_to_box :{
+                        app.getPlayer().transferPokemon(profile, origin, destination);
+                        break;
+                    }
+                }
+                initializeTeam();
+                updatePokemons();
+                mPokemonAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+        popup.show();
     }
 
     @Override

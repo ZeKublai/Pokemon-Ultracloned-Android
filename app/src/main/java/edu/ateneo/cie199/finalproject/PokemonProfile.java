@@ -216,38 +216,32 @@ public class PokemonProfile {
                 mNature.getSpeed());
     }
 
-    public int getAttack(Move move){
-        if(move.getCategory() == Move.PHYSICAL){
-            return getAttack();
+    public boolean canEvolve(Pokemon nextDex){
+        if(nextDex.isEmpty()){
+            return false;
         }
-        else if(move.getCategory() == Move.SPECIAL){
-            return getSpAttack();
-
+        if(mLevel >= nextDex.getLevelRequirement()){
+            return true;
         }
-        return 0;
-    }
-    public int getDefense(Move move){
-        if(move.getCategory() == Move.PHYSICAL){
-            return getDefense();
+        else{
+            return false;
         }
-        else if(move.getCategory() == Move.SPECIAL){
-            return getSpDefense();
-
-        }
-        return 0;
     }
 
+    public void evolve(Pokemon nextDex){
+        this.mDexData = nextDex;
+    }
 
     /*TODO
     Needs Tweaking
      */
     public int getExperienceNeeded(){
-        return mLevel*50;
+        return mLevel*100;
     }
     public int getTotalExperience() {
         int totalExperience = 0;
         for(int index = 1; index < mLevel; index++){
-            totalExperience = totalExperience + mLevel*1000;
+            totalExperience = totalExperience + index*100;
         }
         totalExperience = totalExperience + mCurrentExp;
         return totalExperience;
@@ -300,5 +294,15 @@ public class PokemonProfile {
             }
         }
         return true;
+    }
+
+    public String getGenderString(){
+        if(mGender == GENDER_MALE){
+            return "♂";
+        }
+        else if(mGender == GENDER_FEMALE){
+            return "♀";
+        }
+        return "";
     }
 }

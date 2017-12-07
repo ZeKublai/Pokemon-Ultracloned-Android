@@ -74,6 +74,7 @@ public class PokemonInfoBuddy extends PokemonInfo {
         mTxvLevel.setText("Lv" + profile.getLevel());
         mImage.setBackgroundResource(profile.getDexData().getBackImage());
         updateHp(profile);
+        updateExp(profile);
     }
 
     public void updateCatch(Item item){

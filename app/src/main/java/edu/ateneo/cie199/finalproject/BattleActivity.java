@@ -1,11 +1,13 @@
 package edu.ateneo.cie199.finalproject;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -63,10 +65,28 @@ public class BattleActivity extends AppCompatActivity {
                 (ProgressBar) findViewById(R.id.bar_battle_buddy_exp),
                 (ImageButton) findViewById(R.id.imgbtn_battle_buddy)));
 
+        battle.getBuddyInfo().getImage().setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getPokemonDialog(battle.getBuddy());
+                    }
+                }
+        );
+
         battle.setEnemyInfo(new PokemonInfo((TextView) findViewById(R.id.txv_battle_enemy_name),
                 (TextView) findViewById(R.id.txv_battle_enemy_level),
                 (ProgressBar) findViewById(R.id.bar_battle_enemy_hp),
                 (ImageButton) findViewById(R.id.imgbtn_battle_enemy)));
+
+        battle.getEnemyInfo().getImage().setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        app.showPokedexDialog(BattleActivity.this, battle.getEnemy().getDexData());
+                    }
+                }
+        );
 
         battle.getEnemyInfo().updatePokemon(battle.getEnemy());
         battle.addMessage(new MessageUpdatePokemon("Wild " + battle.getEnemy().getNickname() + " appeared!", battle.getEnemyInfo(), battle.getEnemy()));
@@ -92,6 +112,17 @@ public class BattleActivity extends AppCompatActivity {
         messageState();
 
         app.setFontForContainer((ListView) findViewById(R.id.lsv_battle_options), "generation6.ttf");
+
+        lsvOptions.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                if(battle.getState() == PokemonGoApp.STATE_POKEMON){
+                    getPokemonDialog(battle.getPlayer().getPokemons().get(pos));
+                }
+                return true;
+            }
+        });
+
         lsvOptions.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -188,6 +219,7 @@ public class BattleActivity extends AppCompatActivity {
             if(battle.getIndex() == battle.getMessages().size() - 1
                     && battle.getState() == PokemonGoApp.STATE_MESSAGE_FIRST){
                 battle.secondMove();
+                battle.checkVictory();
                 battle.setState(PokemonGoApp.STATE_MESSAGE_LAST);
             }
 
@@ -320,6 +352,37 @@ public class BattleActivity extends AppCompatActivity {
         disableButton(btnAction);
     }
 
+    public void getPokemonDialog(final PokemonProfile profile){
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final Dialog dialog = new Dialog(BattleActivity.this);
+        dialog.setContentView(R.layout.pokemon_profile_dialog);
+        final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);
+        edtNickname.setText(profile.getNickname());
+        app.loadPokemonDetails(dialog, BattleActivity.this, profile);
+        Button btnDialogOk = (Button) dialog.findViewById(R.id.btn_profile_back);
+        btnDialogOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
+
+                if(edtNickname.getText().toString().length() > 15){
+                    edtNickname.setError("Nickname is too long!");
+                }
+                else{
+                    if(edtNickname.getText().toString().isEmpty()){
+                        profile.setNickname(profile.getDexData().getName());
+                    }
+                    else{
+                        profile.setNickname(edtNickname.getText().toString());
+                    }
+                    battle.getBuddyInfo().updatePokemon(battle.getBuddy());
+                    txvMessage.setText("What will " + battle.getBuddy().getNickname() + " do?");
+                    dialog.dismiss();
+                }
+            }
+        });
+        app.setAsOkButton(btnDialogOk);
+    }
 
     @Override
     public void onBackPressed(){
