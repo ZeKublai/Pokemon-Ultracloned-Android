@@ -14,12 +14,13 @@ import static java.lang.Math.pow;
 public class Player {
     public static int MAX_POKEMON_SLOTS = 6;
 
-    private String mName = "";
+    protected String mName = "";
     private Marker mMarker = null;
-    private ArrayList<Item> mBag = new ArrayList<>();
 
-    private ArrayList<PokemonProfile> mPokemons = new ArrayList<>();
-    private ArrayList<PokemonProfile> mBox = new ArrayList<>();
+    private Gender mGender = new Gender();
+    protected ArrayList<Item> mBag = new ArrayList<>();
+    protected ArrayList<PokemonProfile> mPokemons = new ArrayList<>();
+    protected ArrayList<PokemonProfile> mBox = new ArrayList<>();
 
     public Player() {
         this.mName = "Red";
@@ -27,8 +28,25 @@ public class Player {
     public Player(String mName) {
         this.mName = mName;
     }
-    public Player(String mName, Pokemon starter) {
+    public Player(Gender mGender, String mName, PokemonProfile starter) {
+        this.mGender = mGender;
         this.mName = mName;
+        mPokemons.add(new PokemonProfile(starter));
+
+        mBag.add(new ItemPotion(5));
+        mBag.add(new ItemRevive(5));
+        mBag.add(new ItemElixir(5));
+        mBag.add(new ItemPokeBall(5));
+        mBag.add(new ItemGreatBall(5));
+        mBag.add(new ItemUltraBall(5));
+    }
+
+    public Gender getGender() {
+        return mGender;
+    }
+
+    public void setGender(Gender mGender) {
+        this.mGender = mGender;
     }
 
     public String getName() {
@@ -111,7 +129,7 @@ public class Player {
         origin.remove(profile);
     }
 
-    public boolean isPlayerDefeated(){
+    public boolean isDefeated(){
         for(int index = 0; index < mPokemons.size(); index++){
             if(!isPokemonFainted(index)){
                 return false;
@@ -119,4 +137,6 @@ public class Player {
         }
         return true;
     }
+
+
 }

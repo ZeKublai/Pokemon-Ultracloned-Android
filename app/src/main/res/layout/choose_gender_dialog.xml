@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gender_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/imgbtn_choose_boy"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/boy_main" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_choose_girl"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/imgbtn_choose_boy"
+        android:background="@drawable/girl_main" />
+</RelativeLayout>

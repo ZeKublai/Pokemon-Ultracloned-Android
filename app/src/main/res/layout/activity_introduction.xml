@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/intro_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.ateneo.cie199.finalproject.IntroductionActivity">
+
+    <ImageView
+        android:id="@+id/img_intro_jerome"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/jerome_intro" />
+
+    <ImageView
+        android:id="@+id/img_intro_pokemon"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/img_intro_jerome"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/jerome_pokemon" />
+
+    <TextView
+        android:id="@+id/txv_intro_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgbtn_intro_pokeball"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/img_intro_pokemon"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="33dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_intro_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imgbtn_intro_pokeball"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_intro_pokeball"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/intro_pokeball" />
+</RelativeLayout>

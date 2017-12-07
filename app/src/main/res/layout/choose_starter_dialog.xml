@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/starter_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/imgbtn_bulbasaur"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bulbasaur_main" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_charmander"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/imgbtn_bulbasaur"
+        android:background="@drawable/charmander_main" />
+
+    <ImageButton
+        android:id="@+id/imgbtn_squirtle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/imgbtn_charmander"
+        android:background="@drawable/squirtle_main" />
+</RelativeLayout>

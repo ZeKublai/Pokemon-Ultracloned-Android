@@ -51,7 +51,7 @@ public class TitleActivity extends AppCompatActivity {
         });
         animator.start();
 
-        Button btnNewGame = (Button) findViewById(R.id.btn_load_new_game);
+        Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class TitleActivity extends AppCompatActivity {
             }
         });
 
-        Button btnContinueGame = (Button) findViewById(R.id.btn_load_continue_game);
+        Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
         btnContinueGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

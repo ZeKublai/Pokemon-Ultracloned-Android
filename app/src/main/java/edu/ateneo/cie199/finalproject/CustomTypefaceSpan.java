@@ -1,33 +1,53 @@
 package edu.ateneo.cie199.finalproject;
 
-/**
- * Created by John on 11/24/2017.
- */
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
 
+/**
+ * Created by John, Duke and JV on 11/7/2017.
+ * This class is mainly used to change the typeface of the dropdown menu of the Manager Activity
+ */
+
 public class CustomTypefaceSpan extends TypefaceSpan {
 
     private final Typeface newType;
 
+    /**
+     * Initialize the used extension
+     * @param family
+     * @param type
+     */
     public CustomTypefaceSpan(String family, Typeface type) {
         super(family);
         newType = type;
     }
 
+    /**
+     * partly  used to update and apply the custom type face assigned
+     * @param ds
+     */
     @Override
     public void updateDrawState(TextPaint ds) {
         applyCustomTypeFace(ds, newType);
     }
 
+    /**
+     * partly used to update and apply the custom type face assigned
+     * @param paint
+     */
     @Override
     public void updateMeasureState(TextPaint paint) {
         applyCustomTypeFace(paint, newType);
     }
 
+    /**
+     * update and apply the custom type face assigned
+     * @param paint
+     * @param tf
+     */
     private static void applyCustomTypeFace(Paint paint, Typeface tf) {
         int oldStyle;
         Typeface old = paint.getTypeface();

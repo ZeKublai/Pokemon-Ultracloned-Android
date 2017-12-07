@@ -108,6 +108,11 @@ public class PokemonGoApp extends Application{
     public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
 
     private GoogleMap mMap;
+
+    public void setPlayer(Player mPlayer) {
+        this.mPlayer = mPlayer;
+    }
+
     private Player mPlayer = new Player();
     private String playerDataFileName = "player_data.csv";
     private Marker mSelectedMarker = null;
@@ -131,8 +136,8 @@ public class PokemonGoApp extends Application{
     private ArrayList<Pokemon> mPokemons = new ArrayList<>();
     private ArrayList<Move> mMoves = new ArrayList<>();
     private ArrayList<Type> mTypes = new ArrayList<>();
-
     private ArrayList<Item> mItems = new ArrayList<>();
+    private ArrayList<Trainer> mTrainers = new ArrayList<>();
 
     /**
      * This function returns a random number from 0 to a given length.
@@ -234,7 +239,14 @@ public class PokemonGoApp extends Application{
         }
         return new Pokemon();
     }
-
+    public Trainer getTrainer(String title){
+        for(int index = 0; index < mTrainers.size(); index++){
+            if(mTrainers.get(index).getName().equals(title)){
+                return mTrainers.get(index);
+            }
+        }
+        return new Trainer();
+    }
     public Move findMove(String title){
         for(Move move : this.getAllMoves()){
             if(move.getName().equals(title)){
@@ -256,6 +268,13 @@ public class PokemonGoApp extends Application{
     public ArrayList<Type> getAllTypes(){return mTypes;}
     public ArrayList<Move> getAllMoves(){return mMoves;}
 
+    public ArrayList<Trainer> getTrainers() {
+        return mTrainers;
+    }
+    public void setTrainers(ArrayList<Trainer> mTrainers) {
+        this.mTrainers = mTrainers;
+    }
+
     public void moveMapCamera(LatLng position, float zoom){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom));
     }
@@ -268,6 +287,10 @@ public class PokemonGoApp extends Application{
             e.printStackTrace();
         }
         return -1;
+    }
+    //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
+    public void loadAllTrainers(){
+        mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
     }
 
 //    //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
@@ -848,7 +871,7 @@ public class PokemonGoApp extends Application{
     public void loadPlayer(LatLng initialPosition) {
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.player_stand))));
+                        .icon(BitmapDescriptorFactory.fromResource(mPlayer.getGender().getStandImage()))));
     }
     public void initPlayer(){
         getPlayer().getPokemons().add(new PokemonProfile(getSpawnCount(), 15, getAllPokemons().get(3)));
@@ -870,12 +893,12 @@ public class PokemonGoApp extends Application{
         getPlayer().getBag().add(new ItemUltraBall(10));
     }
 
-    public void setButtonBorder(Button btn, int color){
+    public static void setButtonBorder(Button btn, int color){
         btn.setBackground(getShape(color));
     }
 
-    public void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "generation6.ttf");
+    public static void applyFontToMenuItem(Activity ctx, MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(ctx.getAssets(), "generation6.ttf");
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
         mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         mi.setTitle(mNewTitle);
@@ -888,31 +911,6 @@ public class PokemonGoApp extends Application{
         shapedrawable.getPaint().setStrokeWidth(30f);
         shapedrawable.getPaint().setStyle(Paint.Style.STROKE);
         return shapedrawable;
-    }
-
-    public void setPokemonButton(Button btn, PokemonProfile profile, ProgressBar bar, ImageView icon){
-        btn.setClickable(!profile.isEmpty());
-        btn.setText(profile.getButtonString());
-        if(profile.getCurrentHP() <= 0 && !profile.isEmpty()){
-            setButtonBorder(btn, PokemonGoApp.DEAD_COLOR);
-        }
-        else{
-            setButtonBorder(btn, PokemonGoApp.POKEMON_COLOR);
-        }
-        if(!profile.isEmpty()){
-            btn.setVisibility(View.VISIBLE);
-            bar.setVisibility(View.VISIBLE);
-            bar.setMax(profile.getHP());
-            bar.setProgress(profile.getCurrentHP());
-            updateHpBarColor(profile.getCurrentHP(), profile.getHP(), bar);
-            icon.setVisibility(View.VISIBLE);
-            icon.setImageResource(profile.getDexData().getIcon());
-        }
-        else{
-            btn.setVisibility(View.INVISIBLE);
-            bar.setVisibility(View.INVISIBLE);
-            icon.setVisibility(View.INVISIBLE);
-        }
     }
 
     public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
@@ -930,7 +928,7 @@ public class PokemonGoApp extends Application{
         }
     }
 
-    public void setAsBackButton(Button btn){
+    public static void setAsBackButton(Button btn){
         btn.setClickable(true);
         btn.setText("BACK");
         btn.setVisibility(View.VISIBLE);
@@ -944,11 +942,18 @@ public class PokemonGoApp extends Application{
         btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
     }
 
-    public void setAsCancelButton(Button btn){
+    public static void setAsCancelButton(Button btn){
         btn.setClickable(true);
         btn.setText("CANCEL");
         btn.setVisibility(View.VISIBLE);
         btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
+    }
+
+    public static void setAsSwitchButton(Button btn){
+        btn.setClickable(true);
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
+        btn.setText("SWITCH");
     }
 
     /****************************************************/

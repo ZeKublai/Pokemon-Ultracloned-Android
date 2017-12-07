@@ -98,7 +98,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         //INITIAL VALUES FOR TESTING
 
-        LatLng initialPosition = new LatLng(initLatitude,initLongitude);
+        LatLng initialPosition = new LatLng(initLatitude, initLongitude);
 
         //INITIALIZING POKEMON & MOVES & TYPES
         //TODO MAKE THIS FROM FILE
@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         final TextView txvMain = (TextView) findViewById(R.id.txv_main_title);
         app.setSelectedMarker(app.getPlayer().getMarker());
         txvMain.setText(app.getPlayer().getName());
-        imgButtonMain.setImageResource(R.drawable.player_main);
+        imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
         imgButtonMain.setBackgroundColor(Color.argb(0, 0, 0, 0));
 
         imgButtonMain.setOnClickListener(
@@ -137,7 +137,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         //SPAWNER
         final Handler spawnHandler = new Handler();
         final Timer spawnTimer = new Timer();
-        final int spawnRate = 6000;
+        final int spawnRate = 1000;
         TimerTask spawnTask = new TimerTask() {
             @Override
             public void run() {
@@ -163,6 +163,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.e("Spawn Item", Integer.toString(itemIndex));
                         Item spawnItem = app.getAllItems().get(itemIndex);
 
+                        //Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
+                        //Item spawnItem = app.generateRandomItem();
+                        Trainer spawnTrainer = app.getTrainers().get(app.getIntegerRNG(app.getTrainers().size())).generateTrainer();
 
                         //GENERATING SPAWN POINT
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
@@ -171,12 +174,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                 longitude);
 
                         Marker marker;
-                        if(app.getIntegerRNG(5) > 1){
+                        int rollRNG = app.getIntegerRNG(5);
+                        if(rollRNG > 2){
                             marker = app.getMap().addMarker(
                                     new MarkerOptions().position(spawnPosition).title(
                                             spawnPokemon.getName()).icon(
                                             BitmapDescriptorFactory.fromResource(
                                                     spawnPokemon.getIcon())));
+                        }
+                        else if(rollRNG == 1){
+                            marker = app.getMap().addMarker(
+                                    new MarkerOptions().position(spawnPosition).title(
+                                            spawnTrainer.getName()).icon(
+                                            BitmapDescriptorFactory.fromResource(
+                                                    spawnTrainer.getImageIcon())));
                         }
                         else{
                             marker = app.getMap().addMarker(
@@ -193,7 +204,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     app.getSelectedMarker())){
                                 app.setSelectedMarker(app.getPlayer().getMarker());
                                 txvMain.setText(app.getSelectedMarker().getTitle());
-                                imgButtonMain.setImageResource(R.drawable.player_main);
+                                imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
                             }
                             if(!(app.getMarkers().get(app.getSpawnCount() - maxSpawn).equals(
                                     app.getCurrentGoal()))) {
@@ -243,11 +254,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if(app.getSelectedMarker().equals(app.getCurrentGoal())){
                     app.setSelectedMarker(app.getPlayer().getMarker());
                     txvMain.setText(app.getPlayer().getName());
-                    imgButtonMain.setImageResource(R.drawable.player_main);
+                    imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
                 }
-
-                if(app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
-
+                if(!app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
+                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(battleActivityIntent);
+                }
+                else if(!app.getTrainer(app.getCurrentGoal().getTitle()).isEmpty()){
+                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
+                    startActivity(battleActivityIntent);
+                }
+                else{
                     Item item = app.getGeneratedItem(app.getCurrentGoal().getTitle()).generateCopy();
                     app.getPlayer().giveItem(item);
 
@@ -275,10 +292,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                     dialog.show();
                 }
-                else{
-                    Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);
-                    startActivity(battleActivityIntent);
-                }
 
                 app.getCurrentGoal().remove();
                 btnAction.setClickable(true);
@@ -287,7 +300,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 app.getMap().getUiSettings().setAllGesturesEnabled(true);
 
                 app.getPlayer().getMarker().setIcon(BitmapDescriptorFactory.fromResource(
-                                R.drawable.player_stand));
+                                app.getPlayer().getGender().getStandImage()));
 
                 return;
             }
@@ -300,7 +313,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
 
                         //IF DESTINATION HAS BEEN SELECTED
-                        if(!app.getSelectedMarker().equals(app.getPlayer().getMarker()) && (!app.getPlayer().isPlayerDefeated() || app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty())) {
+                        if(!app.getSelectedMarker().equals(app.getPlayer().getMarker()) &&
+                                ((!app.getPlayer().isDefeated() && (!app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty() || !app.getTrainer(app.getSelectedMarker().getTitle()).isEmpty())) ||
+                                        (app.getTrainer(app.getSelectedMarker().getTitle()).isEmpty() && app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()))) {
 
                             app.setCurrentGoal(app.getSelectedMarker());
                             txvMain.setText(app.getCurrentGoal().getTitle());
@@ -382,12 +397,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     if(elapsed%500 > 0 && elapsed%500 <= 250) {
                                         app.getPlayer().getMarker().setIcon(
                                                 BitmapDescriptorFactory.fromResource(
-                                                        R.drawable.player_walk1));
+                                                        app.getPlayer().getGender().getWalkImage1()));
                                     }
                                     else {
                                         app.getPlayer().getMarker().setIcon(
                                                 BitmapDescriptorFactory.fromResource(
-                                                        R.drawable.player_walk2));
+                                                        app.getPlayer().getGender().getWalkImage2()));
                                     }
                                     if (t < 1.0) {
                                         // Post again 16ms later.
@@ -414,16 +429,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if(app.getSelectedMarker().getTitle().isEmpty()){
                     txvMain.setText(app.getPlayer().getName());
-                    imgButtonMain.setImageResource(R.drawable.player_main);
+                    imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
                 }
                 else {
                     txvMain.setText(app.getSelectedMarker().getTitle());
-                    if(app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
-                        imgButtonMain.setImageResource(app.getGeneratedItem(marker.getTitle()).getImageBig());
-                    }
-                    else{
+                    if(!app.getPokemon(app.getSelectedMarker().getTitle()).isEmpty()){
                         app.getMusicHandler().playSfx(MainActivity.this, app.getPokemon(app.getSelectedMarker().getTitle()).getSound(), app.getSFXSwitch());
                         imgButtonMain.setImageResource(app.getPokemon(marker.getTitle()).getMainImage());
+                    }
+                    else if(!app.getTrainer(app.getSelectedMarker().getTitle()).isEmpty()){
+                        imgButtonMain.setImageResource(app.getTrainer(marker.getTitle()).getImageMain());
+                    }
+                    else{
+                        imgButtonMain.setImageResource(app.getGeneratedItem(marker.getTitle()).getImageBig());
                     }
                 }
                 return false;

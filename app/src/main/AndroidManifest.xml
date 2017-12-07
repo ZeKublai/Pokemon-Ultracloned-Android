@@ -44,7 +44,9 @@
             android:label="@string/title_activity_main" />
         <activity android:name=".BattleActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ManageActivity"></activity>
+        <activity android:name=".ManageActivity" />
+        <activity android:name=".IntroductionActivity"></activity>
+        <activity android:name=".LoadingScreenActivity"></activity>
     </application>
 
 </manifest>
