@@ -45,7 +45,7 @@ public class TrainerBattle extends Battle {
 
         this.mEnemy = this.mTrainer.getBuddy();
         this.mEnemyInfo.getImage().setBackgroundResource(this.mTrainer.getImageMain());
-        addMessage(new Message(this.mTrainer.getName() + " wants to battle!"));
+        addMessage(new Message(this.mTrainer.getTitle() + " " + this.mTrainer.getName() + " wants to battle!"));
         addMessage(new Message(this.mTrainer.getName() + ": " + this.mTrainer.getIntro()));
         addMessage(new MessageUpdatePokemon(this.mTrainer.getName() + " has sent out " + this.mEnemy.getNickname() + "!", this.mEnemyInfo, this.mEnemy));
         addMessage(new MessageUpdatePokemon("Go " + this.mBuddy.getNickname() + "!", this.mBuddyInfo, this.mBuddy));

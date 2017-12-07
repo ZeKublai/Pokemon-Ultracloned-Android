@@ -242,7 +242,7 @@ public class PokemonGoApp extends Application{
 
     //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
     public void loadAllTrainers(){
-        mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
+        mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
     }
 
     public void loadAllPokemon(){

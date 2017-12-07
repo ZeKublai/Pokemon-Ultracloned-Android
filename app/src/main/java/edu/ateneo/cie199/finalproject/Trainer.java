@@ -8,6 +8,7 @@ public class Trainer extends Player{
 
     private Team mTeam;
     private int mTier;
+    private String mTitle;
     private String mIntro;
     private String mWin;
     private String mLose;
@@ -21,10 +22,11 @@ public class Trainer extends Player{
         this.mName = "";
     }
 
-    public Trainer(String mName, Team mTeam, int mTier, String mIntro, String mWin, String mLose, Pokemon mFavoritePokemon1, Pokemon mFavoritePokemon2, int mImageMain, int mImageIcon) {
+    public Trainer(String mName, Team mTeam, int mTier, String mTitle, String mIntro, String mWin, String mLose, Pokemon mFavoritePokemon1, Pokemon mFavoritePokemon2, int mImageMain, int mImageIcon) {
         this.mName = mName;
         this.mTeam = mTeam;
         this.mTier = mTier;
+        this.mTitle = mTitle;
         this.mIntro = mIntro;
         this.mWin = mWin;
         this.mLose = mLose;
@@ -46,6 +48,13 @@ public class Trainer extends Player{
     }
     public void setTier(int mTier) {
         this.mTier = mTier;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+    public void setTitle(String mTitle) {
+        this.mTitle = mTitle;
     }
 
     public String getIntro() {
@@ -102,6 +111,6 @@ public class Trainer extends Player{
     }
 
     public Trainer generateTrainer(){
-        return new Trainer(this.mName, this.mTeam, this.mTier, this.mIntro, this.mWin, this.mLose, this.mFavoritePokemon1, this.mFavoritePokemon2, this.mImageMain, this.mImageIcon);
+        return new Trainer(this.mName, this.mTeam, this.mTier, this.mTitle, this.mIntro, this.mWin, this.mLose, this.mFavoritePokemon1, this.mFavoritePokemon2, this.mImageMain, this.mImageIcon);
     }
 }
