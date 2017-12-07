@@ -15,8 +15,8 @@ public class MusicHandler {
     public static int MUSIC_BATTLE = R.raw.battle_song;
     public static int MUSIC_TITLE = R.raw.opening;
     public static int MUSIC_MANAGE = R.raw.manage_song;
+    public static int MUSIC_INTRO = R.raw.intro_song;
     public static int SFX_SELECT = R.raw.btn_pressed;
-    public static int SFX_WIN = R.raw.win_song;
 
     private MediaPlayer mMusicPlayer;
     private MediaPlayer mSfxPlayer;

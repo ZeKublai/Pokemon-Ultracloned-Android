@@ -9,7 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Created by John on 11/27/2017.
+ * Created by John, Duke and JV on 11/27/2017.
+ * This class is a subclass of the battle state which handles the button function and what message to be displayed
  */
 
 public class BattlePokemonState extends BattleMainState{
@@ -48,6 +49,10 @@ public class BattlePokemonState extends BattleMainState{
         }
     }
 
+    /**
+     * get the list of pokemon if player want to switch
+     * @param pos position index relating to the list of moves, pokemons or items
+     */
     @Override
     public void executeListView(int pos){
         mBattle.setPlayerDecision(new DecisionSwitch(mBattle.getPlayer().getPokemons().get(pos), mBattle.getBuddy(), mBattle.getBuddyInfo()));
@@ -68,12 +73,20 @@ public class BattlePokemonState extends BattleMainState{
         }
     }
 
+    /**
+     * get the data of the pokemon
+     * @param app used for calling the dialog data
+     * @param ctx needed to initialize the dialog in the selected Activity
+     * @param pos position in the listview
+     */
     @Override
     public void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos){
         getPokemonDialog(app, ctx, mBattle.getPlayer().getPokemons().get(pos));
     }
 
-
+    /**
+     * shows if the pokemon is switched out or not
+     */
     @Override
     public void executePokemonButton(){
         if(mBattle.isEnemyFainted() && mBattle instanceof TrainerBattle){
@@ -88,6 +101,12 @@ public class BattlePokemonState extends BattleMainState{
         }
     }
 
+    /**
+     * get the data of the pokemon
+     * @param app
+     * @param ctx
+     * @param profile
+     */
     public void getPokemonDialog(final PokemonGoApp app, Activity ctx, final PokemonProfile profile){
         final Dialog dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.pokemon_profile_dialog);

@@ -7,7 +7,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Created by John on 11/28/2017.
+ * Created by John, Duke and JV on 11/28/2017.
+ * This class is a subclass of the battle state which handles the button function and what message to be displayed
  */
 
 public class BattleSecondMoveState extends BattleState {
@@ -38,40 +39,68 @@ public class BattleSecondMoveState extends BattleState {
         viewMessages();
     }
 
+    /**
+     * does nothing
+     * @param pos position index relating to the list of moves, pokemons or items
+     */
     @Override
     public void executeListView(int pos){
 
     }
 
+    /**
+     * does nothing
+     * @param app used for calling the dialog data
+     * @param ctx needed to initialize the dialog in the selected Activity
+     * @param pos position in the listview
+     */
     @Override
     public void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos){
 
     }
 
+    /**
+     * does nothing
+     */
     public void executeFightButton(){
 
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executePokemonButton(){
 
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executeBagButton(){
 
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executeRunButton(){
 
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executeActionButton(){
         viewMessages();
     }
 
+    /**
+     * shows the messages to be displayed in succession
+     */
     protected void viewMessages(){
         if(mBattle.getIndex() < mBattle.getMessages().size()){
             mBattle.getMessages().get(mBattle.getIndex()).executeUpdate(mBattle);

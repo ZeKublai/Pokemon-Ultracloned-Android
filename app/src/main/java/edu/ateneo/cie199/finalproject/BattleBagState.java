@@ -5,7 +5,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Created by John on 11/27/2017.
+ * Created by John, Duke and JV on 11/27/2017.
+ * This class is a subclass of the battle state which handles the button function and what message to be displayed
  */
 
 public class BattleBagState extends BattleMainState {
@@ -35,6 +36,10 @@ public class BattleBagState extends BattleMainState {
         PokemonGoApp.setAsCancelButton(mBagButton);
     }
 
+    /**
+     * Shows the list of items
+     * @param pos current index of the listview
+     */
     @Override
     public void executeListView(int pos){
         mBattle.setSelectedItem(mBattle.getPlayer().getBag().get(pos));
@@ -47,6 +52,9 @@ public class BattleBagState extends BattleMainState {
         }
     }
 
+    /**
+     * returns to main state
+     */
     @Override
     public void executeBagButton(){
         mBattle.setBattleState(mainState());

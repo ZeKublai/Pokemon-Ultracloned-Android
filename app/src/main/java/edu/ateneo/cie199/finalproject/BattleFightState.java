@@ -5,7 +5,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Created by John on 11/27/2017.
+ * Created by John, Duke and JV on 11/27/2017.
+ * This class is a subclass of the battle state which handles the button function and what message to be displayed
  */
 
 public class BattleFightState extends BattleMainState {
@@ -36,6 +37,10 @@ public class BattleFightState extends BattleMainState {
         PokemonGoApp.setAsCancelButton(mFightButton);
     }
 
+    /**
+     * Shows the list of moves of the Pokemon
+     * @param pos current index of the listview
+     */
     @Override
     public void executeListView(int pos){
         mBattle.setSelectedMove(mBattle.getBuddy().getMoves().get(pos));

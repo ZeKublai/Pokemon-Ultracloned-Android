@@ -3,7 +3,9 @@ package edu.ateneo.cie199.finalproject;
 import static java.lang.Math.floor;
 
 /**
- * Created by John on 11/20/2017.
+ * Created by John, Duke and JV on 11/20/2017.
+ * This class is a subclass of the decision which handles the decision and computation for damaging
+ * Updates the data of the battling Pokemon
  */
 
 public class DecisionAttack extends Decision {
@@ -17,6 +19,13 @@ public class DecisionAttack extends Decision {
     private PokemonInfo mDisplayInfo;
 
 
+    /**
+     * Handles the method of triggering accuracy nd critical hit of the pokemon
+     * @param mAttacker the pokemon that attacks
+     * @param mDefender the pokemon that defends
+     * @param mMove move to be analyzed if a special event is triggered
+     * @param info show the information of the Pokemon
+     */
     public DecisionAttack(PokemonProfile mAttacker, PokemonProfile mDefender, Move mMove, PokemonInfo info) {
         this.mMove = mMove;
         this.mAccuracyResult = PokemonGoApp.getIntegerRNG(Move.MAX_ACCURACY);
@@ -26,42 +35,42 @@ public class DecisionAttack extends Decision {
         this.mDefender = mDefender;
     }
 
-    public PokemonInfo getDisplayInfo() {
-        return mDisplayInfo;
-    }
-
-    public void setDisplayInfo(PokemonInfo mDisplayInfo) {
-        this.mDisplayInfo = mDisplayInfo;
-    }
-
-    public PokemonProfile getAttacker() {
-        return mAttacker;
-    }
-
-    public void setAttacker(PokemonProfile mAttacker) {
-        this.mAttacker = mAttacker;
-    }
-
-    public PokemonProfile getDefender() {
-        return mDefender;
-    }
-
+    /**
+     * set the defending Pokemon
+     * @param mDefender the pokemon that defends
+     */
     public void setDefender(PokemonProfile mDefender) {
         this.mDefender = mDefender;
     }
 
+    /**
+     * get the pokemon move
+     * @return pokemon move
+     */
     public Move getMove() {
         return mMove;
     }
 
+    /**
+     * set the pokemon move
+     * @param mMove pokemon move
+     */
     public void setMove(Move mMove) {
         this.mMove = mMove;
     }
 
+    /**
+     * get the initial messages
+     * @return message to be shown
+     */
     public Message getInitialMessage(){
         return new MessageUpdatePokemon(mAttacker.getNickname() + " used " + mMove.getName() + "!", mDisplayInfo, mDefender);
     }
 
+    /**
+     * show if the move is effective to the pokemon
+     * @return message to be shown
+     */
     public Message getEffectiveMessage(){
         Type defenderType1 = mDefender.getDexData().getType1();
         Type defenderType2 = mDefender.getDexData().getType2();
@@ -82,6 +91,10 @@ public class DecisionAttack extends Decision {
         }
     }
 
+    /**
+     * show if the move is a critical hit
+     * @return message to be shown
+     */
     public Message getCriticalMessage(){
         if(mCriticalResult < 1){
             return new Message(Message.MESSAGE_CRITICAL);
@@ -91,6 +104,10 @@ public class DecisionAttack extends Decision {
         }
     }
 
+    /**
+     * show if the move misses
+     * @return message to be shown
+     */
     public Message getMissedMessage(){
         if(mAccuracyResult < mMove.getAccuracy()){
             return new Message();
@@ -100,11 +117,19 @@ public class DecisionAttack extends Decision {
         }
     }
 
+    /**
+     * show error message
+     * @return messgae to be shown when no more PP
+     */
     @Override
     public Message getErrorMessage(){
         return new Message(Message.ERROR_NO_PP);
     }
 
+    /**
+     * check if there is still error
+     * @return boolean value to check if there is still PP
+     */
     @Override
     public boolean isError(){
         if(mMove.getCurrentPP() <= 0){
@@ -115,11 +140,19 @@ public class DecisionAttack extends Decision {
         }
     }
 
+    /**
+     * Executes the move done
+     * @param battle the battle where the state is
+     */
     @Override
     public void execute(Battle battle){
         mMove.execute(mAccuracyResult, mCriticalResult, mAttacker, mDefender);
     }
 
+    /**
+     * updates the results
+     * @param battle the battle where the state is
+     */
     @Override
     public void updateResults(Battle battle){
         if(mAttacker.noMorePP()){
@@ -141,11 +174,20 @@ public class DecisionAttack extends Decision {
         }
     }
 
+    /**
+     * check if decision is empty
+     * @return boolean value with a default value of false
+     */
     @Override
     public boolean isEmpty(){
         return false;
     }
 
+    /**
+     * get information of the attacking pokemon
+     * @param battle the battle where the state is
+     * @return information of the attacking pokemon
+     */
     private PokemonInfo getAttackerInfo(Battle battle){
         if(mDisplayInfo instanceof PokemonInfoBuddy){
             return battle.getEnemyInfo();

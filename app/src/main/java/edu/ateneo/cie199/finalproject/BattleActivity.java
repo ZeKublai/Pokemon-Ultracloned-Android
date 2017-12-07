@@ -15,6 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * Created by John, Duke and JV on 11/7/2017.
+ * This class handles the Battle progression and state of the Activity
+ */
+
 public class BattleActivity extends AppCompatActivity {
 
     private Battle battle;
@@ -29,6 +34,10 @@ public class BattleActivity extends AppCompatActivity {
     private TextView txvMessage;
     private ListView lsvOptions;
 
+    /**
+     * Initializes the data to be used
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +52,6 @@ public class BattleActivity extends AppCompatActivity {
         app.getMusicHandler().initButtonSfx(this);
 
         //BATTLE INITIALIZATION
-
         txvMessage = (TextView) findViewById(R.id.txv_battle_message);
         btnAction = (Button) findViewById(R.id.btn_battle_action);
         btnAction.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
@@ -69,7 +77,6 @@ public class BattleActivity extends AppCompatActivity {
                 (ImageButton) findViewById(R.id.imgbtn_battle_enemy));
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //TODO: ENEMY INITIALIZATION NEEDS MODIFICATION
         if(!app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
             battle = new Battle(app, buddyInfo, enemyInfo);
         }
@@ -78,7 +85,6 @@ public class BattleActivity extends AppCompatActivity {
         }
 
         //UI INITIALIZATION
-
 
         battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
         battle.setPokemonAdapter(new PokemonList(BattleActivity.this, battle.getPlayer().getPokemons()));
@@ -181,6 +187,9 @@ public class BattleActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Ends the battle. returns to the MainActivity
+     */
     private void endBattle(){
         Intent mainActivityIntent = new Intent(BattleActivity.this, MainActivity.class);
         mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -188,6 +197,10 @@ public class BattleActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * gets the information of the Pokemon
+     * @param profile data of the Pokemon
+     */
     public void getPokemonDialog(final PokemonProfile profile){
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         final Dialog dialog = new Dialog(BattleActivity.this);
@@ -220,11 +233,17 @@ public class BattleActivity extends AppCompatActivity {
         app.setAsOkButton(btnDialogOk);
     }
 
+    /**
+     * Disables the back button
+     */
     @Override
     public void onBackPressed(){
 
     }
 
+    /**
+     * Continues the music when switching activities
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -237,6 +256,9 @@ public class BattleActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pause the music when switching activities
+     */
     @Override
     protected void onPause() {
         super.onPause();

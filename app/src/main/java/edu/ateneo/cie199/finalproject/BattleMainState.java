@@ -7,7 +7,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Created by John on 11/27/2017.
+ * Created by John, Duke and JV on 11/27/2017.
+ * This class is a subclass of the battle state which handles the button function and what message to be displayed
  */
 
 public class BattleMainState extends BattleState {
@@ -37,20 +38,36 @@ public class BattleMainState extends BattleState {
         mMessage.setText("What will " + mBattle.getBuddy().getNickname() + " do?");
     }
 
+    /**
+     * does nothing
+     */
     public BattleMainState(){
 
     }
 
+    /**
+     * does nothing
+     * @param pos position index relating to the list of moves, pokemons or items
+     */
     @Override
     public void executeListView(int pos){
 
     }
 
+    /**
+     * does nothing
+     * @param app used for calling the dialog data
+     * @param ctx needed to initialize the dialog in the selected Activity
+     * @param pos position in the listview
+     */
     @Override
     public void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos){
 
     }
 
+    /**
+     * check if the pokemon still has PP. if non, pokemon would struggle
+     */
     public void executeFightButton(){
         if(mBattle.getBuddy().noMorePP()){
             mBattle.setPlayerDecision(new DecisionAttack(mBattle.getBuddy(),
@@ -62,22 +79,34 @@ public class BattleMainState extends BattleState {
         }
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executePokemonButton(){
         mBattle.setBattleState(pokemonState());
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executeBagButton(){
         mBattle.setBattleState(bagState());
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executeRunButton(){
         mBattle.setPlayerDecision(new DecisionRun(mBattle));
         mBattle.checkErrorMessage();
     }
 
+    /**
+     * does nothing
+     */
     @Override
     public void executeActionButton(){
 

@@ -19,7 +19,7 @@ public class IntroductionActivity extends AppCompatActivity {
     private Pokemon mChosenStarter = new Pokemon();
     private int mCurrentMessage = 1;
 
-    private String[] mScript = new String[28];
+    private String[] mScript = new String[29];
 
     MusicHandler music;
 
@@ -31,7 +31,7 @@ public class IntroductionActivity extends AppCompatActivity {
 
         //Plays music
         music = new MusicHandler();
-        music.initMusic(this, MusicHandler.MUSIC_TITLE);
+        music.initMusic(this, MusicHandler.MUSIC_INTRO);
         music.playMusic(app.getMusicSwitch());
         app.getMusicHandler().initButtonSfx(this);
 
@@ -230,9 +230,9 @@ public class IntroductionActivity extends AppCompatActivity {
                 "This world is widely inhabited by creatures known as Pokemon.",
                 "Here, I have a Poke Ball.",
                 "Touch the button on the middle of the Poke Ball, if you'd please.",
-                "We humans live alongside Pokemon as friends.",
+                "There are different types of Pokeball; they are used to catch these Pokemons",
                 "At times we play together, and at other times we work together.",
-                "Some people use their Pokemon to battle while others try to rule the world.",
+                "Heal them using Potions, Resurrect with Revive and Heal PP with Elixir",
                 "What do I do?",
                 "I am a coffee-fueled travelling researcher from parts Unown.",
                 "Part of my endgame is using an army of robodogs to take over the world.",
@@ -248,9 +248,10 @@ public class IntroductionActivity extends AppCompatActivity {
                 "All righty then!",
                 "I'll give " + mChosenStarter + " to you as a gift.",
                 "Your very own tale of grand adventure is about to unfold.",
+                "Battle those wild Pokemons to catch them",
+                "And battle those Trainers to assert your dominance in this world!",
                 "Now, go on, I have been awake now for 24 + 10 hours.",
-                "Barely staggered through the work day! ",
-                "The light inside has broken but I still work."
+                ""
         };
     }
 
@@ -278,7 +279,7 @@ public class IntroductionActivity extends AppCompatActivity {
         super.onResume();
         PokemonGoApp app = (PokemonGoApp) getApplication();
         if(music == null){
-            music.initMusic(this, MusicHandler.MUSIC_TITLE);
+            music.initMusic(this, MusicHandler.MUSIC_INTRO);
         }
         if(!music.getMusicPlayer().isPlaying()) {
             music.playMusic(app.getMusicSwitch());

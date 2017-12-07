@@ -215,7 +215,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if(app.getSelectedMarker().equals(app.getCurrentGoal())){
                     app.setSelectedMarker(app.getPlayer().getMarker());
                     txvMain.setText(app.getPlayer().getName());
-                    imgButtonMain.setImageResource(R.drawable.boy_main);
+                    imgButtonMain.setImageResource(app.getPlayer().getGender().getMainImage());
                 }
                 if(!app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
                     Intent battleActivityIntent = new Intent(MainActivity.this, BattleActivity.class);

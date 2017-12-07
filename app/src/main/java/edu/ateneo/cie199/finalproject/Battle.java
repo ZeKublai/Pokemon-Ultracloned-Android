@@ -3,7 +3,8 @@ package edu.ateneo.cie199.finalproject;
 import java.util.ArrayList;
 
 /**
- * Created by John on 11/7/2017.
+ * Created by John, Duke and JV on 11/7/2017.
+ * This class handles the functions to be used for the Battle
  */
 
 public class Battle {
@@ -12,7 +13,7 @@ public class Battle {
     protected Move mSelectedMove;
     protected PokemonProfile mSelectedPokemon = new PokemonProfile();
     protected Item mSelectedItem;
-    protected boolean mEnemyCaught = false;
+     boolean mEnemyCaught = false;
 
     protected boolean mRanAway = false;
     protected ArrayList<Type> mTypeChart = new ArrayList<>();
@@ -36,10 +37,20 @@ public class Battle {
 
     protected int mIndex = 0;
 
+
+    /**
+     * Child class TrainerBattle require a default constructor for a parent class battle
+     */
     public Battle(){
         this.mMessages = new ArrayList<>();
     }
 
+    /**
+     * Initialize the data for the battle
+     * @param app sets the moves of the Enemy Pokemon
+     * @param mBuddyInfo gets the HP, Exp of the Buddyy Pokemon
+     * @param mEnemyInfo gets the HP, Exp of the Enemy Pokemon
+     */
     public Battle(PokemonGoApp app, PokemonInfoBuddy mBuddyInfo, PokemonInfo mEnemyInfo){
         this.mBuddyInfo = mBuddyInfo;
         this.mEnemyInfo = mEnemyInfo;
@@ -57,9 +68,14 @@ public class Battle {
 
         addMessage(new MessageUpdatePokemon("Wild " + this.mEnemy.getNickname() + " appeared!", this.mEnemyInfo, this.mEnemy));
         addMessage(new MessageUpdatePokemon("Go " + this.mBuddy.getNickname() + "!", this.mBuddyInfo, this.mBuddy));
+
+        this.mBuddyInfo.getImage().setBackgroundResource(mPlayer.getGender().getBackImage());
     }
 
-    //CHECK FUNCTIONS
+    /**
+     * Check if the Enemy Pokemon has fainted
+     * @return true if the Enemy Pokemon fainted; false if not
+     */
     public boolean isEnemyFainted(){
         if(mEnemy.getCurrentHP() <= 0){
             return true;
@@ -68,6 +84,11 @@ public class Battle {
             return false;
         }
     }
+
+    /**
+     * Check if your current pokemon has fainted
+     * @return true if the Enemy Pokemon fainted; false if not
+     */
     public boolean isBuddyFainted(){
         if(getBuddy().getCurrentHP() <= 0){
             return true;
@@ -76,6 +97,11 @@ public class Battle {
             return false;
         }
     }
+
+    /**
+     * Determines who gets the first move
+     * @return true if Buddy pokemon has higher speed; else, Enemy pokemon first
+     */
     public boolean isBuddyFirst(){
         if(!(mPlayerDecision instanceof DecisionAttack)){
             return true;
@@ -98,7 +124,9 @@ public class Battle {
         }
     }
 
-    //BATTLE FUNCTIONS
+    /**
+     * Checks if the move choice of the user is invalid
+     */
     public void checkErrorMessage(){
         if(mPlayerDecision.isError()){
             addMessage(mPlayerDecision.getErrorMessage());
@@ -108,6 +136,10 @@ public class Battle {
             this.mBattleState = mBattleState.firstMoveState();
         }
     }
+
+    /**
+     * Resets the stacked instructions of the previous turn
+     */
     public void newTurn(){
         getMessages().clear();
         setIndex(0);
@@ -115,6 +147,10 @@ public class Battle {
         setEnemyDecision(new Decision());
         mSelectedPokemon = new PokemonProfile();
     }
+
+    /**
+     * Sets who attacks first for the said turn
+     */
     public void firstMove(){
         if(isBuddyFirst()){
             doPlayerDecision();
@@ -123,6 +159,10 @@ public class Battle {
             doEnemyDecision();
         }
     }
+
+    /**
+     * Sets who attacks second for the said turn
+     */
     public void secondMove(){
         if(!isFinished()){
             if(isBuddyFirst()){
@@ -133,13 +173,22 @@ public class Battle {
             }
         }
     }
+
+    /**
+     * Intializes the stacked instruction set
+     */
     public void initializeMessages(){
         setIndex(0);
         mMessages.clear();
         firstMove();
         checkVictory();
-        checkCaught();
+        enemyHasBeenCaught();
     }
+
+    /**
+     * Generates a move for the enemy Pokemon
+     * @return random move selected for the enemy Pokemon
+     */
     public Decision generateEnemyDecision(){
         if(getEnemy().noMorePP()){
             return new DecisionAttack(mEnemy, mBuddy, new MoveStruggle(this), getBuddyInfo());
@@ -152,13 +201,21 @@ public class Battle {
     }
 
 
-    //BATTLE OPTIONS
+    /**
+     * Runs the selected move of the user.
+     * Updates the Pokemon info such as HP, PP and item count
+     */
     public void doPlayerDecision(){
         if(!mPlayerDecision.isError()){
             mPlayerDecision.execute(this);
             mPlayerDecision.updateResults(this);
         }
     }
+
+    /**
+     * Runs the random move of the enemy Pokemon.
+     * Updates the Pokemon info such as HP and PP.
+     */
     public void doEnemyDecision(){
         if(!mEnemyDecision.isError()){
             mEnemyDecision.execute(this);
@@ -166,7 +223,9 @@ public class Battle {
         }
     }
 
-    //END BATTLE
+    /**
+     * Determines the winner of the battle.
+     */
     public void checkVictory(){
         if(isBuddyFainted()){
             buddyHasFainted();
@@ -176,7 +235,10 @@ public class Battle {
         }
     }
 
-    public void checkCaught(){
+    /**
+     * Determines that the enemy has been caught. adds Pokemon to team or box.
+     */
+    public void enemyHasBeenCaught(){
         if(mEnemyCaught){
             if(mPlayer.getFreeSlot() < Player.MAX_POKEMON_SLOTS){
                 mPlayer.getPokemons().add(mEnemy);
@@ -189,11 +251,19 @@ public class Battle {
             this.mBattleState = mBattleState.standbyState();
         }
     }
+
+    /**
+     * Determines how the activity can end
+     * @return selected way of ending the battle
+     */
     public boolean isFinished(){
         return (isEnemyCaught()||isEnemyFainted()||getPlayer().isDefeated()||isRanAway());
     }
+
+    /**
+     * Sets that the enemy pokemon has fainted.
+     */
     public void enemyHasFainted(){
-        //TODO ADD MONEY REWARD IF TRAINER
         addMessage(new Message(mEnemy.getNickname() + Message.MESSAGE_FAINTED));
         addMessage(new MessageUpdateExp(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel() * 10
                 + Message.MESSAGE_EXP_GAINED, mBuddyInfo, mBuddy));
@@ -203,6 +273,10 @@ public class Battle {
         }
         this.mBattleState = mBattleState.standbyState();
     }
+
+    /**
+     * Sets that your pokemon has fainted.
+     */
     public void buddyHasFainted(){
         if(mPlayer.isDefeated()){
             addMessage(new Message(getPlayer().getName() + Message.MESSAGE_PLAYER_LOSS1));
@@ -211,6 +285,9 @@ public class Battle {
         this.mBattleState = mBattleState.standbyState();
     }
 
+    /**
+     * Computes for the exp gained of your buddy Pokemon
+     */
     public void buddyLevelUp(){
         mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExperienceNeeded());
         mBuddy.setLevel(mBuddy.getLevel() + 1);
@@ -221,41 +298,83 @@ public class Battle {
     }
 
     //GETTER AND SETTER FUNCTIONS
+
+    /**
+     * returns the data of the Player
+     * @return the Player
+     */
     public Player getPlayer() {
         return mPlayer;
     }
+
+    /**
+     * sets the Player
+     * @param mPlayer the Player data
+     */
     public void setPlayer(Player mPlayer) {
         this.mPlayer = mPlayer;
     }
 
+    /**
+     * get the currently used pokemon
+     * @return the first pokemon in the team
+     */
     public PokemonProfile getBuddy() {
         return mBuddy;
     }
+
+    /**
+     * set the Pokemon to be used for battle
+     * @param mBuddy the first Pokemon in the team
+     */
     public void setBuddy(PokemonProfile mBuddy) {
         this.mBuddy = mBuddy;
     }
 
+    /**
+     * gets the current enemy Pokemon
+     * @return data of the enemy Pokemon
+     */
     public PokemonProfile getEnemy() {
         return mEnemy;
     }
+
+    /**
+     * sets the current enemy Pokemon
+     * @param mEnemy data of the enemy Pokemon
+     */
     public void setEnemy(PokemonProfile mEnemy) {
         this.mEnemy = mEnemy;
     }
 
+    /**
+     * gets the messages to be shown
+     * @return the stack of messages
+     */
     public ArrayList<Message> getMessages() {
         return mMessages;
     }
-    public void setMessages(ArrayList<Message> mMessages) {
-        this.mMessages = mMessages;
-    }
 
+    /**
+     * get the index of the current message pointed in the arraylist
+     * @return the integer of the current index
+     */
     public int getIndex() {
         return mIndex;
     }
+
+    /**
+     * set the index of the current message pointed in the arraylist
+     * @param mIndex the integer of the current index
+     */
     public void setIndex(int mIndex) {
         this.mIndex = mIndex;
     }
 
+    /**
+     * add message to the message list
+     * @param message the object message to be added
+     */
     public void addMessage(Message message){
         if(!message.isEmpty()){
             message.setMessage(message.getMessage() + "∇");
@@ -263,100 +382,226 @@ public class Battle {
         }
     }
 
+    /**
+     * get the data of te selected item
+     * @return the selected item
+     */
     public Item getSelectedItem() {
         return mSelectedItem;
     }
+
+    /**
+     * set the current selected item
+     * @param mSelectedItem the selected item
+     */
     public void setSelectedItem(Item mSelectedItem) {
         this.mSelectedItem = mSelectedItem;
     }
 
+    /**
+     * get the decision of the player
+     * @return player's decision
+     */
     public Decision getPlayerDecision() {
         return mPlayerDecision;
     }
+
+    /**
+     * set the decision of the player
+     * @param mPlayerDecision player's decision
+     */
     public void setPlayerDecision(Decision mPlayerDecision) {
         this.mPlayerDecision = mPlayerDecision;
     }
 
+    /**
+     * Determine if the player ran way or not
+     * @return true if the player ran away; false if not
+     */
     public boolean isRanAway() {
         return mRanAway;
     }
+
+    /**
+     * set if the player ran away or not
+     * @param mRanAway true if the player ran away; false if not
+     */
     public void setRanAway(boolean mRanAway) {
         this.mRanAway = mRanAway;
     }
 
+    /**
+     * get the decision of the enemy pokemon
+     * @return enemy Pokemon's decision
+     */
     public Decision getEnemyDecision() {
         return mEnemyDecision;
     }
+
+    /**
+     * set the decision of the enemy pokemon
+     * @param mEnemyDecision enemy Pokemon's decision
+     */
     public void setEnemyDecision(Decision mEnemyDecision) {
         this.mEnemyDecision = mEnemyDecision;
     }
 
+    /**
+     * get the data of the selected buddy Pokemon
+     * @return the buddy Pokemon
+     */
     public PokemonInfo getBuddyInfo() {
         return mBuddyInfo;
     }
+
+    /**
+     * set the data of the selected buddy Pokemon
+     * @param mBuddyInfo the buddy Pokemon
+     */
     public void setBuddyInfo(PokemonInfo mBuddyInfo) {
         this.mBuddyInfo = mBuddyInfo;
     }
 
+    /**
+     * get data of the Enemy Pokemon. HP, PP, etc.
+     * @return enemy pokemon's data. HP, PP, etc.
+     */
     public PokemonInfo getEnemyInfo() {
         return mEnemyInfo;
     }
+
+    /**
+     * set data of the Enemy Pokemon. HP, PP, etc.
+     * @param mEnemyInfo enemy pokemon's data. HP, PP, etc.
+     */
     public void setEnemyInfo(PokemonInfo mEnemyInfo) {
         this.mEnemyInfo = mEnemyInfo;
     }
 
+    /**
+     * Determined if the wild Pokemon is caught
+     * @return true if the pokemon is caught; else if not
+     */
     public boolean isEnemyCaught() {
         return mEnemyCaught;
     }
+
+    /**
+     * set if the wild Pokemon is caught
+     * @param mIsEnemyCaught true if the pokemon is caught; else if not
+     */
     public void setEnemyCaught(boolean mIsEnemyCaught) {
         this.mEnemyCaught = mIsEnemyCaught;
     }
 
+    /**
+     * get data of the selected pokemon to be switched or used item on.
+     * @return selected pokemon
+     */
     public PokemonProfile getSelectedPokemon() {
         return mSelectedPokemon;
     }
+
+    /**
+     *
+     * @param mSelectedPokemon
+     */
     public void setSelectedPokemon(PokemonProfile mSelectedPokemon) {
         this.mSelectedPokemon = mSelectedPokemon;
     }
 
+    /**
+     * get selected move of the Pokemon
+     * @return selected move of the Pokemon
+     */
     public Move getSelectedMove() {
         return mSelectedMove;
     }
+
+    /**
+     * set the selected move of the Pokemon
+     * @param mSelectedMove selected move of the Pokemon
+     */
     public void setSelectedMove(Move mSelectedMove) {
         this.mSelectedMove = mSelectedMove;
     }
 
+    /**
+     * get the list of the types for the Pokemon and its moves
+     * @return list of the types for the Pokemon and its moves
+     */
     public ArrayList<Type> getTypeChart() {
         return mTypeChart;
     }
+
+    /**
+     * set the the types for the Pokemon and its moves
+     * @param mTypeChart list of the types for the Pokemon and its moves
+     */
     public void setTypeChart(ArrayList<Type> mTypeChart) {
         this.mTypeChart = mTypeChart;
     }
 
+    /**
+     * get the state of the battle
+     * @return battle state
+     */
     public BattleState getBattleState() {
         return mBattleState;
     }
+
+    /**
+     * set the current state of the battle
+     * @param mBattleState battle state
+     */
     public void setBattleState(BattleState mBattleState) {
         this.mBattleState = mBattleState;
     }
 
+    /**
+     * get list of Moves of the Pokemon
+     * @return list of Pokemon moves
+     */
     public MoveList getMoveAdapter() {
         return mMoveAdapter;
     }
+
+    /**
+     * set the move for the Pokemon
+     * @param mMoveAdapter list of Pokemon moves
+     */
     public void setMoveAdapter(MoveList mMoveAdapter) {
         this.mMoveAdapter = mMoveAdapter;
     }
 
+    /**
+     * get list of Pokemon
+     * @return list of Pokemon
+     */
     public PokemonList getPokemonAdapter() {
         return mPokemonAdapter;
     }
+
+    /**
+     * set the Pokemon team for the battle
+     * @param mPokemonAdapter list of Pokemon for the battle
+     */
     public void setPokemonAdapter(PokemonList mPokemonAdapter) {
         this.mPokemonAdapter = mPokemonAdapter;
     }
 
+    /**
+     * get the list of Item
+     * @return list of Item
+     */
     public ItemList getItemAdapter() {
         return mItemAdapter;
     }
+
+    /**
+     * set the list of Item of the player
+     * @param mItemAdapter list of Item
+     */
     public void setItemAdapter(ItemList mItemAdapter) {
         this.mItemAdapter = mItemAdapter;
     }

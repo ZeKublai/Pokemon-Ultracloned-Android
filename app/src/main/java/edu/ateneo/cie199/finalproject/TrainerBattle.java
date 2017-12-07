@@ -50,6 +50,7 @@ public class TrainerBattle extends Battle {
         addMessage(new MessageUpdatePokemon(this.mTrainer.getName() + " has sent out " + this.mEnemy.getNickname() + "!", this.mEnemyInfo, this.mEnemy));
         addMessage(new MessageUpdatePokemon("Go " + this.mBuddy.getNickname() + "!", this.mBuddyInfo, this.mBuddy));
 
+        this.mBuddyInfo.getImage().setBackgroundResource(mPlayer.getGender().getBackImage());
     }
 
     public Trainer getTrainer() {
