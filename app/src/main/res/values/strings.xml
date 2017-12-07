@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Pokémon</string>
     <string name="title_activity_main">Map</string>
+
+    <string name="title_activity_loading_screen">LoadingScreenActivity</string>
 </resources>

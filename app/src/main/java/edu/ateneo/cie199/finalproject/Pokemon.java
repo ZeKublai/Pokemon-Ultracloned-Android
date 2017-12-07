@@ -47,11 +47,9 @@ public class Pokemon {
                    int mMainImage,
                    int mBackImage,
                    int mIcon,
-                   int mSound
-                   //TODO Uncomment this someday
-                   //,
-    //               String mHeight,
-    //               String mWeight
+                   int mSound,
+                   String mHeight,
+                   String mWeight
     ) {
         this.mDexNumber = mDexNumber;
         this.mName = mName;
@@ -69,8 +67,8 @@ public class Pokemon {
         this.mCatchRate = mCatchRate;
         this.mMaleRatio = mMaleRatio;
         this.mFemaleRatio = mFemaleRatio;
-        //this.mHeight = mHeight;
-        //this.mWeight = mWeight;
+        this.mHeight = mHeight;
+        this.mWeight = mWeight;
     }
 
     public int getSound() {

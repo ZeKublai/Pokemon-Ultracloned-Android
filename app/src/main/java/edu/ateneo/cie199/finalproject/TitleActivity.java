@@ -1,6 +1,7 @@
 package edu.ateneo.cie199.finalproject;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -11,47 +12,13 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.security.spec.PKCS8EncodedKeySpec;
-
 public class TitleActivity extends AppCompatActivity {
     MusicHandler music;
-
-    private class APIData extends AsyncTask<String, Void, Void>{
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            final PokemonGoApp app = (PokemonGoApp) getApplication();
-            app.loadAllPokemonTypes();
-            try {
-                Log.d("Load Moves", "LOADING MOVES..");
-                app.loadAllMovesApi();
-            } catch (JSONException e) {
-                Log.e("PARSE ERROR", "FAILED TO PARSE JSON MOVE DATA");
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-    private class PokemonAPI extends AsyncTask<Void, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            final PokemonGoApp app = (PokemonGoApp) getApplication();
-            try {
-                Log.d("Load Pokemons", "LOADING PKMN...");
-                app.loadAllPokemonApi();
-            }
-            catch (JSONException e){
-                Log.e("Parsing err", "Failed to save json Pokemon data");
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
+    int REQUEST_DATA_LOADED = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,42 +51,29 @@ public class TitleActivity extends AppCompatActivity {
         });
         animator.start();
 
-        Button btnNewGame = (Button) findViewById(R.id.btn_title_new_game);
-        try {
-            APIData data = new APIData();
-            data.execute();
-        }
-        catch(Error e){
-            Log.e("Erorr", "Something went wrong");
-        }
-
-        try{
-            PokemonAPI data = new PokemonAPI();
-            data.execute();
-        }
-        catch(Error e){
-            Log.e("Error", "Unable to request Pokemon API");
-        }
+        Button btnNewGame = (Button) findViewById(R.id.btn_load_new_game);
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 app.setLoadData(false);
                 //sound effect
                 app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
-                startActivity(beginMainActivityIntent);
+                Intent beginMainActivityIntent = new Intent(TitleActivity.this, LoadingScreenActivity.class);
+                beginMainActivityIntent.putExtra("Continue?", app.getLoadData());
+                startActivityForResult(beginMainActivityIntent, REQUEST_DATA_LOADED);
                 return;
             }
         });
 
-        Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
+        Button btnContinueGame = (Button) findViewById(R.id.btn_load_continue_game);
         btnContinueGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 app.setLoadData(true);
                 app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, MainActivity.class);
-                startActivity(beginMainActivityIntent);
+                Intent beginMainActivityIntent = new Intent(TitleActivity.this, LoadingScreenActivity.class);
+                beginMainActivityIntent.putExtra("Continue?", app.getLoadData());
+                startActivityForResult(beginMainActivityIntent, REQUEST_DATA_LOADED);
                 return;
             }
         });
@@ -147,4 +101,18 @@ public class TitleActivity extends AppCompatActivity {
     public void onBackPressed(){
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("INTENT FINISH", Integer.toString(requestCode));
+        Log.e("INTENT result", Integer.toString(resultCode));
+        String msg = "";
+        if(requestCode == REQUEST_DATA_LOADED && resultCode == RESULT_CANCELED ) {
+             msg = data.getStringExtra("MSG");
+        }
+        Toast.makeText(TitleActivity.this, msg, Toast.LENGTH_LONG).show();
+
+    }
+
 }

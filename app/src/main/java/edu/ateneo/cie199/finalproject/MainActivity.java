@@ -102,16 +102,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         //INITIALIZING POKEMON & MOVES & TYPES
         //TODO MAKE THIS FROM FILE
-        app.loadAllItems();
         //app.loadAllPokemon();
         //app.loadAllPokemonMoves();
         app.loadPlayer(initialPosition);
-        if(app.getLoadData() == true) {
-            app.loadPlayerDate();
-        }
-        else{
-            app.initPlayer();
-        }
+
 
 
         //app.setSpawnCount(app.getSpawnCount() + 1);
