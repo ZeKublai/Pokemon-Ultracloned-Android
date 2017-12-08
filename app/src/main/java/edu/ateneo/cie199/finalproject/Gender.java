@@ -1,7 +1,7 @@
 package edu.ateneo.cie199.finalproject;
 
 /**
- * Created by John on 11/26/2017.
+ * Created by John, Duke and JV on 11/26/2017.
  * This class handles the gender of the player and contains
  * the sprites and names of the gender defined
  */

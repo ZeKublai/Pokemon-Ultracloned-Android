@@ -8,10 +8,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by John on 11/29/2017.
+ * Created by John, Duke and JV on 11/29/2017.
+ * This class focuses on the UseItem State of the Manager and extends the ManagerState
  */
 
 public class ManagerUseItemState extends ManagerState {
+
+    /**
+     * determines the state of the Manager
+     * @param mPokemonButtons
+     * @param mBackButton
+     * @param mSwitchButton
+     * @param mMessage
+     * @param mManager
+     */
     public ManagerUseItemState(ArrayList<PokemonButton> mPokemonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
         this.mPokemonButtons = mPokemonButtons;
         this.mBackButton = mBackButton;
@@ -22,21 +32,42 @@ public class ManagerUseItemState extends ManagerState {
         mMessage.setText("Use " + mManager.getSelectedItem().getName() + " on which Pokemon?");
     }
 
+    /**
+     * Apply the item effect on the pokemon found on the box storage
+     * @param ctx where the listview is to be displayed
+     * @param view specific list of pokemon seen in the adapter
+     * @param app access the PokemonGoApp functions
+     * @param pos index of the listview
+     */
     @Override
     public void executePokemonListView(Activity ctx, View view, PokemonGoApp app, int pos){
         useSelectedItem(mManager.getPlayer().getBox().get(pos));
     }
+
+    /**
+     * Apply the item effect on the pokemon found on the party
+     * @param ctx where the listview is to be displayed
+     * @param app access the PokemonGoApp functions
+     * @param pos index of the listview
+     */
     @Override
     public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos){
         useSelectedItem(mManager.getPlayer().getPokemons().get(pos));
     }
 
+    /**
+     * returns to the main state
+     */
     @Override
     public void executeBackButton(){
         noItemSelected();
         mManager.setState(mainState());
     }
 
+    /**
+     * Apply the item effect on the given Pokemon
+     * @param profile data of the Pokemon
+     */
     public void useSelectedItem(PokemonProfile profile){
         if(mManager.getSelectedItem().getQuantity() > 0){
             mManager.getSelectedItem().useInManager(profile, mMessage, mManager.getPlayer().getBag());

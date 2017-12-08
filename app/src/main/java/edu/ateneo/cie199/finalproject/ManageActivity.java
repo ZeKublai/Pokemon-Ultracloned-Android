@@ -18,11 +18,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Created by John, Duke and JV on 11/13/2017.
+ * This class handles different interaction about the caught Pokemons.
+ * It allows release, evolve, switch, view Pokemon details and many more.
+ */
+
 public class ManageActivity extends AppCompatActivity {
     ArrayList<PokemonButton> btnPokemons = new ArrayList<>();
     MusicHandler music;
     Manager manager;
 
+    /**
+     * Initialize the Manage Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,11 +134,17 @@ public class ManageActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Disables the back button
+     */
     @Override
     public void onBackPressed(){
 
     }
 
+    /**
+     * Continues the music when switching activities
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -141,6 +157,9 @@ public class ManageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pause the music when switching activities
+     */
     @Override
     protected void onPause() {
         super.onPause();

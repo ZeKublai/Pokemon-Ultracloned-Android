@@ -13,7 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by John on 11/22/2017.
+ * Created by John, Duke and JV on 11/22/2017.
+ * This class handles the Custom Adapter for the list of items
  */
 
 public class ItemList extends ArrayAdapter<Item> {
@@ -23,6 +24,11 @@ public class ItemList extends ArrayAdapter<Item> {
     private int itemSelected = NO_ITEM_SELECTED;
     Typeface font;
 
+    /**
+     * initialized the list of items
+     * @param context
+     * @param items
+     */
     public ItemList(Activity context, ArrayList<Item> items) {
         super(context, R.layout.list_item, items);
         this.context = context;
@@ -30,6 +36,13 @@ public class ItemList extends ArrayAdapter<Item> {
         font = Typeface.createFromAsset(context.getAssets(), "generation6.ttf");
     }
 
+    /**
+     * get the item view in the list using the current position of the index
+     * @param position index in the listview
+     * @param view object in the layout
+     * @param parent overhead holder
+     * @return
+     */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
@@ -50,6 +63,10 @@ public class ItemList extends ArrayAdapter<Item> {
         return rowView;
     }
 
+    /**
+     * gets the position of the selected item
+     * @param itemPosition item index
+     */
     public void itemSelected(int itemPosition) {
         //This method will keep track which position of the List is Selected and the background color of it is inside this.
         this.itemSelected = itemPosition;

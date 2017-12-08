@@ -36,6 +36,12 @@ import org.json.JSONObject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Created by John, Duke and JV on 11/13/2017.
+ * This class handles the interaction of the user with the Pokemon, Trainers and Item in the graphical perspective
+ * Contains the fragment map activity wherein a unique API key is needed to access the Google Map fragment
+ */
+
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     MusicHandler music;
     double initLatitude;
@@ -47,6 +53,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     double longitude = 0.00;
     public class randSpawn extends AsyncTask<String, String, Void > {
 
+        /**
+         * Separate thread for retrieving random generated number (Object Index), Longitude, Latitude from server
+         * @param strings spawn count
+         * @return null
+         */
         @Override
         protected Void doInBackground(String... strings) {
             PokemonGoApp app = (PokemonGoApp) getApplication();
@@ -67,6 +78,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Initialize the Main Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +105,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    /**
+     * This function initializes the map fragment
+     * @param googleMap Google map used for the fragment
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         final PokemonGoApp app = (PokemonGoApp) getApplication();
@@ -450,7 +469,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
+    /**
+     * Continues the music when switching activities
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -463,6 +484,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Pause the music when switching activities
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -472,11 +496,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         app.savePlayerData();
     }
 
+    /**
+     * Disables the back button
+     */
     @Override
     public void onBackPressed(){
 
     }
 
+    /**
+     * When the app is closed, the data is saved
+     */
     @Override
     protected void onStop() {
         super.onStop();
