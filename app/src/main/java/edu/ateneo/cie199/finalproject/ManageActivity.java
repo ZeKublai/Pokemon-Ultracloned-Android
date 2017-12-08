@@ -145,5 +145,7 @@ public class ManageActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         music.getMusicPlayer().pause();
+        PokemonGoApp app = (PokemonGoApp) getApplication();
+        app.savePlayerData();
     }
 }

@@ -127,9 +127,10 @@ public class PokemonGoApp extends Application{
 
     private HttpClient mHttpClient = new DefaultHttpClient();
 
-    private String movesApiUrl = "https://rrttp.localtunnel.me/moves/moves";//"http://192.168.43.195:8000/moves/moves";
-    private String pokemonApiUrl = "https://rrttp.localtunnel.me/pokemon/get_all_pokemon";//"http://192.168.43.195:8000/pokemon/get_all_pokemon";
-    private String randPokemonApiUrl = "https://rrttp.localtunnel.me/pokemon/random_list";//"http://192.168.43.195:8000/pokemon/random_list";
+    private String movesApiUrl = "http://192.168.43.195:8000/moves/moves";//"https://rrttp.localtunnel.me/moves/moves";//
+    private String pokemonApiUrl = "http://192.168.43.195:8000/pokemon/get_all_pokemon";//"https://rrttp.localtunnel.me/pokemon/get_all_pokemon";//
+    private String randPokemonApiUrl = "http://192.168.43.195:8000/pokemon/random_list";//"https://rrttp.localtunnel.me/pokemon/random_list";//
+    private String trainerApiUrl = "http://192.168.43.195:8000/trainer/get_all_trainer";//"https://rrttp.localtunnel.me/trainer/get_all_trainer";//
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
@@ -157,6 +158,12 @@ public class PokemonGoApp extends Application{
 
     public Player getPlayer(){
         return mPlayer;
+    }
+    public String getPlayerName(){
+        return mPlayer.getName();
+    }
+    public String getPlayerGender(){
+        return mPlayer.getGender().getName();
     }
     public boolean getLoadData(){return loadData;}
     public void setLoadData(boolean loadData) {
@@ -288,7 +295,7 @@ public class PokemonGoApp extends Application{
         }
         return -1;
     }
-    //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
+//    //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
     public void loadAllTrainers(){
         mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
     }
@@ -494,6 +501,47 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    public boolean parseJsonTrainers(String jsonData) throws JSONException {
+        if (jsonData != null) {
+            JSONArray poiArr = new JSONArray(jsonData);
+            for (int iIdx = 0; iIdx < poiArr.length(); iIdx++) {
+                JSONObject placeObj = poiArr.getJSONObject(iIdx);
+                String username = placeObj.getString("Username");
+                String title= placeObj.getString("Title");
+                String team = placeObj.getString("Team");
+                int tier = Integer.parseInt(placeObj.getString("Tier"));
+                String intro = placeObj.getString("Intro");
+                String win = placeObj.getString("Win");
+                String lose = placeObj.getString("Lose");
+                String pokemon1 = placeObj.getString("Fave Pokemon 1");
+                String pokemon2 = placeObj.getString("Fave Pokemon 2");
+                int main = getResources().getIdentifier(placeObj.getString("Main"), "drawable", getPackageName());
+                int map =  getResources().getIdentifier(placeObj.getString("Map"), "drawable", getPackageName());
+
+                if(team.equals("Valor")){
+                    mTrainers.add(new Trainer(username, new Valor(), tier, title, intro, win, lose, getPokemon(pokemon1), getPokemon(pokemon2), main, map));
+                }
+                else if (team.equals("Instinct")){
+                    mTrainers.add(new Trainer(username, new Instinct(), tier, title, intro, win, lose, getPokemon(pokemon1), getPokemon(pokemon2), main, map));
+                }
+                else if(team.equals("Mystic")){
+                    mTrainers.add(new Trainer(username, new Mystic(), tier, title, intro, win, lose, getPokemon(pokemon1), getPokemon(pokemon2), main, map));
+                }
+                else {
+                    mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!", "I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
+                }
+
+
+                Log.e("Test", mTrainers.get(iIdx).toString());
+            }
+            return true;
+        }
+        else{
+            Log.e("Error", "json is null");
+            return false;
+        }
+    }
+
 
     //LOADS ALL MOVES
     public void loadAllPokemonMoves(){
@@ -625,13 +673,28 @@ public class PokemonGoApp extends Application{
         }
     }
     public boolean loadAllPokemonApi() throws JSONException {
-        String jsonMoves = null;
+        String jsonPokemon = null;
         try {
-            jsonMoves = getStringFromApi(pokemonApiUrl);
+            jsonPokemon = getStringFromApi(pokemonApiUrl);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(parseJsonPokemonData(jsonMoves)){
+        if(parseJsonPokemonData(jsonPokemon)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean loadAllTrainerApi() throws JSONException{
+        String jsonTrainer = null;
+        try{
+            jsonTrainer = getStringFromApi(trainerApiUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(parseJsonTrainers(jsonTrainer)){
             return true;
         }
         else{
@@ -996,7 +1059,12 @@ public class PokemonGoApp extends Application{
                 csvStr += item.getName()+","+item.getQuantity()+"\n";
             }
         }
+        Log.e("PLAYER", this.getPlayerName());
+        Log.e("PLAYER", this.getPlayerGender());
         return csvStr;
+    }
+    public String encodePlayertoCsv(){
+        return this.getPlayerName() + ":" + this.getPlayerGender();
     }
 
     public void decodePokemonFromCsv(String csvStr){
@@ -1089,7 +1157,7 @@ public class PokemonGoApp extends Application{
                 if (!targetFile.exists()) {
                     targetFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(targetFile, true);
-                    String playerDatatoCsv = encodePokemonToCsv() +":"+ encodeItemsToCsv();
+                    String playerDatatoCsv = encodePlayertoCsv()+":"+ encodePokemonToCsv() +":"+ encodeItemsToCsv();
                     fos.write(playerDatatoCsv.getBytes());
                     fos.close();
                     Log.d("Save Data", "Successfully Saved Data");
@@ -1097,10 +1165,10 @@ public class PokemonGoApp extends Application{
                 }
                 else{
                     FileOutputStream overwrite = new FileOutputStream(targetFile, false);
-                    String playerDatatoCsv = encodePokemonToCsv() +":"+ encodeItemsToCsv();
+                    String playerDatatoCsv = encodePlayertoCsv()+":"+ encodePokemonToCsv() +":"+ encodeItemsToCsv();
                     overwrite.write(playerDatatoCsv.getBytes());
                     overwrite.close();
-                    Log.d("Save Data", "Successfully Saved Data");
+                    Log.d("Save Data", "Successfully Overwritten Data");
                     Log.d("Save Data", playerDatatoCsv);
                 }
 
@@ -1150,9 +1218,18 @@ public class PokemonGoApp extends Application{
                 Log.e("Debug Decode", segment);
                 iterCount += 1;
             }
-            Log.e("Decoding Pokemon", playerData[0]);
+            Log.e("Decoding Name", playerData[0]);
+            Log.e("Decoding Gender", playerData[1]);
+            Log.e("Decoding Pokemon", playerData[2]);
             Log.e("Decoding Items", playerData[playerData.length-1]);
-            decodePokemonFromCsv(playerData[0]);
+            if(playerData[1].equals("boy")){
+                mPlayer.setGender(new Gender(true));
+            }
+            else{
+                mPlayer.setGender(new Gender(false));
+            }
+            mPlayer.setName(playerData[0]);
+            decodePokemonFromCsv(playerData[2]);
             decodeItemsFromCsv(playerData[playerData.length-1]);
             return true;
         }
