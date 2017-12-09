@@ -12,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * Created by John, Duke and JV on 11/26/2017.
+ * This class contains the scripted sequence of message to act like a tutorial and crash course
+ */
+
 public class IntroductionActivity extends AppCompatActivity {
 
     private Gender mChosenGender = new Gender();
@@ -23,6 +28,10 @@ public class IntroductionActivity extends AppCompatActivity {
 
     MusicHandler music;
 
+    /**
+     * Initializes the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,6 +230,9 @@ public class IntroductionActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This creates an array of string at which it would act as the message sequence
+     */
     public void updateScript(){
         mScript = new String[]{
                 "Hello there! It's so very nice to meet you!",
@@ -255,6 +267,11 @@ public class IntroductionActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Set the gender of the player
+     * @param selectedGender either boy or girl
+     * @param message message to be shown
+     */
     public void setGender(boolean selectedGender, TextView message){
         mCurrentMessage++;
         mChosenGender = new Gender(selectedGender);
@@ -263,6 +280,11 @@ public class IntroductionActivity extends AppCompatActivity {
         mCurrentMessage = 16;
     }
 
+    /**
+     * Sets the first and buddy pokemon
+     * @param dexNumber Pokedex number of the Pokemon
+     * @param message message to be shown
+     */
     public void setStarter(int dexNumber, TextView message){
         PokemonGoApp app = (PokemonGoApp) getApplication();
         mCurrentMessage++;
@@ -273,7 +295,9 @@ public class IntroductionActivity extends AppCompatActivity {
         mCurrentMessage = 22;
     }
 
-
+    /**
+     * Continues the music when switching activities
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -286,14 +310,21 @@ public class IntroductionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pause the music when switching activities
+     */
     @Override
     protected void onPause() {
         super.onPause();
         music.getMusicPlayer().pause();
     }
 
+    /**
+     * Disables the back button
+     */
     @Override
     public void onBackPressed(){
 
     }
+
 }

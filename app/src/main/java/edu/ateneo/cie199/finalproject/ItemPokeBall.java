@@ -8,11 +8,15 @@ import static java.lang.Math.floor;
 import static java.lang.Math.pow;
 
 /**
- * Created by John on 11/21/2017.
+ * Created by John, Duke and JV on 11/21/2017.
+ * This class handles how the Pokeball interact with the Pokemon.
  */
 
 public class ItemPokeBall extends ItemTargetEnemy {
 
+    /**
+     * intialize the Pokeball
+     */
     public ItemPokeBall() {
         this.mBallBonus = 1.0;
         this.mName = "Poke Ball";
@@ -21,6 +25,10 @@ public class ItemPokeBall extends ItemTargetEnemy {
         this.mImageSprite = R.drawable.bag_pokeball_sprite;
     }
 
+    /**
+     * Total quantity of the Pokeball
+     * @param quantity integer value of the quantity
+     */
     public ItemPokeBall(int quantity) {
         this.mBallBonus = 1.0;
         this.mName = "Poke Ball";
@@ -31,13 +39,13 @@ public class ItemPokeBall extends ItemTargetEnemy {
     }
 
     protected double mBallBonus = 1.0;
-    public double getBallBonus() {
-        return mBallBonus;
-    }
-    public void setBallBonus(double mBallBonus) {
-        this.mBallBonus = mBallBonus;
-    }
 
+    /**
+     * The function of the Pokeball when used in battle
+     * @param profile whoever is the targetting pokemon
+     * @param info information of the pokemon
+     * @param battle the battle state where the item is being used
+     */
     @Override
     public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
         if(battle instanceof TrainerBattle){
@@ -65,6 +73,11 @@ public class ItemPokeBall extends ItemTargetEnemy {
         }
     }
 
+    /**
+     * Used when attempting to catch a Pokemon
+     * @param profile details of the Pokemon being caught
+     * @return
+     */
     private int getResult(PokemonProfile profile){
         int catchRate = (int) getSecondCatchRate(getFinalCatchRate(profile));
         int attempt1 = PokemonGoApp.getIntegerRNG(65535);
@@ -88,21 +101,42 @@ public class ItemPokeBall extends ItemTargetEnemy {
         }
     }
 
+    /**
+     * Uses a formula for catch rate
+     * @param profile details of the Pokemon being caught
+     * @return value of the catch rate
+     */
     private double getFinalCatchRate(PokemonProfile profile){
         double result = ((3.0*((double) profile.getHP()) - 2.0*((double) profile.getCurrentHP()))*mBallBonus*
                 ((double) profile.getDexData().getCatchRate()))/(3.0*((double) profile.getHP()));
         return result;
     }
+
+    /**
+     * Another set of computing for catch rate
+     * @param finalCatchRate obtained value from another equation
+     * @return value of the new catch rate
+     */
     private double getSecondCatchRate(double finalCatchRate){
         double result = floor(65536.0/(pow(255.0/(finalCatchRate), 3.0/16.0)));
         return result;
     }
 
+    /**
+     * The function of the Pokeball when used in the Manager Activity
+     * @param profile whoever is the targetting pokemon
+     * @param txvMessage message outputted when item is used
+     * @param bag where the item is stored
+     */
     @Override
     public void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag){
         txvMessage.setText(Message.ERROR_ECHO);
     }
 
+    /**
+     * duplicate the Pokeball
+     * @return duplicated copy
+     */
     @Override
     public Item generateCopy(){
         return new ItemPokeBall(PokemonGoApp.getIntegerRNG(5) + 2);

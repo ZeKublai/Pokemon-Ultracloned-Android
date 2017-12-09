@@ -10,9 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
 /**
- * Created by John on 11/29/2017.
+ * Created by John, Duke and JV on 11/29/2017.
+ * This class focuses on the Main State of the Manager and extends the ManagerState
  */
 
 public class ManagerMainState extends ManagerState {
@@ -33,12 +33,27 @@ public class ManagerMainState extends ManagerState {
         mManager.getPokemonAdapter().notifyDataSetChanged();
         mManager.getItemAdapter().notifyDataSetChanged();
     }
+
+    /**
+     * Executes the custom adapter used for th list of Pokemon
+     * @param ctx where the listview is to be displayed
+     * @param view specific list of pokemon seen in the adapter
+     * @param app access the PokemonGoApp functions
+     * @param pos index of the listview
+     */
     @Override
     public void executePokemonListView(Activity ctx, View view, PokemonGoApp app, int pos){
         showPokemonMenu(ctx, view, app, mManager.getPlayer().getBox().get(pos),
                 mManager.getPlayer().getBox(), mManager.getPlayer().getPokemons(), "ADD TO PARTY",
                 app.getPlayer().getPokemons().size() < Player.MAX_POKEMON_SLOTS);
     }
+
+    /**
+     * Be able to select a specific Pokemon in the box storage
+     * @param ctx where the listview is to be displayed
+     * @param app access the PokemonGoApp functions
+     * @param pos index of the listview
+     */
     @Override
     public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos){
         showPokemonMenu(ctx, mPokemonButtons.get(pos).getButton(), app,
@@ -46,6 +61,17 @@ public class ManagerMainState extends ManagerState {
                 mManager.getPlayer().getBox(), "SEND TO BOX", true);
     }
 
+    /**
+     *
+     * @param ctx where the listview is to be displayed
+     * @param view specific list of pokemon seen in the adapter
+     * @param app access the PokemonGoApp functions
+     * @param profile data of the selected Pokemon
+     * @param origin where the Pokemon came from; either box or party
+     * @param destination where the Pokemon would go; either box or party
+     * @param transferLabel message when triggered
+     * @param canTransfer boolean value to check if Pokemon can be transferred
+     */
     public void showPokemonMenu(final Activity ctx, View view,
                                 final PokemonGoApp app,
                                 final PokemonProfile profile,
@@ -95,6 +121,12 @@ public class ManagerMainState extends ManagerState {
         popup.show();
     }
 
+    /**
+     * Displays the data of the Pokemon on a specific activity
+     * @param app access the PokemonGoApp functions
+     * @param ctx where the listview is to be displayed
+     * @param profile data of the selected Pokemon
+     */
     public void showPokemonProfileDialog(final PokemonGoApp app, Activity ctx, final PokemonProfile profile){
         final Dialog dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.pokemon_profile_dialog);
