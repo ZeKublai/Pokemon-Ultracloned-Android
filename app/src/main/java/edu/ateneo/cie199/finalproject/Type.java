@@ -60,11 +60,12 @@ public class Type {
     public Type() {
     }
 
-    public Type(String mName, int mId, int mColor, double[] mMultiplier) {
+    public Type(String mName, int mId, int mColor, double[] mMultiplier, int mIcon) {
         this.mName = mName;
         this.mId = mId;
         this.mColor = mColor;
         this.mMultiplier = mMultiplier;
+        this.mIcon = mIcon;
     }
 
     public int getId() {

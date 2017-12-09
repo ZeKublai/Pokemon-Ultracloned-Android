@@ -89,7 +89,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         final PokemonGoApp app = (PokemonGoApp) getApplication();
@@ -105,8 +104,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         //app.loadAllPokemon();
         //app.loadAllPokemonMoves();
         app.loadPlayer(initialPosition);
-
-
 
         //app.setSpawnCount(app.getSpawnCount() + 1);
 
@@ -137,7 +134,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         //SPAWNER
         final Handler spawnHandler = new Handler();
         final Timer spawnTimer = new Timer();
-        final int spawnRate = 1000;
+        final int spawnRate = 4000;
         TimerTask spawnTask = new TimerTask() {
             @Override
             public void run() {
@@ -149,29 +146,40 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         double rangeMax = 0.01;
                         double rangeMin = -0.01;
 
-                        //GENERATING OFFSET
-                        double offsetLat = rangeMin + (rangeMax - rangeMin) * app.getDoubleRNG();
-                        double offsetLng = rangeMin + (rangeMax - rangeMin) * app.getDoubleRNG();
-
                         //API CALL FOR RAND VALUES
                         String index[] = {Integer.toString(app.getSpawnCount())};
-                        spawn.execute(index);
+                        if(app.isNetworkConnected()){
+                            spawn.execute(index);
+                        }
 
                         //GENERATING POKEMON
-                        Pokemon spawnPokemon = app.getAllPokemons().get(pokemonIndex);
-                        Log.e("Spawn Pkmn", Integer.toString(pokemonIndex));
-                        Log.e("Spawn Item", Integer.toString(itemIndex));
-                        Item spawnItem = app.getAllItems().get(itemIndex);
-
-                        //Pokemon spawnPokemon = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
-                        //Item spawnItem = app.generateRandomItem();
-                        Trainer spawnTrainer = app.getTrainers().get(app.getIntegerRNG(app.getTrainers().size())).generateTrainer();
-
-                        //GENERATING SPAWN POINT
+                        Pokemon spawnPokemon;
+                        Item spawnItem;
+                        LatLng spawnPosition;
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
-                        Log.e("Lat, Long", Double.toString(lat)+", " + Double.toString(longitude));
-                        LatLng spawnPosition = new LatLng(lat,
-                                longitude);
+
+                        if(!(app.isNetworkConnected()) && lat == 0.0 && longitude == 0.0){
+                            spawnPokemon= app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
+                            spawnItem = app.generateRandomItem();
+
+                            //GENERATING OFFSET
+                            double offsetLat = rangeMin + (rangeMax - rangeMin) * app.getDoubleRNG();
+                            double offsetLng = rangeMin + (rangeMax - rangeMin) * app.getDoubleRNG();
+                            spawnPosition = new LatLng(app.getPlayer().getMarker().getPosition().latitude + offsetLat,
+                                    app.getPlayer().getMarker().getPosition().longitude + offsetLng);
+                        }
+                        else{
+                            spawnPokemon = app.getAllPokemons().get(pokemonIndex);
+                            Log.e("Spawn Pkmn", Integer.toString(pokemonIndex));
+                            Log.e("Spawn Item", Integer.toString(itemIndex));
+                            spawnItem = app.getAllItems().get(itemIndex);
+
+                            //GENERATING SPAWN POINT
+                            Log.e("Lat, Long", Double.toString(lat)+", " + Double.toString(longitude));
+                            spawnPosition = new LatLng(lat, longitude);
+                        }
+
+                        Trainer spawnTrainer = app.getTrainers().get(app.getIntegerRNG(app.getTrainers().size())).generateTrainer();
 
                         Marker marker;
                         int rollRNG = app.getIntegerRNG(5);

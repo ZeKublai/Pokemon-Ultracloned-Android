@@ -66,6 +66,16 @@ public class TitleActivity extends AppCompatActivity {
         });
 
         Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
+
+        if(app.doesPlayerDataExist()){
+            btnContinueGame.setClickable(true);
+            btnContinueGame.setVisibility(View.VISIBLE);
+        }
+        else{
+            btnContinueGame.setClickable(false);
+            btnContinueGame.setVisibility(View.INVISIBLE);
+        }
+
         btnContinueGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

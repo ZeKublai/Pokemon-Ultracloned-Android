@@ -2,12 +2,17 @@ package edu.ateneo.cie199.finalproject;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -16,6 +21,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
     private boolean dataLoaded = false;
     private boolean movesApiState = false;
     private boolean pokemonApiState = false;
+    private boolean loadData = true;
 
     private class APIData extends AsyncTask<String, Void, Void> {
 
@@ -75,7 +81,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
         final PokemonGoApp app = (PokemonGoApp) getApplication();
 
         Intent recvdIntent = getIntent();
-        final boolean loadData = recvdIntent.getBooleanExtra("Continue?", false);
+        loadData = recvdIntent.getBooleanExtra("Continue?", false);
         if (app.isNetworkConnected()) {
             try {
                 APIData data = new APIData();
@@ -90,6 +96,8 @@ public class LoadingScreenActivity extends AppCompatActivity {
                 app.loadAllItems();
                 loadBar.setMax(56);
                 loadBar.setProgress((int) Math.floor(loadBar.getMax() * 3 / 4));
+                app.loadAllPokemonTypes();
+                app.loadAllTrainers();
             } catch (Error e) {
                 Log.e("Error", "Unable to load moves");
             }
@@ -112,25 +120,84 @@ public class LoadingScreenActivity extends AppCompatActivity {
                         }
 
                         if (loadBar.getProgress() == loadBar.getMax()) {
-                            Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
-                            setResult(RESULT_OK);
-                            startActivity(beginMainActivity);
+                            if (loadData) {
+                                Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
+                                setResult(RESULT_OK);
+                                startActivity(beginMainActivity);
+                            } else {
+                                Intent beginIntroductionActivity = new Intent(LoadingScreenActivity.this, IntroductionActivity.class);
+                                setResult(RESULT_OK);
+                                startActivity(beginIntroductionActivity);
+                            }
                         } else {
                             Log.e("Error Loading", "There was an error loading the data");
-                            setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry"));
-                            finish();
+                            setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry."));
+                            getFailedDialog("Data was not properly loaded, please retry.");
                         }
                     }
                     else{
-                        setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry"));
-                        finish();
+                        setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry."));
+                        getFailedDialog("Data was not properly loaded, please retry.");
                     }
                 }
             };
             handler.postDelayed(delay, 10000);
         }
         else{
-            Toast.makeText(LoadingScreenActivity.this, "Your device is not connected to the internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoadingScreenActivity.this, "Your device is not connected to the internet.", Toast.LENGTH_LONG).show();
+            getFailedDialog("Your device is not connected to the internet.");
         }
+    }
+
+    public void getFailedDialog(String setResult){
+        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final Dialog dialog = new Dialog(LoadingScreenActivity.this);
+        dialog.setContentView(R.layout.got_item_dialog);
+        dialog.setTitle("");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        // set the custom dialog components - text, image and button
+        TextView txvDialog = (TextView) dialog.findViewById(R.id.txv_dialog_message);
+        txvDialog.setText(setResult + " Would you like to play offline?");
+        txvDialog.setTypeface(Typeface.createFromAsset(getAssets(), "generation6.ttf"));
+        ImageView dialogImage = (ImageView) dialog.findViewById(R.id.img_dialog);
+        dialogImage.setImageResource(R.drawable.mjys1998_main);
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+        dialogButton.setTypeface(Typeface.createFromAsset(getAssets(), "generation6.ttf"));
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                app.getMusicHandler().playSfx(LoadingScreenActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
+                app.loadAllItems();
+                app.loadAllPokemonTypes();
+                app.loadAllPokemonMoves();
+                app.loadAllPokemon();
+                app.loadAllTrainers();
+
+                if (loadData) {
+                    app.loadPlayerDate();
+                    Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
+                    setResult(RESULT_OK);
+                    startActivity(beginMainActivity);
+                } else {
+                    app.initPlayer();
+                    Intent beginIntroductionActivity = new Intent(LoadingScreenActivity.this, IntroductionActivity.class);
+                    setResult(RESULT_OK);
+                    startActivity(beginIntroductionActivity);
+                }
+
+                finish();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 }
