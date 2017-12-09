@@ -168,9 +168,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                         //API CALL FOR RAND VALUES
                         String index[] = {Integer.toString(app.getSpawnCount())};
-                        if(app.isNetworkConnected()){
-                            spawn.execute(index);
-                        }
+                        spawn.execute(index);
 
                         //GENERATING POKEMON
                         Pokemon spawnPokemon;
@@ -178,7 +176,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         LatLng spawnPosition;
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
 
-                        if(!(app.isNetworkConnected()) && lat == 0.0 && longitude == 0.0){
+                        if(!app.isOnline()){
                             spawnPokemon= app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
                             spawnItem = app.generateRandomItem();
 

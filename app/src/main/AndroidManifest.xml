@@ -41,12 +41,13 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main" />
-        <activity android:name=".BattleActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".ManageActivity" />
-        <activity android:name=".IntroductionActivity"></activity>
-        <activity android:name=".LoadingScreenActivity"></activity>
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" />
+        <activity android:name=".BattleActivity" android:screenOrientation="portrait" />
+        <activity android:name=".SettingsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ManageActivity" android:screenOrientation="portrait" />
+        <activity android:name=".IntroductionActivity" android:screenOrientation="portrait" ></activity>
+        <activity android:name=".LoadingScreenActivity" android:screenOrientation="portrait" ></activity>
     </application>
 
 </manifest>

@@ -123,14 +123,23 @@ public class PokemonGoApp extends Application{
     private MusicHandler musicHandler = new MusicHandler();
     private boolean mMusicSwitch = true;
     private boolean mSFXSwitch = true;
+    private boolean mOnline = false;
 
 
     private HttpClient mHttpClient = new DefaultHttpClient();
 
-    private String movesApiUrl = "http://192.168.43.195:8000/moves/moves";//"https://rrttp.localtunnel.me/moves/moves";//
-    private String pokemonApiUrl = "http://192.168.43.195:8000/pokemon/get_all_pokemon";//"https://rrttp.localtunnel.me/pokemon/get_all_pokemon";//
-    private String randPokemonApiUrl = "http://192.168.43.195:8000/pokemon/random_list";//"https://rrttp.localtunnel.me/pokemon/random_list";//
-    private String trainerApiUrl = "http://192.168.43.195:8000/trainer/get_all_trainer";//"https://rrttp.localtunnel.me/trainer/get_all_trainer";//
+    /*
+    private String movesApiUrl = "http://192.168.43.195:8000/moves/moves";
+    private String pokemonApiUrl = "http://192.168.43.195:8000/pokemon/get_all_pokemon";
+    private String randPokemonApiUrl = "http://192.168.43.195:8000/pokemon/random_list";
+    private String trainerApiUrl = "http://192.168.43.195:8000/trainer/get_all_trainer";
+    */
+
+    private String movesApiUrl = "https://rrttp.localtunnel.me/moves/moves";
+    private String pokemonApiUrl = "https://rrttp.localtunnel.me/pokemon/get_all_pokemon";
+    private String randPokemonApiUrl = "https://rrttp.localtunnel.me/pokemon/random_list";
+    private String trainerApiUrl = "https://rrttp.localtunnel.me/trainer/get_all_trainer";
+
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
@@ -174,6 +183,14 @@ public class PokemonGoApp extends Application{
     }
     public void setMap(GoogleMap map){
         this.mMap = map;
+    }
+
+    public boolean isOnline() {
+        return mOnline;
+    }
+
+    public void setOnline(boolean mOnline) {
+        this.mOnline = mOnline;
     }
 
     public Marker getSelectedMarker(){

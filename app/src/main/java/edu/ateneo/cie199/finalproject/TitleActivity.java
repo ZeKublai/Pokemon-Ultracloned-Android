@@ -27,6 +27,7 @@ public class TitleActivity extends AppCompatActivity {
 
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         app.setFontForContainer((RelativeLayout)findViewById(R.id.title_group), "generation6.ttf");
+
         //Plays music
         music = new MusicHandler();
         music.initMusic(this, MusicHandler.MUSIC_TITLE);

@@ -129,6 +129,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
                                 setResult(RESULT_OK);
                                 startActivity(beginIntroductionActivity);
                             }
+                            app.setOnline(true);
                         } else {
                             Log.e("Error Loading", "There was an error loading the data");
                             setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry."));
@@ -175,7 +176,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
                 app.loadAllPokemonMoves();
                 app.loadAllPokemon();
                 app.loadAllTrainers();
-
+                app.setOnline(false);
                 if (loadData) {
                     app.loadPlayerDate();
                     Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);

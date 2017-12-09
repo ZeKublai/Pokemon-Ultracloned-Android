@@ -18,6 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         final Button btnBack = (Button) findViewById(R.id.btn_back);
+        app.setAsBackButton(btnBack);
         final Switch MusicEnabled = (Switch) findViewById(R.id.switch_music);
         final Switch SFXEnabled = (Switch) findViewById(R.id.switch_sfx);
 
