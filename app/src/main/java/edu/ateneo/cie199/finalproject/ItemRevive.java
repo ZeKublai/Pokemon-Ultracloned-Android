@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Revive interact with the PokéDexData.
+ * This class handles how the Item Revive interact with the Pokémon.
  */
 
 public class ItemRevive extends ItemTargetTeam {
@@ -14,7 +14,7 @@ public class ItemRevive extends ItemTargetTeam {
     protected int mReviveFactor = 2;
 
     /**
-     * initialize the Revive
+     * Initialization of the Revive.
      */
     public ItemRevive(){
         this.mReviveFactor = 2;
@@ -25,8 +25,8 @@ public class ItemRevive extends ItemTargetTeam {
     }
 
     /**
-     * Total quantity of the Revive
-     * @param quantity integer value of the quantity
+     * Initialization given the total quantity of the Revive.
+     * @param quantity  Integer value of the quantity.
      */
     public ItemRevive(int quantity){
         this.mReviveFactor = 2;
@@ -38,10 +38,10 @@ public class ItemRevive extends ItemTargetTeam {
     }
 
     /**
-     * The function of the Revive when used in battle
-     * @param profile whoever is the targeted pokemon
-     * @param info information of the pokemon
-     * @param battle the battle state where the item is being used
+     * The function of the Revive when used in battle.
+     * @param profile   Whoever is the targeted Pokémon.
+     * @param info      The DisplayInfoSet to be updated.
+     * @param battle    The Battle object where the Item is being used.
      */
     @Override
     public void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle){
@@ -50,6 +50,11 @@ public class ItemRevive extends ItemTargetTeam {
         }
     }
 
+    /**
+     * Revives a fainted Pokémon.
+     * @param profile   The Pokémon where the Item will be used.
+     * @return boolean  True if revive was successful.
+     */
     public boolean revive(PokémonProfile profile){
         if(profile.getCurrentHP() == 0){
             profile.setCurrentHP(profile.getHP()/mReviveFactor);
@@ -61,10 +66,10 @@ public class ItemRevive extends ItemTargetTeam {
     }
 
     /**
-     * The function of the Revive when used in the manager activity
-     * @param profile whoever is the targeted pokemon
-     * @param txvMessage message outputted when item is used
-     * @param bag where the item is stored
+     * The function of the Revive when used in the Manager activity.
+     * @param profile       The Pokémon where the Item will be used.
+     * @param txvMessage    The TextView for outputting the message.
+     * @param bag           Where the Item is stored.
      */
     @Override
     public void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag){
@@ -78,12 +83,12 @@ public class ItemRevive extends ItemTargetTeam {
     }
 
     /**
-     * duplicate the Revive
-     * @return duplicated copy
+     * Returns a duplicate of the Item.
+     * @return  A duplicate of the Item.
      */
     @Override
     public Item generateCopy(){
-        return new ItemRevive(PokemonGoApp.getIntegerRNG(5) + 2);
+        return new ItemRevive(PokemonApp.getIntegerRNG(5) + 2);
     }
 
 }

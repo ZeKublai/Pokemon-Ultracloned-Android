@@ -234,10 +234,7 @@ public class PokéDexData {
     }
 
     public boolean isEmpty(){
-        if(this.mDexNumber == MISSINGNO){
-            return true;
-        }
-        return false;
+        return (this.mDexNumber == MISSINGNO);
     }
 
     /**

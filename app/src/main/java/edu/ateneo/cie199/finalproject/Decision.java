@@ -1,57 +1,46 @@
 package edu.ateneo.cie199.finalproject;
 
-import java.util.ArrayList;
-
 /**
  * Created by John, Duke and JV on 11/20/2017.
- * This class is an object that gathers the needed data to make a decision and executes it.
+ * This class is an object that gathers the needed data to
+ * make a Decision and handles the functions that execute it.
  */
 
 public class Decision {
-
-
     /**
-     * does nothing
+     * "The function is empty..."
      */
     public Decision() {
     }
 
     /**
-     * check if there is error.
-     * @return boolean value with default false for no error.
+     * Returns true if there is an error.
+     * @return  The boolean value with default false for no error.
      */
     public boolean isError(){
         return false;
     }
 
     /**
-     * gets the error message if an error is triggered
-     * @return
+     * Gets the error Message of the Decision.
+     * @return  The error Message of the Decision.
      */
     public Message getErrorMessage(){
         return new Message();
     }
 
     /**
-     * does nothing
-     * @param battle default filler
+     * Executes the Decision in the battle.
+     * @param battle    The Battle object where the Decision is executed.
      */
     public void execute(Battle battle){}
 
     /**
-     * does nothing
-     * @param battle default filler
+     * Updates the results of the Decision and adds Messages to the ArrayList in the Battle class.
+     * @param battle    The Battle object where the Decision is executed.
      */
     public void updateResults(Battle battle){
 
-    }
-
-    /**
-     * checks if there is no decision
-     * @return boolean value with a default value true
-     */
-    public boolean isEmpty(){
-        return true;
     }
 }
 

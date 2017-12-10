@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/26/2017.
- * This class contains the scripted sequence of message to act like a tutorial and crash course
+ * This class contains the scripted sequence of messages to act like a tutorial and crash course.
  */
 
 public class IntroductionActivity extends AppCompatActivity {
@@ -23,20 +23,19 @@ public class IntroductionActivity extends AppCompatActivity {
     private String mChosenName = "";
     private PokéDexData mChosenStarter = new PokéDexData();
     private int mCurrentMessage = 1;
-
     private String[] mScript = new String[29];
 
     MusicHandler music;
 
     /**
-     * Initializes the activity
+     * Initializes the activity.
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introduction);
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonApp app = (PokemonApp) getApplication();
 
         //Plays music
         music = new MusicHandler();
@@ -57,7 +56,7 @@ public class IntroductionActivity extends AppCompatActivity {
         imgOmastar.setImageResource(R.drawable.jerome_pokemon);
         imgOmastar.setVisibility(View.INVISIBLE);
         txvMessage.setText(mScript[0] + "∇");
-        btnAction.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btnAction.setBackgroundColor(PokemonApp.TRANSPARENT_COLOR);
         imgbtnPokeBall.setBackgroundResource(R.drawable.intro_pokeball);
         imgbtnPokeBall.setVisibility(View.INVISIBLE);
         imgbtnPokeBall.setClickable(false);
@@ -82,12 +81,19 @@ public class IntroductionActivity extends AppCompatActivity {
 
                             final Dialog genderDialog = new Dialog(IntroductionActivity.this);
                             genderDialog.setContentView(R.layout.choose_gender_dialog);
-                            app.setFontForContainer((RelativeLayout) genderDialog.findViewById(R.id.gender_group), "generation6.ttf");
+                            app.setFontForContainer(
+                                    (RelativeLayout) genderDialog.findViewById(R.id.gender_group),
+                                    "generation6.ttf"
+                            );
                             genderDialog.setTitle("");
                             genderDialog.setCancelable(false);
                             genderDialog.setCanceledOnTouchOutside(false);
-                            ImageButton imgbtnBoy = (ImageButton) genderDialog.findViewById(R.id.imgbtn_choose_boy);
-                            ImageButton imgbtnGirl = (ImageButton) genderDialog.findViewById(R.id.imgbtn_choose_girl);
+                            ImageButton imgbtnBoy = (ImageButton) genderDialog.findViewById(
+                                    R.id.imgbtn_choose_boy
+                            );
+                            ImageButton imgbtnGirl = (ImageButton) genderDialog.findViewById(
+                                    R.id.imgbtn_choose_girl
+                            );
 
                             // if button is clicked, close the custom dialog
                             imgbtnBoy.setOnClickListener(new View.OnClickListener() {
@@ -116,13 +122,18 @@ public class IntroductionActivity extends AppCompatActivity {
 
                             final Dialog nameDialog = new Dialog(IntroductionActivity.this);
                             nameDialog.setContentView(R.layout.input_name_dialog);
-                            app.setFontForContainer((RelativeLayout) nameDialog.findViewById(R.id.name_group), "generation6.ttf");
+                            app.setFontForContainer(
+                                    (RelativeLayout) nameDialog.findViewById(R.id.name_group),
+                                    PokemonApp.RETRO_FONT
+                            );
                             nameDialog.setTitle("");
                             nameDialog.setCancelable(false);
                             nameDialog.setCanceledOnTouchOutside(false);
 
                             Button btnOk = (Button) nameDialog.findViewById(R.id.btn_name_ok);
-                            final EditText edtName = (EditText) nameDialog.findViewById(R.id.edt_name_input);
+                            final EditText edtName = (EditText) nameDialog.findViewById(
+                                    R.id.edt_name_input
+                            );
                             app.setAsOkButton(btnOk);
 
                             btnOk.setOnClickListener(
@@ -139,8 +150,13 @@ public class IntroductionActivity extends AppCompatActivity {
                                             else{
                                                 mChosenName = edtName.getText().toString();
                                                 mCurrentMessage++;
-                                                mScript[17] = "OK... So, you're " + mChosenName + "?";
-                                                mScript[19] = "All right, " + mChosenName + ", time to cram a life decision. Again. Maybe.";
+                                                mScript[17] = "OK... So, you're "
+                                                        + mChosenName
+                                                        + "?";
+                                                mScript[19] = "All right, "
+                                                        + mChosenName
+                                                        + ", time to cram a life decision. "
+                                                        + "Again. Maybe.";
                                                 txvMessage.setText(mScript[mCurrentMessage] + "∇");
                                                 mCurrentMessage = 18;
                                                 btnAction.setClickable(true);
@@ -158,13 +174,22 @@ public class IntroductionActivity extends AppCompatActivity {
 
                             final Dialog starterDialog = new Dialog(IntroductionActivity.this);
                             starterDialog.setContentView(R.layout.choose_starter_dialog);
-                            app.setFontForContainer((RelativeLayout) starterDialog.findViewById(R.id.starter_group), "generation6.ttf");
+                            app.setFontForContainer(
+                                    (RelativeLayout) starterDialog.findViewById(R.id.starter_group),
+                                    PokemonApp.RETRO_FONT
+                            );
                             starterDialog.setTitle("");
                             starterDialog.setCancelable(false);
                             starterDialog.setCanceledOnTouchOutside(false);
-                            ImageButton imgbtnBulbasaur = (ImageButton) starterDialog.findViewById(R.id.imgbtn_bulbasaur);
-                            ImageButton imgbtnCharmander = (ImageButton) starterDialog.findViewById(R.id.imgbtn_charmander);
-                            ImageButton imgbtnSquirtle = (ImageButton) starterDialog.findViewById(R.id.imgbtn_squirtle);
+                            ImageButton imgbtnBulbasaur = (ImageButton) starterDialog.findViewById(
+                                    R.id.imgbtn_bulbasaur
+                            );
+                            ImageButton imgbtnCharmander = (ImageButton) starterDialog.findViewById(
+                                    R.id.imgbtn_charmander
+                            );
+                            ImageButton imgbtnSquirtle = (ImageButton) starterDialog.findViewById(
+                                    R.id.imgbtn_squirtle
+                            );
 
                             // if button is clicked, close the custom dialog
                             imgbtnBulbasaur.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +229,10 @@ public class IntroductionActivity extends AppCompatActivity {
                             starter.getMoves().add(app.generateRandomMove());
                             starter.getMoves().add(app.generateRandomMove());
                             app.setPlayer(new Player(mChosenGender, mChosenName, starter));
-                            Intent beginMainActivityIntent = new Intent(IntroductionActivity.this, MainActivity.class);
+                            Intent beginMainActivityIntent = new Intent(
+                                    IntroductionActivity.this,
+                                    MainActivity.class
+                            );
                             startActivity(beginMainActivityIntent);
                         }
                         else {
@@ -218,7 +246,11 @@ public class IntroductionActivity extends AppCompatActivity {
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
-                        app.getMusicHandler().playSfx(IntroductionActivity.this, R.raw.omastar, app.getSFXSwitch());
+                        app.getMusicHandler().playSfx(
+                                IntroductionActivity.this,
+                                R.raw.omastar,
+                                app.getSFXSwitch()
+                        );
                         mCurrentMessage = 7;
                         imgOmastar.setVisibility(View.VISIBLE);
                         imgbtnPokeBall.setVisibility(View.INVISIBLE);
@@ -231,18 +263,18 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     /**
-     * This creates an array of string at which it would act as the message sequence
+     * This creates an array of String objects at which it would act as the message sequence.
      */
     public void updateScript(){
         mScript = new String[]{
                 "Hello there! It's so very nice to meet you!",
-                "Welcome to the world of PokéDexData!",
+                "Welcome to the world of Pokémon",
                 "My name is Jerome.",
                 "However, everyone just calls me Nekomonsterr.",
-                "This world is widely inhabited by creatures known as PokéDexData.",
+                "This world is widely inhabited by creatures known as Pokémon.",
                 "Here, I have a Poke Ball.",
-                "Touch the button on the middle of the Poke Ball, if you'd please.",
-                "There are different types of Pokeball; they are used to catch these Pokemons",
+                "Touch the button on the middle of the PokéBall, if you'd please.",
+                "There are different types of Pokéball; they are used to catch these Pokémons",
                 "At times we play together, and at other times we work together.",
                 "Heal them using Potions, Resurrect with Revive and Heal PP with Elixir",
                 "What do I do?",
@@ -268,9 +300,9 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     /**
-     * Set the gender of the player
-     * @param selectedGender either boy or girl
-     * @param message message to be shown
+     * Sets the Gender of the Player.
+     * @param selectedGender    Either boy or girl.
+     * @param message           The message to be shown.
      */
     public void setGender(boolean selectedGender, TextView message){
         mCurrentMessage++;
@@ -281,12 +313,12 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     /**
-     * Sets the first and buddy pokemon
-     * @param dexNumber Pokedex number of the PokéDexData
-     * @param message message to be shown
+     * Sets the starter Pokémon.
+     * @param dexNumber The PokéDex number of the starter Pokémon.
+     * @param message   The message to be shown.
      */
     public void setStarter(int dexNumber, TextView message){
-        PokemonGoApp app = (PokemonGoApp) getApplication();
+        PokemonApp app = (PokemonApp) getApplication();
         mCurrentMessage++;
         mChosenStarter = app.getPokemon(dexNumber);
         mScript[21] = "Hmm... " + mChosenStarter.getName() + " seems to be rather happy.";
@@ -296,12 +328,12 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     /**
-     * Continues the music when switching activities
+     * Continues the music when switching Activities.
      */
     @Override
     protected void onResume() {
         super.onResume();
-        PokemonGoApp app = (PokemonGoApp) getApplication();
+        PokemonApp app = (PokemonApp) getApplication();
         if(music == null){
             music.initMusic(this, MusicHandler.MUSIC_INTRO);
         }
@@ -311,7 +343,7 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     /**
-     * Pause the music when switching activities
+     * Pause the music when switching Activities.
      */
     @Override
     protected void onPause() {
@@ -320,7 +352,7 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     /**
-     * Disables the back button
+     * Disables the back Button.
      */
     @Override
     public void onBackPressed(){

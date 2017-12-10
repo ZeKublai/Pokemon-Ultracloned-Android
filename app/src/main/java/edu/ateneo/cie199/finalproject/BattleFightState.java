@@ -6,11 +6,23 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/27/2017.
- * This class is a subclass of the battle state which handles the button function and what message to be displayed
+ * This class is a subclass of the battle state where the
+ * Player will select the move the current Pokémon will perform.
  */
 
 public class BattleFightState extends BattleMainState {
-    public BattleFightState(Button mFightButton,
+    /**
+     * Creates a BattleFightState given the parameters.
+     * @param mFightButton      The fight Button of the BattleActivity.
+     * @param mPokemonButton    The Pokémon Button of the BattleActivity.
+     * @param mBagButton        The bag Button of the BattleActivity.
+     * @param mRunButton        The run Button of the BattleActivity.
+     * @param mActionButton     The action Button of the BattleActivity.
+     * @param mOptionList       The ListView of options of the BattleActivity.
+     * @param mBattle           The Battle object of the BattleActivity.
+     * @param mMessage          The TextView that show the Messages of the Battle object.
+     */
+    protected BattleFightState(Button mFightButton,
                               Button mPokemonButton,
                               Button mBagButton,
                               Button mRunButton,
@@ -27,27 +39,36 @@ public class BattleFightState extends BattleMainState {
         this.mBattle = mBattle;
         this.mMessage = mMessage;
 
-        initButtons();
+        resetSideButtons();
         mOptionList.setAdapter(mBattle.getMoveAdapter());
         showOptions();
         mMessage.setText("What will " + mBattle.getBuddy().getNickname() + " do?");
 
         enableButton(mRunButton);
         disableButton(mActionButton);
-        PokemonGoApp.setAsCancelButton(mFightButton);
+        PokemonApp.setAsCancelButton(mFightButton);
     }
 
     /**
-     * Shows the list of moves of the PokéDexData
-     * @param pos current index of the listview
+     * The Move at the given index is selected and the Player's Decision
+     * is then set. Afterwards, errors for the Move is then checked.
+     * @param pos   The current index of the ListView.
      */
     @Override
     public void executeListView(int pos){
         mBattle.setSelectedMove(mBattle.getBuddy().getMoves().get(pos));
-        mBattle.setPlayerDecision(new DecisionAttack(mBattle.getBuddy(), mBattle.getEnemy(), mBattle.getSelectedMove(), mBattle.getEnemyInfo()));
+        mBattle.setPlayerDecision(new DecisionAttack(
+                mBattle.getBuddy(),
+                mBattle.getEnemy(),
+                mBattle.getSelectedMove(),
+                mBattle.getEnemyInfo()
+        ));
         mBattle.checkErrorMessage();
     }
 
+    /**
+     * Returns to the main menu.
+     */
     @Override
     public void executeFightButton(){
         mBattle.setBattleState(mainState());

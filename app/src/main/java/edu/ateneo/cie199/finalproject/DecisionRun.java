@@ -2,23 +2,23 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class is a subclass of the decision which handles the decision when running away
+ * This class is a subclass of the Decision class which handles the Decision when running away.
  */
 
 public class DecisionRun extends Decision {
     private Battle mBattle;
 
     /**
-     * decision to run
-     * @param mBattle the state where the battle is
+     * Creates the DecisionRun object.
+     * @param mBattle   The Battle object where the Decision is executed.
      */
     public DecisionRun(Battle mBattle) {
         this.mBattle = mBattle;
     }
 
     /**
-     * get the error
-     * @return error message
+     * Returns the error Message.
+     * @return  The error Message.
      */
     @Override
     public Message getErrorMessage(){
@@ -26,8 +26,8 @@ public class DecisionRun extends Decision {
     }
 
     /**
-     * check if there is error
-     * @return show error message
+     * Checks if the Decision has an error.
+     * @return  True if the Decision has an error else false.
      */
     @Override
     public boolean isError(){
@@ -35,8 +35,8 @@ public class DecisionRun extends Decision {
     }
 
     /**
-     * execute the run away
-     * @param battle default filler
+     * Sets the boolean for running away to true.
+     * @param battle    The Battle object where the Decision is executed.
      */
     @Override
     public void execute(Battle battle){
@@ -44,22 +44,12 @@ public class DecisionRun extends Decision {
     }
 
     /**
-     * shows the message fo running away
-     * overrides the stacked messages when running away
-     * @param battle default filler
+     * Updates the results of the Decision and adds Messages to the ArrayList in the Battle class.
+     * @param battle    The Battle object where the Decision is executed.
      */
     @Override
     public void updateResults(Battle battle){
         battle.addMessage(new Message(Message.MESSAGE_RUN_AWAY));
         battle.setBattleState(battle.getBattleState().standbyState());
-    }
-
-    /**
-     * check if decision is empty
-     * @return boolean value with default value at false
-     */
-    @Override
-    public boolean isEmpty(){
-        return false;
     }
 }

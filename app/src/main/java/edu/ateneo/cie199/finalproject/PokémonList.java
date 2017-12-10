@@ -38,9 +38,9 @@ public class PokémonList extends ArrayAdapter<PokémonProfile>{
     /**
      * Returns the specific view in the PokémonList given the current position of the index.
      * @param position  The index in the ListView.
-     * @param view  The object in the layout.
+     * @param view      The object in the layout.
      * @param parent    The Overhead holder.
-     * @return  Specific view in the PokémonList.
+     * @return          Specific view in the PokémonList.
      */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
@@ -53,8 +53,8 @@ public class PokémonList extends ArrayAdapter<PokémonProfile>{
 
         txtName.setTypeface(font);
         txtHp.setTypeface(font);
-        rowView.setBackground(PokemonGoApp.getShape(PokemonGoApp.POKEMON_COLOR));
-        PokemonGoApp.updateHpBarColor(
+        rowView.setBackground(PokemonApp.getShape(PokemonApp.POKEMON_COLOR));
+        PokemonApp.updateHpBarColor(
                 profiles.get(position).getCurrentHP(),
                 profiles.get(position).getHP(),
                 barHp

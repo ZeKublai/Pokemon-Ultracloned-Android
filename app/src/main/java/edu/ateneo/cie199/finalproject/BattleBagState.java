@@ -6,11 +6,23 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/27/2017.
- * This class is a subclass of the battle state which handles the button function and what message to be displayed
+ * This class is a subclass of the battle state where the Player selects an Item which
+ * will be used on either on the Pokémon on the Player's party or on the enemy Pokémon.
  */
 
 public class BattleBagState extends BattleMainState {
-    public BattleBagState(Button mFightButton,
+    /**
+     * Creates a BattleBagState given the parameters.
+     * @param mFightButton      The fight Button of the BattleActivity.
+     * @param mPokemonButton    The Pokémon Button of the BattleActivity.
+     * @param mBagButton        The bag Button of the BattleActivity.
+     * @param mRunButton        The run Button of the BattleActivity.
+     * @param mActionButton     The action Button of the BattleActivity.
+     * @param mOptionList       The ListView of options of the BattleActivity.
+     * @param mBattle           The Battle object of the BattleActivity.
+     * @param mMessage          The TextView that show the Messages of the Battle object.
+     */
+    protected BattleBagState(Button mFightButton,
                               Button mPokemonButton,
                               Button mBagButton,
                               Button mRunButton,
@@ -26,19 +38,21 @@ public class BattleBagState extends BattleMainState {
         this.mOptionList = mOptionList;
         this.mBattle = mBattle;
         this.mMessage = mMessage;
-        initButtons();
+        resetSideButtons();
         mOptionList.setAdapter(mBattle.getItemAdapter());
         showOptions();
 
         mMessage.setText("Which item will you use?");
         enableButton(mRunButton);
         disableButton(mActionButton);
-        PokemonGoApp.setAsCancelButton(mBagButton);
+        PokemonApp.setAsCancelButton(mBagButton);
     }
 
     /**
-     * Shows the list of items
-     * @param pos current index of the listview
+     * The Item from the ListView is selected. If the Item targets an enemy,
+     * the Item is then be used immediately else the Pokémon menu will show
+     * so the Player can select which Pokémon will the Item will be used on.
+     * @param pos   The current index in the ListView.
      */
     @Override
     public void executeListView(int pos){
@@ -53,7 +67,7 @@ public class BattleBagState extends BattleMainState {
     }
 
     /**
-     * returns to main state
+     * Returns to the main menu.
      */
     @Override
     public void executeBagButton(){

@@ -24,20 +24,20 @@ public abstract class ManagerState {
      * does nothing
      * @param ctx where the listview is to be displayed
      * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonGoApp functions
+     * @param app access the PokemonApp functions
      * @param pos index of the listview
      */
-    public void executePokemonListView(Activity ctx, View view, PokemonGoApp app, int pos){
+    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos){
 
     }
 
     /**
      * does nothing
      * @param ctx where the listview is to be displayed
-     * @param app access the PokemonGoApp functions
+     * @param app access the PokemonApp functions
      * @param pos index of the listview
      */
-    public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos){
+    public void executePokemonButton(Activity ctx, PokemonApp app, int pos){
 
     }
 
@@ -46,11 +46,11 @@ public abstract class ManagerState {
      * @param pos index of the listview
      */
     public void executeItemListView(int pos){
-        PokemonGoApp.setAsSwitchButton(mSwitchButton);
+        PokemonApp.setAsSwitchButton(mSwitchButton);
         mManager.setSelectedItem(mManager.getPlayer().getBag().get(pos));
         if(mManager.getSelectedItem() instanceof ItemTargetTeam){
             mManager.getItemAdapter().itemSelected(pos);
-            PokemonGoApp.setAsCancelButton(mBackButton);
+            PokemonApp.setAsCancelButton(mBackButton);
             mManager.setState(useItemState());
         }
         else{
@@ -58,7 +58,7 @@ public abstract class ManagerState {
             mManager.getSelectedItem().useInManager(mManager.getSelectedProfile1(), mMessage, mManager.getPlayer().getBag());
             mManager.setState(mainState());
             mMessage.setText(Message.ERROR_ECHO);
-            PokemonGoApp.setAsBackButton(mBackButton);
+            PokemonApp.setAsBackButton(mBackButton);
         }
         updatePokemons();
         mManager.getPokemonAdapter().notifyDataSetChanged();
@@ -75,7 +75,7 @@ public abstract class ManagerState {
      * runs the implementation of the switch PokéDexData through the select State
      */
     public void executeSwitchButton(){
-        PokemonGoApp.setAsCancelButton(mSwitchButton);
+        PokemonApp.setAsCancelButton(mSwitchButton);
         noItemSelected();
         mManager.setState(selectState());
     }

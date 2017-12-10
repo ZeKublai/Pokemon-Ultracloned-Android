@@ -2,12 +2,11 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/20/2017.
- * This class is a subclass of the decision which handles the decision and computation for damaging
- * Updates the data of the battling PokéDexData
+ * This class is a subclass of the Decision object which handles the decision
+ * and computation for damaging and updating the data of the battling Pokémon.
  */
 
 public class DecisionAttack extends Decision {
-
     private PokémonProfile mAttacker;
     private PokémonProfile mDefender;
     private Move mMove;
@@ -15,60 +14,54 @@ public class DecisionAttack extends Decision {
     private int mCriticalResult;
     private DisplayInfoSet mDisplayInfo;
 
-
     /**
-     * Handles the method of triggering accuracy nd critical hit of the pokemon
-     * @param mAttacker the pokemon that attacks
-     * @param mDefender the pokemon that defends
-     * @param mMove move to be analyzed if a special event is triggered
-     * @param info show the information of the PokéDexData
+     * Creates the DecisionAttack object and handles the method
+     * of generating the accuracy and critical hit of the Move.
+     * @param mAttacker The attacking Pokémon.
+     * @param mDefender The defending Pokémon.
+     * @param mMove     The Move that the attacking Pokémon is using.
+     * @param info      The DisplayInfoSet to be updated after execution.
      */
-    public DecisionAttack(PokémonProfile mAttacker, PokémonProfile mDefender, Move mMove, DisplayInfoSet info) {
+    public DecisionAttack(PokémonProfile mAttacker,
+                          PokémonProfile mDefender,
+                          Move mMove,
+                          DisplayInfoSet info) {
         this.mMove = mMove;
-        this.mAccuracyResult = PokemonGoApp.getIntegerRNG(Move.MAX_ACCURACY);
-        this.mCriticalResult = PokemonGoApp.getIntegerRNG(Move.MAX_CRITICAL);
+        this.mAccuracyResult = PokemonApp.getIntegerRNG(Move.MAX_ACCURACY);
+        this.mCriticalResult = PokemonApp.getIntegerRNG(Move.MAX_CRITICAL);
         this.mDisplayInfo = info;
         this.mAttacker = mAttacker;
         this.mDefender = mDefender;
     }
 
     /**
-     * set the defending PokéDexData
-     * @param mDefender the pokemon that defends
+     * Sets the defending Pokémon.
+     * @param mDefender The defending Pokémon to be set.
      */
     public void setDefender(PokémonProfile mDefender) {
         this.mDefender = mDefender;
     }
 
     /**
-     * get the pokemon move
-     * @return pokemon move
+     * Returns the initial Message.
+     * @return  The initial Message to be shown.
      */
-    public Move getMove() {
-        return mMove;
+    private Message getInitialMessage(){
+        return new MessageUpdatePokemon(
+                mAttacker.getNickname()
+                + " used "
+                + mMove.getName()
+                + "!",
+                mDisplayInfo,
+                mDefender
+        );
     }
 
     /**
-     * set the pokemon move
-     * @param mMove pokemon move
+     * Returns the Message on how effective the execution of the Move is.
+     * @return  The Message on how effective the execution of the Move is.
      */
-    public void setMove(Move mMove) {
-        this.mMove = mMove;
-    }
-
-    /**
-     * get the initial messages
-     * @return message to be shown
-     */
-    public Message getInitialMessage(){
-        return new MessageUpdatePokemon(mAttacker.getNickname() + " used " + mMove.getName() + "!", mDisplayInfo, mDefender);
-    }
-
-    /**
-     * show if the move is effective to the pokemon
-     * @return message to be shown
-     */
-    public Message getEffectiveMessage(){
+    private Message getEffectiveMessage(){
         Type defenderType1 = mDefender.getDexData().getType1();
         Type defenderType2 = mDefender.getDexData().getType2();
         double typeMultiplier1 = mMove.getType().getMultiplier()[defenderType1.getId()];
@@ -89,10 +82,10 @@ public class DecisionAttack extends Decision {
     }
 
     /**
-     * show if the move is a critical hit
-     * @return message to be shown
+     * Returns the critical Message if the Move is a critical hit.
+     * @return  The critical Message if the Move is a critical hit.
      */
-    public Message getCriticalMessage(){
+    private Message getCriticalMessage(){
         if(mCriticalResult < 1){
             return new Message(Message.MESSAGE_CRITICAL);
         }
@@ -102,10 +95,10 @@ public class DecisionAttack extends Decision {
     }
 
     /**
-     * show if the move misses
-     * @return message to be shown
+     * Returns the missed Message if the Move is a miss.
+     * @return  The missed Message if the Move is a miss.
      */
-    public Message getMissedMessage(){
+    private Message getMissedMessage(){
         if(mAccuracyResult < mMove.getAccuracy()){
             return new Message();
         }
@@ -115,8 +108,8 @@ public class DecisionAttack extends Decision {
     }
 
     /**
-     * show error message
-     * @return messgae to be shown when no more PP
+     * Returns the error Message.
+     * @return  The error Message.
      */
     @Override
     public Message getErrorMessage(){
@@ -124,22 +117,17 @@ public class DecisionAttack extends Decision {
     }
 
     /**
-     * check if there is still error
-     * @return boolean value to check if there is still PP
+     * Checks if the Decision has an error.
+     * @return  True if the Decision has an error else false.
      */
     @Override
     public boolean isError(){
-        if(mMove.getCurrentPP() <= 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return (mMove.getCurrentPP() <= 0);
     }
 
     /**
-     * Executes the move done
-     * @param battle the battle where the state is
+     * Executes the Move done.
+     * @param battle    The Battle object where the Decision is executed.
      */
     @Override
     public void execute(Battle battle){
@@ -147,8 +135,8 @@ public class DecisionAttack extends Decision {
     }
 
     /**
-     * updates the results
-     * @param battle the battle where the state is
+     * Updates the results of the Decision and adds Messages to the ArrayList in the Battle class.
+     * @param battle    The Battle object where the Decision is executed.
      */
     @Override
     public void updateResults(Battle battle){
@@ -164,26 +152,27 @@ public class DecisionAttack extends Decision {
             battle.addMessage(getMissedMessage());
         }
         if(mMove.executeRecoil(mAttacker)){
-            battle.addMessage(new MessageUpdatePokemon(mAttacker.getNickname() + " is damaged by recoil!", getAttackerInfo(battle), mAttacker));
+            battle.addMessage(new MessageUpdatePokemon(
+                    mAttacker.getNickname()
+                    + " is damaged by recoil!",
+                    getAttackerInfo(battle),
+                    mAttacker
+            ));
         }
         if(battle.isBuddyFainted()){
-            battle.addMessage(new MessageUpdatePokemon(battle.getBuddy().getNickname() + Message.MESSAGE_FAINTED, battle.getBuddyInfo(), battle.getBuddy()));
+            battle.addMessage(new MessageUpdatePokemon(
+                    battle.getBuddy().getNickname()
+                    + Message.MESSAGE_FAINTED,
+                    battle.getBuddyInfo(),
+                    battle.getBuddy()
+            ));
         }
     }
 
     /**
-     * check if decision is empty
-     * @return boolean value with a default value of false
-     */
-    @Override
-    public boolean isEmpty(){
-        return false;
-    }
-
-    /**
-     * get information of the attacking pokemon
-     * @param battle the battle where the state is
-     * @return information of the attacking pokemon
+     * Returns the DisplayInfoSet of the attacking Pokémon.
+     * @param battle    The Battle object where the Decision is executed.
+     * @return          The DisplayInfoSet of the attacking Pokémon.
      */
     private DisplayInfoSet getAttackerInfo(Battle battle){
         if(mDisplayInfo instanceof DisplayInfoSetBuddy){

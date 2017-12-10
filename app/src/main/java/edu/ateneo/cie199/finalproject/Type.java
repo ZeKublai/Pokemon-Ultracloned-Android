@@ -4,6 +4,8 @@ import android.graphics.Color;
 
 /**
  * Created by John on 11/10/2017.
+ * This class contains all the functions and data members needed
+ * for the class Type which can be found in Moves and Pokémons.
  */
 
 public class Type {
@@ -57,9 +59,20 @@ public class Type {
             1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 1};
 
+    /**
+     * "The function is empty..."
+     */
     public Type() {
     }
 
+    /**
+     * Creates a Type with the given parameters.
+     * @param mName         The name of the created Type.
+     * @param mId           The identification code of the created Type.
+     * @param mColor        The color value of the created Type.
+     * @param mMultiplier   The created Type's multiplier array.
+     * @param mIcon         The image resource ID of the Type's icon.
+     */
     public Type(String mName, int mId, int mColor, double[] mMultiplier, int mIcon) {
         this.mName = mName;
         this.mId = mId;
@@ -68,39 +81,44 @@ public class Type {
         this.mIcon = mIcon;
     }
 
+    /**
+     * Returns the identification code of the Type object.
+     * @return  The identification code of the Type object.
+     */
     public int getId() {
         return mId;
     }
-    public void setId(int mId) {
-        this.mId = mId;
-    }
 
+    /**
+     * Returns the color value of the Type object.
+     * @return  The color value of the Type object.
+     */
     public int getColor() {
         return mColor;
     }
-    public void setColor(int mColor) {
-        this.mColor = mColor;
-    }
 
+    /**
+     * Returns the name of the Type object.
+     * @return  The name of the Type object.
+     */
     public String getName() {
         return mName;
     }
-    public void setName(String mName) {
-        this.mName = mName;
-    }
 
-    public Type(double[] mMultiplier) {
-        this.mMultiplier = mMultiplier;
-    }
+    /**
+     * Returns the multiplier array of the Type object.
+     * @return  The multiplier array of the Type object.
+     */
     public double[] getMultiplier(){
         return mMultiplier;
     }
 
+    /**
+     * Returns the image resource ID of the Type object's icon.
+     * @return  The image resource ID of the Type object's icon.
+     */
     public int getIcon() {
         return mIcon;
-    }
-    public void setIcon(int mIcon) {
-        this.mIcon = mIcon;
     }
 
 }

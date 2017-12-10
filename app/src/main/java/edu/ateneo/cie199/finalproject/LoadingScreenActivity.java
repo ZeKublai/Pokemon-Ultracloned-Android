@@ -19,7 +19,7 @@ import org.json.JSONException;
 
 /**
  * Created by John, Duke and JV on 11/7/2017.
- * This class handles loading online data or offline data to be used by the app
+ * This class handles loading online data or offline data to be used by the application.
  */
 public class LoadingScreenActivity extends AppCompatActivity {
     private boolean dataLoaded = false;
@@ -28,13 +28,13 @@ public class LoadingScreenActivity extends AppCompatActivity {
     private boolean loadData = true;
 
     /**
-     * An asynchronous task that will call a GET request for all Moves data on execute
+     * An asynchronous task that will call a GET request for all Moves data on execute.
      */
     private class MovesApi extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... strings) {
-            final PokemonGoApp app = (PokemonGoApp) getApplication();
+            final PokemonApp app = (PokemonApp) getApplication();
             app.loadAllPokemonTypes();
             try {
                 if(app.loadAllMovesApi()){
@@ -53,13 +53,13 @@ public class LoadingScreenActivity extends AppCompatActivity {
     }
 
     /**
-     * An asynchronous task that will call a GET request for all Pokemon data on execute
+     * An asynchronous task that will call a GET request for all Pokemon data on execute.
      */
     private class PokemonAPI extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            final PokemonGoApp app = (PokemonGoApp) getApplication();
+            final PokemonApp app = (PokemonApp) getApplication();
             try {
                 if(app.loadAllPokemonApi()){
                     Log.d("Load Pokemons", "LOADING PKMN...");
@@ -77,7 +77,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
     }
 
     /**
-     * Initializes the activity
+     * Initializes the activity.
      * @param savedInstanceState
      */
     @Override
@@ -91,7 +91,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
         final ProgressBar loadBar = (ProgressBar) dialog.findViewById(R.id.progBar_load);
 
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonApp app = (PokemonApp) getApplication();
 
         MovesApi movesData = new MovesApi();
         PokemonAPI pokeData = new PokemonAPI();
@@ -99,13 +99,11 @@ public class LoadingScreenActivity extends AppCompatActivity {
         Intent recvdIntent = getIntent();
         loadData = recvdIntent.getBooleanExtra("Continue?", false);
 
+        app.loadAllPokemonTypes();
         if (app.isNetworkConnected()) {
             try {
                 movesData.execute();
                 pokeData.execute();
-                app.loadAllItems();
-                app.loadAllPokemonTypes();
-                app.loadAllTrainers();
             } catch (Error e) {
                 Log.e("Error", "Unable to load data");
             }
@@ -123,18 +121,27 @@ public class LoadingScreenActivity extends AppCompatActivity {
                             app.initPlayer();
                         }
                         if (loadData) {
-                            Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
+                            Intent beginMainActivity = new Intent(
+                                    LoadingScreenActivity.this,
+                                    MainActivity.class
+                            );
                             setResult(RESULT_OK);
                             startActivity(beginMainActivity);
                         } else {
-                            Intent beginIntroductionActivity = new Intent(LoadingScreenActivity.this, IntroductionActivity.class);
+                            Intent beginIntroductionActivity = new Intent(
+                                    LoadingScreenActivity.this,
+                                    IntroductionActivity.class
+                            );
                             setResult(RESULT_OK);
                             startActivity(beginIntroductionActivity);
                         }
                         app.setOnline(true);
                     } else {
                         Log.e("Error Loading", "There was an error loading the data");
-                        setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry."));
+                        setResult(RESULT_CANCELED, new Intent().putExtra(
+                                "MSG",
+                                "Data was not properly loaded, please retry."
+                        ));
                         getFailedDialog("Data was not properly loaded, please retry.");
                     }
                 }
@@ -142,17 +149,30 @@ public class LoadingScreenActivity extends AppCompatActivity {
             handler.postDelayed(delay, 10000);
         }
         else{
-            Toast.makeText(LoadingScreenActivity.this, "Your device is not connected to the internet.", Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    LoadingScreenActivity.this,
+                    "Your device is not connected to the internet.",
+                    Toast.LENGTH_LONG
+            ).show();
             getFailedDialog("Your device is not connected to the internet.");
         }
+
+        if(app.getAllMoves().isEmpty()){
+            app.loadAllPokemonMoves();
+        }
+        if(app.getAllPokemons().isEmpty()){
+            app.loadAllPokemon();
+        }
+        app.loadAllItems();
+        app.loadAllTrainers();
     }
 
     /**
-     * Displays a Dialog notifying the user of running the game of playing in offline mode
-     * @param setResult Sets the text to be displayed in the dialog
+     * Displays a Dialog notifying the user of running the game of playing in offline mode.
+     * @param setResult Sets the text to be displayed in the dialog.
      */
     public void getFailedDialog(String setResult){
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonApp app = (PokemonApp) getApplication();
         final Dialog dialog = new Dialog(LoadingScreenActivity.this);
         dialog.setContentView(R.layout.got_item_dialog);
         dialog.setTitle("");
@@ -171,21 +191,26 @@ public class LoadingScreenActivity extends AppCompatActivity {
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                app.getMusicHandler().playSfx(LoadingScreenActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                app.loadAllItems();
-                app.loadAllPokemonTypes();
-                app.loadAllPokemonMoves();
-                app.loadAllPokemon();
-                app.loadAllTrainers();
+                app.getMusicHandler().playSfx(
+                        LoadingScreenActivity.this,
+                        MusicHandler.SFX_SELECT,
+                        app.getSFXSwitch()
+                );
                 app.setOnline(false);
                 if (loadData) {
                     app.loadPlayerDate();
-                    Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
+                    Intent beginMainActivity = new Intent(
+                            LoadingScreenActivity.this,
+                            MainActivity.class
+                    );
                     setResult(RESULT_OK);
                     startActivity(beginMainActivity);
                 } else {
                     app.initPlayer();
-                    Intent beginIntroductionActivity = new Intent(LoadingScreenActivity.this, IntroductionActivity.class);
+                    Intent beginIntroductionActivity = new Intent(
+                            LoadingScreenActivity.this,
+                            IntroductionActivity.class
+                    );
                     setResult(RESULT_OK);
                     startActivity(beginIntroductionActivity);
                 }
@@ -197,8 +222,9 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
     /**
-     * Sets Back button unusable in this activity
+     * Sets Back button unusable in this activity.
      */
     @Override
     public void onBackPressed(){

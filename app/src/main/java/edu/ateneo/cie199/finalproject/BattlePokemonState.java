@@ -10,11 +10,24 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/27/2017.
- * This class is a subclass of the battle state which handles the button function and what message to be displayed
+ * This class is a subclass of the battle state where the Player will select the
+ * Pokémon that will be switched out. If the Player's current Pokémon has fainted
+ * the state could not be exited unless a Pokémon has been selected to be switched out.
  */
 
 public class BattlePokemonState extends BattleMainState{
-    public BattlePokemonState(Button mFightButton,
+    /**
+     * Creates a BattlePokemonState given the parameters.
+     * @param mFightButton      The fight Button of the BattleActivity.
+     * @param mPokemonButton    The Pokémon Button of the BattleActivity.
+     * @param mBagButton        The bag Button of the BattleActivity.
+     * @param mRunButton        The run Button of the BattleActivity.
+     * @param mActionButton     The action Button of the BattleActivity.
+     * @param mOptionList       The ListView of options of the BattleActivity.
+     * @param mBattle           The Battle object of the BattleActivity.
+     * @param mMessage          The TextView that show the Messages of the Battle object.
+     */
+    protected BattlePokemonState(Button mFightButton,
                             Button mPokemonButton,
                             Button mBagButton,
                             Button mRunButton,
@@ -31,12 +44,17 @@ public class BattlePokemonState extends BattleMainState{
         this.mBattle = mBattle;
         this.mMessage = mMessage;
 
-        initButtons();
+        resetSideButtons();
         mOptionList.setAdapter(mBattle.getPokemonAdapter());
         showOptions();
         if(mBattle instanceof TrainerBattle && mBattle.isEnemyFainted()){
             TrainerBattle battle = (TrainerBattle) mBattle;
-            mMessage.setText(battle.getTrainer().getName() + " is about to send out " + battle.getTrainer().getBuddy().getNickname() + "! Switch next PokéDexData?");
+            mMessage.setText(
+                    battle.getTrainer().getName()
+                    + " is about to send out "
+                    + battle.getTrainer().getBuddy().getNickname()
+                    + "! Switch next PokéDexData?"
+            );
         }
         else {
             mMessage.setText("Which PokéDexData to switch?");
@@ -45,17 +63,21 @@ public class BattlePokemonState extends BattleMainState{
         enableButton(mRunButton);
         disableButton(mActionButton);
         if(!mBattle.isBuddyFainted()) {
-            PokemonGoApp.setAsCancelButton(mPokemonButton);
+            PokemonApp.setAsCancelButton(mPokemonButton);
         }
     }
 
     /**
-     * get the list of pokemon if player want to switch
-     * @param pos position index relating to the list of moves, pokemons or items
+     * The Pokémon selected would be switched out if possible.
+     * @param pos   The current index of the ListView.
      */
     @Override
     public void executeListView(int pos){
-        mBattle.setPlayerDecision(new DecisionSwitch(mBattle.getPlayer().getPokemons().get(pos), mBattle.getBuddy(), mBattle.getBuddyInfo()));
+        mBattle.setPlayerDecision(new DecisionSwitch(
+                mBattle.getPlayer().getPokemons().get(pos),
+                mBattle.getBuddy(),
+                mBattle.getBuddyInfo()
+        ));
         if(mBattle.isEnemyFainted() && mBattle instanceof TrainerBattle){
             mBattle.doPlayerDecision();
             if(mBattle.getPlayerDecision().isError()){
@@ -64,7 +86,14 @@ public class BattlePokemonState extends BattleMainState{
             else{
                 TrainerBattle battle = (TrainerBattle) mBattle;
                 battle.setEnemy(battle.getTrainer().getBuddy());
-                battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
+                battle.addMessage(new MessageUpdatePokemon(
+                        battle.getTrainer().getName()
+                        + " has sent out "
+                        + battle.getTrainer().getBuddy().getNickname()
+                        + "!",
+                        battle.getEnemyInfo(),
+                        battle.getEnemy()
+                ));
             }
             mBattle.setBattleState(standbyState());
         }
@@ -74,26 +103,36 @@ public class BattlePokemonState extends BattleMainState{
     }
 
     /**
-     * get the data of the pokemon
-     * @param app used for calling the dialog data
-     * @param ctx needed to initialize the dialog in the selected Activity
-     * @param pos position in the listview
+     * Shows a Dialog that contains the data of the Pokémon.
+     * @param app       Used for calling the Dialog data.
+     * @param context   Needed to initialize the Dialog in the selected Activity.
+     * @param pos       Position in the ListView.
      */
     @Override
-    public void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos){
-        getPokemonDialog(app, ctx, mBattle.getPlayer().getPokemons().get(pos));
+    public void executeLongPressListView(PokemonApp app, Activity context, int pos){
+        getPokemonDialog(app, context, mBattle.getPlayer().getPokemons().get(pos));
     }
 
     /**
-     * shows if the pokemon is switched out or not
+     * Goes back to the main menu.
      */
     @Override
     public void executePokemonButton(){
         if(mBattle.isEnemyFainted() && mBattle instanceof TrainerBattle){
             TrainerBattle battle = (TrainerBattle) mBattle;
-            battle.addMessage(new Message(battle.getPlayer().getName() + " did not switch PokéDexData..."));
+            battle.addMessage(new Message(
+                    battle.getPlayer().getName()
+                    + " did not switch Pokémon..."
+            ));
             battle.setEnemy(battle.getTrainer().getBuddy());
-            battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
+            battle.addMessage(new MessageUpdatePokemon(
+                    battle.getTrainer().getName()
+                    + " has sent out "
+                    + battle.getTrainer().getBuddy().getNickname()
+                    + "!",
+                    battle.getEnemyInfo(),
+                    battle.getEnemy()
+            ));
             battle.setBattleState(standbyState());
         }
         else{
@@ -103,16 +142,18 @@ public class BattlePokemonState extends BattleMainState{
 
     /**
      * get the data of the pokemon
-     * @param app
-     * @param ctx
-     * @param profile
+     * @param app       Used for calling the Dialog data.
+     * @param context   Needed to initialize the Dialog in the selected Activity.
+     * @param profile   The Pokémon that would be displayed in the Dialog.
      */
-    public void getPokemonDialog(final PokemonGoApp app, Activity ctx, final PokémonProfile profile){
-        final Dialog dialog = new Dialog(ctx);
+    public void getPokemonDialog(final PokemonApp app,
+                                 Activity context,
+                                 final PokémonProfile profile){
+        final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.pokemon_profile_dialog);
         final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);
         edtNickname.setText(profile.getNickname());
-        app.loadPokemonDetails(dialog, ctx, profile);
+        app.loadPokemonDetails(dialog, context, profile);
         Button btnDialogOk = (Button) dialog.findViewById(R.id.btn_profile_back);
         btnDialogOk.setOnClickListener(new View.OnClickListener() {
             @Override

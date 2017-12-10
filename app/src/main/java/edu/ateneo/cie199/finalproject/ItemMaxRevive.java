@@ -2,13 +2,13 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Max Revive interact with the PokéDexData. It is a better Revive.
+ * This class handles how the Max Revive interact with the Pokémon.
  */
 
 public class ItemMaxRevive extends ItemRevive {
 
     /**
-     * initialize the Max Revive
+     * Initialization of the Max Revive.
      */
     public ItemMaxRevive(){
         this.mReviveFactor = 1;
@@ -19,8 +19,8 @@ public class ItemMaxRevive extends ItemRevive {
     }
 
     /**
-     * Total quantity of the Max Revive
-     * @param quantity integer value of the quantity
+     * Initialization given the total quantity of the Max Revive.
+     * @param quantity  Integer value of the quantity.
      */
     public ItemMaxRevive(int quantity){
         this.mReviveFactor = 1;
@@ -30,12 +30,13 @@ public class ItemMaxRevive extends ItemRevive {
         this.mImageBig = R.drawable.bag_maxrevive;
         this.mImageSprite = R.drawable.bag_maxrevive_icon;
     }
+
     /**
-     * duplicate the max revive
-     * @return duplicated copy
+     * Returns a duplicate of the Item.
+     * @return  A duplicate of the Item.
      */
     @Override
     public Item generateCopy(){
-        return new ItemMaxRevive(PokemonGoApp.getIntegerRNG(5) + 2);
+        return new ItemMaxRevive(PokemonApp.getIntegerRNG(5) + 2);
     }
 }

@@ -8,12 +8,23 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/27/2017.
- * This class is a subclass of the battle state which handles the button function and what message to be displayed
+ * This class is a subclass of the battle state which shows the main
+ * menu and is usually called after all the Messages have been shown.
  */
 
 public class BattleMainState extends BattleState {
-
-    public BattleMainState(Button mFightButton,
+    /**
+     * Creates a BattleMainState given the parameters.
+     * @param mFightButton      The fight Button of the BattleActivity.
+     * @param mPokemonButton    The Pokémon Button of the BattleActivity.
+     * @param mBagButton        The bag Button of the BattleActivity.
+     * @param mRunButton        The run Button of the BattleActivity.
+     * @param mActionButton     The action Button of the BattleActivity.
+     * @param mOptionList       The ListView of options of the BattleActivity.
+     * @param mBattle           The Battle object of the BattleActivity.
+     * @param mMessage          The TextView that show the Messages of the Battle object.
+     */
+    protected BattleMainState(Button mFightButton,
                            Button mPokemonButton,
                            Button mBagButton,
                            Button mRunButton,
@@ -33,21 +44,21 @@ public class BattleMainState extends BattleState {
         setButtons(true, View.VISIBLE);
         disableButton(mActionButton);
         hideOptions();
-        initButtons();
+        resetSideButtons();
         mBattle.setEnemyDecision(mBattle.generateEnemyDecision());
         mMessage.setText("What will " + mBattle.getBuddy().getNickname() + " do?");
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
     public BattleMainState(){
 
     }
 
     /**
-     * does nothing
-     * @param pos position index relating to the list of moves, pokemons or items
+     * Does nothing.
+     * @param pos   The position index of the ListView of Moves, Pokémons or Items.
      */
     @Override
     public void executeListView(int pos){
@@ -55,18 +66,20 @@ public class BattleMainState extends BattleState {
     }
 
     /**
-     * does nothing
-     * @param app used for calling the dialog data
-     * @param ctx needed to initialize the dialog in the selected Activity
-     * @param pos position in the listview
+     * Does nothing.
+     * @param app       Used for calling the Dialog data.
+     * @param context   Needed to initialize the Dialog in the selected Activity.
+     * @param pos       Position in the ListView.
      */
     @Override
-    public void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos){
+    public void executeLongPressListView(PokemonApp app, Activity context, int pos){
 
     }
 
     /**
-     * check if the pokemon still has PP. if non, pokemon would struggle
+     * Check if the Player's current Pokémon still has PP and if so, the
+     * Player's Decision would automatically be set to use the Move Struggle
+     * else proceed to show the list of Moves the Player's current Pokémon has.
      */
     public void executeFightButton(){
         if(mBattle.getBuddy().noMorePP()){
@@ -80,7 +93,7 @@ public class BattleMainState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Opens the List of Pokémon in the Player's party.
      */
     @Override
     public void executePokemonButton(){
@@ -88,7 +101,7 @@ public class BattleMainState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Opens the List of Items in the Player's bag.
      */
     @Override
     public void executeBagButton(){
@@ -96,7 +109,7 @@ public class BattleMainState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Sets the Player's Decision to run and proceeds to check if it is possible.
      */
     @Override
     public void executeRunButton(){
@@ -105,7 +118,7 @@ public class BattleMainState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
     @Override
     public void executeActionButton(){

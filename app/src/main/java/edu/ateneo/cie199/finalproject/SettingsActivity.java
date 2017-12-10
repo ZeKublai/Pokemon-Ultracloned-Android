@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonApp app = (PokemonApp) getApplication();
         final Button btnBack = (Button) findViewById(R.id.btn_back);
         app.setAsBackButton(btnBack);
         final Switch MusicEnabled = (Switch) findViewById(R.id.switch_music);

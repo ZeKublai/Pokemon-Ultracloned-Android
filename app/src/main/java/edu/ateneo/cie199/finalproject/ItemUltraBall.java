@@ -2,13 +2,13 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Great ball interact with the PokéDexData. It is a better Great Ball
+ * This class handles how the Great ball interact with the Pokémon.
  */
 
 public class ItemUltraBall extends ItemPokeBall {
 
     /**
-     * initialize the Ultra ball
+     * Initialization of the Ultra ball.
      */
     public ItemUltraBall() {
         this.mBallBonus = 2.0;
@@ -19,8 +19,8 @@ public class ItemUltraBall extends ItemPokeBall {
     }
 
     /**
-     * Total quantity of the Ultra ball
-     * @param quantity integer value of the quantity
+     * Initialization given the total quantity of the Ultra Ball.
+     * @param quantity  Integer value of the quantity.
      */
     public ItemUltraBall(int quantity) {
         this.mBallBonus = 2.0;
@@ -32,11 +32,11 @@ public class ItemUltraBall extends ItemPokeBall {
     }
 
     /**
-     * duplicate the great ball
-     * @return duplicated copy
+     * Returns a duplicate of the Item.
+     * @return  A duplicate of the Item.
      */
     @Override
     public Item generateCopy(){
-        return new ItemUltraBall(PokemonGoApp.getIntegerRNG(5) + 2);
+        return new ItemUltraBall(PokemonApp.getIntegerRNG(5) + 2);
     }
 }

@@ -52,7 +52,7 @@ public class PokémonProfile {
             this.mGender = GENDER_NONE;
         }
         else {
-            if (PokemonGoApp.getIntegerRNG(pokemon.getFemaleRatio()
+            if (PokemonApp.getIntegerRNG(pokemon.getFemaleRatio()
                     + pokemon.getMaleRatio()) > pokemon.getMaleRatio()) {
                 this.mGender = GENDER_FEMALE;
             } else {

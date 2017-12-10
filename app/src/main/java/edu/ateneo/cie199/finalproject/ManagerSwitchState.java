@@ -38,11 +38,11 @@ public class ManagerSwitchState extends ManagerState {
      * it switches the pokemon from the box to the party
      * @param ctx where the listview is to be displayed
      * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonGoApp functions
+     * @param app access the PokemonApp functions
      * @param pos index of the listview
      */
     @Override
-    public void executePokemonListView(Activity ctx, View view, PokemonGoApp app, int pos) {
+    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos) {
         mManager.setSelectedProfile2(mManager.getPlayer().getBox().get(pos));
         switchPokemon();
     }
@@ -50,11 +50,11 @@ public class ManagerSwitchState extends ManagerState {
     /**
      * it switches the pokemon from the party to the box
      * @param ctx where the listview is to be displayed
-     * @param app access the PokemonGoApp functions
+     * @param app access the PokemonApp functions
      * @param pos index of the listview
      */
     @Override
-    public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos) {
+    public void executePokemonButton(Activity ctx, PokemonApp app, int pos) {
         mManager.setSelectedProfile2(mManager.getPlayer().getPokemons().get(pos));
         switchPokemon();
     }
@@ -65,7 +65,7 @@ public class ManagerSwitchState extends ManagerState {
     @Override
     public void executeSwitchButton(){
         noItemSelected();
-        PokemonGoApp.setAsSwitchButton(mSwitchButton);
+        PokemonApp.setAsSwitchButton(mSwitchButton);
         mManager.getPokemonAdapter().notifyDataSetChanged();
         updatePokemons();
         mManager.setState(mainState());

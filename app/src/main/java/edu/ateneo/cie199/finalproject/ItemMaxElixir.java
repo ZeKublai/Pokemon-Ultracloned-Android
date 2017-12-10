@@ -2,7 +2,7 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Max Elixir interact with the PokéDexData. It is a better Elixir.
+ * This class handles how the Max Elixir interact with the Pokémon.
  */
 
 public class ItemMaxElixir extends ItemElixir {
@@ -10,7 +10,7 @@ public class ItemMaxElixir extends ItemElixir {
     protected int mPPRestoreFactor = 999;
 
     /**
-     * initialize the Max Elixir
+     * Initialization of the Max Elixir.
      */
     public ItemMaxElixir() {
         this.mPPRestoreFactor = 999;
@@ -21,8 +21,8 @@ public class ItemMaxElixir extends ItemElixir {
     }
 
     /**
-     * Total quantity of the Max Elixir
-     * @param quantity integer value of the quantity
+     * Initialization given the total quantity of the Max Elixir.
+     * @param quantity  Integer value of the quantity.
      */
     public ItemMaxElixir(int quantity) {
         this.mPPRestoreFactor = 999;
@@ -34,11 +34,11 @@ public class ItemMaxElixir extends ItemElixir {
     }
 
     /**
-     * duplicate the max elixir
-     * @return duplicated copy
+     * Returns a duplicate of the Item.
+     * @return  A duplicate of the Item.
      */
     @Override
     public Item generateCopy(){
-        return new ItemMaxElixir(PokemonGoApp.getIntegerRNG(5) + 2);
+        return new ItemMaxElixir(PokemonApp.getIntegerRNG(5) + 2);
     }
 }

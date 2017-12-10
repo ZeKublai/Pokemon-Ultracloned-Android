@@ -7,7 +7,7 @@ package edu.ateneo.cie199.finalproject;
  */
 
 public class Manager {
-    private int mMenuState = PokemonGoApp.STATE_MAIN;
+    private int mMenuState = PokemonApp.STATE_MAIN;
     private Item mSelectedItem;
     private PokémonProfile mSelectedProfile1;
     private PokémonProfile mSelectedProfile2;

@@ -1,9 +1,7 @@
 package edu.ateneo.cie199.finalproject;
 
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,18 +12,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import org.json.JSONException;
+/**
+ * Created by John, Duke and JV on 11/13/2017.
+ * This activity is where the user could choose to continue an existing game or start a new game.
+ */
 
 public class TitleActivity extends AppCompatActivity {
     MusicHandler music;
     int REQUEST_DATA_LOADED = 0;
 
+    /**
+     * Initializes the Title Activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
 
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonApp app = (PokemonApp) getApplication();
         app.setFontForContainer((RelativeLayout)findViewById(R.id.title_group), "generation6.ttf");
 
         //Plays music
@@ -57,9 +62,15 @@ public class TitleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 app.setLoadData(false);
-                //sound effect
-                app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, LoadingScreenActivity.class);
+                app.getMusicHandler().playSfx(
+                        TitleActivity.this,
+                        MusicHandler.SFX_SELECT,
+                        app.getSFXSwitch()
+                );
+                Intent beginMainActivityIntent = new Intent(
+                        TitleActivity.this,
+                        LoadingScreenActivity.class
+                );
                 beginMainActivityIntent.putExtra("Continue?", app.getLoadData());
                 startActivityForResult(beginMainActivityIntent, REQUEST_DATA_LOADED);
                 return;
@@ -67,7 +78,6 @@ public class TitleActivity extends AppCompatActivity {
         });
 
         Button btnContinueGame = (Button) findViewById(R.id.btn_title_continue_game);
-
         if(app.doesPlayerDataExist()){
             btnContinueGame.setClickable(true);
             btnContinueGame.setVisibility(View.VISIBLE);
@@ -81,8 +91,15 @@ public class TitleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 app.setLoadData(true);
-                app.getMusicHandler().playSfx(TitleActivity.this, MusicHandler.SFX_SELECT, app.getSFXSwitch());
-                Intent beginMainActivityIntent = new Intent(TitleActivity.this, LoadingScreenActivity.class);
+                app.getMusicHandler().playSfx(
+                        TitleActivity.this,
+                        MusicHandler.SFX_SELECT,
+                        app.getSFXSwitch()
+                );
+                Intent beginMainActivityIntent = new Intent(
+                        TitleActivity.this,
+                        LoadingScreenActivity.class
+                );
                 beginMainActivityIntent.putExtra("Continue?", app.getLoadData());
                 startActivityForResult(beginMainActivityIntent, REQUEST_DATA_LOADED);
                 return;
@@ -90,10 +107,13 @@ public class TitleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Continues the music when switching Activities.
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        PokemonGoApp app = (PokemonGoApp) getApplication();
+        PokemonApp app = (PokemonApp) getApplication();
         if(music == null){
             music.initMusic(this, MusicHandler.MUSIC_TITLE);
         }
@@ -102,28 +122,39 @@ public class TitleActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pause the music when switching Activities.
+     */
     @Override
     protected void onPause() {
         super.onPause();
         music.getMusicPlayer().pause();
     }
 
+    /**
+     * Disables the back button.
+     */
     @Override
     public void onBackPressed(){
 
     }
 
+    /**
+     * Mainly used to check the results and output it to the Log and Toast.
+     * @param requestCode   The request code of the result.
+     * @param resultCode    The result code of the request.
+     * @param data          The Intent that contains the data.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("INTENT FINISH", Integer.toString(requestCode));
-        Log.e("INTENT result", Integer.toString(resultCode));
+        Log.e("INTENT RESULT", Integer.toString(resultCode));
         String msg = "";
         if(requestCode == REQUEST_DATA_LOADED && resultCode == RESULT_CANCELED ) {
              msg = data.getStringExtra("MSG");
         }
         Toast.makeText(TitleActivity.this, msg, Toast.LENGTH_LONG).show();
-
     }
 
 }

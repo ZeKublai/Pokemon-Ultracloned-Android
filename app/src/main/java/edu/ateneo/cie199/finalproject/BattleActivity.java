@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/7/2017.
- * This class handles the Battle progression and state of the Activity
+ * This Activity handles the Battle UI and the Battle object.
  */
 
 public class BattleActivity extends AppCompatActivity {
-
     private Battle battle;
     MusicHandler music;
 
@@ -34,15 +33,18 @@ public class BattleActivity extends AppCompatActivity {
     private ListView lsvOptions;
 
     /**
-     * Initializes the data to be used
+     * Initializes the needed member functions and the Battle object.
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle);
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
-        app.setFontForContainer((RelativeLayout)findViewById(R.id.battle_group), "generation6.ttf");
+        final PokemonApp app = (PokemonApp) getApplication();
+        app.setFontForContainer(
+                (RelativeLayout)findViewById(R.id.battle_group),
+                PokemonApp.RETRO_FONT
+        );
 
         //MUSIC INITIALIZATION
         music = new MusicHandler();
@@ -53,14 +55,17 @@ public class BattleActivity extends AppCompatActivity {
         //BATTLE INITIALIZATION
         txvMessage = (TextView) findViewById(R.id.txv_battle_message);
         btnAction = (Button) findViewById(R.id.btn_battle_action);
-        btnAction.setBackgroundColor(PokemonGoApp.TRANSPARENT_COLOR);
+        btnAction.setBackgroundColor(PokemonApp.TRANSPARENT_COLOR);
 
         btnFight = (Button) findViewById(R.id.btn_battle_attack);
         btnPokemon = (Button) findViewById(R.id.btn_battle_pokemon);
         btnBag = (Button) findViewById(R.id.btn_battle_bag);
         btnRun = (Button) findViewById(R.id.btn_battle_run);
         lsvOptions = (ListView)findViewById(R.id.lsv_battle_options);
-        app.setFontForContainer((ListView) findViewById(R.id.lsv_battle_options), "generation6.ttf");
+        app.setFontForContainer(
+                (ListView) findViewById(R.id.lsv_battle_options),
+                PokemonApp.RETRO_FONT
+        );
 
         DisplayInfoSetBuddy buddyInfo = new DisplayInfoSetBuddy(
                 (TextView) findViewById(R.id.txv_battle_buddy_name),
@@ -68,14 +73,16 @@ public class BattleActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.txv_battle_buddy_level),
                 (ProgressBar) findViewById(R.id.bar_battle_buddy_hp),
                 (ProgressBar) findViewById(R.id.bar_battle_buddy_exp),
-                (ImageButton) findViewById(R.id.imgbtn_battle_buddy));
+                (ImageButton) findViewById(R.id.imgbtn_battle_buddy)
+        );
 
-        DisplayInfoSet enemyInfo = new DisplayInfoSet((TextView) findViewById(R.id.txv_battle_enemy_name),
+        DisplayInfoSet enemyInfo = new DisplayInfoSet(
+                (TextView) findViewById(R.id.txv_battle_enemy_name),
                 (TextView) findViewById(R.id.txv_battle_enemy_level),
                 (ProgressBar) findViewById(R.id.bar_battle_enemy_hp),
-                (ImageButton) findViewById(R.id.imgbtn_battle_enemy));
+                (ImageButton) findViewById(R.id.imgbtn_battle_enemy)
+        );
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if(!app.getPokemon(app.getCurrentGoal().getTitle()).isEmpty()){
             battle = new Battle(app, buddyInfo, enemyInfo);
         }
@@ -84,13 +91,24 @@ public class BattleActivity extends AppCompatActivity {
         }
 
         //UI INITIALIZATION
-
-        battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
-        battle.setPokemonAdapter(new PokémonList(BattleActivity.this, battle.getPlayer().getPokemons()));
         battle.setItemAdapter(new ItemList(BattleActivity.this, battle.getPlayer().getBag()));
-        battle.setBattleState(new BattleStandbyState(btnFight, btnPokemon, btnBag, btnRun, btnAction, lsvOptions, battle, txvMessage));
+        battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
+        battle.setPokemonAdapter(new PokémonList(
+                BattleActivity.this,
+                battle.getPlayer().getPokemons())
+        );
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        battle.setBattleState(new BattleStandbyState(
+                btnFight,
+                btnPokemon,
+                btnBag,
+                btnRun,
+                btnAction,
+                lsvOptions,
+                battle,
+                txvMessage
+        ));
+
         battle.getEnemyInfo().getImage().setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -171,9 +189,12 @@ public class BattleActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        if(!(battle.getIndex() < battle.getMessages().size())){
+                        if(!(battle.getMessageIndex() < battle.getMessages().size())){
                             battle.getMoveAdapter().notifyDataSetChanged();
-                            battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
+                            battle.setMoveAdapter(new MoveList(
+                                    BattleActivity.this,
+                                    battle.getBuddy().getMoves()
+                            ));
                             battle.getPokemonAdapter().notifyDataSetChanged();
                             battle.getItemAdapter().notifyDataSetChanged();
                             if(battle.isFinished()){
@@ -187,7 +208,7 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     /**
-     * Ends the battle. returns to the MainActivity
+     * Ends the battle by finishing this Activity and going to the MainActivity.
      */
     private void endBattle(){
         Intent mainActivityIntent = new Intent(BattleActivity.this, MainActivity.class);
@@ -197,11 +218,11 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     /**
-     * gets the information of the PokéDexData
-     * @param profile data of the PokéDexData
+     * Shows a dialog containing information in a given PokémonProfile.
+     * @param profile   The PokémonProfile that would be used.
      */
     public void getPokemonDialog(final PokémonProfile profile){
-        final PokemonGoApp app = (PokemonGoApp) getApplication();
+        final PokemonApp app = (PokemonApp) getApplication();
         final Dialog dialog = new Dialog(BattleActivity.this);
         dialog.setContentView(R.layout.pokemon_profile_dialog);
         final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);
@@ -233,7 +254,7 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     /**
-     * Disables the back button
+     * Disables the back button.
      */
     @Override
     public void onBackPressed(){
@@ -241,12 +262,12 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     /**
-     * Continues the music when switching activities
+     * Continues the music when switching activities.
      */
     @Override
     protected void onResume() {
         super.onResume();
-        PokemonGoApp app = (PokemonGoApp) getApplication();
+        PokemonApp app = (PokemonApp) getApplication();
         if(music == null){
             music.initMusic(this, MusicHandler.MUSIC_BATTLE);
         }
@@ -256,7 +277,7 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     /**
-     * Pause the music when switching activities
+     * Pauses the music when switching activities.
      */
     @Override
     protected void onPause() {

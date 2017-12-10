@@ -56,16 +56,16 @@ public class PokémonButton {
         mButton.setClickable(!profile.isEmpty());
         if(!profile.isEmpty()){
             if(profile.getCurrentHP() <= 0){
-                PokemonGoApp.setButtonBorder(mButton, PokemonGoApp.DEAD_COLOR);
+                PokemonApp.setButtonBorder(mButton, PokemonApp.DEAD_COLOR);
             }
             else{
-                PokemonGoApp.setButtonBorder(mButton, PokemonGoApp.POKEMON_COLOR);
+                PokemonApp.setButtonBorder(mButton, PokemonApp.POKEMON_COLOR);
             }
             mButton.setText(profile.getButtonString());
             setVisibility(View.VISIBLE);
             mProgressBar.setMax(profile.getHP());
             mProgressBar.setProgress(profile.getCurrentHP());
-            PokemonGoApp.updateHpBarColor(profile.getCurrentHP(), profile.getHP(), mProgressBar);
+            PokemonApp.updateHpBarColor(profile.getCurrentHP(), profile.getHP(), mProgressBar);
             mImage.setImageResource(profile.getDexData().getIcon());
         }
         else{

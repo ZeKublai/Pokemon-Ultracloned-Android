@@ -2,13 +2,13 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Super Potion interact with the PokéDexData. It is a better Potion
+ * This class handles how the Super Potion interact with the Pokémon.
  */
 
 public class ItemSuperPotion extends ItemPotion {
 
     /**
-     * initialize the Super Potion
+     * Initialization of the Super Potion
      */
     public ItemSuperPotion() {
         this.mHealFactor = 50;
@@ -19,8 +19,8 @@ public class ItemSuperPotion extends ItemPotion {
     }
 
     /**
-     * Total quantity of the Super Potion
-     * @param quantity integer value of the quantity
+     * Initialization given the total quantity of the Super Potion.
+     * @param quantity  Integer value of the quantity.
      */
     public ItemSuperPotion(int quantity) {
         this.mHealFactor = 50;
@@ -32,11 +32,11 @@ public class ItemSuperPotion extends ItemPotion {
     }
 
     /**
-     * duplicate the Super Potion
-     * @return duplicated copy
+     * Returns a duplicate of the Item.
+     * @return  A duplicate of the Item.
      */
     @Override
     public Item generateCopy(){
-        return new ItemSuperPotion(PokemonGoApp.getIntegerRNG(5) + 2);
+        return new ItemSuperPotion(PokemonApp.getIntegerRNG(5) + 2);
     }
 }

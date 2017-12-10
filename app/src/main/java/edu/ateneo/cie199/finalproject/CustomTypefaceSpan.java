@@ -8,17 +8,16 @@ import android.text.style.TypefaceSpan;
 
 /**
  * Created by John, Duke and JV on 11/7/2017.
- * This class is mainly used to change the typeface of the dropdown menu of the Manager Activity
+ * This class is mainly used to change the Typeface of the dropdown menu of the Manager Activity.
  */
 
 public class CustomTypefaceSpan extends TypefaceSpan {
-
     private final Typeface newType;
 
     /**
-     * Initialize the used extension
-     * @param family
-     * @param type
+     * Initializes the used extensions.
+     * @param family    Usually left blank.
+     * @param type      The given Typeface to be used.
      */
     public CustomTypefaceSpan(String family, Typeface type) {
         super(family);
@@ -26,7 +25,7 @@ public class CustomTypefaceSpan extends TypefaceSpan {
     }
 
     /**
-     * partly  used to update and apply the custom type face assigned
+     * Partly used to update and apply the custom type face assigned.
      * @param ds
      */
     @Override
@@ -35,7 +34,7 @@ public class CustomTypefaceSpan extends TypefaceSpan {
     }
 
     /**
-     * partly used to update and apply the custom type face assigned
+     * Partly used to update and apply the custom type face assigned.
      * @param paint
      */
     @Override
@@ -44,7 +43,7 @@ public class CustomTypefaceSpan extends TypefaceSpan {
     }
 
     /**
-     * update and apply the custom type face assigned
+     * Updates and applies the custom type face assigned.
      * @param paint
      * @param tf
      */

@@ -11,7 +11,7 @@ public class Message {
 
     public static String MESSAGE_SWITCH1 = "Good job, ";
     public static String MESSAGE_SWITCH2 = "Go ";
-    public static String MESSAGE_PLAYER_LOSS1 = " is out of PokéDexData!";
+    public static String MESSAGE_PLAYER_LOSS1 = " is out of Pokémon!";
     public static String MESSAGE_PLAYER_LOSS2 = " whited out!";
     public static String MESSAGE_FAINTED = " fainted";
     public static String MESSAGE_EXP_GAINED = " EXP points!";
@@ -30,7 +30,7 @@ public class Message {
     public static String MESSAGE_HP_RESTORED = "'s HP has been restored!";
     public static String MESSAGE_PP_RESTORED = "'s PP has been restored!";
     public static String MESSAGE_REVIVED = " has been revived!";
-    public static String MESSAGE_SELECT_SWITCH = "Select other PokéDexData to switch.";
+    public static String MESSAGE_SELECT_SWITCH = "Select other Pokémon to switch.";
 
     public static String ERROR_FAINTED = " has fainted and could not battle!";
     public static String ERROR_IN_BATTLE = " is already in battle!";

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/7/2017.
- * Shows the state of the battle. Dictate button function and what message to be displayed
+ * The state of the battle where it dictates Button functions and what Messages to be displayed.
  */
 
 public abstract class BattleState {
@@ -22,48 +22,48 @@ public abstract class BattleState {
     protected TextView mMessage;
 
     /**
-     * Shows the list of data depending on what is selected
-     * @param pos position index relating to the list of moves, pokemons or items
+     * Selects the object at the given index when the ListView is pressed.
+     * @param pos   The current index of the ListView.
      */
     public abstract void executeListView(int pos);
 
     /**
-     * Shows the PokéDexData detail when long pressed
-     * @param app used for calling the dialog data
-     * @param ctx needed to initialize the dialog in the selected Activity
-     * @param pos position in the listview
+     * Executes the when the ListView is long-pressed.
+     * @param app       Used for calling the Dialog data.
+     * @param context   Needed to initialize the Dialog in the selected Activity.
+     * @param pos       Position in the ListView.
      */
-    public abstract void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos);
+    public abstract void executeLongPressListView(PokemonApp app, Activity context, int pos);
 
     /**
-     * Event triggered at that state for the said button
+     * Executes the when the fight Button is pressed.
      */
     public abstract void executeFightButton();
 
     /**
-     * Event triggered at that state for the said button
+     * Executes the when the Pokémon Button is pressed.
      */
     public abstract void executePokemonButton();
 
     /**
-     * Event triggered at that state for the said button
+     * Executes the when the bag Button is pressed.
      */
     public abstract void executeBagButton();
 
     /**
-     * Event triggered at that state for the said button
+     * Executes the when the run Button is pressed.
      */
     public abstract void executeRunButton();
 
     /**
-     * Event triggered at that state for the said button
+     * Executes the when the action Button is pressed.
      */
     public abstract void executeActionButton();
 
     /**
-     * Sets the button to either be clickable, visible or not
+     * Sets the button visibility and if it can be clicked or not.
      */
-    public void setButtons(boolean clickable, int visibility){
+    protected void setButtons(boolean clickable, int visibility){
         mFightButton.setClickable(clickable);
         mPokemonButton.setClickable(clickable);
         mBagButton.setClickable(clickable);
@@ -76,136 +76,186 @@ public abstract class BattleState {
     }
 
     /**
-     * Set a button to be disabled
-     * @param btn selected button
+     * Sets a button to be disabled.
+     * @param button   The selected button.
      */
-    public void disableButton(Button btn){
-        btn.setClickable(false);
-        btn.setVisibility(View.INVISIBLE);
+    protected void disableButton(Button button){
+        button.setClickable(false);
+        button.setVisibility(View.INVISIBLE);
     }
 
     /**
-     * Set a button to be enabled
-     * @param btn selected button
+     * Sets a button to be enabled.
+     * @param button    The selected button
      */
-    public void enableButton(Button btn){
-        btn.setVisibility(View.VISIBLE);
-        btn.setClickable(true);
+    protected void enableButton(Button button){
+        button.setVisibility(View.VISIBLE);
+        button.setClickable(true);
     }
 
     /**
-     * shows the listview
+     * Sets the ListView to be clickable and visible.
      */
-    public void showOptions(){
+    protected void showOptions(){
         mOptionList.setClickable(true);
         mOptionList.setVisibility(View.VISIBLE);
     }
 
     /**
-     * hides the listview
+     * Sets the ListView to be not clickable and invisible.
      */
-    public void hideOptions(){
+    protected void hideOptions(){
         mOptionList.setClickable(false);
         mOptionList.setVisibility(View.INVISIBLE);
     }
 
     /**
-     * initializes the buttons
+     * Resets the buttons to their respective texts and color.
      */
-    public void initButtons(){
+    protected void resetSideButtons(){
         mFightButton.setText("FIGHT");
         mPokemonButton.setText("POKEMON");
         mBagButton.setText("BAG");
         mRunButton.setText("RUN");
-        mFightButton.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
-        mPokemonButton.setBackgroundColor(PokemonGoApp.POKEMON_COLOR);
-        mBagButton.setBackgroundColor(PokemonGoApp.BAG_COLOR);
-        mRunButton.setBackgroundColor(PokemonGoApp.RUN_COLOR);
+        mFightButton.setBackgroundColor(PokemonApp.FIGHT_COLOR);
+        mPokemonButton.setBackgroundColor(PokemonApp.POKEMON_COLOR);
+        mBagButton.setBackgroundColor(PokemonApp.BAG_COLOR);
+        mRunButton.setBackgroundColor(PokemonApp.RUN_COLOR);
     }
 
     /**
-     * Performs the first move.
-     * Computes all the computation.
-     * outputs a list of messages to be displayed
-     * @return all the information
+     * Returns a BattleFirstMoveState with the same values as this BattleState.
+     * @return  A BattleFirstMoveState with the same values as this BattleState.
      */
-    public BattleFirstMoveState firstMoveState(){
-        return new BattleFirstMoveState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattleFirstMoveState firstMoveState(){
+        return new BattleFirstMoveState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * Performs the second move.
-     * Computes all the computation.
-     * outputs a list of messages to be displayed
-     * @return all the information
+     * Returns a BattleSecondMoveState with the same values as this BattleState.
+     * @return  A BattleSecondMoveState with the same values as this BattleState.
      */
-    public BattleSecondMoveState secondMoveState(){
-        return new BattleSecondMoveState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattleSecondMoveState secondMoveState(){
+        return new BattleSecondMoveState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * Displays the main menu for the start of the firt and new turn
-     * choose among fight, bag, switch or run
-     * @return all the information
+     * Returns a BattleMainState with the same values as this BattleState.
+     * @return  A BattleMainState with the same values as this BattleState.
      */
-    public BattleMainState mainState(){
-        return new BattleMainState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattleMainState mainState(){
+        return new BattleMainState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * Displays the moves that can be chosen
-     * @return all the information
+     * Returns a BattleFightState with the same values as this BattleState.
+     * @return  A BattleFightState with the same values as this BattleState.
      */
-    public BattleFightState fightState(){
-        return new BattleFightState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattleFightState fightState(){
+        return new BattleFightState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * State that allows the user to switch pokemon
-     * Activated when buddy died or when pokemon is switched out
-     * @return all the information
+     * Returns a BattlePokemonState with the same values as this BattleState.
+     * @return  A BattlePokemonState with the same values as this BattleState.
      */
-    public BattlePokemonState pokemonState(){
-        return new BattlePokemonState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattlePokemonState pokemonState(){
+        return new BattlePokemonState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * Displays the items in the bag that can be chosen
-     * @return all the information
+     * Returns a BattleBagState with the same values as this BattleState.
+     * @return  A BattleBagState with the same values as this BattleState.
      */
-    public BattleBagState bagState(){
-        return new BattleBagState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattleBagState bagState(){
+        return new BattleBagState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * Trigger when a certain PokéDexData is targeted
-     * @return all the information
+     * Returns a BattleUseItemState with the same values as this BattleState.
+     * @return  A BattleUseItemState with the same values as this BattleState.
      */
-    public BattleUseItemState useItemState(){
-        return new BattleUseItemState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+    protected BattleUseItemState useItemState(){
+        return new BattleUseItemState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 
     /**
-     * Stops displaying the messages when the conditions are reached.
-     * @return all the information
+     * Returns a BattleStandbyState with the same values as this BattleState.
+     * @return  A BattleStandbyState with the same values as this BattleState.
      */
     public BattleStandbyState standbyState(){
-        return new BattleStandbyState(this.mFightButton, this.mPokemonButton,
-                this.mBagButton, this.mRunButton, this.mActionButton, this.mOptionList,
-                this.mBattle, this.mMessage);
+        return new BattleStandbyState(
+                this.mFightButton,
+                this.mPokemonButton,
+                this.mBagButton,
+                this.mRunButton,
+                this.mActionButton,
+                this.mOptionList,
+                this.mBattle,
+                this.mMessage
+        );
     }
 }

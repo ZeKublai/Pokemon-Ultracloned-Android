@@ -2,7 +2,7 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/20/2017.
- * This class is a subclass of the decision which handles the decision for switching
+ * This class is a subclass of the Decision which handles the Decision for switching Pokémon.
  */
 
 public class DecisionSwitch extends Decision {
@@ -12,59 +12,22 @@ public class DecisionSwitch extends Decision {
     private DisplayInfoSet mDisplayInfo;
 
     /**
-     * does nothing
+     * Creates the DecisionSwitch object.
+     * @param mNewBuddy     The Pokémon to become new buddy Pokémon.
+     * @param mCurrentBuddy The current buddy Pokémon.
+     * @param info          The DisplayInfoSet to be updated.
      */
-    public DecisionSwitch(){
-
-    }
-
-    /**
-     * Decision to switch pokemon
-     * @param mNewBuddy pokemon to become new buddy pokemon
-     * @param mCurrentBuddy current buddy pokemon
-     * @param info data of the pokemon
-     */
-    public DecisionSwitch(PokémonProfile mNewBuddy, PokémonProfile mCurrentBuddy, DisplayInfoSet info) {
+    public DecisionSwitch(PokémonProfile mNewBuddy,
+                          PokémonProfile mCurrentBuddy,
+                          DisplayInfoSet info) {
         this.mNewBuddy = mNewBuddy;
         this.mCurrentBuddy = mCurrentBuddy;
         this.mDisplayInfo = info;
     }
 
     /**
-     * get pokemon information
-     * @return pokemon to become new buddy pokemon
-     */
-    public PokémonProfile getProfile() {
-        return mNewBuddy;
-    }
-
-    /**
-     * set the profile for the new buddy
-     * @param mProfile profile of the pokemon
-     */
-    public void setProfile(PokémonProfile mProfile) {
-        this.mNewBuddy = mProfile;
-    }
-
-    /**
-     * get the current buddy pokemon
-     * @return current buddy pokemon
-     */
-    public PokémonProfile getCurrentBuddy() {
-        return mCurrentBuddy;
-    }
-
-    /**
-     * set the current buddy pokemon
-     * @param mCurrentBuddy current buddy pokemon
-     */
-    public void setCurrentBuddy(PokémonProfile mCurrentBuddy) {
-        this.mCurrentBuddy = mCurrentBuddy;
-    }
-
-    /**
-     * check if there is error
-     * @return boolean value to check error
+     * Checks if the Decision has an error.
+     * @return  True if the Decision has an error else false.
      */
     @Override
     public boolean isError(){
@@ -82,8 +45,8 @@ public class DecisionSwitch extends Decision {
     }
 
     /**
-     * get the error message
-     * @return error message
+     * Returns the error Message.
+     * @return  The error Message.
      */
     @Override
     public Message getErrorMessage(){
@@ -101,35 +64,30 @@ public class DecisionSwitch extends Decision {
     }
 
     /**
-     * execute the decision to switch
-     * @param battle default filler
+     * Sets the Player's current Pokémon to the new Pokémon.
+     * @param battle    The Battle object where the Decision is executed.
      */
     @Override
     public void execute(Battle battle){
         battle.setBuddy(mNewBuddy);
         if(battle.getEnemyDecision() instanceof DecisionAttack){
             ((DecisionAttack) battle.getEnemyDecision()).setDefender(mNewBuddy);
-            
         }
     }
 
     /**
-     * update the message to be displayed
-     * @param battle default filler
+     * Updates the results of the Decision and adds Messages to the ArrayList in the Battle class.
+     * @param battle    The Battle object where the Decision is executed.
      */
     @Override
     public void updateResults(Battle battle){
         battle.addMessage(new Message(Message.MESSAGE_SWITCH1 + mCurrentBuddy.getNickname() + "!"));
-        battle.addMessage(new MessageUpdatePokemon(Message.MESSAGE_SWITCH2 + mNewBuddy.getNickname() + "!", mDisplayInfo, mNewBuddy));
+        battle.addMessage(new MessageUpdatePokemon(
+                Message.MESSAGE_SWITCH2
+                + mNewBuddy.getNickname()
+                + "!",
+                mDisplayInfo,
+                mNewBuddy
+        ));
     }
-
-    /**
-     * check if decision is empty
-     * @return boolean value with a default value of false
-     */
-    @Override
-    public boolean isEmpty(){
-        return false;
-    }
-
 }

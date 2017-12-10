@@ -8,11 +8,23 @@ import android.widget.TextView;
 
 /**
  * Created by John, Duke and JV on 11/28/2017.
- * This class is a subclass of the battle state which handles the button function and what message to be displayed
+ * This class is a subclass of the battle state where the second move is
+ * executed and the Player would then be scrolling through resulting Messages.
  */
 
 public class BattleSecondMoveState extends BattleState {
-    public BattleSecondMoveState(Button mFightButton,
+    /**
+     * Creates a BattleSecondMoveState given the parameters.
+     * @param mFightButton      The fight Button of the BattleActivity.
+     * @param mPokemonButton    The Pokémon Button of the BattleActivity.
+     * @param mBagButton        The bag Button of the BattleActivity.
+     * @param mRunButton        The run Button of the BattleActivity.
+     * @param mActionButton     The action Button of the BattleActivity.
+     * @param mOptionList       The ListView of options of the BattleActivity.
+     * @param mBattle           The Battle object of the BattleActivity.
+     * @param mMessage          The TextView that show the Messages of the Battle object.
+     */
+    protected BattleSecondMoveState(Button mFightButton,
                                 Button mPokemonButton,
                                 Button mBagButton,
                                 Button mRunButton,
@@ -32,7 +44,7 @@ public class BattleSecondMoveState extends BattleState {
         setButtons(false, View.INVISIBLE);
         enableButton(mActionButton);
         hideOptions();
-        mBattle.setIndex(0);
+        mBattle.setMessageIndex(0);
         mBattle.getMessages().clear();
         mBattle.secondMove();
         mBattle.checkVictory();
@@ -40,8 +52,8 @@ public class BattleSecondMoveState extends BattleState {
     }
 
     /**
-     * does nothing
-     * @param pos position index relating to the list of moves, pokemons or items
+     * Does nothing.
+     * @param pos   The position index of the ListView of Moves, Pokémons or Items.
      */
     @Override
     public void executeListView(int pos){
@@ -49,25 +61,26 @@ public class BattleSecondMoveState extends BattleState {
     }
 
     /**
-     * does nothing
-     * @param app used for calling the dialog data
-     * @param ctx needed to initialize the dialog in the selected Activity
-     * @param pos position in the listview
+     * Does nothing.
+     * @param app       Used for calling the Dialog data.
+     * @param context   Needed to initialize the Dialog in the selected Activity.
+     * @param pos       Position in the ListView.
      */
     @Override
-    public void executeLongPressListView(PokemonGoApp app, Activity ctx, int pos){
+    public void executeLongPressListView(PokemonApp app, Activity context, int pos){
 
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
+    @Override
     public void executeFightButton(){
 
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
     @Override
     public void executePokemonButton(){
@@ -75,7 +88,7 @@ public class BattleSecondMoveState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
     @Override
     public void executeBagButton(){
@@ -83,7 +96,7 @@ public class BattleSecondMoveState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
     @Override
     public void executeRunButton(){
@@ -91,7 +104,7 @@ public class BattleSecondMoveState extends BattleState {
     }
 
     /**
-     * does nothing
+     * Shows the next Message.
      */
     @Override
     public void executeActionButton(){
@@ -99,23 +112,32 @@ public class BattleSecondMoveState extends BattleState {
     }
 
     /**
-     * shows the messages to be displayed in succession
+     * Increments the Messages to be viewed and proceeds to the next BattleState accordingly.
      */
     protected void viewMessages(){
-        if(mBattle.getIndex() < mBattle.getMessages().size()){
-            mBattle.getMessages().get(mBattle.getIndex()).executeUpdate(mBattle);
-            mMessage.setText(mBattle.getMessages().get(mBattle.getIndex()).getContent());
-            mBattle.setIndex(mBattle.getIndex() + 1);
+        if(mBattle.getMessageIndex() < mBattle.getMessages().size()){
+            mBattle.getMessages().get(mBattle.getMessageIndex()).executeUpdate(mBattle);
+            mMessage.setText(mBattle.getMessages().get(mBattle.getMessageIndex()).getContent());
+            mBattle.setMessageIndex(mBattle.getMessageIndex() + 1);
         }
         else{
             if(mBattle.isFinished()){
 
             }
             else if(mBattle.isEnemyFainted() || mBattle.isBuddyFainted()){
-                if(mBattle.isEnemyFainted() && mBattle.getPlayer().getPokemons().size() == 1 && mBattle instanceof TrainerBattle){
+                if(mBattle.isEnemyFainted()
+                        && mBattle.getPlayer().getPokemons().size() == 1
+                        && mBattle instanceof TrainerBattle){
                     TrainerBattle battle = (TrainerBattle) mBattle;
                     battle.setEnemy(battle.getTrainer().getBuddy());
-                    battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
+                    battle.addMessage(new MessageUpdatePokemon(
+                            battle.getTrainer().getName()
+                            + " has sent out "
+                            + battle.getTrainer().getBuddy().getNickname()
+                            + "!",
+                            battle.getEnemyInfo(),
+                            battle.getEnemy()
+                    ));
                     battle.setBattleState(standbyState());
                 }
                 else {

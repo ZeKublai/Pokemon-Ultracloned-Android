@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/22/2017.
- * This class handles the Custom Adapter for the list of items.
+ * This class handles the Custom Adapter for the list of Items.
  */
 
 public class ItemList extends ArrayAdapter<Item> {
@@ -25,23 +24,23 @@ public class ItemList extends ArrayAdapter<Item> {
     Typeface font;
 
     /**
-     * initialized the list of items
-     * @param context
-     * @param items
+     * Initialization of the ItemList.
+     * @param context   The context needed to initialize the ItemList object.
+     * @param items     The ArrayList that would populate the ItemList object.
      */
     public ItemList(Activity context, ArrayList<Item> items) {
         super(context, R.layout.list_item, items);
         this.context = context;
         this.items = items;
-        font = Typeface.createFromAsset(context.getAssets(), "generation6.ttf");
+        font = Typeface.createFromAsset(context.getAssets(), PokemonApp.RETRO_FONT);
     }
 
     /**
-     * get the item view in the list using the current position of the index
-     * @param position index in the listview
-     * @param view object in the layout
-     * @param parent overhead holder
-     * @return
+     * Returns the specific view in the ItemList given the current position of the index.
+     * @param position  The index in the ListView.
+     * @param view      The object in the layout.
+     * @param parent    The Overhead holder.
+     * @return          Specific view in the ItemList.
      */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
@@ -52,10 +51,10 @@ public class ItemList extends ArrayAdapter<Item> {
 
         txtName.setTypeface(font);
         if(this.itemSelected == position){
-            rowView.setBackground(PokemonGoApp.getShape(PokemonGoApp.BACK_COLOR));
+            rowView.setBackground(PokemonApp.getShape(PokemonApp.BACK_COLOR));
         }
         else{
-            rowView.setBackground(PokemonGoApp.getShape(PokemonGoApp.BAG_COLOR));
+            rowView.setBackground(PokemonApp.getShape(PokemonApp.BAG_COLOR));
         }
         txtName.setText(items.get(position).getButtonString());
         imageIcon.setImageResource(items.get(position).getImageIcon());
@@ -64,11 +63,10 @@ public class ItemList extends ArrayAdapter<Item> {
     }
 
     /**
-     * gets the position of the selected item
-     * @param itemPosition item index
+     * Gets the position of the selected Item.
+     * @param itemPosition  The Item index.
      */
     public void itemSelected(int itemPosition) {
-        //This method will keep track which position of the List is Selected and the background color of it is inside this.
         this.itemSelected = itemPosition;
         notifyDataSetChanged();
     }

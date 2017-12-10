@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class MoveList extends ArrayAdapter<Move> {
 
         txtName.setTypeface(font);
         txtPp.setTypeface(font);
-        rowView.setBackground(PokemonGoApp.getShape(moves.get(position).getType().getColor()));
+        rowView.setBackground(PokemonApp.getShape(moves.get(position).getType().getColor()));
         txtName.setText(moves.get(position).getName());
         txtPp.setText("PP "
                 + moves.get(position).getCurrentPP()

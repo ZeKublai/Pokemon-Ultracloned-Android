@@ -55,7 +55,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,7 +64,7 @@ import java.util.Random;
  * This is the application class that contains application wide used functions and data
  */
 
-public class PokemonGoApp extends Application{
+public class PokemonApp extends Application{
     public static int STATE_MESSAGE_FIRST = 0;
     public static int STATE_MESSAGE_LAST = 1;
     public static int STATE_MAIN = 2;
@@ -85,6 +84,7 @@ public class PokemonGoApp extends Application{
     public static int BACK_COLOR = Color.argb(255, 3, 111, 114);
     public static int BAR_COLOR = Color.argb(255, 0, 225, 231);
     public static int TRANSPARENT_COLOR = Color.argb(0, 0, 0, 0);
+    public static String RETRO_FONT = "generation6.ttf";
 
     private GoogleMap mMap;
 
@@ -355,7 +355,6 @@ public class PokemonGoApp extends Application{
     public ArrayList<PokéDexData> getAllPokemons(){
         return mPokemons;
     }
-    public void addPokemon(PokéDexData pokemon){
 
     /**
      * This function adds the param Pokemon object to the ArrayList mPokemons
@@ -371,9 +370,9 @@ public class PokemonGoApp extends Application{
      * @return Pokemon object with name equal to the param title or an empty Pokemon if no match
      */
     public PokéDexData getPokemon(String title){
-        for(int index = 0; index < mPokemons.size(); index++){
-            if(mPokemons.get(index).getName().equals(title)){
-                return mPokemons.get(index);
+        for(int index = 0; index < this.mPokemons.size(); index++){
+            if(this.mPokemons.get(index).getName().equals(title)){
+                return this.mPokemons.get(index);
             }
         }
         return new PokéDexData();
@@ -385,9 +384,9 @@ public class PokemonGoApp extends Application{
      * @return Pokemon Object with the matching dexNumber to the param, empty Pokemon Object if no match
      */
     public PokéDexData getPokemon(int dexNumber){
-        for(int index = 0; index < mPokemons.size(); index++){
-            if(mPokemons.get(index).getDexNumber() == dexNumber){
-                return mPokemons.get(index);
+        for(int index = 0; index < this.mPokemons.size(); index++){
+            if(this.mPokemons.get(index).getDexNumber() == dexNumber){
+                return this.mPokemons.get(index);
             }
         }
         return new PokéDexData();
@@ -495,7 +494,6 @@ public class PokemonGoApp extends Application{
         mTrainers.add(new Trainer("RogerA121", new Valor(), 5, "Holy Father", "Hello there. I'm father Roger", "You can't win against a lvl 40 overlord", "I'm off to fly to the unknown world", getPokemon("Pidgeot"), getPokemon("Tauros"), R.drawable.rogera121_main, R.drawable.rogera121_map));
         mTrainers.add(new Trainer("Ewwe1334", new Instinct(), 2, "Chinito", "Zeph zeph zeph zeph", "Zeph zeph zeph zeph", "Zeph zeph zeph zeph", getPokemon("Charmeleon"), getPokemon("Pikachu"), R.drawable.ewwe1334_main, R.drawable.ewwe1334_map));
         mTrainers.add(new Trainer("JCNMonje", new Valor(), 4, "Firelord", "What time raid? Di pa ako naliligo hehe", "You shall not PASS! Bwahaha", "Hmph! You have what it takes to pass ELC 106.", getPokemon("Lapras"), getPokemon("Venusaur"), R.drawable.jcnmonje_main, R.drawable.jcnmonje_map));
-
     }
 
     /**
@@ -757,8 +755,8 @@ public class PokemonGoApp extends Application{
                 String intro = placeObj.getString("Intro");
                 String win = placeObj.getString("Win");
                 String lose = placeObj.getString("Lose");
-                String pokemon1 = placeObj.getString("Fave PokéDexData 1");
-                String pokemon2 = placeObj.getString("Fave PokéDexData 2");
+                String pokemon1 = placeObj.getString("Fave Pokémon 1");
+                String pokemon2 = placeObj.getString("Fave Pokémon 2");
                 int main = getResources().getIdentifier(placeObj.getString("Main"), "drawable", getPackageName());
                 int map =  getResources().getIdentifier(placeObj.getString("Map"), "drawable", getPackageName());
 
@@ -1201,15 +1199,15 @@ public class PokemonGoApp extends Application{
     public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
         if(((double)currentHp) > ((double)maxHp)/2){
             bar.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                    PokemonApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }
         else if(((double)currentHp) < ((double)maxHp)/2 && ((double)currentHp) > ((double)maxHp)/5){
             bar.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                    PokemonApp.BAG_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }
         else if(((double)currentHp) < ((double)maxHp)/5){
             bar.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                    PokemonApp.FIGHT_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -1221,7 +1219,7 @@ public class PokemonGoApp extends Application{
         btn.setClickable(true);
         btn.setText("BACK");
         btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
+        btn.setBackgroundColor(PokemonApp.BACK_COLOR);
     }
 
     /**
@@ -1232,7 +1230,7 @@ public class PokemonGoApp extends Application{
         btn.setClickable(true);
         btn.setText("OK");
         btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
+        btn.setBackgroundColor(PokemonApp.RUN_COLOR);
     }
 
     /**
@@ -1243,7 +1241,7 @@ public class PokemonGoApp extends Application{
         btn.setClickable(true);
         btn.setText("CANCEL");
         btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
+        btn.setBackgroundColor(PokemonApp.FIGHT_COLOR);
     }
 
     /**
@@ -1253,12 +1251,12 @@ public class PokemonGoApp extends Application{
     public static void setAsSwitchButton(Button btn){
         btn.setClickable(true);
         btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
+        btn.setBackgroundColor(PokemonApp.RUN_COLOR);
         btn.setText("SWITCH");
     }
 
     /****************************************************/
-    /** PokéDexData Cloned CSV Encoding / Decoding Functions /
+    /** Pokémon Cloned CSV Encoding / Decoding Functions /
     /****************************************************/
        /*
         CSV Format Pokemon
@@ -1607,12 +1605,12 @@ public class PokemonGoApp extends Application{
             txvOT.setText(mPlayer.getName());
 
             txvId.setText(profile.getId() + "");
-            txvExp.setText(profile.getTotalExperience() + "");
-            txvNextLevel.setText(profile.getExperienceNeeded() - profile.getCurrentExp() + "");
-            barExp.setMax(profile.getExperienceNeeded());
+            txvExp.setText(profile.getTotalExp() + "");
+            txvNextLevel.setText(profile.getExpNeeded() - profile.getCurrentExp() + "");
+            barExp.setMax(profile.getExpNeeded());
             barExp.setProgress(profile.getCurrentExp());
             barExp.getProgressDrawable().setColorFilter(
-                    PokemonGoApp.RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                    PokemonApp.RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
             txvGender.setText(profile.getGenderString());
             txvLevel.setText("Lv. " + profile.getLevel());
             imgProfile.setBackgroundResource(profile.getDexData().getMainImage());
@@ -1620,7 +1618,7 @@ public class PokemonGoApp extends Application{
             barHp.setMax(profile.getHP());
             barHp.setProgress(profile.getCurrentHP());
             barHp.getProgressDrawable().setColorFilter(
-                PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
+                PokemonApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
 
             txvAttack.setText(profile.getAttack() + "");
             txvDefense.setText(profile.getDefense() + "");
@@ -1653,6 +1651,7 @@ public class PokemonGoApp extends Application{
         ImageView imgType2 = (ImageView) dexDialog.findViewById(R.id.img_dex_type2);
         TextView txvHeight = (TextView) dexDialog.findViewById(R.id.txv_dex_height);
         TextView txvWeight = (TextView) dexDialog.findViewById(R.id.txv_dex_weight);
+        TextView txvDescription =(TextView) dexDialog.findViewById(R.id.txv_dex_description);
         ImageView imgMain = (ImageView) dexDialog.findViewById(R.id.img_dex_main);
 
         txvNumber.setText(selectedPokemon.getDexNumber() + "");
@@ -1661,6 +1660,7 @@ public class PokemonGoApp extends Application{
         imgType2.setImageResource(selectedPokemon.getType2().getIcon());
         txvHeight.setText(selectedPokemon.getHeight());
         txvWeight.setText(selectedPokemon.getWeight());
+        txvDescription.setText(selectedPokemon.getDescription());
         imgMain.setBackgroundResource(selectedPokemon.getMainImage());
 
         Button dialogButton = (Button) dexDialog.findViewById(R.id.btn_dex_ok);

@@ -36,22 +36,22 @@ public class ManagerUseItemState extends ManagerState {
      * Apply the item effect on the pokemon found on the box storage
      * @param ctx where the listview is to be displayed
      * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonGoApp functions
+     * @param app access the PokemonApp functions
      * @param pos index of the listview
      */
     @Override
-    public void executePokemonListView(Activity ctx, View view, PokemonGoApp app, int pos){
+    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos){
         useSelectedItem(mManager.getPlayer().getBox().get(pos));
     }
 
     /**
      * Apply the item effect on the pokemon found on the party
      * @param ctx where the listview is to be displayed
-     * @param app access the PokemonGoApp functions
+     * @param app access the PokemonApp functions
      * @param pos index of the listview
      */
     @Override
-    public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos){
+    public void executePokemonButton(Activity ctx, PokemonApp app, int pos){
         useSelectedItem(mManager.getPlayer().getPokemons().get(pos));
     }
 

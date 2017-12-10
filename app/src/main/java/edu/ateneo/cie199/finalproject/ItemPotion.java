@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Potion interact with the PokéDexData.
+ * This class handles how the Potion interact with the Pokémon.
  */
 
 public class ItemPotion extends ItemTargetTeam {
     protected int mHealFactor = 20;
 
     /**
-     * initialize the potion
+     * Initialization of the Potion.
      */
     public ItemPotion() {
         this.mHealFactor = 20;
@@ -24,8 +24,8 @@ public class ItemPotion extends ItemTargetTeam {
     }
 
     /**
-     * Total quantity of the Potion
-     * @param quantity integer value of the quantity
+     * Initialization given the total quantity of the Potion.
+     * @param quantity  Integer value of the quantity.
      */
     public ItemPotion(int quantity) {
         this.mHealFactor = 20;
@@ -37,26 +37,10 @@ public class ItemPotion extends ItemTargetTeam {
     }
 
     /**
-     * Get the value of the heal
-     * @return value of the heal
-     */
-    public int getHealing() {
-        return mHealFactor;
-    }
-
-    /**
-     * Set the value of the heal
-     * @param mHealing value of the heal
-     */
-    public void setHealing(int mHealing) {
-        this.mHealFactor = mHealing;
-    }
-
-    /**
-     * The function of the Potion when used in battle
-     * @param profile whoever is the targetting pokemon
-     * @param info information of the pokemon
-     * @param battle the battle state where the item is being used
+     * The function of the Potion when used in battle.
+     * @param profile   Whoever is the targeted Pokémon.
+     * @param info      The DisplayInfoSet to be updated.
+     * @param battle    The Battle object where the Item is being used.
      */
     @Override
     public void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle){
@@ -66,9 +50,9 @@ public class ItemPotion extends ItemTargetTeam {
     }
 
     /**
-     * Executes the heal done on the PokéDexData
-     * @param profile whoever is the targeted pokemon
-     * @return boolean value to check if the healing was successful
+     * Executes the heal done on the Pokémon.
+     * @param profile   The Pokémon where the Item will be used.
+     * @return          True if healing was successful.
      */
     public boolean heal(PokémonProfile profile){
         if(profile.getCurrentHP() == profile.getHP()){
@@ -87,10 +71,10 @@ public class ItemPotion extends ItemTargetTeam {
     }
 
     /**
-     * The function of the potion when used in manager
-     * @param profile whoever is the targeted pokemon
-     * @param txvMessage message outputted when item is used
-     * @param bag where the item is stored
+     * The function of the Potion when used in the Manager.
+     * @param profile       The Pokémon where the Item will be used.
+     * @param txvMessage    The TextView for outputting the message.
+     * @param bag           Where the Item is stored.
      */
     @Override
     public void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag){
@@ -104,11 +88,11 @@ public class ItemPotion extends ItemTargetTeam {
     }
 
     /**
-     * duplicate the potion
-     * @return duplicated copy
+     * Returns a duplicate of the Item.
+     * @return  A duplicate of the Item.
      */
     @Override
     public Item generateCopy(){
-        return new ItemPotion(PokemonGoApp.getIntegerRNG(5) + 2);
+        return new ItemPotion(PokemonApp.getIntegerRNG(5) + 2);
     }
 }
