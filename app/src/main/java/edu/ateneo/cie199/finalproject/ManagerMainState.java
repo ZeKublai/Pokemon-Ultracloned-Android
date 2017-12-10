@@ -122,6 +122,7 @@ public class ManagerMainState extends ManagerState {
                                 + profile.getDexData().getName()
                                 + "!"
                         );
+                        app.savePlayerData();
                         break;
                     }
                     case R.id.action_release :{
