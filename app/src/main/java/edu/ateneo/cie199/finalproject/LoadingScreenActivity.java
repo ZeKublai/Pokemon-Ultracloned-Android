@@ -17,13 +17,20 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+/**
+ * Created by John, Duke and JV on 11/7/2017.
+ * This class handles loading online data or offline data to be used by the app
+ */
 public class LoadingScreenActivity extends AppCompatActivity {
     private boolean dataLoaded = false;
     private boolean movesApiState = false;
     private boolean pokemonApiState = false;
     private boolean loadData = true;
 
-    private class APIData extends AsyncTask<String, Void, Void> {
+    /**
+     * An asynchronous task that will call a GET request for all Moves data on execute
+     */
+    private class MovesApi extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... strings) {
@@ -45,6 +52,9 @@ public class LoadingScreenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * An asynchronous task that will call a GET request for all Pokemon data on execute
+     */
     private class PokemonAPI extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -66,7 +76,10 @@ public class LoadingScreenActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Initializes the activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(final Bundle savedInstanceState) throws Error {
         super.onCreate(savedInstanceState);
@@ -80,26 +93,21 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
         final PokemonGoApp app = (PokemonGoApp) getApplication();
 
+        MovesApi movesData = new MovesApi();
+        PokemonAPI pokeData = new PokemonAPI();
+
         Intent recvdIntent = getIntent();
         loadData = recvdIntent.getBooleanExtra("Continue?", false);
+
         if (app.isNetworkConnected()) {
             try {
-                APIData data = new APIData();
-                data.execute();
-                Log.e("BAR PROG", Double.toString(loadBar.getMax() / 4));
-                loadBar.setMax(100);
-                loadBar.setProgress((int) Math.floor(loadBar.getMax() / 4));
-                PokemonAPI pokeData = new PokemonAPI();
+                movesData.execute();
                 pokeData.execute();
-                loadBar.setMax(76);
-                loadBar.setProgress((int) Math.floor(loadBar.getMax() * 2 / 4));
                 app.loadAllItems();
-                loadBar.setMax(56);
-                loadBar.setProgress((int) Math.floor(loadBar.getMax() * 3 / 4));
                 app.loadAllPokemonTypes();
                 app.loadAllTrainers();
             } catch (Error e) {
-                Log.e("Error", "Unable to load moves");
+                Log.e("Error", "Unable to load data");
             }
 
 
@@ -111,32 +119,21 @@ public class LoadingScreenActivity extends AppCompatActivity {
                     if(pokemonApiState && movesApiState) {
                         if (loadData) {
                             app.loadPlayerDate();
-                            loadBar.setMax(100);
-                            loadBar.setProgress(loadBar.getMax());
                         } else {
-                            loadBar.setMax(75);
-                            loadBar.setProgress(loadBar.getMax());
                             app.initPlayer();
                         }
-
-                        if (loadBar.getProgress() == loadBar.getMax()) {
-                            if (loadData) {
-                                Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
-                                setResult(RESULT_OK);
-                                startActivity(beginMainActivity);
-                            } else {
-                                Intent beginIntroductionActivity = new Intent(LoadingScreenActivity.this, IntroductionActivity.class);
-                                setResult(RESULT_OK);
-                                startActivity(beginIntroductionActivity);
-                            }
-                            app.setOnline(true);
+                        if (loadData) {
+                            Intent beginMainActivity = new Intent(LoadingScreenActivity.this, MainActivity.class);
+                            setResult(RESULT_OK);
+                            startActivity(beginMainActivity);
                         } else {
-                            Log.e("Error Loading", "There was an error loading the data");
-                            setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry."));
-                            getFailedDialog("Data was not properly loaded, please retry.");
+                            Intent beginIntroductionActivity = new Intent(LoadingScreenActivity.this, IntroductionActivity.class);
+                            setResult(RESULT_OK);
+                            startActivity(beginIntroductionActivity);
                         }
-                    }
-                    else{
+                        app.setOnline(true);
+                    } else {
+                        Log.e("Error Loading", "There was an error loading the data");
                         setResult(RESULT_CANCELED, new Intent().putExtra("MSG", "Data was not properly loaded, please retry."));
                         getFailedDialog("Data was not properly loaded, please retry.");
                     }
@@ -150,6 +147,10 @@ public class LoadingScreenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays a Dialog notifying the user of running the game of playing in offline mode
+     * @param setResult Sets the text to be displayed in the dialog
+     */
     public void getFailedDialog(String setResult){
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         final Dialog dialog = new Dialog(LoadingScreenActivity.this);
@@ -196,7 +197,9 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
         dialog.show();
     }
-
+    /**
+     * Sets Back button unusable in this activity
+     */
     @Override
     public void onBackPressed(){
 

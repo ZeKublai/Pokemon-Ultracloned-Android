@@ -61,11 +61,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by John on 11/3/2017.
+ * Created by John, Duke and JV on 11/7/2017.
+ * This is the application class that contains application wide used functions and data
  */
 
 public class PokemonGoApp extends Application{
-
     public static int STATE_MESSAGE_FIRST = 0;
     public static int STATE_MESSAGE_LAST = 1;
     public static int STATE_MAIN = 2;
@@ -138,80 +138,208 @@ public class PokemonGoApp extends Application{
         int mIntegrSelect = (s.nextInt(length));
         return mIntegrSelect;
     }
+
+    /**
+     * This function returns a random double value 0.0 to 1.0
+     * @return the randomly generated double
+     */
     public double getDoubleRNG(){
         Random s = new Random();
         double mDoubleSelect = (s.nextDouble());
         return mDoubleSelect;
     }
 
+    /**
+     * This function returns the mPlayer object of Application class
+     * @return private mPlayer variable of Application class
+     */
     public Player getPlayer(){
         return mPlayer;
     }
+
+    /**
+     * This function returns the name of the player
+     * @return private string name of the player object of the Application class
+     */
     public String getPlayerName(){
         return mPlayer.getName();
     }
+
+    /**
+     * This function returns the gender of the player
+     * @return private gender object from the mPlayer class of the Application class
+     */
     public String getPlayerGender(){
         return mPlayer.getGender().getName();
     }
+
+    /**
+     * This function returns a boolean that indicates whether to continue a save data or not
+     * @return private boolean value of the application
+     */
     public boolean getLoadData(){return loadData;}
+
+    /**
+     * This function sets the value for the private variable loadData
+     * @param loadData the boolean value which will be the value of the Application's private variable
+     */
     public void setLoadData(boolean loadData) {
         this.loadData = loadData;
     }
+
+    /**
+     * This function returns the GoogleMap object used by the Application
+     * @return private GoogleMap object of the application
+     */
     public GoogleMap getMap(){
         return mMap;
     }
+
+    /**
+     * This function sets the GoogleMap object of the app to the param
+     * @param map The GoogleMap object to set the private variable of the application
+     */
     public void setMap(GoogleMap map){
         this.mMap = map;
     }
 
+    /**
+     * This function the mode of playing the user chooses as
+     * a boolean function whether online or offline
+     * @return private boolean value mOnline of the application
+     */
     public boolean isOnline() {
         return mOnline;
     }
 
+    /**
+     * This funcction sets the private mOnline variable to param
+     * @param mOnline Boolean value that indicates Online mode or not
+     */
     public void setOnline(boolean mOnline) {
         this.mOnline = mOnline;
     }
 
+    /**
+     * This function returns the mSelectedMarker object of the Application class
+     * @return private Marker object of the application class
+     */
     public Marker getSelectedMarker(){
         return mSelectedMarker;
     }
+
+    /**
+     * This function sets the mSelectedMarker object of the Application to the param
+     * @param marker Marker object which the mSelectedMarker will be set to
+     */
     public void setSelectedMarker(Marker marker){
         mSelectedMarker = marker;
     }
 
+    /**
+     * This function returns the int mSpawnCount of the Application
+     * @return private int mSpawnCount of the Application class
+     */
     public int getSpawnCount() {
         return mSpawnCount;
     }
+
+    /**
+     * This function sets the mSpawnCount of the Application class to the param
+     * @param mSpawnCount integer which private mSpawnCount will be set to
+     */
     public void setSpawnCount(int mSpawnCount) {
         this.mSpawnCount = mSpawnCount;
     }
 
+    /**
+     * This function returns the mCurrentGoal Marker of the Application
+     * @return private Marker mCurrentGoal
+     */
     public Marker getCurrentGoal() {
         return mCurrentGoal;
     }
+
+    /**
+     * This function sets the mCurrentGoal of the Application class to the param
+     * @param marker Marker object which the mCurrentGoal will be set to
+     */
     public void setCurrentGoal(Marker marker) {
         this.mCurrentGoal = marker;
     }
+
+    /**
+     * This function returns the URL for the Random Pokemon API
+     * @return private String randPokemonApiUrl of the Application
+     */
     public String getRandPokemonApiUrl() {return randPokemonApiUrl;}
 
+    /**
+     * This function MusicHandler object of the Application class
+     * @return private MusicHandler of the musicHandler
+     */
     public MusicHandler getMusicHandler() {
         return musicHandler;
     }
+
+    /**
+     * This function returns the HttpClient object of the Application class
+     * @return private HttpClient mHttpClient
+     */
     public HttpClient getmHttpClient(){ return mHttpClient; }
+
+    /**
+     * This function returns the boolean mMusicSwitch of the Application class
+     * @return private boolean mMusicSwitch
+     */
     public boolean getMusicSwitch() { return mMusicSwitch;}
+
+    /**
+     * This function returns the boolean mSFXSwitch of the Application class
+     * @return private boolean mSFXSwitch
+     */
     public boolean getSFXSwitch() {return mSFXSwitch;}
 
+    /**
+     * This function sets the Music On by setting mMusicSwitch to true
+     */
     public void setMusicOn() {mMusicSwitch = true;}
+
+    /**
+     * This function sets the Music Off by setting mMusicSwitch to false
+     */
     public void setMusicOff() {mMusicSwitch = false;}
+
+    /**
+     * This function sets the SFX On by setting mSFXSwitch to true
+     */
     public void setSFXOn() {mSFXSwitch = true;}
+
+    /**
+     * This function sets to the SFX Off by setting mSFXSwitch to false
+     */
     public void setSFXOff() {mSFXSwitch = false;}
 
+    /**
+     * This function gets the ArrayList of Markers mMarkers
+     * @return ArrayList of Marker object mMarkers
+     */
     public ArrayList<Marker> getMarkers(){
         return mMarkers;
     }
+
+    /**
+     * This function adds the param Marker object to ArrayList of Markers of Application class
+     * @param marker Marker object to be added to mMarkers ArrayList
+     */
     public void addMarkers(Marker marker){
         mMarkers.add(marker);
     }
+
+    /**
+     * This function deletes the param Marker object from the ArrayList mMarkers
+     * @param marker The Marker Object to be deleted from the ArrayList mMarkers
+     */
     public void deleteMarker(Marker marker){
         for(int index = 0; index < mMarkers.size(); index++){
             if(marker.getId() == mMarkers.get(index).getId()){
@@ -220,12 +348,28 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function returns the ArrayList of Pokemon mPokemons
+     * @return ArrayList of Pokemon Object mPokemons
+     */
     public ArrayList<PokéDexData> getAllPokemons(){
         return mPokemons;
     }
     public void addPokemon(PokéDexData pokemon){
+
+    /**
+     * This function adds the param Pokemon object to the ArrayList mPokemons
+     * @param pokemon Pokemon object to be added to ArrayList mPokemons
+     */
+    public void addPokemon(PokéDexData pokemon){
         mPokemons.add(pokemon);
     }
+
+    /**
+     * This function returns the Pokemon Object from ArrayList mPokemons with the name param String
+     * @param title String to match the name of Pokemon from ArrayList mPokemons
+     * @return Pokemon object with name equal to the param title or an empty Pokemon if no match
+     */
     public PokéDexData getPokemon(String title){
         for(int index = 0; index < mPokemons.size(); index++){
             if(mPokemons.get(index).getName().equals(title)){
@@ -234,6 +378,12 @@ public class PokemonGoApp extends Application{
         }
         return new PokéDexData();
     }
+
+    /**
+     * This function returns the Pokemon Object from the ArrayList mPokemon with dexNumber of param
+     * @param dexNumber integer to search from the dexNumber of the Pokemon object in mPokemon ArrayList
+     * @return Pokemon Object with the matching dexNumber to the param, empty Pokemon Object if no match
+     */
     public PokéDexData getPokemon(int dexNumber){
         for(int index = 0; index < mPokemons.size(); index++){
             if(mPokemons.get(index).getDexNumber() == dexNumber){
@@ -242,6 +392,12 @@ public class PokemonGoApp extends Application{
         }
         return new PokéDexData();
     }
+
+    /**
+     * This function returns the Trainer object with the name equal to the param title from the ArrayList mTrainers
+     * @param title String to match from the Trainer name in mTrainers ArrayList
+     * @return Trainer object with name matching param title, empty Trainer if no match
+     */
     public Trainer getTrainer(String title){
         for(int index = 0; index < mTrainers.size(); index++){
             if(mTrainers.get(index).getName().equals(title)){
@@ -250,6 +406,12 @@ public class PokemonGoApp extends Application{
         }
         return new Trainer();
     }
+
+    /**
+     * This function returns the Move object with the name equal to the param title from the ArrayList mMoves
+     * @param title String to match from the Move name in mMoves ArrayList
+     * @return Move object with name matching param title, empty MovePhysical if no match
+     */
     public Move findMove(String title){
         for(Move move : this.getAllMoves()){
             if(move.getName().equals(title)){
@@ -259,6 +421,11 @@ public class PokemonGoApp extends Application{
         return new MovePhysical();
     }
 
+    /**
+     * This function returns the Item object with the name equal to the param title from the ArrayList mItems
+     * @param title String to match from the Item name in mItems ArrayList
+     * @return Item object with name matching param title, empty ItemPotion if no match
+     */
     public Item getItem(String title){
         for(int index = 0; index < mItems.size(); index++){
             if(mItems.get(index).getName().equals(title)){
@@ -268,30 +435,38 @@ public class PokemonGoApp extends Application{
         return new ItemPotion();
     }
 
+    /**
+     * This function returns the ArrayList of Type Object mTypes
+     * @return ArrayList mTypes
+     */
     public ArrayList<Type> getAllTypes(){return mTypes;}
+
+    /**
+     * This functionr eturns the ArrayList of Move Object mMoves
+     * @return ArrayList mMoves
+     */
     public ArrayList<Move> getAllMoves(){return mMoves;}
 
+    /**
+     * This function returns the ArrayList of Trainer Object mTrainers
+     * @return ArrayList mTrainers
+     */
     public ArrayList<Trainer> getTrainers() {
         return mTrainers;
     }
-    public void setTrainers(ArrayList<Trainer> mTrainers) {
-        this.mTrainers = mTrainers;
-    }
 
+    /**
+     * This function moves what the GoogleMap mMap displays
+     * @param position a LatLng object of double latitude, and longitude to set the position of mMap
+     * @param zoom a float that sets the zoom of the GoogleMap mMap display
+     */
     public void moveMapCamera(LatLng position, float zoom){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom));
     }
 
-    public int getDrawableId(String name){
-        try {
-            Field fld = R.drawable.class.getField(name);
-            return fld.getInt(null);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return -1;
-    }
-//    //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
+    /**
+     * This function adds a predetermined set of data to the mTrainer ArrayList
+     */
     public void loadAllTrainers(){
         mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
         mTrainers.add(new Trainer("AsacFaleX", new Valor(), 4, "CEO", "I wanna be the very best!", "Haha! All part of the plan!", "I'll remember this!!", getPokemon("Arcanine"), getPokemon("Raichu"), R.drawable.asacfalex_main, R.drawable.asacfalex_map));
@@ -323,7 +498,9 @@ public class PokemonGoApp extends Application{
 
     }
 
-    //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
+    /**
+     * This function adds a predetermined set of data to the mPokemon ArrayList
+     */
     public void loadAllPokemon(){
         addPokemon(new PokéDexData(1, "Bulbasaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.", 190, 1, 7, 45, 49, 49, 65, 65, 45, 0, 2, R.drawable.bulbasaur_main, R.drawable.bulbasaur_back, R.drawable.bulbasaur_map, R.raw.bulbasaur, "2'4\"", "15.2 lbs"));
         addPokemon(new PokéDexData(2, "Ivysaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "The bulb on its back grows by drawing energy. It gives off an aroma when it is ready to bloom.", 45, 1, 7, 60, 62, 63, 80, 80, 60, 16, 3, R.drawable.ivysaur_main, R.drawable.ivysaur_back, R.drawable.ivysaur_map, R.raw.ivysaur, "3'3\"", "28.7 lbs"));
@@ -377,12 +554,22 @@ public class PokemonGoApp extends Application{
         addPokemon(new PokéDexData(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite, "7'3\"", "463 lbs"));
     }
 
+    /**
+     * This function returns if the device is connected to a network
+     * @return Network info of the ConnectivityManager object
+     */
     public boolean isNetworkConnected() {
     ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
     return cm.getActiveNetworkInfo() != null;
     }
 
+    /**
+     * This function executes a get request and returns the Entity response of the request
+     * @param url String for GET request
+     * @return response of the GET request in String
+     * @throws IOException
+     */
     public String getStringFromApi(String url) throws IOException {
         HttpClient hc = this.getmHttpClient();
         HttpGet request = new HttpGet(url);
@@ -411,6 +598,13 @@ public class PokemonGoApp extends Application{
         return message;
     }
 
+    /**
+     * This function executes a POST request to the String param url returns a data
+     * @param url String where to execute a POST request from
+     * @param data Array of String that will serve as data for the encoded POST request parameters
+     * @param header Array of headers that will serve as header for each data in the POST parameters
+     * @return returns the response in String
+     */
     public String postStringToApi(String url, String data[],String header[]) {
         HttpClient hc = new DefaultHttpClient();
         HttpPost request = new HttpPost(url);
@@ -445,7 +639,13 @@ public class PokemonGoApp extends Application{
         return message;
     }
 
-
+    /**
+     * This function parses the param jsonData which is in JSON format and adds each entry into mMoves
+     * returns true on succesful parsing, and false if not
+     * @param jsonData String in JSON format of all the Moves from the server
+     * @return true on successful loop through false if not
+     * @throws JSONException
+     */
     public boolean parseJsonMoveData(String jsonData) throws JSONException {
         if (jsonData!=null){
             JSONArray poiArr = new JSONArray(jsonData);
@@ -473,6 +673,13 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function parses the param jsonData which is in JSON format and adds each entry into mPokemon
+     * returns true on succesful parsing, and false if not
+     * @param jsonData String in JSON format of all the Pokemon from the server
+     * @return boolean true on successful loop through false if not
+     * @throws JSONException
+     */
     public boolean parseJsonPokemonData(String jsonData) throws JSONException {
         if (jsonData != null) {
             JSONArray poiArr = new JSONArray(jsonData);
@@ -514,6 +721,12 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function returns the JSON object if the param is not null
+     * @param jsonData String in JSON format
+     * @return JSONObject  if the param is not null else it is null
+     * @throws JSONException
+     */
     public JSONObject parseRandSpawner(String jsonData) throws JSONException {
         if(jsonData!=null) {
             JSONObject randJson = new JSONObject(jsonData);
@@ -525,6 +738,13 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function returns true on successfully looping through the jsonData param in JSON format
+     * and adding each entry to mTrainers
+     * @param jsonData String in JSON format
+     * @return true if successful false if not
+     * @throws JSONException
+     */
     public boolean parseJsonTrainers(String jsonData) throws JSONException {
         if (jsonData != null) {
             JSONArray poiArr = new JSONArray(jsonData);
@@ -567,7 +787,9 @@ public class PokemonGoApp extends Application{
     }
 
 
-    //LOADS ALL MOVES
+    /**
+     * This function adds a predetermined set of data to mMoves ArrayList
+     */
     public void loadAllPokemonMoves(){
         mMoves.add(new MovePhysical("Vine Whip", mTypes.get(Type.GRASS), 25, 25, 45, 100));
         mMoves.add(new MoveSpecial("Energy Ball", mTypes.get(Type.GRASS), 10, 10, 90, 100));
@@ -682,6 +904,11 @@ public class PokemonGoApp extends Application{
         mMoves.add(new MoveSpecial("Draining Kiss", mTypes.get(Type.FAIRY), 10, 10, 50, 100));
     }
 
+    /**
+     * This function calls the GET request function using the Moves API URL and returns true if parsing was succesful
+     * @return boolean true for successful parsing of data false if parsing failed
+     * @throws JSONException
+     */
     public boolean loadAllMovesApi() throws JSONException {
         String jsonMoves = null;
         try {
@@ -696,6 +923,12 @@ public class PokemonGoApp extends Application{
             return false;
         }
     }
+
+    /**
+     * This function calls the GET request function on Pokemon API UrL
+     * @return boolean true for succesful parsing and false if not
+     * @throws JSONException
+     */
     public boolean loadAllPokemonApi() throws JSONException {
         String jsonPokemon = null;
         try {
@@ -711,6 +944,11 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function calls the GET request function from the Trainer API URL
+     * @return boolean true if succesfully parsed, false if not
+     * @throws JSONException
+     */
     public boolean loadAllTrainerApi() throws JSONException{
         String jsonTrainer = null;
         try{
@@ -726,7 +964,9 @@ public class PokemonGoApp extends Application{
         }
     }
 
-
+    /**
+     * This function instantiates the data for mTypes Arraylist
+     */
     public void loadAllPokemonTypes(){
         double[] normal = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f,
                 1};
@@ -828,14 +1068,17 @@ public class PokemonGoApp extends Application{
         return 0;
     }
 
+    /**
+     * This function returns the mItems ArrayList of Item object
+     * @return private ArrayList of Item mItems
+     */
     public ArrayList<Item> getAllItems() {
         return mItems;
     }
-    public void setAllItems(ArrayList<Item> mItems) {
-        this.mItems = mItems;
-    }
 
-
+    /**
+     * This function instantiates the mItems ArrayList of Item object
+     */
     public void loadAllItems(){
 
         mItems.add(new ItemPotion());
@@ -852,7 +1095,11 @@ public class PokemonGoApp extends Application{
 
     }
 
-
+    /**
+     * This function returns a copy of the item that matches the name with the param
+     * @param name String to match to the item's name
+     * @return Item object with name that match the param, ItemPotion if not
+     */
     public Item getGeneratedItem(String name){
         for(int index = 0; index < mItems.size(); index++){
             if(mItems.get(index).getName().equals(name)){
@@ -862,14 +1109,27 @@ public class PokemonGoApp extends Application{
         return new ItemPotion(10);
     }
 
+    /**
+     * This function returns a random Item object from the ArrayList mItems
+     * @return random Item object
+     */
     public Item generateRandomItem(){
         return mItems.get(getIntegerRNG(mItems.size()));
     }
 
+    /**
+     * This function returns a copy of a random Move object from the mMoves ArrayList
+     * @return random Move object
+     */
     public Move generateRandomMove(){
         return mMoves.get(getIntegerRNG(mMoves.size())).generateCopy();
     }
 
+    /**
+     * This function sets the font style for a certain ViewGroup object from the Layout
+     * @param contentLayout ViewGroup object to set the font of
+     * @param fontName String name of font
+     */
     public void setFontForContainer(ViewGroup contentLayout, String fontName) {
         for (int index = 0; index < contentLayout.getChildCount(); index++) {
             View view = contentLayout.getChildAt(index);
@@ -879,20 +1139,38 @@ public class PokemonGoApp extends Application{
                 setFontForContainer((ViewGroup) view, fontName);
         }
     }
-    //HARD CODED PLAYER STATE
+
+    /**
+     * This function sets a marker for the player in the param position
+     * @param initialPosition LatLng object that indicates the position of marker to be set
+     */
     public void loadPlayer(LatLng initialPosition) {
         getPlayer().setMarker(getMap().addMarker(
                 new MarkerOptions().position(initialPosition).title("")
                         .icon(BitmapDescriptorFactory.fromResource(mPlayer.getGender().getStandImage()))));
     }
+
+    /**
+     * This function instantiates a Player object in the Application class
+     */
     public void initPlayer(){
         this.mPlayer = new Player();
     }
 
+    /**
+     * This function sets the border of the Button object with the color value int color
+     * @param btn Button object to set the borderColor of
+     * @param color int color value to set the borderColor to
+     */
     public static void setButtonBorder(Button btn, int color){
         btn.setBackground(getShape(color));
     }
 
+    /**
+     * This function applies a font to a MenuItem object from the Activity object in the param
+     * @param ctx Activity that contains mi param
+     * @param mi MenuItem object to apply font to
+     */
     public static void applyFontToMenuItem(Activity ctx, MenuItem mi) {
         Typeface font = Typeface.createFromAsset(ctx.getAssets(), "generation6.ttf");
         SpannableString mNewTitle = new SpannableString(mi.getTitle());
@@ -900,6 +1178,11 @@ public class PokemonGoApp extends Application{
         mi.setTitle(mNewTitle);
     }
 
+    /**
+     * This fucntion creates a new ShapeDrawable object and returns that object
+     * @param color int value of the color to set the ShapeDrawable object to
+     * @return Shapedrawable object created
+     */
     public static ShapeDrawable getShape(int color){
         ShapeDrawable shapedrawable = new ShapeDrawable();
         shapedrawable.setShape(new RectShape());
@@ -909,6 +1192,12 @@ public class PokemonGoApp extends Application{
         return shapedrawable;
     }
 
+    /**
+     * This function sets the color of the progress bar based on the certain conditions
+     * @param currentHp int HP value of the Pokemon
+     * @param maxHp int total HP value of the pokemon
+     * @param bar Progressbar object to set the color of
+     */
     public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
         if(((double)currentHp) > ((double)maxHp)/2){
             bar.getProgressDrawable().setColorFilter(
@@ -924,6 +1213,10 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function sets a param Button object to certain properties of a Back button
+     * @param btn Button object to change the properties of
+     */
     public static void setAsBackButton(Button btn){
         btn.setClickable(true);
         btn.setText("BACK");
@@ -931,6 +1224,10 @@ public class PokemonGoApp extends Application{
         btn.setBackgroundColor(PokemonGoApp.BACK_COLOR);
     }
 
+    /**
+     * This function sets a param Button object to certain properties of a Ok button
+     * @param btn Button object to change the properties of
+     */
     public void setAsOkButton(Button btn){
         btn.setClickable(true);
         btn.setText("OK");
@@ -938,6 +1235,10 @@ public class PokemonGoApp extends Application{
         btn.setBackgroundColor(PokemonGoApp.RUN_COLOR);
     }
 
+    /**
+     * This function sets the param Button object to certain properties of a Cancel button
+     * @param btn Button object to change the properties of
+     */
     public static void setAsCancelButton(Button btn){
         btn.setClickable(true);
         btn.setText("CANCEL");
@@ -945,6 +1246,10 @@ public class PokemonGoApp extends Application{
         btn.setBackgroundColor(PokemonGoApp.FIGHT_COLOR);
     }
 
+    /**
+     * This function sets the param Button object to certain properties of a Switch button
+     * @param btn Button object to change the properties of
+     */
     public static void setAsSwitchButton(Button btn){
         btn.setClickable(true);
         btn.setVisibility(View.VISIBLE);
@@ -956,10 +1261,10 @@ public class PokemonGoApp extends Application{
     /** PokéDexData Cloned CSV Encoding / Decoding Functions /
     /****************************************************/
        /*
-        CSV Format PokéDexData
-        0<PokéDexData Count (n)>; 1<Id>, 2<DexNumber>, 3<name>, 4<Gender>, 5<currentLvl>, 6<currentHp>, 7<mCurrentExp>,
+        CSV Format Pokemon
+        0<Pokemon Count (n)>; 1<Id>, 2<DexNumber>, 3<name>, 4<Gender>, 5<currentLvl>, 6<currentHp>, 7<mCurrentExp>,
         8<Move 1>, 9<Move1 PP>, ..14<Move 4>, 15<Move4 PP>, 16-21<IV Stats>, 22-27<EV Stats>, 28-33<Nature Stats> \n
-        34-66<PokéDexData Profile 2> \n... 32n+1-32(n+1)+1<PokéDexData Profile(n)>
+        34-66<Pokemon Profile 2> \n... 32n+1-32(n+1)+1<Pokemon Profile(n)>
 
         CSV Format Item
         <Item 1 Name>, <Item 1 Qty> ... <Item 6 Name>, <Item 6 Qty>
@@ -967,7 +1272,11 @@ public class PokemonGoApp extends Application{
          **Stat format:   <HP>, <Attack>, <Defense>, <SpAttack>, <SpDefense>, <Spd>
        */
 
-
+    /**
+     * This function adds a pokemon data in csv format pero new line and returns the String of all the
+     * pokemon data
+     * @return String containing all Pokemon data of player
+     */
     public String encodePokemonToCsv(){
         String csvStr = "";
         for(PokémonProfile pokemon : this.getPlayer().getPokemons()){
@@ -985,6 +1294,10 @@ public class PokemonGoApp extends Application{
         return csvStr;
     }
 
+    /**
+     * This function adds Item data into a String, returns this String
+     * @return String containing all Item data of the player
+     */
     public String encodeItemsToCsv(){
         String csvStr = "";
         for(Item item : this.getPlayer().getBag()) {
@@ -996,10 +1309,19 @@ public class PokemonGoApp extends Application{
         Log.e("PLAYER", this.getPlayerGender());
         return csvStr;
     }
+
+    /**
+     * This function returns the Name and Gender of the player int
+     * @return String with ':' delimiter
+     */
     public String encodePlayertoCsv(){
         return this.getPlayerName() + ":" + this.getPlayerGender();
     }
 
+    /**
+     * This function breaks down the param String into each data creating the object it is meant for
+     * @param csvStr String of Pokemon data in csv format to be decoded
+     */
     public void decodePokemonFromCsv(String csvStr){
         String playerPokemonData [] = csvStr.split("\n");
         int dataIndex = 0;
@@ -1061,6 +1383,11 @@ public class PokemonGoApp extends Application{
 
         }
     }
+
+    /**
+     * This function breaks down the param String into each data creating the object it is meant for
+     * @param csvStr String of Item data in csv format to be decoded
+     */
     public void decodeItemsFromCsv(String csvStr){
         String allPlayerItems [] = csvStr.split("\n");
         int itemCount = 0;
@@ -1076,7 +1403,11 @@ public class PokemonGoApp extends Application{
             }
         }
 
-
+    /**
+     * This function Output streams the necessary data to be saved into a CSV file in the
+     * local directory of the Android device
+     * @return true on successful saving, false if not
+     */
     public boolean savePlayerData(){
         File targetDirectory = getFilesDir();
         if (targetDirectory.exists() == false) {
@@ -1117,6 +1448,10 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function checks whether the player data file exists in the android device
+     * @return true if the file exists. False if not
+     */
     public boolean doesPlayerDataExist(){
         File targetDirectory = getFilesDir();
         if (targetDirectory.exists() == false) {
@@ -1146,6 +1481,11 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function retrieves the CSV file and  decodes its content creating the necessary
+     * in the process
+     * @return true if successful, false if not
+     */
     public boolean loadPlayerDate(){
         File targetDirectory = getFilesDir();
         if (targetDirectory.exists() == false) {
@@ -1182,7 +1522,7 @@ public class PokemonGoApp extends Application{
             }
             Log.e("Decoding Name", playerData[0]);
             Log.e("Decoding Gender", playerData[1]);
-            Log.e("Decoding PokéDexData", playerData[2]);
+            Log.e("Decoding Pokemon", playerData[2]);
             Log.e("Decoding Items", playerData[playerData.length-1]);
             if(playerData[1].equals("boy")){
                 mPlayer.setGender(new Gender(true));
@@ -1197,6 +1537,11 @@ public class PokemonGoApp extends Application{
         }
     }
 
+    /**
+     * This function compiles the data of the param PokemonProfile object
+     * @param playerPokemon PokemonProfile object to get data from
+     * @return String of the data in csv format
+     */
     public String extractPlayerPokemonData(PokémonProfile playerPokemon){
         String dexNumber = Integer.toString(playerPokemon.getDexNumber());
         String nickName = playerPokemon.getNickname();
@@ -1221,6 +1566,12 @@ public class PokemonGoApp extends Application{
 
     }
 
+    /**
+     * This function sets the values of the layout with the data of the Pokemon
+     * @param dialog Dialog object to set the data of
+     * @param ctx Activity containing the dialog object
+     * @param profile Pokemon that contains the data to be displayed
+     */
     public void loadPokemonDetails(final Dialog dialog, Activity ctx, final PokémonProfile profile){
             setFontForContainer((RelativeLayout) dialog.findViewById(R.id.pokemon_profile_group), "generation6.ttf");
             dialog.setTitle("");
@@ -1256,9 +1607,9 @@ public class PokemonGoApp extends Application{
             txvOT.setText(mPlayer.getName());
 
             txvId.setText(profile.getId() + "");
-            txvExp.setText(profile.getTotalExp() + "");
-            txvNextLevel.setText(profile.getExpNeeded() - profile.getCurrentExp() + "");
-            barExp.setMax(profile.getExpNeeded());
+            txvExp.setText(profile.getTotalExperience() + "");
+            txvNextLevel.setText(profile.getExperienceNeeded() - profile.getCurrentExp() + "");
+            barExp.setMax(profile.getExperienceNeeded());
             barExp.setProgress(profile.getCurrentExp());
             barExp.getProgressDrawable().setColorFilter(
                     PokemonGoApp.RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -1283,6 +1634,11 @@ public class PokemonGoApp extends Application{
             dialog.show();
     }
 
+    /**
+     * This function creates a Dialog that shows the Pokedex data of the Pokemon object param
+     * @param ctx Activity that will contain the Dialog
+     * @param selectedPokemon Pokemon that has the data to be displayed
+     */
     public void showPokedexDialog(Context ctx, PokéDexData selectedPokemon){
 
         final Dialog dexDialog = new Dialog(ctx);
@@ -1297,7 +1653,6 @@ public class PokemonGoApp extends Application{
         ImageView imgType2 = (ImageView) dexDialog.findViewById(R.id.img_dex_type2);
         TextView txvHeight = (TextView) dexDialog.findViewById(R.id.txv_dex_height);
         TextView txvWeight = (TextView) dexDialog.findViewById(R.id.txv_dex_weight);
-        TextView txvDescription = (TextView) dexDialog.findViewById(R.id.txv_dex_description);
         ImageView imgMain = (ImageView) dexDialog.findViewById(R.id.img_dex_main);
 
         txvNumber.setText(selectedPokemon.getDexNumber() + "");
@@ -1306,7 +1661,6 @@ public class PokemonGoApp extends Application{
         imgType2.setImageResource(selectedPokemon.getType2().getIcon());
         txvHeight.setText(selectedPokemon.getHeight());
         txvWeight.setText(selectedPokemon.getWeight());
-        txvDescription.setText(selectedPokemon.getDescription());
         imgMain.setBackgroundResource(selectedPokemon.getMainImage());
 
         Button dialogButton = (Button) dexDialog.findViewById(R.id.btn_dex_ok);
