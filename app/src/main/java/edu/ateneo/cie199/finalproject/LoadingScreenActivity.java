@@ -116,7 +116,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
                     if(pokemonApiState && movesApiState) {
                         if (loadData) {
-                            app.loadPlayerDate();
+                            app.loadPlayerData();
                         } else {
                             app.initPlayer();
                         }
@@ -198,7 +198,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
                 );
                 app.setOnline(false);
                 if (loadData) {
-                    app.loadPlayerDate();
+                    app.loadPlayerData();
                     Intent beginMainActivity = new Intent(
                             LoadingScreenActivity.this,
                             MainActivity.class

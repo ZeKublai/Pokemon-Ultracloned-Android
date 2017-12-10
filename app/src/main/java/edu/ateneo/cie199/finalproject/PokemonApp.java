@@ -61,21 +61,10 @@ import java.util.Random;
 
 /**
  * Created by John, Duke and JV on 11/7/2017.
- * This is the application class that contains application wide used functions and data
+ * This is the application class that contains application wide used functions and data.
  */
 
 public class PokemonApp extends Application{
-    public static int STATE_MESSAGE_FIRST = 0;
-    public static int STATE_MESSAGE_LAST = 1;
-    public static int STATE_MAIN = 2;
-    public static int STATE_FIGHT = 3;
-    public static int STATE_POKEMON = 4;
-    public static int STATE_BAG = 5;
-    public static int STATE_USE_ITEM = 6;
-    public static int STATE_SWAP_POKEMON1 = 7;
-    public static int STATE_SWAP_POKEMON2 = 8;
-
-
     public static int FIGHT_COLOR = Color.argb(255, 238, 41, 41);
     public static int POKEMON_COLOR = Color.argb(255, 44, 224, 49);
     public static int DEAD_COLOR = Color.argb(255, 137, 17, 6);
@@ -87,10 +76,6 @@ public class PokemonApp extends Application{
     public static String RETRO_FONT = "generation6.ttf";
 
     private GoogleMap mMap;
-
-    public void setPlayer(Player mPlayer) {
-        this.mPlayer = mPlayer;
-    }
 
     private Player mPlayer = new Player();
     private String playerDataFileName = "player_data.csv";
@@ -130,8 +115,8 @@ public class PokemonApp extends Application{
 
     /**
      * This function returns a random number from 0 to a given length.
-     * @param length    the upper bound for the random number generation
-     * @return          a random number from 0 to length
+     * @param length    The upper bound for the random number generation.
+     * @return          A random number from 0 to length.
      */
     public static int getIntegerRNG(int length){
         Random s = new Random();
@@ -140,8 +125,8 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns a random double value 0.0 to 1.0
-     * @return the randomly generated double
+     * This function returns a random double value 0.0 to 1.0.
+     * @return  The randomly generated double.
      */
     public double getDoubleRNG(){
         Random s = new Random();
@@ -150,195 +135,204 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the mPlayer object of Application class
-     * @return private mPlayer variable of Application class
+     * This function returns the mPlayer object of Application class.
+     * @return  Private mPlayer variable of Application class.
      */
     public Player getPlayer(){
         return mPlayer;
     }
 
     /**
-     * This function returns the name of the player
-     * @return private string name of the player object of the Application class
+     * This function sets the mPlayer object of the Application class.
+     * @param mPlayer   The Player object to be set.
+     */
+    public void setPlayer(Player mPlayer) {
+        this.mPlayer = mPlayer;
+    }
+
+    /**
+     * This function returns the name of the Player.
+     * @return  Private string name of the Player object of the Application class.
      */
     public String getPlayerName(){
         return mPlayer.getName();
     }
 
     /**
-     * This function returns the gender of the player
-     * @return private gender object from the mPlayer class of the Application class
+     * This function returns the gender of the player.
+     * @return  Private gender object from the mPlayer class of the Application class.
      */
     public String getPlayerGender(){
         return mPlayer.getGender().getName();
     }
 
     /**
-     * This function returns a boolean that indicates whether to continue a save data or not
-     * @return private boolean value of the application
+     * This function returns a boolean that indicates whether to continue a save data or not.
+     * @return  Private boolean value of the application.
      */
     public boolean getLoadData(){return loadData;}
 
     /**
-     * This function sets the value for the private variable loadData
-     * @param loadData the boolean value which will be the value of the Application's private variable
+     * This function sets the value for the private variable loadData.
+     * @param loadData  The boolean value which will be the value
+     *                  of the Application's private variable.
      */
     public void setLoadData(boolean loadData) {
         this.loadData = loadData;
     }
 
     /**
-     * This function returns the GoogleMap object used by the Application
-     * @return private GoogleMap object of the application
+     * This function returns the GoogleMap object used by the Application.
+     * @return  Private GoogleMap object of the application.
      */
     public GoogleMap getMap(){
         return mMap;
     }
 
     /**
-     * This function sets the GoogleMap object of the app to the param
-     * @param map The GoogleMap object to set the private variable of the application
+     * This function sets the GoogleMap object of the app to the param.
+     * @param map   The GoogleMap object to set the private variable of the application.
      */
     public void setMap(GoogleMap map){
         this.mMap = map;
     }
 
     /**
-     * This function the mode of playing the user chooses as
-     * a boolean function whether online or offline
-     * @return private boolean value mOnline of the application
+     * This function the mode of playing the user chooses
+     * as a boolean function whether online or offline.
+     * @return  Private boolean value mOnline of the application.
      */
     public boolean isOnline() {
         return mOnline;
     }
 
     /**
-     * This funcction sets the private mOnline variable to param
-     * @param mOnline Boolean value that indicates Online mode or not
+     * This funcction sets the private mOnline variable to param.
+     * @param mOnline   Boolean value that indicates Online mode or not.
      */
     public void setOnline(boolean mOnline) {
         this.mOnline = mOnline;
     }
 
     /**
-     * This function returns the mSelectedMarker object of the Application class
-     * @return private Marker object of the application class
+     * This function returns the mSelectedMarker object of the Application class.
+     * @return  Private Marker object of the application class.
      */
     public Marker getSelectedMarker(){
         return mSelectedMarker;
     }
 
     /**
-     * This function sets the mSelectedMarker object of the Application to the param
-     * @param marker Marker object which the mSelectedMarker will be set to
+     * This function sets the mSelectedMarker object of the Application to the param.
+     * @param marker    Marker object which the mSelectedMarker will be set to.
      */
     public void setSelectedMarker(Marker marker){
         mSelectedMarker = marker;
     }
 
     /**
-     * This function returns the int mSpawnCount of the Application
-     * @return private int mSpawnCount of the Application class
+     * This function returns the int mSpawnCount of the Application.
+     * @return Private int mSpawnCount of the Application class.
      */
     public int getSpawnCount() {
         return mSpawnCount;
     }
 
     /**
-     * This function sets the mSpawnCount of the Application class to the param
-     * @param mSpawnCount integer which private mSpawnCount will be set to
+     * This function sets the mSpawnCount of the Application class to the param.
+     * @param mSpawnCount   Integer which private mSpawnCount will be set to.
      */
     public void setSpawnCount(int mSpawnCount) {
         this.mSpawnCount = mSpawnCount;
     }
 
     /**
-     * This function returns the mCurrentGoal Marker of the Application
-     * @return private Marker mCurrentGoal
+     * This function returns the mCurrentGoal Marker of the Application.
+     * @return  Private Marker mCurrentGoal.
      */
     public Marker getCurrentGoal() {
         return mCurrentGoal;
     }
 
     /**
-     * This function sets the mCurrentGoal of the Application class to the param
-     * @param marker Marker object which the mCurrentGoal will be set to
+     * This function sets the mCurrentGoal of the Application class to the param.
+     * @param marker    Marker object which the mCurrentGoal will be set to.
      */
     public void setCurrentGoal(Marker marker) {
         this.mCurrentGoal = marker;
     }
 
     /**
-     * This function returns the URL for the Random Pokemon API
-     * @return private String randPokemonApiUrl of the Application
+     * This function returns the URL for the Random Pokemon API.
+     * @return  Private String randPokemonApiUrl of the Application.
      */
     public String getRandPokemonApiUrl() {return randPokemonApiUrl;}
 
     /**
-     * This function MusicHandler object of the Application class
-     * @return private MusicHandler of the musicHandler
+     * This function MusicHandler object of the Application class.
+     * @return  Private MusicHandler of the musicHandler.
      */
     public MusicHandler getMusicHandler() {
         return musicHandler;
     }
 
     /**
-     * This function returns the HttpClient object of the Application class
-     * @return private HttpClient mHttpClient
+     * This function returns the HttpClient object of the Application class.
+     * @return  Private HttpClient mHttpClient.
      */
     public HttpClient getmHttpClient(){ return mHttpClient; }
 
     /**
-     * This function returns the boolean mMusicSwitch of the Application class
-     * @return private boolean mMusicSwitch
+     * This function returns the boolean mMusicSwitch of the Application class.
+     * @return  Private boolean mMusicSwitch.
      */
     public boolean getMusicSwitch() { return mMusicSwitch;}
 
     /**
-     * This function returns the boolean mSFXSwitch of the Application class
-     * @return private boolean mSFXSwitch
+     * This function returns the boolean mSFXSwitch of the Application class.
+     * @return  Private boolean mSFXSwitch.
      */
     public boolean getSFXSwitch() {return mSFXSwitch;}
 
     /**
-     * This function sets the Music On by setting mMusicSwitch to true
+     * This function sets the Music On by setting mMusicSwitch to true.
      */
     public void setMusicOn() {mMusicSwitch = true;}
 
     /**
-     * This function sets the Music Off by setting mMusicSwitch to false
+     * This function sets the Music Off by setting mMusicSwitch to false.
      */
     public void setMusicOff() {mMusicSwitch = false;}
 
     /**
-     * This function sets the SFX On by setting mSFXSwitch to true
+     * This function sets the SFX On by setting mSFXSwitch to true.
      */
     public void setSFXOn() {mSFXSwitch = true;}
 
     /**
-     * This function sets to the SFX Off by setting mSFXSwitch to false
+     * This function sets to the SFX Off by setting mSFXSwitch to false.
      */
     public void setSFXOff() {mSFXSwitch = false;}
 
     /**
-     * This function gets the ArrayList of Markers mMarkers
-     * @return ArrayList of Marker object mMarkers
+     * This function gets the ArrayList of Markers mMarkers.
+     * @return  ArrayList of Marker object mMarkers,
      */
     public ArrayList<Marker> getMarkers(){
         return mMarkers;
     }
 
     /**
-     * This function adds the param Marker object to ArrayList of Markers of Application class
-     * @param marker Marker object to be added to mMarkers ArrayList
+     * This function adds the param Marker object to ArrayList of Markers of Application class.
+     * @param marker    Marker object to be added to mMarkers ArrayList.
      */
     public void addMarkers(Marker marker){
         mMarkers.add(marker);
     }
 
     /**
-     * This function deletes the param Marker object from the ArrayList mMarkers
-     * @param marker The Marker Object to be deleted from the ArrayList mMarkers
+     * This function deletes the param Marker object from the ArrayList mMarkers.
+     * @param marker    The Marker Object to be deleted from the ArrayList mMarkers.
      */
     public void deleteMarker(Marker marker){
         for(int index = 0; index < mMarkers.size(); index++){
@@ -349,25 +343,26 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the ArrayList of Pokemon mPokemons
-     * @return ArrayList of Pokemon Object mPokemons
+     * This function returns the ArrayList of Pokemon mPokemons.
+     * @return  ArrayList of Pokemon Object mPokemons.
      */
     public ArrayList<PokéDexData> getAllPokemons(){
         return mPokemons;
     }
 
     /**
-     * This function adds the param Pokemon object to the ArrayList mPokemons
-     * @param pokemon Pokemon object to be added to ArrayList mPokemons
+     * This function adds the param Pokemon object to the ArrayList mPokemons.
+     * @param pokemon   Pokemon object to be added to ArrayList mPokemons.
      */
     public void addPokemon(PokéDexData pokemon){
         mPokemons.add(pokemon);
     }
 
     /**
-     * This function returns the Pokemon Object from ArrayList mPokemons with the name param String
-     * @param title String to match the name of Pokemon from ArrayList mPokemons
-     * @return Pokemon object with name equal to the param title or an empty Pokemon if no match
+     * This function returns the Pokemon Object from ArrayList mPokemons with the name param String.
+     * @param title String to match the name of Pokemon from ArrayList mPokemons.
+     * @return      Pokemon object with name equal to the param
+     *              title or an empty Pokemon if no match.
      */
     public PokéDexData getPokemon(String title){
         for(int index = 0; index < this.mPokemons.size(); index++){
@@ -379,9 +374,11 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the Pokemon Object from the ArrayList mPokemon with dexNumber of param
-     * @param dexNumber integer to search from the dexNumber of the Pokemon object in mPokemon ArrayList
-     * @return Pokemon Object with the matching dexNumber to the param, empty Pokemon Object if no match
+     * This function returns the Pokemon Object from the ArrayList mPokemon with dexNumber of param.
+     * @param dexNumber Integer to search from the dexNumber
+     *                  of the Pokemon object in mPokemon ArrayList.
+     * @return          Pokemon Object with the matching dexNumber
+     *                  to the param, empty Pokemon Object if no match.
      */
     public PokéDexData getPokemon(int dexNumber){
         for(int index = 0; index < this.mPokemons.size(); index++){
@@ -393,9 +390,10 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the Trainer object with the name equal to the param title from the ArrayList mTrainers
-     * @param title String to match from the Trainer name in mTrainers ArrayList
-     * @return Trainer object with name matching param title, empty Trainer if no match
+     * This function returns the Trainer object with the name
+     * equal to the param title from the ArrayList mTrainers.
+     * @param title String to match from the Trainer name in mTrainers ArrayList.
+     * @return      Trainer object with name matching param title, empty Trainer if no match.
      */
     public Trainer getTrainer(String title){
         for(int index = 0; index < mTrainers.size(); index++){
@@ -407,9 +405,10 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the Move object with the name equal to the param title from the ArrayList mMoves
-     * @param title String to match from the Move name in mMoves ArrayList
-     * @return Move object with name matching param title, empty MovePhysical if no match
+     * This function returns the Move object with the name
+     * equal to the param title from the ArrayList mMoves.
+     * @param title String to match from the Move name in mMoves ArrayList.
+     * @return      Move object with name matching param title, empty MovePhysical if no match.
      */
     public Move findMove(String title){
         for(Move move : this.getAllMoves()){
@@ -421,50 +420,38 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the Item object with the name equal to the param title from the ArrayList mItems
-     * @param title String to match from the Item name in mItems ArrayList
-     * @return Item object with name matching param title, empty ItemPotion if no match
-     */
-    public Item getItem(String title){
-        for(int index = 0; index < mItems.size(); index++){
-            if(mItems.get(index).getName().equals(title)){
-                return mItems.get(index);
-            }
-        }
-        return new ItemPotion();
-    }
-
-    /**
-     * This function returns the ArrayList of Type Object mTypes
-     * @return ArrayList mTypes
+     * This function returns the ArrayList of Type Object mTypes.
+     * @return  ArrayList mTypes.
      */
     public ArrayList<Type> getAllTypes(){return mTypes;}
 
     /**
-     * This functionr eturns the ArrayList of Move Object mMoves
-     * @return ArrayList mMoves
+     * This function returns the ArrayList of Move Object mMoves.
+     * @return  ArrayList mMoves.
      */
     public ArrayList<Move> getAllMoves(){return mMoves;}
 
     /**
-     * This function returns the ArrayList of Trainer Object mTrainers
-     * @return ArrayList mTrainers
+     * This function returns the ArrayList of Trainer Object mTrainers.
+     * @return  ArrayList mTrainers.
      */
     public ArrayList<Trainer> getTrainers() {
         return mTrainers;
     }
 
     /**
-     * This function moves what the GoogleMap mMap displays
-     * @param position a LatLng object of double latitude, and longitude to set the position of mMap
-     * @param zoom a float that sets the zoom of the GoogleMap mMap display
+     * This function moves what the GoogleMap mMap displays.
+     * @param position  A LatLng object of double latitude, and
+     *                  longitude to set the position of mMap.
+     * @param zoom      A float that sets the zoom of the GoogleMap mMap display.
      */
     public void moveMapCamera(LatLng position, float zoom){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom));
     }
 
     /**
-     * This function adds a predetermined set of data to the mTrainer ArrayList
+     * This function adds a predetermined set of data to the mTrainer ArrayList.
+     * FOR DEMO PURPOSES ONLY IMPLEMENTATIONS WERE OPTIONAL.
      */
     public void loadAllTrainers(){
         mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!",	"I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
@@ -497,7 +484,8 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function adds a predetermined set of data to the mPokemon ArrayList
+     * This function adds a predetermined set of data to the mPokemon ArrayList.
+     * FOR DEMO PURPOSES ONLY IMPLEMENTATIONS WERE OPTIONAL.
      */
     public void loadAllPokemon(){
         addPokemon(new PokéDexData(1, "Bulbasaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.", 190, 1, 7, 45, 49, 49, 65, 65, 45, 0, 2, R.drawable.bulbasaur_main, R.drawable.bulbasaur_back, R.drawable.bulbasaur_map, R.raw.bulbasaur, "2'4\"", "15.2 lbs"));
@@ -553,19 +541,20 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns if the device is connected to a network
-     * @return Network info of the ConnectivityManager object
+     * This function returns if the device is connected to a network.
+     * @return  Network info of the ConnectivityManager object.
      */
     public boolean isNetworkConnected() {
-    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-    return cm.getActiveNetworkInfo() != null;
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(
+                Context.CONNECTIVITY_SERVICE
+        );
+        return cm.getActiveNetworkInfo() != null;
     }
 
     /**
-     * This function executes a get request and returns the Entity response of the request
-     * @param url String for GET request
-     * @return response of the GET request in String
+     * This function executes a get request and returns the Entity response of the request.
+     * @param url   String for GET request.
+     * @return      Response of the GET request in String.
      * @throws IOException
      */
     public String getStringFromApi(String url) throws IOException {
@@ -597,11 +586,13 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function executes a POST request to the String param url returns a data
-     * @param url String where to execute a POST request from
-     * @param data Array of String that will serve as data for the encoded POST request parameters
-     * @param header Array of headers that will serve as header for each data in the POST parameters
-     * @return returns the response in String
+     * This function executes a POST request to the String param url returns a data.
+     * @param url       String where to execute a POST request from.
+     * @param data      Array of String that will serve as data
+     *                  for the encoded POST request parameters.
+     * @param header    Array of headers that will serve as header
+     *                  for each data in the POST parameters.
+     * @return          Returns the response in String.
      */
     public String postStringToApi(String url, String data[],String header[]) {
         HttpClient hc = new DefaultHttpClient();
@@ -638,11 +629,11 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function parses the param jsonData which is in JSON format and adds each entry into mMoves
-     * returns true on succesful parsing, and false if not
-     * @param jsonData String in JSON format of all the Moves from the server
-     * @return true on successful loop through false if not
-     * @throws JSONException
+     * This function parses the param jsonData which is in JSON format and adds each
+     * entry into mMoves and returns true on succesful parsing, and false if not.
+     * @param jsonData  String in JSON format of all the Moves from the server.
+     * @return          True on successful loop through false if not.
+     * @throws          JSONException
      */
     public boolean parseJsonMoveData(String jsonData) throws JSONException {
         if (jsonData!=null){
@@ -672,11 +663,11 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function parses the param jsonData which is in JSON format and adds each entry into mPokemon
-     * returns true on succesful parsing, and false if not
-     * @param jsonData String in JSON format of all the Pokemon from the server
-     * @return boolean true on successful loop through false if not
-     * @throws JSONException
+     * This function parses the param jsonData which is in JSON format and adds each
+     * entry into mPokemon and returns true on succesful parsing, and false if not.
+     * @param jsonData  String in JSON format of all the Pokemon from the server.
+     * @return          Boolean true on successful loop through false if not.
+     * @throws          JSONException
      */
     public boolean parseJsonPokemonData(String jsonData) throws JSONException {
         if (jsonData != null) {
@@ -699,16 +690,51 @@ public class PokemonApp extends Application{
                 int spd = Integer.parseInt(placeObj.getString("speed"));
                 int lv1Req = Integer.parseInt(placeObj.getString("Lvl Req"));
                 int nextDex = Integer.parseInt(placeObj.getString("NextDex"));
-                int mainImg = getResources().getIdentifier(placeObj.getString("Main Img"), "drawable", getPackageName());
-                int backImg = getResources().getIdentifier(placeObj.getString("Back Img"), "drawable", getPackageName());
-                int mapImg = getResources().getIdentifier(placeObj.getString("Map IMG"), "drawable", getPackageName());
-                int rawImg = getResources().getIdentifier(placeObj.getString("Raw Img"), "raw", getPackageName());
+                int mainImg = getResources().getIdentifier(
+                        placeObj.getString("Main Img"),
+                        "drawable",
+                        getPackageName()
+                );
+                int backImg = getResources().getIdentifier(
+                        placeObj.getString("Back Img"),
+                        "drawable",
+                        getPackageName()
+                );
+                int mapImg = getResources().getIdentifier(
+                        placeObj.getString("Map IMG"),
+                        "drawable",
+                        getPackageName()
+                );
+                int rawImg = getResources().getIdentifier(
+                        placeObj.getString("Raw Img"),
+                        "raw", getPackageName()
+                );
                 String height = placeObj.getString("Height");
                 String weight = placeObj.getString("Weight");
-                addPokemon(new PokéDexData(dex, name, typeOne, typeTwo, desc, catchRate, femaleRatio, maleRatio, hp, atk, def, spAtk, spDef, spd, lv1Req, nextDex,
-                        mainImg, backImg, mapImg, rawImg, height, weight));
-//                PokéDexData m = new PokéDexData(name, type, category, maxpp, maxpp , power, acc);
-//                mTest.add(m);
+                addPokemon(new PokéDexData(
+                        dex,
+                        name,
+                        typeOne,
+                        typeTwo,
+                        desc,
+                        catchRate,
+                        femaleRatio,
+                        maleRatio,
+                        hp,
+                        atk,
+                        def,
+                        spAtk,
+                        spDef,
+                        spd,
+                        lv1Req,
+                        nextDex,
+                        mainImg,
+                        backImg,
+                        mapImg,
+                        rawImg,
+                        height,
+                        weight
+                ));
                 Log.e("Test", mPokemons.get(iIdx).toString());
             }
             return true;
@@ -720,10 +746,10 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the JSON object if the param is not null
-     * @param jsonData String in JSON format
-     * @return JSONObject  if the param is not null else it is null
-     * @throws JSONException
+     * This function returns the JSON object if the param is not null.
+     * @param jsonData  String in JSON format.
+     * @return          JSONObject if the param is not null else it is null.
+     * @throws          JSONException
      */
     public JSONObject parseRandSpawner(String jsonData) throws JSONException {
         if(jsonData!=null) {
@@ -737,11 +763,11 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns true on successfully looping through the jsonData param in JSON format
-     * and adding each entry to mTrainers
-     * @param jsonData String in JSON format
-     * @return true if successful false if not
-     * @throws JSONException
+     * This function returns true on successfully looping through the
+     * jsonData param in JSON format and adding each entry to mTrainers.
+     * @param jsonData  String in JSON format.
+     * @return          True if successful false if not.
+     * @throws          JSONException
      */
     public boolean parseJsonTrainers(String jsonData) throws JSONException {
         if (jsonData != null) {
@@ -757,23 +783,74 @@ public class PokemonApp extends Application{
                 String lose = placeObj.getString("Lose");
                 String pokemon1 = placeObj.getString("Fave Pokémon 1");
                 String pokemon2 = placeObj.getString("Fave Pokémon 2");
-                int main = getResources().getIdentifier(placeObj.getString("Main"), "drawable", getPackageName());
-                int map =  getResources().getIdentifier(placeObj.getString("Map"), "drawable", getPackageName());
+                int main = getResources().getIdentifier(
+                        placeObj.getString("Main"),
+                        "drawable",
+                        getPackageName()
+                );
+                int map =  getResources().getIdentifier(
+                        placeObj.getString("Map"),
+                        "drawable",
+                        getPackageName()
+                );
 
                 if(team.equals("Valor")){
-                    mTrainers.add(new Trainer(username, new Valor(), tier, title, intro, win, lose, getPokemon(pokemon1), getPokemon(pokemon2), main, map));
+                    mTrainers.add(new Trainer(
+                            username, new Valor(),
+                            tier,
+                            title,
+                            intro,
+                            win,
+                            lose,
+                            getPokemon(pokemon1),
+                            getPokemon(pokemon2),
+                            main,
+                            map
+                    ));
                 }
                 else if (team.equals("Instinct")){
-                    mTrainers.add(new Trainer(username, new Instinct(), tier, title, intro, win, lose, getPokemon(pokemon1), getPokemon(pokemon2), main, map));
+                    mTrainers.add(new Trainer(
+                            username, new Instinct(),
+                            tier,
+                            title,
+                            intro,
+                            win,
+                            lose,
+                            getPokemon(pokemon1),
+                            getPokemon(pokemon2),
+                            main,
+                            map
+                    ));
                 }
                 else if(team.equals("Mystic")){
-                    mTrainers.add(new Trainer(username, new Mystic(), tier, title, intro, win, lose, getPokemon(pokemon1), getPokemon(pokemon2), main, map));
+                    mTrainers.add(new Trainer(
+                            username, new Mystic(),
+                            tier,
+                            title,
+                            intro,
+                            win,
+                            lose,
+                            getPokemon(pokemon1),
+                            getPokemon(pokemon2),
+                            main,
+                            map
+                    ));
                 }
                 else {
-                    mTrainers.add(new Trainer("Nekomonsterr", new Professor(), 6, "Professor", "I'm a coffee-fueled travelling researcher!", "I will take over the world using Pokémons!", "The light inside has broken but I still work.", getPokemon(139), getPokemon(141), R.drawable.jerome_main, R.drawable.jerome_map));
+                    mTrainers.add(new Trainer(
+                            "Nekomonsterr",
+                            new Professor(),
+                            6,
+                            "Professor",
+                            "I'm a coffee-fueled travelling researcher!",
+                            "I will take over the world using Pokémons!",
+                            "The light inside has broken but I still work.",
+                            getPokemon(139),
+                            getPokemon(141),
+                            R.drawable.jerome_main,
+                            R.drawable.jerome_map
+                    ));
                 }
-
-
                 Log.e("Test", mTrainers.get(iIdx).toString());
             }
             return true;
@@ -786,7 +863,8 @@ public class PokemonApp extends Application{
 
 
     /**
-     * This function adds a predetermined set of data to mMoves ArrayList
+     * This function adds a predetermined set of data to mMoves ArrayList.
+     * FOR DEMO PURPOSES ONLY IMPLEMENTATIONS WERE OPTIONAL.
      */
     public void loadAllPokemonMoves(){
         mMoves.add(new MovePhysical("Vine Whip", mTypes.get(Type.GRASS), 25, 25, 45, 100));
@@ -903,9 +981,10 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function calls the GET request function using the Moves API URL and returns true if parsing was succesful
-     * @return boolean true for successful parsing of data false if parsing failed
-     * @throws JSONException
+     * This function calls the GET request function using the
+     * Moves API URL and returns true if parsing was successful.
+     * @return  Boolean true for successful parsing of data false if parsing failed.
+     * @throws  JSONException
      */
     public boolean loadAllMovesApi() throws JSONException {
         String jsonMoves = null;
@@ -923,9 +1002,9 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function calls the GET request function on Pokemon API UrL
-     * @return boolean true for succesful parsing and false if not
-     * @throws JSONException
+     * This function calls the GET request function on Pokemon API UrL.
+     * @return  Boolean true for succesful parsing and false if not.
+     * @throws  JSONException
      */
     public boolean loadAllPokemonApi() throws JSONException {
         String jsonPokemon = null;
@@ -943,9 +1022,9 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function calls the GET request function from the Trainer API URL
-     * @return boolean true if succesfully parsed, false if not
-     * @throws JSONException
+     * This function calls the GET request function from the Trainer API URL.
+     * @return  Boolean true if succesfully parsed, false if not.
+     * @throws  JSONException
      */
     public boolean loadAllTrainerApi() throws JSONException{
         String jsonTrainer = null;
@@ -963,43 +1042,27 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function instantiates the data for mTypes Arraylist
+     * This function instantiates the data for mTypes Arraylist.
      */
     public void loadAllPokemonTypes(){
-        double[] normal = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f,
-                1};
-        double[] fire = new double[]{1, 1, 0.5f, 0.5f, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5f, 1, 0.5f, 1,
-                2, 1};
-        double[] water = new double[]{1, 1, 2, 0.5f, 1, 0.5f, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5f, 1, 1,
-                1};
-        double[] electric = new double[]{1, 1, 1, 2, 0.5f, 0.5f, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5f, 1,
-                1, 1};
-        double[] grass = new double[]{1, 1, 0.5f, 2, 1, 0.5f, 1, 1, 0.5f, 2, 0.5f, 1, 0.5f, 2, 1,
-                0.5f, 1, 0.5f, 1};
-        double[] ice = new double[]{1, 1, 0.5f, 0.5f, 1, 2, 0.5f, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1,
-                0.5f, 1};
-        double[] fighting = new double[]{1, 2, 1, 1, 1, 1, 2, 1, 0.5f, 1, 0.5f, 0.5f, 0.5f, 2, 0, 1,
-                2, 2, 0.5f};
-        double[] poison = new double[]{1, 1, 1, 1, 1, 2, 1, 1, 0.5f, 0.5f, 1, 1, 1, 0.5f, 0.5f, 1,
-                1, 0, 2};
-        double[] ground = new double[]{1, 1, 2, 1, 2, 0.5f, 1, 1, 2, 1, 0, 1, 0.5f, 2, 1, 1, 1, 2,
-                1};
-        double[] flying = new double[]{1, 1, 1, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1,
-                0.5f, 1};
-        double[] psychic = new double[]{1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5f, 1, 1, 1, 1, 0, 0.5f,
-                1};
-        double[] bug = new double[]{1, 1, 0.5f, 1, 1, 2, 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 0.5f, 1,
-                2, 0.5f, 0.5f};
-        double[] rock = new double[]{1, 1, 2, 1, 1, 1, 2, 0.5f, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 0.5f,
-                1};
+        double[] normal = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5f, 0, 1, 1, 0.5f, 1};
+        double[] fire = new double[]{1, 1, 0.5f, 0.5f, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5f, 1, 0.5f, 1, 2, 1};
+        double[] water = new double[]{1, 1, 2, 0.5f, 1, 0.5f, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5f, 1, 1, 1};
+        double[] electric = new double[]{1, 1, 1, 2, 0.5f, 0.5f, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5f, 1, 1, 1};
+        double[] grass = new double[]{1, 1, 0.5f, 2, 1, 0.5f, 1, 1, 0.5f, 2, 0.5f, 1, 0.5f, 2, 1, 0.5f, 1, 0.5f, 1};
+        double[] ice = new double[]{1, 1, 0.5f, 0.5f, 1, 2, 0.5f, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5f, 1};
+        double[] fighting = new double[]{1, 2, 1, 1, 1, 1, 2, 1, 0.5f, 1, 0.5f, 0.5f, 0.5f, 2, 0, 1, 2, 2, 0.5f};
+        double[] poison = new double[]{1, 1, 1, 1, 1, 2, 1, 1, 0.5f, 0.5f, 1, 1, 1, 0.5f, 0.5f, 1, 1, 0, 2};
+        double[] ground = new double[]{1, 1, 2, 1, 2, 0.5f, 1, 1, 2, 1, 0, 1, 0.5f, 2, 1, 1, 1, 2, 1};
+        double[] flying = new double[]{1, 1, 1, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 0.5f, 1};
+        double[] psychic = new double[]{1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5f, 1, 1, 1, 1, 0, 0.5f, 1};
+        double[] bug = new double[]{1, 1, 0.5f, 1, 1, 2, 1, 0.5f, 0.5f, 1, 0.5f, 2, 1, 1, 0.5f, 1, 2, 0.5f, 0.5f};
+        double[] rock = new double[]{1, 1, 2, 1, 1, 1, 2, 0.5f, 1, 0.5f, 2, 1, 2, 1, 1, 1, 1, 0.5f, 1};
         double[] ghost = new double[]{1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 1};
         double[] dragon = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5f, 0};
-        double[] dark = new double[]{1, 1, 1, 1, 1, 1, 1, 0.5f, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1,
-                0.5f};
-        double[] steel = new double[]{1, 1, 0.5f, 0.5f, 0.5f, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1,
-                0.5f, 2};
-        double[] fairy = new double[]{1, 1, 0.5f, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 1, 1, 1, 2, 2, 0.5f,
-                1};
+        double[] dark = new double[]{1, 1, 1, 1, 1, 1, 1, 0.5f, 1, 1, 1, 2, 1, 1, 2, 1, 0.5f, 1, 0.5f};
+        double[] steel = new double[]{1, 1, 0.5f, 0.5f, 0.5f, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5f, 2};
+        double[] fairy = new double[]{1, 1, 0.5f, 1, 1, 1, 1, 2, 0.5f, 1, 1, 1, 1, 1, 1, 2, 2, 0.5f, 1};
 
         mTypes.add(new Type());
         mTypes.add(new Type("NORMAL", Type.NORMAL, Type.NORMAL_COLOR, normal, R.drawable.normal));
@@ -1023,6 +1086,11 @@ public class PokemonApp extends Application{
 
     }
 
+    /**
+     * Returns the int code of the Type given the Type's name.
+     * @param type  The Type's name to be given.
+     * @return      The Type's code.
+     */
     public int getTypeIdFromString(String type) {
         if (type.equals("None")) {
             return Type.NONE;
@@ -1067,15 +1135,15 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the mItems ArrayList of Item object
-     * @return private ArrayList of Item mItems
+     * This function returns the mItems ArrayList of Item object.
+     * @return  Private ArrayList of Item mItems.
      */
     public ArrayList<Item> getAllItems() {
         return mItems;
     }
 
     /**
-     * This function instantiates the mItems ArrayList of Item object
+     * This function instantiates the mItems ArrayList of Item object.
      */
     public void loadAllItems(){
 
@@ -1094,9 +1162,9 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns a copy of the item that matches the name with the param
-     * @param name String to match to the item's name
-     * @return Item object with name that match the param, ItemPotion if not
+     * This function returns a copy of the item that matches the name with the param.
+     * @param name  String to match to the item's name.
+     * @return      Item object with name that match the param, ItemPotion if not.
      */
     public Item getGeneratedItem(String name){
         for(int index = 0; index < mItems.size(); index++){
@@ -1108,25 +1176,25 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns a random Item object from the ArrayList mItems
-     * @return random Item object
+     * This function returns a random Item object from the ArrayList mItems.
+     * @return  Random Item object.
      */
     public Item generateRandomItem(){
         return mItems.get(getIntegerRNG(mItems.size()));
     }
 
     /**
-     * This function returns a copy of a random Move object from the mMoves ArrayList
-     * @return random Move object
+     * This function returns a copy of a random Move object from the mMoves ArrayList.
+     * @return  Random Move object.
      */
     public Move generateRandomMove(){
         return mMoves.get(getIntegerRNG(mMoves.size())).generateCopy();
     }
 
     /**
-     * This function sets the font style for a certain ViewGroup object from the Layout
-     * @param contentLayout ViewGroup object to set the font of
-     * @param fontName String name of font
+     * This function sets the font style for a certain ViewGroup object from the Layout.
+     * @param contentLayout ViewGroup object to set the font of.
+     * @param fontName      String name of font.
      */
     public void setFontForContainer(ViewGroup contentLayout, String fontName) {
         for (int index = 0; index < contentLayout.getChildCount(); index++) {
@@ -1139,8 +1207,8 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function sets a marker for the player in the param position
-     * @param initialPosition LatLng object that indicates the position of marker to be set
+     * This function sets a marker for the player in the param position.
+     * @param initialPosition   LatLng object that indicates the position of marker to be set.
      */
     public void loadPlayer(LatLng initialPosition) {
         getPlayer().setMarker(getMap().addMarker(
@@ -1149,37 +1217,42 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function instantiates a Player object in the Application class
+     * This function instantiates a Player object in the Application class.
      */
     public void initPlayer(){
         this.mPlayer = new Player();
     }
 
     /**
-     * This function sets the border of the Button object with the color value int color
-     * @param btn Button object to set the borderColor of
-     * @param color int color value to set the borderColor to
+     * This function sets the border of the Button object with the color value int color.
+     * @param btn   Button object to set the borderColor of.
+     * @param color The int color value to set the borderColor to.
      */
     public static void setButtonBorder(Button btn, int color){
         btn.setBackground(getShape(color));
     }
 
     /**
-     * This function applies a font to a MenuItem object from the Activity object in the param
-     * @param ctx Activity that contains mi param
-     * @param mi MenuItem object to apply font to
+     * This function applies a font to a MenuItem object from the Activity object in the param.
+     * @param contex   Activity that contains menuItem param.
+     * @param menuItem    MenuItem object to apply font to.
      */
-    public static void applyFontToMenuItem(Activity ctx, MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(ctx.getAssets(), "generation6.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
+    public static void applyFontToMenuItem(Activity contex, MenuItem menuItem) {
+        Typeface font = Typeface.createFromAsset(contex.getAssets(), PokemonApp.RETRO_FONT);
+        SpannableString mNewTitle = new SpannableString(menuItem.getTitle());
+        mNewTitle.setSpan(
+                new CustomTypefaceSpan("" , font),
+                0 ,
+                mNewTitle.length(),
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        );
+        menuItem.setTitle(mNewTitle);
     }
 
     /**
-     * This fucntion creates a new ShapeDrawable object and returns that object
-     * @param color int value of the color to set the ShapeDrawable object to
-     * @return Shapedrawable object created
+     * This function creates a new ShapeDrawable object and returns that object.
+     * @param color The int value of the color to set the ShapeDrawable object to.
+     * @return      Shapedrawable object created.
      */
     public static ShapeDrawable getShape(int color){
         ShapeDrawable shapedrawable = new ShapeDrawable();
@@ -1191,10 +1264,10 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function sets the color of the progress bar based on the certain conditions
-     * @param currentHp int HP value of the Pokemon
-     * @param maxHp int total HP value of the pokemon
-     * @param bar Progressbar object to set the color of
+     * This function sets the color of the progress bar based on the certain conditions.
+     * @param currentHp The int HP value of the Pokémon.
+     * @param maxHp     The int total HP value of the Pokémon.
+     * @param bar       Progressbar object to set the color of.
      */
     public static void updateHpBarColor(int currentHp, int maxHp, ProgressBar bar){
         if(((double)currentHp) > ((double)maxHp)/2){
@@ -1212,47 +1285,47 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function sets a param Button object to certain properties of a Back button
-     * @param btn Button object to change the properties of
+     * This function sets a param Button object to certain properties of a Back button.
+     * @param button   Button object to change the properties of.
      */
-    public static void setAsBackButton(Button btn){
-        btn.setClickable(true);
-        btn.setText("BACK");
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonApp.BACK_COLOR);
+    public static void setAsBackButton(Button button){
+        button.setClickable(true);
+        button.setText("BACK");
+        button.setVisibility(View.VISIBLE);
+        button.setBackgroundColor(PokemonApp.BACK_COLOR);
     }
 
     /**
-     * This function sets a param Button object to certain properties of a Ok button
-     * @param btn Button object to change the properties of
+     * This function sets a param Button object to certain properties of a Ok button.
+     * @param button    Button object to change the properties of.
      */
-    public void setAsOkButton(Button btn){
-        btn.setClickable(true);
-        btn.setText("OK");
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonApp.RUN_COLOR);
+    public void setAsOkButton(Button button){
+        button.setClickable(true);
+        button.setText("OK");
+        button.setVisibility(View.VISIBLE);
+        button.setBackgroundColor(PokemonApp.RUN_COLOR);
     }
 
     /**
-     * This function sets the param Button object to certain properties of a Cancel button
-     * @param btn Button object to change the properties of
+     * This function sets the param Button object to certain properties of a Cancel button.
+     * @param button    Button object to change the properties of.
      */
-    public static void setAsCancelButton(Button btn){
-        btn.setClickable(true);
-        btn.setText("CANCEL");
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonApp.FIGHT_COLOR);
+    public static void setAsCancelButton(Button button){
+        button.setClickable(true);
+        button.setText("CANCEL");
+        button.setVisibility(View.VISIBLE);
+        button.setBackgroundColor(PokemonApp.FIGHT_COLOR);
     }
 
     /**
-     * This function sets the param Button object to certain properties of a Switch button
-     * @param btn Button object to change the properties of
+     * This function sets the param Button object to certain properties of a Switch button.
+     * @param button   Button object to change the properties of.
      */
-    public static void setAsSwitchButton(Button btn){
-        btn.setClickable(true);
-        btn.setVisibility(View.VISIBLE);
-        btn.setBackgroundColor(PokemonApp.RUN_COLOR);
-        btn.setText("SWITCH");
+    public static void setAsSwitchButton(Button button){
+        button.setClickable(true);
+        button.setVisibility(View.VISIBLE);
+        button.setBackgroundColor(PokemonApp.RUN_COLOR);
+        button.setText("SWITCH");
     }
 
     /****************************************************/
@@ -1271,9 +1344,9 @@ public class PokemonApp extends Application{
        */
 
     /**
-     * This function adds a pokemon data in csv format pero new line and returns the String of all the
-     * pokemon data
-     * @return String containing all Pokemon data of player
+     * This function adds a pokemon data in csv format pero new
+     * line and returns the String of all the Pokémon data.
+     * @return  String containing all Pokemon data of player.
      */
     public String encodePokemonToCsv(){
         String csvStr = "";
@@ -1293,8 +1366,8 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function adds Item data into a String, returns this String
-     * @return String containing all Item data of the player
+     * This function adds Item data into a String, returns this String.
+     * @return  String containing all Item data of the player.
      */
     public String encodeItemsToCsv(){
         String csvStr = "";
@@ -1309,16 +1382,17 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function returns the Name and Gender of the player int
-     * @return String with ':' delimiter
+     * This function returns the Name and Gender of the player int.
+     * @return  String with ':' delimiter.
      */
     public String encodePlayertoCsv(){
         return this.getPlayerName() + ":" + this.getPlayerGender();
     }
 
     /**
-     * This function breaks down the param String into each data creating the object it is meant for
-     * @param csvStr String of Pokemon data in csv format to be decoded
+     * This function breaks down the param String into
+     * each data creating the object it is meant for.
+     * @param csvStr    String of Pokemon data in csv format to be decoded.
      */
     public void decodePokemonFromCsv(String csvStr){
         String playerPokemonData [] = csvStr.split("\n");
@@ -1335,11 +1409,17 @@ public class PokemonApp extends Application{
                 int currentHp = Integer.parseInt(playerData[4].trim());
                 int currentExp = Integer.parseInt(playerData[5].trim());
 
-                PokémonProfile playerPokemon = new PokémonProfile(getSpawnCount(), getPokemon(dexNumber), currentLvl);
+                PokémonProfile playerPokemon = new PokémonProfile(
+                        getSpawnCount(),
+                        getPokemon(dexNumber),
+                        currentLvl
+                );
 
                 for (int moveCount = 0; moveCount<4; moveCount++){
                     playerPokemon.getMoves().add(findMove(playerData[6+(moveCount)*2].trim()));
-                    playerPokemon.getMoves().get(moveCount).setCurrentPP(Integer.parseInt(playerData[7+(moveCount)*2].trim()));
+                    playerPokemon.getMoves().get(moveCount).setCurrentPP(
+                            Integer.parseInt(playerData[7+(moveCount)*2].trim())
+                    );
                 }
 
                 int evHp = Integer.parseInt(playerData[14].trim());
@@ -1366,15 +1446,29 @@ public class PokemonApp extends Application{
                 playerPokemon.setCurrentExp(currentExp);
                 playerPokemon.setEV(new StatSet(evHp, evAtk, evDef, evSpAtk, evSpDef, evSpd));
                 playerPokemon.setIV(new StatSet(ivHp, ivAtk, ivDef, ivSpAtk, ivSpDef, ivSpd));
-                playerPokemon.setNature(new StatSet(natureHp, natureAtk, natureDef, natureSpAtk, natureSpDef, natureSpd));
+                playerPokemon.setNature(new StatSet(
+                        natureHp,
+                        natureAtk,
+                        natureDef,
+                        natureSpAtk,
+                        natureSpDef,
+                        natureSpd
+                ));
                 if(dataIndex < 6) {
                     this.getPlayer().getPokemons().add(playerPokemon);
                     Log.e("Loading",
-                            this.getPlayer().getPokemons().get(pokemonCount).getNickname() + " Loaded to Profile");
+                            this.getPlayer().getPokemons().get(pokemonCount).getNickname()
+                                    + " Loaded to Profile"
+                    );
                 }
                 else{
                     this.getPlayer().getBox().add(playerPokemon);
-                    Log.e("Adding to Box", this.getPlayer().getBox().get(pokemonCount-getPlayer().getPokemons().size()).getNickname()+ "Loaded to Box");
+                    Log.e("Adding to Box",
+                            this.getPlayer().getBox().get(
+                                    pokemonCount-getPlayer().getPokemons().size()
+                            ).getNickname()
+                                    + "Loaded to Box"
+                    );
                 }
                 pokemonCount++;
                 dataIndex++;
@@ -1383,8 +1477,9 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function breaks down the param String into each data creating the object it is meant for
-     * @param csvStr String of Item data in csv format to be decoded
+     * This function breaks down the param String into
+     * each data creating the object it is meant for.
+     * @param csvStr    String of Item data in csv format to be decoded.
      */
     public void decodeItemsFromCsv(String csvStr){
         String allPlayerItems [] = csvStr.split("\n");
@@ -1402,9 +1497,9 @@ public class PokemonApp extends Application{
         }
 
     /**
-     * This function Output streams the necessary data to be saved into a CSV file in the
-     * local directory of the Android device
-     * @return true on successful saving, false if not
+     * This function Output streams the necessary data to be saved
+     * into a CSV file in the local directory of the Android device.
+     * @return  True on successful saving, false if not.
      */
     public boolean savePlayerData(){
         File targetDirectory = getFilesDir();
@@ -1419,7 +1514,12 @@ public class PokemonApp extends Application{
                 if (!targetFile.exists()) {
                     targetFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(targetFile, true);
-                    String playerDatatoCsv = encodePlayertoCsv()+":"+ encodePokemonToCsv() +":"+ encodeItemsToCsv();
+                    String playerDatatoCsv =
+                            encodePlayertoCsv()
+                            + ":"
+                            + encodePokemonToCsv()
+                            + ":"
+                            + encodeItemsToCsv();
                     fos.write(playerDatatoCsv.getBytes());
                     fos.close();
                     Log.d("Save Data", "Successfully Saved Data");
@@ -1427,14 +1527,17 @@ public class PokemonApp extends Application{
                 }
                 else{
                     FileOutputStream overwrite = new FileOutputStream(targetFile, false);
-                    String playerDatatoCsv = encodePlayertoCsv()+":"+ encodePokemonToCsv() +":"+ encodeItemsToCsv();
+                    String playerDatatoCsv =
+                            encodePlayertoCsv()
+                            + ":"
+                            + encodePokemonToCsv()
+                            + ":"
+                            + encodeItemsToCsv();
                     overwrite.write(playerDatatoCsv.getBytes());
                     overwrite.close();
                     Log.d("Save Data", "Successfully Overwritten Data");
                     Log.d("Save Data", playerDatatoCsv);
                 }
-
-
                 return true;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -1447,8 +1550,8 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function checks whether the player data file exists in the android device
-     * @return true if the file exists. False if not
+     * This function checks whether the player data file exists in the android device.
+     * @return  True if the file exists. False if not.
      */
     public boolean doesPlayerDataExist(){
         File targetDirectory = getFilesDir();
@@ -1480,11 +1583,11 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function retrieves the CSV file and  decodes its content creating the necessary
-     * in the process
-     * @return true if successful, false if not
+     * This function retrieves the CSV file and  decodes
+     * its content creating the necessary in the process.
+     * @return  True if successful, false if not.
      */
-    public boolean loadPlayerDate(){
+    public boolean loadPlayerData(){
         File targetDirectory = getFilesDir();
         if (targetDirectory.exists() == false) {
             Log.w("Warning", "Directory does not exist. Creating the directory...");
@@ -1536,9 +1639,9 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function compiles the data of the param PokemonProfile object
-     * @param playerPokemon PokemonProfile object to get data from
-     * @return String of the data in csv format
+     * This function compiles the data of the param PokemonProfile object.
+     * @param playerPokemon PokemonProfile object to get data from.
+     * @return              String of the data in csv format.
      */
     public String extractPlayerPokemonData(PokémonProfile playerPokemon){
         String dexNumber = Integer.toString(playerPokemon.getDexNumber());
@@ -1565,13 +1668,18 @@ public class PokemonApp extends Application{
     }
 
     /**
-     * This function sets the values of the layout with the data of the Pokemon
-     * @param dialog Dialog object to set the data of
-     * @param ctx Activity containing the dialog object
-     * @param profile Pokemon that contains the data to be displayed
+     * This function sets the values of the layout with the data of the Pokemon.
+     * @param dialog    Dialog object to set the data of.
+     * @param contex    Activity containing the dialog object.
+     * @param profile   Pokemon that contains the data to be displayed.
      */
-    public void loadPokemonDetails(final Dialog dialog, Activity ctx, final PokémonProfile profile){
-            setFontForContainer((RelativeLayout) dialog.findViewById(R.id.pokemon_profile_group), "generation6.ttf");
+    public void loadPokemonDetails(final Dialog dialog,
+                                   Activity contex,
+                                   final PokémonProfile profile){
+            setFontForContainer(
+                    (RelativeLayout) dialog.findViewById(R.id.pokemon_profile_group),
+                    RETRO_FONT
+            );
             dialog.setTitle("");
 
             // set the custom dialog components - text, image and button
@@ -1626,22 +1734,22 @@ public class PokemonApp extends Application{
             txvSpDefense.setText(profile.getSpDefense() + "");
             txvSpeed.setText(profile.getSpeed() + "");
 
-            MoveList mMoves = new MoveList(ctx, profile.getMoves());
+            MoveList mMoves = new MoveList(contex, profile.getMoves());
             lsvMoves.setAdapter(mMoves);
 
             dialog.show();
     }
 
     /**
-     * This function creates a Dialog that shows the Pokedex data of the Pokemon object param
-     * @param ctx Activity that will contain the Dialog
-     * @param selectedPokemon Pokemon that has the data to be displayed
+     * This function creates a Dialog that shows the PokéDex data of the Pokemon object param.
+     * @param contex            Activity that will contain the Dialog.
+     * @param selectedPokemon   Pokémon that has the data to be displayed.
      */
-    public void showPokedexDialog(Context ctx, PokéDexData selectedPokemon){
+    public void showPokedexDialog(Context contex, PokéDexData selectedPokemon){
 
-        final Dialog dexDialog = new Dialog(ctx);
+        final Dialog dexDialog = new Dialog(contex);
         dexDialog.setContentView(R.layout.pokedex_dialog);
-        setFontForContainer((RelativeLayout) dexDialog.findViewById(R.id.dex_group), "generation6.ttf");
+        setFontForContainer((RelativeLayout) dexDialog.findViewById(R.id.dex_group), RETRO_FONT);
         dexDialog.setTitle("");
 
         // set the custom dialog components - text, image and button

@@ -15,8 +15,8 @@ public abstract class MoveDamage extends Move {
      * the Move's values and decrements the Move's PP by 1.
      * @param accuracyResult    Usually a random number generated from 0 to 100.
      * @param criticalResult    Usually a random number generated from 0 to 16.
-     * @param attacker  The PokémonProfile that would perform the Move.
-     * @param defender  The defending PokémonProfile.
+     * @param attacker          The PokémonProfile that would perform the Move.
+     * @param defender          The defending PokémonProfile.
      */
     @Override
     public void execute(int accuracyResult,
@@ -58,7 +58,7 @@ public abstract class MoveDamage extends Move {
     /**
      * Returns false by default.
      * @param attacker  The PokémonProfile that would receive the recoil damage.
-     * @return  False by default.
+     * @return          False by default.
      */
     @Override
     public boolean executeRecoil(PokémonProfile attacker){
@@ -68,14 +68,14 @@ public abstract class MoveDamage extends Move {
     /**
      * Returns the total attack stat value of the given PokémonProfile.
      * @param profile   The PokémonProfile where the total attack stat value is obtained.
-     * @return  The total attack stat value of the given PokémonProfile.
+     * @return          The total attack stat value of the given PokémonProfile.
      */
     public abstract int getAttackStat(PokémonProfile profile);
 
     /**
      * Returns the total defense stat value of the given PokémonProfile.
      * @param profile   The PokémonProfile where the total defense stat value is obtained.
-     * @return  The total defense stat value of the given PokémonProfile.
+     * @return          The total defense stat value of the given PokémonProfile.
      */
     public abstract int getDefenseStat(PokémonProfile profile);
 }

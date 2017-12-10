@@ -29,7 +29,10 @@ public class SettingsActivity extends AppCompatActivity {
         final Switch MusicEnabled = (Switch) findViewById(R.id.switch_music);
         final Switch SFXEnabled = (Switch) findViewById(R.id.switch_sfx);
 
-        app.setFontForContainer((RelativeLayout) findViewById(R.id.settings_group), "generation6.ttf");
+        app.setFontForContainer(
+                (RelativeLayout) findViewById(R.id.settings_group),
+                PokemonApp.RETRO_FONT
+        );
 
         MusicEnabled.setChecked(app.getMusicSwitch());
         SFXEnabled.setChecked(app.getSFXSwitch());
@@ -57,7 +60,10 @@ public class SettingsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                app.getMusicHandler().playSfx(SettingsActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
+                app.getMusicHandler().playSfx(
+                        SettingsActivity.this,
+                        MusicHandler.SFX_SELECT,app.getSFXSwitch()
+                );
                 finish();
             }
         });

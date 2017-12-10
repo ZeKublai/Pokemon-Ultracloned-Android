@@ -17,12 +17,12 @@ public class MovePhysical extends MoveDamage {
 
     /**
      * Creates a Physical Move given the name, type, maximum PP, current PP, power and accuracy.
-     * @param mName The name of the created Move.
-     * @param mType The type of the created Move.
-     * @param mMaxPP    The maximum PP value of the created Move.
+     * @param mName         The name of the created Move.
+     * @param mType         The type of the created Move.
+     * @param mMaxPP        The maximum PP value of the created Move.
      * @param mCurrentPP    The current PP value of the created Move.
-     * @param mPower    The power value of the created Move.
-     * @param mAccuracy The accuracy value of the created Move.
+     * @param mPower        The power value of the created Move.
+     * @param mAccuracy     The accuracy value of the created Move.
      */
     public MovePhysical(String mName,
                         Type mType,
@@ -55,7 +55,7 @@ public class MovePhysical extends MoveDamage {
     /**
      * Returns the attack stat of the given PokémonProfile.
      * @param profile   The PokémonProfile where the total attack stat value is obtained.
-     * @return  The attack stat of the given PokémonProfile.
+     * @return          The attack stat of the given PokémonProfile.
      */
     @Override
     public int getAttackStat(PokémonProfile profile){
@@ -65,7 +65,7 @@ public class MovePhysical extends MoveDamage {
     /**
      * Returns the defense stat of the given PokémonProfile
      * @param profile   The PokémonProfile where the total defense stat value is obtained.
-     * @return  The defense stat of the given PokémonProfile.
+     * @return          The defense stat of the given PokémonProfile.
      */
     @Override
     public int getDefenseStat(PokémonProfile profile){

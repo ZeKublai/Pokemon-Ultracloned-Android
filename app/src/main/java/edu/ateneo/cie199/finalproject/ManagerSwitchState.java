@@ -13,18 +13,19 @@ import java.util.ArrayList;
  */
 
 public class ManagerSwitchState extends ManagerState {
-
-
-
     /**
-     * determines the state of the Manager
-     * @param mPokémonButtons trigger button for checking PokéDexData dropdown option
-     * @param mBackButton  trigger button for when selected state is canceled
-     * @param mSwitchButton trigger for when switching pokemons
-     * @param mMessage show messages
-     * @param mManager accessing the Manager
+     * Initializes the ManagerSwitchState.
+     * @param mPokémonButtons   The ArrayList of PokémonButtons from the Player's party.
+     * @param mBackButton       The back Button.
+     * @param mSwitchButton     The switch Button.
+     * @param mMessage          The TextView where the message is displayed.
+     * @param mManager          The Manager where the state is stored.
      */
-    public ManagerSwitchState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
+    public ManagerSwitchState(ArrayList<PokémonButton> mPokémonButtons,
+                              Button mBackButton,
+                              Button mSwitchButton,
+                              TextView mMessage,
+                              Manager mManager) {
         this.mPokémonButtons = mPokémonButtons;
         this.mBackButton = mBackButton;
         this.mSwitchButton = mSwitchButton;
@@ -35,44 +36,44 @@ public class ManagerSwitchState extends ManagerState {
     }
 
     /**
-     * it switches the pokemon from the box to the party
-     * @param ctx where the listview is to be displayed
-     * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the box has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param view      Specific list of Pokémon seen in the adapter.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
     @Override
-    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos) {
+    public void executePokemonListView(Activity contex, View view, PokemonApp app, int pos) {
         mManager.setSelectedProfile2(mManager.getPlayer().getBox().get(pos));
         switchPokemon();
     }
 
     /**
-     * it switches the pokemon from the party to the box
-     * @param ctx where the listview is to be displayed
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the party has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
     @Override
-    public void executePokemonButton(Activity ctx, PokemonApp app, int pos) {
+    public void executePokemonButton(Activity contex, PokemonApp app, int pos) {
         mManager.setSelectedProfile2(mManager.getPlayer().getPokemons().get(pos));
         switchPokemon();
     }
 
     /**
-     * triggers the switch event until canceled
+     * Returns to the ManagerMainState.
      */
     @Override
     public void executeSwitchButton(){
         noItemSelected();
         PokemonApp.setAsSwitchButton(mSwitchButton);
         mManager.getPokemonAdapter().notifyDataSetChanged();
-        updatePokemons();
+        updatePokémonButtons();
         mManager.setState(mainState());
     }
 
     /**
-     * The two selected PokéDexData would switch places
+     * Switches the 2 selected Pokémon.
      */
     public void switchPokemon(){
         PokémonProfile swap1 = new PokémonProfile(mManager.getSelectedProfile1());
@@ -80,7 +81,7 @@ public class ManagerSwitchState extends ManagerState {
         mManager.getSelectedProfile1().loadProfile(swap2);
         mManager.getSelectedProfile2().loadProfile(swap1);
         mManager.getPokemonAdapter().notifyDataSetChanged();
-        updatePokemons();
+        updatePokémonButtons();
         mManager.setState(mainState());
     }
 }

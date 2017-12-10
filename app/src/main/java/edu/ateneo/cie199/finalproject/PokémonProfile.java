@@ -38,7 +38,7 @@ public class PokémonProfile {
     /**
      * Creates a PokémonProfile object from a PokéDexData object and a level value. Usually
      * used in generating the enemy in battles and for initializing and loading player data.
-     * @param mId   The given identification number for the created PokémonProfile object.
+     * @param mId       The given identification number for the created PokémonProfile object.
      * @param pokemon   The PokéDexData for the created PokémonProfile object.
      * @param mLevel    The level value for the created PokémonProfile object.
      */
@@ -114,12 +114,12 @@ public class PokémonProfile {
 
     /**
      * This function computes for the total stat of the given attribute of the PokémonProfile.
-     * @param baseStat  The base stat of the attribute.
-     * @param ivStat    The IV stat of the attribute.
-     * @param evStat    The EV stat of the attribute.
-     * @param level     The level value of the PokémonProfile.
+     * @param baseStat      The base stat of the attribute.
+     * @param ivStat        The IV stat of the attribute.
+     * @param evStat        The EV stat of the attribute.
+     * @param level         The level value of the PokémonProfile.
      * @param natureStat    The nature stat of the attribute.
-     * @return  The total value of the given stat of the PokémonProfile.
+     * @return              The total value of the given stat of the PokémonProfile.
      */
     private int getStat(int baseStat, int ivStat, int evStat, int level, int natureStat){
         double stat = floor(floor((
@@ -370,7 +370,7 @@ public class PokémonProfile {
     /**
      * Returns if the PokémonProfile can evolve or not.
      * @param nextDex   The PokéDextData of the PokémonProfile's next evolution.
-     * @return  Returns true if the PokémonProfile can evolve else false.
+     * @return          Returns true if the PokémonProfile can evolve else false.
      */
     public boolean canEvolve(PokéDexData nextDex){
         if(nextDex.isEmpty()){

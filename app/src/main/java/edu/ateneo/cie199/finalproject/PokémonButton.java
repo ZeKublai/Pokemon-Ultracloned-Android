@@ -19,8 +19,8 @@ public class PokémonButton {
 
     /**
      * Creates the PokémonButton object given a Button, Image and ProgressBar object.
-     * @param mButton   The Button object of the created PokémonButton object.
-     * @param mImage    The ImageView object of the created PokémonButton object.
+     * @param mButton       The Button object of the created PokémonButton object.
+     * @param mImage        The ImageView object of the created PokémonButton object.
      * @param mProgressBar  The ProgressBar object of the created PokémonButton object.
      */
     public PokémonButton(Button mButton, ImageView mImage, ProgressBar mProgressBar) {

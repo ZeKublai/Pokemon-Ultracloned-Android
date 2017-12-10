@@ -10,12 +10,12 @@ public class MoveSpecial extends MoveDamage {
 
     /**
      * Creates a Special Move given the name, type, maximum PP, current PP, power and accuracy.
-     * @param mName The name of the created Move.
-     * @param mType The type of the created Move.
-     * @param mMaxPP    The maximum PP value of the created Move.
+     * @param mName         The name of the created Move.
+     * @param mType         The type of the created Move.
+     * @param mMaxPP        The maximum PP value of the created Move.
      * @param mCurrentPP    The current PP value of the created Move.
-     * @param mPower    The power value of the created Move.
-     * @param mAccuracy The accuracy value of the created Move.
+     * @param mPower        The power value of the created Move.
+     * @param mAccuracy     The accuracy value of the created Move.
      */
     public MoveSpecial(String mName, Type mType, int mMaxPP, int mCurrentPP, int mPower,
                        int mAccuracy) {
@@ -44,7 +44,7 @@ public class MoveSpecial extends MoveDamage {
     /**
      * Returns the special attack stat of the given PokémonProfile.
      * @param profile   The PokémonProfile where the total special attack stat value is obtained.
-     * @return  The special attack stat of the given PokémonProfile.
+     * @return          The special attack stat of the given PokémonProfile.
      */
     @Override
     public int getAttackStat(PokémonProfile profile){
@@ -54,7 +54,7 @@ public class MoveSpecial extends MoveDamage {
     /**
      * Returns the special defense stat of the given PokémonProfile
      * @param profile   The PokémonProfile where the total special defense stat value is obtained.
-     * @return  The special defense stat of the given PokémonProfile.
+     * @return          The special defense stat of the given PokémonProfile.
      */
     @Override
     public int getDefenseStat(PokémonProfile profile){

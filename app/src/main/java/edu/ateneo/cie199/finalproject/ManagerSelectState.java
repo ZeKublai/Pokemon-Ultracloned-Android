@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class ManagerSelectState extends ManagerState {
 
     /**
-     * determines the state of the Manager
-     * @param mPokémonButtons trigger button for checking PokéDexData dropdown option
-     * @param mBackButton  trigger button for when selected state is canceled
-     * @param mSwitchButton trigger for when switching pokemons
-     * @param mMessage show messages
-     * @param mManager accessing the Manager
+     * Initializes the ManagerSelectState.
+     * @param mPokémonButtons   The ArrayList of PokémonButtons from the Player's party.
+     * @param mBackButton       The back Button.
+     * @param mSwitchButton     The switch Button.
+     * @param mMessage          The TextView where the message is displayed.
+     * @param mManager          The Manager where the state is stored.
      */
     public ManagerSelectState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
         this.mPokémonButtons = mPokémonButtons;
@@ -33,41 +33,41 @@ public class ManagerSelectState extends ManagerState {
     }
 
     /**
-     * it selects the pokemon
-     * @param ctx where the listview is to be displayed
-     * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the box has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param view      Specific list of Pokémon seen in the adapter.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
     @Override
-    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos){
+    public void executePokemonListView(Activity contex, View view, PokemonApp app, int pos){
         mManager.setSelectedProfile1(mManager.getPlayer().getBox().get(pos));
         mManager.setState(switchState());
         view.setBackground(app.getShape(PokemonApp.BACK_COLOR));
     }
 
     /**
-     * the selected pokemon can either be sent to box or added to party
-     * @param ctx where the listview is to be displayed
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the party has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
     @Override
-    public void executePokemonButton(Activity ctx, PokemonApp app, int pos){
+    public void executePokemonButton(Activity contex, PokemonApp app, int pos){
         mManager.setSelectedProfile1(mManager.getPlayer().getPokemons().get(pos));
         mManager.setState(switchState());
         mPokémonButtons.get(pos).getButton().setBackground(app.getShape(PokemonApp.BACK_COLOR));
     }
 
     /**
-     * The two selected PokéDexData would switch places
+     * Returns to the ManagerMainState.
      */
     @Override
     public void executeSwitchButton(){
         noItemSelected();
         PokemonApp.setAsSwitchButton(mSwitchButton);
         mManager.getPokemonAdapter().notifyDataSetChanged();
-        updatePokemons();
+        updatePokémonButtons();
         mManager.setState(mainState());
     }
 }

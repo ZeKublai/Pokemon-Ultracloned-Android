@@ -56,8 +56,8 @@ public class MusicHandler {
     /**
      * Given a boolean, the function decides whether to
      * initialize and play the sound effect given or not.
-     * @param context   The context needed to initialize the music.
-     * @param sfxId     The resource identification number of the sound effect.
+     * @param context       The context needed to initialize the music.
+     * @param sfxId         The resource identification number of the sound effect.
      * @param sfxEnabler    True if the user wants to hear the sound effect else false.
      */
     public void playSfx(Context context, int sfxId, boolean sfxEnabler){

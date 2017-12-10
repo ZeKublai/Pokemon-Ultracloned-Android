@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/29/2017.
- * This abstract class focuses on the entirety of the Manager State
+ * This abstract class focuses on the states of the Manager object.
  */
 
 public abstract class ManagerState {
@@ -21,29 +21,29 @@ public abstract class ManagerState {
 
 
     /**
-     * does nothing
-     * @param ctx where the listview is to be displayed
-     * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the box has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param view      Specific list of Pokémon seen in the adapter.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
-    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos){
+    public void executePokemonListView(Activity contex, View view, PokemonApp app, int pos){
 
     }
 
     /**
-     * does nothing
-     * @param ctx where the listview is to be displayed
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the party has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
-    public void executePokemonButton(Activity ctx, PokemonApp app, int pos){
+    public void executePokemonButton(Activity contex, PokemonApp app, int pos){
 
     }
 
     /**
-     * executes what the item in the list view does
-     * @param pos index of the listview
+     * Executes when the Item in the ListView is pressed.
+     * @param pos   Index of the selected Item in the ListView.
      */
     public void executeItemListView(int pos){
         PokemonApp.setAsSwitchButton(mSwitchButton);
@@ -55,24 +55,28 @@ public abstract class ManagerState {
         }
         else{
             mManager.getItemAdapter().itemSelected(ItemList.NO_ITEM_SELECTED);
-            mManager.getSelectedItem().useInManager(mManager.getSelectedProfile1(), mMessage, mManager.getPlayer().getBag());
+            mManager.getSelectedItem().useInManager(
+                    mManager.getSelectedProfile1(),
+                    mMessage,
+                    mManager.getPlayer().getBag()
+            );
             mManager.setState(mainState());
             mMessage.setText(Message.ERROR_ECHO);
             PokemonApp.setAsBackButton(mBackButton);
         }
-        updatePokemons();
+        updatePokémonButtons();
         mManager.getPokemonAdapter().notifyDataSetChanged();
     }
 
     /**
-     * does nothing
+     * Does nothing.
      */
     public void executeBackButton(){
 
     }
 
     /**
-     * runs the implementation of the switch PokéDexData through the select State
+     * Runs the implementation of the switch Button.
      */
     public void executeSwitchButton(){
         PokemonApp.setAsCancelButton(mSwitchButton);
@@ -81,142 +85,127 @@ public abstract class ManagerState {
     }
 
     /**
-     * sets the buttons into the party of 6 pokemon of the user
+     * Resets the Buttons that contain the Pokémon in the Player's party.
      */
-    public void initializeTeam(){
+    public void ResetPokémonButtons(){
         for(int index = 0; index < mPokémonButtons.size(); index++){
             mPokémonButtons.get(index).getButton().setClickable(false);
             mPokémonButtons.get(index).setVisibility(View.INVISIBLE);
         }
-        updatePokemons();
+        updatePokémonButtons();
     }
 
     /**
-     * updates the party through the changes in the button
+     * Updates the Buttons that contain the Pokémon in the Player's party.
      */
-    public void updatePokemons(){
+    public void updatePokémonButtons(){
         for(int index = 0; index < mManager.getPlayer().getPokemons().size(); index++) {
             mPokémonButtons.get(index).setData(mManager.getPlayer().getPokemons().get(index));
         }
     }
 
     /**
-     * notifies that there in no selected item
+     * Sets the Item Adapter such that the it doesn't select an Item.
      */
     public void noItemSelected(){
         mManager.getItemAdapter().itemSelected(ItemList.NO_ITEM_SELECTED);
         mManager.getItemAdapter().notifyDataSetChanged();
     }
 
-    /**
-     * get the button set to a PokéDexData
-     * @return button set to a PokéDexData
-     */
-    public ArrayList<PokémonButton> getPokemonButtons() {
-        return mPokémonButtons;
-    }
 
     /**
-     * set the button set to a PokéDexData
-     * @param mPokémonButtons button set to a PokéDexData
-     */
-    public void setPokemonButtons(ArrayList<PokémonButton> mPokémonButtons) {
-        this.mPokémonButtons = mPokémonButtons;
-    }
-
-    /**
-     * get the button for the back option
-     * @return button for the back option
+     * Gets the back Button.
+     * @return  The back Button.
      */
     public Button getBackButton() {
         return mBackButton;
     }
 
     /**
-     * set the button for the back option
-     * @param mBackButton button for the back option
-     */
-    public void setBackButton(Button mBackButton) {
-        this.mBackButton = mBackButton;
-    }
-
-    /**
-     * get the button pressed for switching
-     * @return button pressed for switching
+     * Gets the switch Button.
+     * @return  The switch Button.
      */
     public Button getSwitchButton() {
         return mSwitchButton;
     }
 
     /**
-     * set the button pressed for switching
-     * @param mSwitchButton button pressed for switching
-     */
-    public void setSwitchButton(Button mSwitchButton) {
-        this.mSwitchButton = mSwitchButton;
-    }
-
-    /**
-     * get the outputted message
-     * @return outputted message
+     * Gets the TextView containing the message.
+     * @return  The TextView containing the message.
      */
     public TextView getMessage() {
         return mMessage;
     }
 
     /**
-     * set the outputted message
-     * @param mMessage outputted message
+     * Sets the TextView containing the message.
+     * @return  The TextView containing the message to be set.
      */
     public void setMessage(TextView mMessage) {
         this.mMessage = mMessage;
     }
 
     /**
-     * get the generated Manager
-     * @return generated Manager
+     * Gets the Manager object.
+     * @return  The Manager object.
      */
     public Manager getManager() {
         return mManager;
     }
 
     /**
-     * set the desired Manager
-     * @param mManager generate Manager
-     */
-    public void setManager(Manager mManager) {
-        this.mManager = mManager;
-    }
-
-    /**
-     * changes to the Manager acitivity when triggering the use item state
-     * @return set of instructions for the given state
+     * Returns the current state as a ManagerUseItemState.
+     * @return  The current state as a ManagerUseItemState.
      */
     public ManagerUseItemState useItemState(){
-        return new ManagerUseItemState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerUseItemState(
+                mPokémonButtons,
+                mBackButton,
+                mSwitchButton,
+                mMessage,
+                mManager
+        );
     }
 
     /**
-     * changes to the Manager acitivity when triggering the main state
-     * @return set of instructions for the given state
+     * Returns the current state as a ManagerMainState.
+     * @return  The current state as a ManagerMainState.
      */
     public ManagerMainState mainState(){
-        return new ManagerMainState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerMainState(
+                mPokémonButtons,
+                mBackButton,
+                mSwitchButton,
+                mMessage,
+                mManager
+        );
     }
 
     /**
-     * changes to the Manager acitivity when triggering the select state
-     * @return set of instructions for the given state
+     * Returns the current state as a ManagerSelectState.
+     * @return  The current state as a ManagerSelectState.
      */
     public ManagerSelectState selectState(){
-        return new ManagerSelectState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerSelectState(
+                mPokémonButtons,
+                mBackButton,
+                mSwitchButton,
+                mMessage,
+                mManager
+        );
     }
 
     /**
-     * changes to the Manager acitivity when triggering the switch state
-     * @return set of instructions for the given state
+     * Returns the current state as a ManagerSwitchState.
+     * @return  The current state as a ManagerSwitchState.
      */
     public ManagerSwitchState switchState(){
-        return new ManagerSwitchState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerSwitchState(
+                mPokémonButtons,
+                mBackButton,
+                mSwitchButton,
+                mMessage,
+                mManager
+        );
     }
 }

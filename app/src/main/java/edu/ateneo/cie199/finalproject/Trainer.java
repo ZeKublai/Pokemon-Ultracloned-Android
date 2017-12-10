@@ -29,13 +29,13 @@ public class Trainer extends Player{
 
     /**
      * Creates a new Trainer object from the values given.
-     * @param mName         The created Trainer's name.
-     * @param mTeam         The created Trainer's Team object.
-     * @param mTier         The created Trainer's tier value.
-     * @param mTitle        The created Trainer's title to be set.
-     * @param mIntro        The created Trainer's intro statement.
-     * @param mWin          The created Trainer's win statement.
-     * @param mLose         The created Trainer's lose statement.
+     * @param mName             The created Trainer's name.
+     * @param mTeam             The created Trainer's Team object.
+     * @param mTier             The created Trainer's tier value.
+     * @param mTitle            The created Trainer's title to be set.
+     * @param mIntro            The created Trainer's intro statement.
+     * @param mWin              The created Trainer's win statement.
+     * @param mLose             The created Trainer's lose statement.
      * @param mFavPokéDexData1  The created Trainer's first favorite Pokémon PokéDexData.
      * @param mFavPokéDexData2  The created Trainer's second favorite Pokémon PokéDexData.
      * @param mImageMain        The created Trainer's main image resource ID.

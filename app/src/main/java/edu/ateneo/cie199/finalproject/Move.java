@@ -104,7 +104,7 @@ public abstract class Move {
     /**
      * Given a String object, the function returns the category identification number of the move.
      * @param Category  The String object to be passed to identify the category.
-     * @return  The category identification number.
+     * @return          The category identification number.
      */
     public static int decodeCategory(String Category){
         int categoryNumber;
@@ -134,8 +134,8 @@ public abstract class Move {
      * defender depending on the given accuracy roll and the critical roll.
      * @param accuracyResult    Usually a random number generated from 0 to 100.
      * @param criticalResult    Usually a random number generated from 0 to 16.
-     * @param attacker  The PokémonProfile that would perform the Move.
-     * @param defender  The defending PokémonProfile.
+     * @param attacker          The PokémonProfile that would perform the Move.
+     * @param defender          The defending PokémonProfile.
      */
     public abstract void execute(int accuracyResult,
                                  int criticalResult,
@@ -145,7 +145,7 @@ public abstract class Move {
     /**
      * Executes recoil damage on the PokémonProfile attacker.
      * @param attacker  The PokémonProfile that would receive the recoil damage.
-     * @return  True if execution of recoil is successful.
+     * @return          True if execution of recoil is successful.
      */
     public abstract boolean executeRecoil(PokémonProfile attacker);
 }

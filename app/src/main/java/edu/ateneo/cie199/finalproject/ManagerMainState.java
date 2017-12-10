@@ -16,8 +16,19 @@ import java.util.ArrayList;
  */
 
 public class ManagerMainState extends ManagerState {
-
-    public ManagerMainState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
+    /**
+     * Initializes the ManagerMainState.
+     * @param mPokémonButtons   The ArrayList of PokémonButtons from the Player's party.
+     * @param mBackButton       The back Button.
+     * @param mSwitchButton     The switch Button.
+     * @param mMessage          The TextView where the message is displayed.
+     * @param mManager          The Manager where the state is stored.
+     */
+    public ManagerMainState(ArrayList<PokémonButton> mPokémonButtons,
+                            Button mBackButton,
+                            Button mSwitchButton,
+                            TextView mMessage,
+                            Manager mManager) {
         this.mPokémonButtons = mPokémonButtons;
         this.mBackButton = mBackButton;
         this.mSwitchButton = mSwitchButton;
@@ -25,7 +36,7 @@ public class ManagerMainState extends ManagerState {
         this.mManager = mManager;
 
         this.mMessage.setText(Message.MESSAGE_MANAGER_MAIN);
-        initializeTeam();
+        ResetPokémonButtons();
 
         PokemonApp.setAsBackButton(mBackButton);
         PokemonApp.setAsSwitchButton(mSwitchButton);
@@ -35,72 +46,82 @@ public class ManagerMainState extends ManagerState {
     }
 
     /**
-     * Executes the custom adapter used for th list of PokéDexData
-     * @param ctx where the listview is to be displayed
-     * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the box has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param view      Specific list of Pokémon seen in the adapter.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
     @Override
-    public void executePokemonListView(Activity ctx, View view, PokemonApp app, int pos){
-        showPokemonMenu(ctx, view, app, mManager.getPlayer().getBox().get(pos),
+    public void executePokemonListView(Activity contex, View view, PokemonApp app, int pos){
+        showPokemonMenu(contex, view, app, mManager.getPlayer().getBox().get(pos),
                 mManager.getPlayer().getBox(), mManager.getPlayer().getPokemons(), "ADD TO PARTY",
                 app.getPlayer().getPokemons().size() < Player.MAX_POKéMON_SLOTS);
     }
 
     /**
-     * Be able to select a specific PokéDexData in the box storage
-     * @param ctx where the listview is to be displayed
-     * @param app access the PokemonApp functions
-     * @param pos index of the listview
+     * Executes when the Pokémon in the party has been pressed.
+     * @param contex    Where the ListView is to be displayed.
+     * @param app       Used to access the PokémonApp functions.
+     * @param pos       The index at the ListView.
      */
     @Override
-    public void executePokemonButton(Activity ctx, PokemonApp app, int pos){
-        showPokemonMenu(ctx, mPokémonButtons.get(pos).getButton(), app,
+    public void executePokemonButton(Activity contex, PokemonApp app, int pos){
+        showPokemonMenu(contex, mPokémonButtons.get(pos).getButton(), app,
                 mManager.getPlayer().getPokemons().get(pos), mManager.getPlayer().getPokemons(),
                 mManager.getPlayer().getBox(), "SEND TO BOX", true);
     }
 
     /**
-     *
-     * @param ctx where the listview is to be displayed
-     * @param view specific list of pokemon seen in the adapter
-     * @param app access the PokemonApp functions
-     * @param profile data of the selected PokéDexData
-     * @param origin where the PokéDexData came from; either box or party
-     * @param destination where the PokéDexData would go; either box or party
-     * @param transferLabel message when triggered
-     * @param canTransfer boolean value to check if PokéDexData can be transferred
+     * Shows the dropdown menu containing the options for the selected Pokémon.
+     * @param contex        Where the ListView is to be displayed.
+     * @param view          Specific list of Pokémon seen in the adapter.
+     * @param app           Used to access the PokémonApp functions.
+     * @param profile       The selected Pokémon.
+     * @param origin        Where the Pokémon came from which is either from box or party.
+     * @param destination   Where the Pokémon would go which is either to box or party.
+     * @param transferLabel The option shown depending on the origin.
+     * @param canTransfer   The boolean value that says if the Pokémon can be transfered.
      */
-    public void showPokemonMenu(final Activity ctx, View view,
+    public void showPokemonMenu(final Activity contex, View view,
                                 final PokemonApp app,
                                 final PokémonProfile profile,
                                 final ArrayList<PokémonProfile> origin,
                                 final ArrayList<PokémonProfile> destination,
                                 String transferLabel,
                                 boolean canTransfer){
-        PopupMenu popup = new PopupMenu(ctx, view);
+        PopupMenu popup = new PopupMenu(contex, view);
         popup.getMenuInflater().inflate(R.menu.pokemon_profile_menu, popup.getMenu());
 
-        popup.getMenu().getItem(1).setVisible(profile.canEvolve(app.getPokemon(profile.getDexData().getNextDex())));
-        popup.getMenu().getItem(2).setVisible(mManager.getPlayer().getPokemons().size() + mManager.getPlayer().getBox().size() > 1);
+        popup.getMenu().getItem(1).setVisible(profile.canEvolve(app.getPokemon(
+                profile.getDexData().getNextDex()
+        )));
+        popup.getMenu().getItem(2).setVisible(
+                mManager.getPlayer().getPokemons().size()
+                + mManager.getPlayer().getBox().size() > 1
+        );
         popup.getMenu().getItem(3).setTitle(transferLabel);
         popup.getMenu().getItem(3).setVisible(canTransfer);
 
         for(int index = 0; index < popup.getMenu().size(); index++){
-            PokemonApp.applyFontToMenuItem(ctx, popup.getMenu().getItem(index));
+            PokemonApp.applyFontToMenuItem(contex, popup.getMenu().getItem(index));
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch(item.getItemId()) {
                     case R.id.action_summary :{
-                        showPokemonProfileDialog(app, ctx, profile);
+                        showPokemonProfileDialog(app, contex, profile);
                         break;
                     }
                     case R.id.action_evolve :{
                         profile.evolve(app.getPokemon(profile.getDexData().getNextDex()));
-                        mMessage.setText(profile.getNickname() + " has evolved into a " + profile.getDexData().getName() + "!");
+                        mMessage.setText(
+                                profile.getNickname()
+                                + " has evolved into a "
+                                + profile.getDexData().getName()
+                                + "!"
+                        );
                         break;
                     }
                     case R.id.action_release :{
@@ -113,7 +134,7 @@ public class ManagerMainState extends ManagerState {
                         break;
                     }
                 }
-                initializeTeam();
+                ResetPokémonButtons();
                 mManager.getPokemonAdapter().notifyDataSetChanged();
                 return true;
             }
@@ -122,17 +143,19 @@ public class ManagerMainState extends ManagerState {
     }
 
     /**
-     * Displays the data of the PokéDexData on a specific activity
-     * @param app access the PokemonApp functions
-     * @param ctx where the listview is to be displayed
-     * @param profile data of the selected PokéDexData
+     * Displays the Dialaog containing all the data of the selected Pokémon.
+     * @param app           Used to access the PokémonApp functions.
+     * @param contex        Where the ListView is to be displayed.
+     * @param profile       The selected Pokémon.
      */
-    public void showPokemonProfileDialog(final PokemonApp app, Activity ctx, final PokémonProfile profile){
-        final Dialog dialog = new Dialog(ctx);
+    public void showPokemonProfileDialog(final PokemonApp app,
+                                         Activity contex,
+                                         final PokémonProfile profile){
+        final Dialog dialog = new Dialog(contex);
         dialog.setContentView(R.layout.pokemon_profile_dialog);
         final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);
         edtNickname.setText(profile.getNickname());
-        app.loadPokemonDetails(dialog, ctx, profile);
+        app.loadPokemonDetails(dialog, contex, profile);
         Button btnDialogOk = (Button) dialog.findViewById(R.id.btn_profile_back);
         btnDialogOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +172,7 @@ public class ManagerMainState extends ManagerState {
                     else{
                         profile.setNickname(edtNickname.getText().toString());
                     }
-                    updatePokemons();
+                    updatePokémonButtons();
                     dialog.dismiss();
                 }
             }

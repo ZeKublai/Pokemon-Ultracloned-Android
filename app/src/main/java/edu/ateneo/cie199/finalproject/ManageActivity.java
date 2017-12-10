@@ -26,7 +26,7 @@ public class ManageActivity extends AppCompatActivity {
     Manager manager;
 
     /**
-     * Initialize the Manage Activity
+     * Initializes the Manage Activity.
      * @param savedInstanceState
      */
     @Override
@@ -35,7 +35,10 @@ public class ManageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage);
 
         final PokemonApp app = (PokemonApp) getApplication();
-        app.setFontForContainer((RelativeLayout) findViewById(R.id.manager_group), "generation6.ttf");
+        app.setFontForContainer(
+                (RelativeLayout) findViewById(R.id.manager_group),
+                PokemonApp.RETRO_FONT
+        );
 
         music = new MusicHandler();
         music.initMusic(ManageActivity.this, MusicHandler.MUSIC_MANAGE);
@@ -53,15 +56,44 @@ public class ManageActivity extends AppCompatActivity {
         lsvPokemons.setAdapter(manager.getPokemonAdapter());
         lsvItems.setAdapter(manager.getItemAdapter());
 
-        app.setFontForContainer((ListView) findViewById(R.id.lsv_pokemon_box), "generation6.ttf");
-        app.setFontForContainer((ListView) findViewById(R.id.lsv_player_bag), "generation6.ttf");
+        app.setFontForContainer(
+                (ListView) findViewById(R.id.lsv_pokemon_box),
+                PokemonApp.RETRO_FONT
+        );
+        app.setFontForContainer(
+                (ListView) findViewById(R.id.lsv_player_bag),
+                PokemonApp.RETRO_FONT);
 
-        btnPokémons.add(new PokémonButton((Button) findViewById(R.id.btn_pokemon1), (ImageView) findViewById(R.id.img_pokemon1), (ProgressBar) findViewById(R.id.bar_pokemon1)));
-        btnPokémons.add(new PokémonButton((Button) findViewById(R.id.btn_pokemon2), (ImageView) findViewById(R.id.img_pokemon2), (ProgressBar) findViewById(R.id.bar_pokemon2)));
-        btnPokémons.add(new PokémonButton((Button) findViewById(R.id.btn_pokemon3), (ImageView) findViewById(R.id.img_pokemon3), (ProgressBar) findViewById(R.id.bar_pokemon3)));
-        btnPokémons.add(new PokémonButton((Button) findViewById(R.id.btn_pokemon4), (ImageView) findViewById(R.id.img_pokemon4), (ProgressBar) findViewById(R.id.bar_pokemon4)));
-        btnPokémons.add(new PokémonButton((Button) findViewById(R.id.btn_pokemon5), (ImageView) findViewById(R.id.img_pokemon5), (ProgressBar) findViewById(R.id.bar_pokemon5)));
-        btnPokémons.add(new PokémonButton((Button) findViewById(R.id.btn_pokemon6), (ImageView) findViewById(R.id.img_pokemon6), (ProgressBar) findViewById(R.id.bar_pokemon6)));
+        btnPokémons.add(new PokémonButton(
+                (Button) findViewById(R.id.btn_pokemon1),
+                (ImageView) findViewById(R.id.img_pokemon1),
+                (ProgressBar) findViewById(R.id.bar_pokemon1)
+        ));
+        btnPokémons.add(new PokémonButton(
+                (Button) findViewById(R.id.btn_pokemon2),
+                (ImageView) findViewById(R.id.img_pokemon2),
+                (ProgressBar) findViewById(R.id.bar_pokemon2)
+        ));
+        btnPokémons.add(new PokémonButton(
+                (Button) findViewById(R.id.btn_pokemon3),
+                (ImageView) findViewById(R.id.img_pokemon3),
+                (ProgressBar) findViewById(R.id.bar_pokemon3)
+        ));
+        btnPokémons.add(new PokémonButton(
+                (Button) findViewById(R.id.btn_pokemon4),
+                (ImageView) findViewById(R.id.img_pokemon4),
+                (ProgressBar) findViewById(R.id.bar_pokemon4)
+        ));
+        btnPokémons.add(new PokémonButton(
+                (Button) findViewById(R.id.btn_pokemon5),
+                (ImageView) findViewById(R.id.img_pokemon5),
+                (ProgressBar) findViewById(R.id.bar_pokemon5)
+        ));
+        btnPokémons.add(new PokémonButton(
+                (Button) findViewById(R.id.btn_pokemon6),
+                (ImageView) findViewById(R.id.img_pokemon6),
+                (ProgressBar) findViewById(R.id.bar_pokemon6)
+        ));
 
         manager.setState(new ManagerMainState(btnPokémons,
                 (Button) findViewById(R.id.btn_pokemon_back),
@@ -86,7 +118,12 @@ public class ManageActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                         app.getMusicHandler().playButtonSfx(app.getSFXSwitch());
-                        manager.getState().executePokemonListView(ManageActivity.this, view, app, pos);
+                        manager.getState().executePokemonListView(
+                                ManageActivity.this,
+                                view,
+                                app,
+                                pos
+                        );
                     }
                 }
         );
@@ -110,7 +147,10 @@ public class ManageActivity extends AppCompatActivity {
                             manager.getState().executeBackButton();
                         }
                         else{
-                            Intent mainActivityIntent = new Intent(ManageActivity.this, MainActivity.class);
+                            Intent mainActivityIntent = new Intent(
+                                    ManageActivity.this,
+                                    MainActivity.class
+                            );
                             mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivityIfNeeded(mainActivityIntent, 0);
                             finish();
@@ -139,7 +179,7 @@ public class ManageActivity extends AppCompatActivity {
     }
 
     /**
-     * Continues the music when switching activities.
+     * Continues the music when switching Activities.
      */
     @Override
     protected void onResume() {
@@ -154,7 +194,7 @@ public class ManageActivity extends AppCompatActivity {
     }
 
     /**
-     * Pause the music when switching activities.
+     * Pause the music when switching Activities.
      */
     @Override
     protected void onPause() {

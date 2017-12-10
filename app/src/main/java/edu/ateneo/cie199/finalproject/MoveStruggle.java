@@ -26,8 +26,8 @@ public class MoveStruggle extends MovePhysical {
      * Damages the defending PokémonProfile.
      * @param accuracyResult    Usually a random number generated from 0 to 100.
      * @param criticalResult    Usually a random number generated from 0 to 16.
-     * @param attacker  The PokémonProfile that would perform the Move.
-     * @param defender  The defending PokémonProfile.
+     * @param attacker          The PokémonProfile that would perform the Move.
+     * @param defender          The defending PokémonProfile.
      */
     @Override
     public void execute(int accuracyResult,
@@ -66,7 +66,7 @@ public class MoveStruggle extends MovePhysical {
     /**
      * Damages the attacking PokémonProfile a quarter of its HP.
      * @param attacker  The PokémonProfile that would receive the recoil damage.
-     * @return  True by default.
+     * @return          True by default.
      */
     @Override
     public boolean executeRecoil(PokémonProfile attacker){

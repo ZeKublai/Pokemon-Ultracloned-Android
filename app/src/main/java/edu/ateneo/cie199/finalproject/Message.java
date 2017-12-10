@@ -101,7 +101,7 @@ public class Message {
     /**
      * Returns the target of the update depending on the type of display that was given.
      * @param battle    The battle where the target will be obtained.
-     * @return  The display info set where the Message object will update.
+     * @return          The display info set where the Message object will update.
      */
     public DisplayInfoSet getTarget(Battle battle){
         if(mDisplay instanceof DisplayInfoSetBuddy){

@@ -53,7 +53,7 @@ public class BattlePokemonState extends BattleMainState{
                     battle.getTrainer().getName()
                     + " is about to send out "
                     + battle.getTrainer().getBuddy().getNickname()
-                    + "! Switch next PokéDexData?"
+                    + "! Switch next Pokémon?"
             );
         }
         else {

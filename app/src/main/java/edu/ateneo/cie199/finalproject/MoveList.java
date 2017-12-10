@@ -25,7 +25,7 @@ public class MoveList extends ArrayAdapter<Move> {
     /**
      * Initializes the list of Moves from an ArrayList of Moves.
      * @param context   The context needed to initialize the MoveList object.
-     * @param moves The ArrayList that would populate the MoveList object.
+     * @param moves     The ArrayList that would populate the MoveList object.
      */
     public MoveList(Activity context, ArrayList<Move> moves) {
         super(context, R.layout.list_move, moves);
@@ -37,9 +37,9 @@ public class MoveList extends ArrayAdapter<Move> {
     /**
      * Returns the specific view in the MoveList given the current position of the index.
      * @param position  The index in the ListView.
-     * @param view  The object in the layout.
+     * @param view      The object in the layout.
      * @param parent    The Overhead holder.
-     * @return  Specific view in the MoveList.
+     * @return          Specific view in the MoveList.
      */
     @Override
     public View getView(int position, View view, ViewGroup parent) {

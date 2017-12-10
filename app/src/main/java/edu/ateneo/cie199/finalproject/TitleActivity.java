@@ -31,7 +31,10 @@ public class TitleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_title);
 
         final PokemonApp app = (PokemonApp) getApplication();
-        app.setFontForContainer((RelativeLayout)findViewById(R.id.title_group), "generation6.ttf");
+        app.setFontForContainer(
+                (RelativeLayout)findViewById(R.id.title_group),
+                PokemonApp.RETRO_FONT
+        );
 
         //Plays music
         music = new MusicHandler();

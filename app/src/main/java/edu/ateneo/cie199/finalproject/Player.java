@@ -30,7 +30,7 @@ public class Player {
     /**
      * Creates a new Player object given a gender, name and starter. Used when starting a new game.
      * @param mGender   The gender of the created Player.
-     * @param mName The name of the created Player.
+     * @param mName     The name of the created Player.
      * @param starter   The starter Pokémon of the created Player.
      */
     public Player(Gender mGender, String mName, PokémonProfile starter) {
@@ -155,7 +155,7 @@ public class Player {
      * If item exists in the bag, increment the item's quantity by
      * the given item's amount and return true else return false.
      * @param item  The item to be incremented.
-     * @return  True if item has been incremented and false if item does not exist in the bag.
+     * @return      True if item has been incremented and false if item does not exist in the bag.
      */
     public boolean increaseItem(Item item){
         for(int index = 0; index < mBag.size(); index++){
@@ -182,7 +182,7 @@ public class Player {
      * Given the party index, checks the Pokémon at that index
      * and returns true if it has 0 HP and false otherwise.
      * @param pokemonIndex  The index location of the Player's party.
-     * @return  True if Pokémon at index has fainted else false.
+     * @return              True if Pokémon at index has fainted else false.
      */
     public boolean isPokemonFainted(int pokemonIndex){
         return (mPokémons.get(pokemonIndex).getCurrentHP() <= 0);
@@ -190,8 +190,8 @@ public class Player {
 
     /**
      * Transfers a PokémonProfile from either the bag or the box to either the box or the box.
-     * @param profile   The PokémonProfile that will be transferred.
-     * @param origin    The origin of the PokémonProfile.
+     * @param profile       The PokémonProfile that will be transferred.
+     * @param origin        The origin of the PokémonProfile.
      * @param destination   The destination of the PokémonProfile.
      */
     public void transferPokemon(PokémonProfile profile,
