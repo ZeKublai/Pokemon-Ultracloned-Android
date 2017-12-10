@@ -104,7 +104,7 @@ public class BattleSecondMoveState extends BattleState {
     protected void viewMessages(){
         if(mBattle.getIndex() < mBattle.getMessages().size()){
             mBattle.getMessages().get(mBattle.getIndex()).executeUpdate(mBattle);
-            mMessage.setText(mBattle.getMessages().get(mBattle.getIndex()).getMessage());
+            mMessage.setText(mBattle.getMessages().get(mBattle.getIndex()).getContent());
             mBattle.setIndex(mBattle.getIndex() + 1);
         }
         else{

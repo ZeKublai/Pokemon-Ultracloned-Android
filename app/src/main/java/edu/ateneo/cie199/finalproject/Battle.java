@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/7/2017.
- * This class handles the functions to be used for the Battle
+ * This class handles the functions to be used for the Battle object.
  */
 
 public class Battle {
     protected Player mPlayer = new Player();
 
     protected Move mSelectedMove;
-    protected PokemonProfile mSelectedPokemon = new PokemonProfile();
+    protected PokémonProfile mSelectedPokemon = new PokémonProfile();
     protected Item mSelectedItem;
      boolean mEnemyCaught = false;
 
@@ -21,18 +21,18 @@ public class Battle {
     protected Decision mPlayerDecision = new Decision();
     protected Decision mEnemyDecision = new Decision();
 
-    protected PokemonInfo mBuddyInfo;
-    protected PokemonInfo mEnemyInfo;
+    protected DisplayInfoSet mBuddyInfo;
+    protected DisplayInfoSet mEnemyInfo;
 
-    protected PokemonProfile mBuddy = new PokemonProfile();
-    protected PokemonProfile mEnemy = new PokemonProfile();
+    protected PokémonProfile mBuddy = new PokémonProfile();
+    protected PokémonProfile mEnemy = new PokémonProfile();
 
     protected ArrayList<Message> mMessages = new ArrayList<>();
 
     protected BattleState mBattleState;
 
     protected MoveList mMoveAdapter;
-    protected PokemonList mPokemonAdapter;
+    protected PokémonList mPokemonAdapter;
     protected ItemList mItemAdapter;
 
     protected int mIndex = 0;
@@ -47,11 +47,11 @@ public class Battle {
 
     /**
      * Initialize the data for the battle
-     * @param app sets the moves of the Enemy Pokemon
-     * @param mBuddyInfo gets the HP, Exp of the Buddyy Pokemon
-     * @param mEnemyInfo gets the HP, Exp of the Enemy Pokemon
+     * @param app sets the moves of the Enemy PokéDexData
+     * @param mBuddyInfo gets the HP, Exp of the Buddyy PokéDexData
+     * @param mEnemyInfo gets the HP, Exp of the Enemy PokéDexData
      */
-    public Battle(PokemonGoApp app, PokemonInfoBuddy mBuddyInfo, PokemonInfo mEnemyInfo){
+    public Battle(PokemonGoApp app, DisplayInfoSetBuddy mBuddyInfo, DisplayInfoSet mEnemyInfo){
         this.mBuddyInfo = mBuddyInfo;
         this.mEnemyInfo = mEnemyInfo;
 
@@ -59,7 +59,7 @@ public class Battle {
         this.mBuddy = app.getPlayer().getBuddy();
         this.mTypeChart = app.getAllTypes();
 
-        this.mEnemy = new PokemonProfile(app.getSpawnCount(), app.getPokemon(app.getCurrentGoal().getTitle()), app.getPlayer().getAverageLevel());
+        this.mEnemy = new PokémonProfile(app.getSpawnCount(), app.getPokemon(app.getCurrentGoal().getTitle()), PokemonGoApp.getIntegerRNG(app.getPlayer().getAverageLevel()) + 1);
         this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         this.mEnemy.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
@@ -73,8 +73,8 @@ public class Battle {
     }
 
     /**
-     * Check if the Enemy Pokemon has fainted
-     * @return true if the Enemy Pokemon fainted; false if not
+     * Check if the Enemy PokéDexData has fainted
+     * @return true if the Enemy PokéDexData fainted; false if not
      */
     public boolean isEnemyFainted(){
         if(mEnemy.getCurrentHP() <= 0){
@@ -87,7 +87,7 @@ public class Battle {
 
     /**
      * Check if your current pokemon has fainted
-     * @return true if the Enemy Pokemon fainted; false if not
+     * @return true if the Enemy PokéDexData fainted; false if not
      */
     public boolean isBuddyFainted(){
         if(getBuddy().getCurrentHP() <= 0){
@@ -145,7 +145,7 @@ public class Battle {
         setIndex(0);
         setPlayerDecision(new Decision());
         setEnemyDecision(new Decision());
-        mSelectedPokemon = new PokemonProfile();
+        mSelectedPokemon = new PokémonProfile();
     }
 
     /**
@@ -186,8 +186,8 @@ public class Battle {
     }
 
     /**
-     * Generates a move for the enemy Pokemon
-     * @return random move selected for the enemy Pokemon
+     * Generates a move for the enemy PokéDexData
+     * @return random move selected for the enemy PokéDexData
      */
     public Decision generateEnemyDecision(){
         if(getEnemy().noMorePP()){
@@ -203,7 +203,7 @@ public class Battle {
 
     /**
      * Runs the selected move of the user.
-     * Updates the Pokemon info such as HP, PP and item count
+     * Updates the PokéDexData info such as HP, PP and item count
      */
     public void doPlayerDecision(){
         if(!mPlayerDecision.isError()){
@@ -213,8 +213,8 @@ public class Battle {
     }
 
     /**
-     * Runs the random move of the enemy Pokemon.
-     * Updates the Pokemon info such as HP and PP.
+     * Runs the random move of the enemy PokéDexData.
+     * Updates the PokéDexData info such as HP and PP.
      */
     public void doEnemyDecision(){
         if(!mEnemyDecision.isError()){
@@ -236,11 +236,11 @@ public class Battle {
     }
 
     /**
-     * Determines that the enemy has been caught. adds Pokemon to team or box.
+     * Determines that the enemy has been caught. adds PokéDexData to team or box.
      */
     public void enemyHasBeenCaught(){
         if(mEnemyCaught){
-            if(mPlayer.getFreeSlot() < Player.MAX_POKEMON_SLOTS){
+            if(mPlayer.getFreeSlot() < Player.MAX_POKéMON_SLOTS){
                 mPlayer.getPokemons().add(mEnemy);
                 addMessage(new Message(mEnemy.getNickname() + Message.MESSAGE_TO_PARTY));
             }
@@ -268,7 +268,7 @@ public class Battle {
         addMessage(new MessageUpdateExp(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel() * 10
                 + Message.MESSAGE_EXP_GAINED, mBuddyInfo, mBuddy));
         mBuddy.setCurrentExp(mBuddy.getCurrentExp() + mEnemy.getLevel() * mBuddy.getLevel() * 10);
-        if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
+        if(mBuddy.getCurrentExp() >= mBuddy.getExpNeeded() && mBuddy.getLevel() < PokémonProfile.MAX_POKEMON_LEVEL){
             buddyLevelUp();
         }
         this.mBattleState = mBattleState.standbyState();
@@ -286,13 +286,13 @@ public class Battle {
     }
 
     /**
-     * Computes for the exp gained of your buddy Pokemon
+     * Computes for the exp gained of your buddy PokéDexData
      */
     public void buddyLevelUp(){
-        mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExperienceNeeded());
+        mBuddy.setCurrentExp(mBuddy.getCurrentExp() - mBuddy.getExpNeeded());
         mBuddy.setLevel(mBuddy.getLevel() + 1);
         addMessage(new MessageUpdatePokemon(mBuddy.getNickname() + Message.MESSAGE_LEVEL_UP + mBuddy.getLevel() + "!", mBuddyInfo, mBuddy));
-        if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
+        if(mBuddy.getCurrentExp() >= mBuddy.getExpNeeded()){
             buddyLevelUp();
         }
     }
@@ -319,31 +319,31 @@ public class Battle {
      * get the currently used pokemon
      * @return the first pokemon in the team
      */
-    public PokemonProfile getBuddy() {
+    public PokémonProfile getBuddy() {
         return mBuddy;
     }
 
     /**
-     * set the Pokemon to be used for battle
-     * @param mBuddy the first Pokemon in the team
+     * set the PokéDexData to be used for battle
+     * @param mBuddy the first PokéDexData in the team
      */
-    public void setBuddy(PokemonProfile mBuddy) {
+    public void setBuddy(PokémonProfile mBuddy) {
         this.mBuddy = mBuddy;
     }
 
     /**
-     * gets the current enemy Pokemon
-     * @return data of the enemy Pokemon
+     * gets the current enemy PokéDexData
+     * @return data of the enemy PokéDexData
      */
-    public PokemonProfile getEnemy() {
+    public PokémonProfile getEnemy() {
         return mEnemy;
     }
 
     /**
-     * sets the current enemy Pokemon
-     * @param mEnemy data of the enemy Pokemon
+     * sets the current enemy PokéDexData
+     * @param mEnemy data of the enemy PokéDexData
      */
-    public void setEnemy(PokemonProfile mEnemy) {
+    public void setEnemy(PokémonProfile mEnemy) {
         this.mEnemy = mEnemy;
     }
 
@@ -377,7 +377,7 @@ public class Battle {
      */
     public void addMessage(Message message){
         if(!message.isEmpty()){
-            message.setMessage(message.getMessage() + "∇");
+            message.setContent(message.getContent() + "∇");
             mMessages.add(message);
         }
     }
@@ -432,7 +432,7 @@ public class Battle {
 
     /**
      * get the decision of the enemy pokemon
-     * @return enemy Pokemon's decision
+     * @return enemy PokéDexData's decision
      */
     public Decision getEnemyDecision() {
         return mEnemyDecision;
@@ -440,46 +440,46 @@ public class Battle {
 
     /**
      * set the decision of the enemy pokemon
-     * @param mEnemyDecision enemy Pokemon's decision
+     * @param mEnemyDecision enemy PokéDexData's decision
      */
     public void setEnemyDecision(Decision mEnemyDecision) {
         this.mEnemyDecision = mEnemyDecision;
     }
 
     /**
-     * get the data of the selected buddy Pokemon
-     * @return the buddy Pokemon
+     * get the data of the selected buddy PokéDexData
+     * @return the buddy PokéDexData
      */
-    public PokemonInfo getBuddyInfo() {
+    public DisplayInfoSet getBuddyInfo() {
         return mBuddyInfo;
     }
 
     /**
-     * set the data of the selected buddy Pokemon
-     * @param mBuddyInfo the buddy Pokemon
+     * set the data of the selected buddy PokéDexData
+     * @param mBuddyInfo the buddy PokéDexData
      */
-    public void setBuddyInfo(PokemonInfo mBuddyInfo) {
+    public void setBuddyInfo(DisplayInfoSet mBuddyInfo) {
         this.mBuddyInfo = mBuddyInfo;
     }
 
     /**
-     * get data of the Enemy Pokemon. HP, PP, etc.
+     * get data of the Enemy PokéDexData. HP, PP, etc.
      * @return enemy pokemon's data. HP, PP, etc.
      */
-    public PokemonInfo getEnemyInfo() {
+    public DisplayInfoSet getEnemyInfo() {
         return mEnemyInfo;
     }
 
     /**
-     * set data of the Enemy Pokemon. HP, PP, etc.
+     * set data of the Enemy PokéDexData. HP, PP, etc.
      * @param mEnemyInfo enemy pokemon's data. HP, PP, etc.
      */
-    public void setEnemyInfo(PokemonInfo mEnemyInfo) {
+    public void setEnemyInfo(DisplayInfoSet mEnemyInfo) {
         this.mEnemyInfo = mEnemyInfo;
     }
 
     /**
-     * Determined if the wild Pokemon is caught
+     * Determined if the wild PokéDexData is caught
      * @return true if the pokemon is caught; else if not
      */
     public boolean isEnemyCaught() {
@@ -487,7 +487,7 @@ public class Battle {
     }
 
     /**
-     * set if the wild Pokemon is caught
+     * set if the wild PokéDexData is caught
      * @param mIsEnemyCaught true if the pokemon is caught; else if not
      */
     public void setEnemyCaught(boolean mIsEnemyCaught) {
@@ -498,7 +498,7 @@ public class Battle {
      * get data of the selected pokemon to be switched or used item on.
      * @return selected pokemon
      */
-    public PokemonProfile getSelectedPokemon() {
+    public PokémonProfile getSelectedPokemon() {
         return mSelectedPokemon;
     }
 
@@ -506,37 +506,37 @@ public class Battle {
      *
      * @param mSelectedPokemon
      */
-    public void setSelectedPokemon(PokemonProfile mSelectedPokemon) {
+    public void setSelectedPokemon(PokémonProfile mSelectedPokemon) {
         this.mSelectedPokemon = mSelectedPokemon;
     }
 
     /**
-     * get selected move of the Pokemon
-     * @return selected move of the Pokemon
+     * get selected move of the PokéDexData
+     * @return selected move of the PokéDexData
      */
     public Move getSelectedMove() {
         return mSelectedMove;
     }
 
     /**
-     * set the selected move of the Pokemon
-     * @param mSelectedMove selected move of the Pokemon
+     * set the selected move of the PokéDexData
+     * @param mSelectedMove selected move of the PokéDexData
      */
     public void setSelectedMove(Move mSelectedMove) {
         this.mSelectedMove = mSelectedMove;
     }
 
     /**
-     * get the list of the types for the Pokemon and its moves
-     * @return list of the types for the Pokemon and its moves
+     * get the list of the types for the PokéDexData and its moves
+     * @return list of the types for the PokéDexData and its moves
      */
     public ArrayList<Type> getTypeChart() {
         return mTypeChart;
     }
 
     /**
-     * set the the types for the Pokemon and its moves
-     * @param mTypeChart list of the types for the Pokemon and its moves
+     * set the the types for the PokéDexData and its moves
+     * @param mTypeChart list of the types for the PokéDexData and its moves
      */
     public void setTypeChart(ArrayList<Type> mTypeChart) {
         this.mTypeChart = mTypeChart;
@@ -559,34 +559,34 @@ public class Battle {
     }
 
     /**
-     * get list of Moves of the Pokemon
-     * @return list of Pokemon moves
+     * get list of Moves of the PokéDexData
+     * @return list of PokéDexData moves
      */
     public MoveList getMoveAdapter() {
         return mMoveAdapter;
     }
 
     /**
-     * set the move for the Pokemon
-     * @param mMoveAdapter list of Pokemon moves
+     * set the move for the PokéDexData
+     * @param mMoveAdapter list of PokéDexData moves
      */
     public void setMoveAdapter(MoveList mMoveAdapter) {
         this.mMoveAdapter = mMoveAdapter;
     }
 
     /**
-     * get list of Pokemon
-     * @return list of Pokemon
+     * get list of PokéDexData
+     * @return list of PokéDexData
      */
-    public PokemonList getPokemonAdapter() {
+    public PokémonList getPokemonAdapter() {
         return mPokemonAdapter;
     }
 
     /**
-     * set the Pokemon team for the battle
-     * @param mPokemonAdapter list of Pokemon for the battle
+     * set the PokéDexData team for the battle
+     * @param mPokemonAdapter list of PokéDexData for the battle
      */
-    public void setPokemonAdapter(PokemonList mPokemonAdapter) {
+    public void setPokemonAdapter(PokémonList mPokemonAdapter) {
         this.mPokemonAdapter = mPokemonAdapter;
     }
 

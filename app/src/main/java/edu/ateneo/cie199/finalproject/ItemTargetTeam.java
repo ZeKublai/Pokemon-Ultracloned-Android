@@ -2,7 +2,7 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/13/2017.
- * This abstract class handles the functions when an item is used on team member Pokemon
+ * This abstract class handles the functions when an item is used on team member PokéDexData
  */
 
 public abstract class ItemTargetTeam extends Item {
@@ -10,28 +10,28 @@ public abstract class ItemTargetTeam extends Item {
     /**
      * On which pokemon the item is to be used
      * @param battle the battle state where the item is being used
-     * @return intended target Pokemon
+     * @return intended target PokéDexData
      */
     @Override
-    public PokemonProfile getExecuteTarget(Battle battle){return battle.getSelectedPokemon();}
+    public PokémonProfile getExecuteTarget(Battle battle){return battle.getSelectedPokemon();}
 
     /**
-     * execute the item effect on the Pokemon
+     * execute the item effect on the PokéDexData
      * @param battle the battle state where the item is being used
      * @return
      */
     @Override
-    public PokemonProfile getUpdateTarget(Battle battle){
+    public PokémonProfile getUpdateTarget(Battle battle){
         return battle.getBuddy();
     }
 
     /**
-     * information on the Pokemon
+     * information on the PokéDexData
      * @param battle the battle state where the item is being used
      * @return
      */
     @Override
-    public PokemonInfo getTargetInfo(Battle battle){
+    public DisplayInfoSet getTargetInfo(Battle battle){
         return battle.getBuddyInfo();
     }
 

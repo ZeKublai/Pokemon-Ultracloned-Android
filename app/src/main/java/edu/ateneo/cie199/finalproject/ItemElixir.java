@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Item elixir interact with the Pokemon
+ * This class handles how the Item elixir interact with the PokéDexData
  */
 
 public class ItemElixir extends ItemTargetTeam {
@@ -44,7 +44,7 @@ public class ItemElixir extends ItemTargetTeam {
      * @param battle the battle state where the item is being used
      */
     @Override
-    public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
+    public void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle){
         if(!restorePP(profile)){
             battle.addMessage(new Message(Message.ERROR_NO_EFFECT));
         }
@@ -55,11 +55,11 @@ public class ItemElixir extends ItemTargetTeam {
      * @param profile whoever is the targetting pokemon
      * @return boolean value to confirm if PP was successfully used
      */
-    public boolean restorePP(PokemonProfile profile){
+    public boolean restorePP(PokémonProfile profile){
         if(profile.allMovesPPisFull()){
             return false;
         }
-        for(int index = 0; index < PokemonProfile.MAX_POKEMON_MOVES; index++){
+        for(int index = 0; index < PokémonProfile.MAX_POKEMON_MOVES; index++){
             Move move = profile.getMoves().get(index);
             move.setCurrentPP(move.getCurrentPP() + mPPRestoreFactor);
             if(move.getCurrentPP() > move.getMaxPP()){
@@ -76,7 +76,7 @@ public class ItemElixir extends ItemTargetTeam {
      * @param bag where the item is stored
      */
     @Override
-    public void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag){
+    public void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag){
         useItem(bag);
         if(!restorePP(profile)){
             txvMessage.setText(Message.ERROR_NO_EFFECT);

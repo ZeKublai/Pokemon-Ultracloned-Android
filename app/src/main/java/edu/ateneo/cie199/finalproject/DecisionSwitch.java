@@ -7,9 +7,9 @@ package edu.ateneo.cie199.finalproject;
 
 public class DecisionSwitch extends Decision {
 
-    private PokemonProfile mNewBuddy;
-    private PokemonProfile mCurrentBuddy;
-    private PokemonInfo mDisplayInfo;
+    private PokémonProfile mNewBuddy;
+    private PokémonProfile mCurrentBuddy;
+    private DisplayInfoSet mDisplayInfo;
 
     /**
      * does nothing
@@ -24,7 +24,7 @@ public class DecisionSwitch extends Decision {
      * @param mCurrentBuddy current buddy pokemon
      * @param info data of the pokemon
      */
-    public DecisionSwitch(PokemonProfile mNewBuddy, PokemonProfile mCurrentBuddy, PokemonInfo info) {
+    public DecisionSwitch(PokémonProfile mNewBuddy, PokémonProfile mCurrentBuddy, DisplayInfoSet info) {
         this.mNewBuddy = mNewBuddy;
         this.mCurrentBuddy = mCurrentBuddy;
         this.mDisplayInfo = info;
@@ -34,7 +34,7 @@ public class DecisionSwitch extends Decision {
      * get pokemon information
      * @return pokemon to become new buddy pokemon
      */
-    public PokemonProfile getProfile() {
+    public PokémonProfile getProfile() {
         return mNewBuddy;
     }
 
@@ -42,7 +42,7 @@ public class DecisionSwitch extends Decision {
      * set the profile for the new buddy
      * @param mProfile profile of the pokemon
      */
-    public void setProfile(PokemonProfile mProfile) {
+    public void setProfile(PokémonProfile mProfile) {
         this.mNewBuddy = mProfile;
     }
 
@@ -50,7 +50,7 @@ public class DecisionSwitch extends Decision {
      * get the current buddy pokemon
      * @return current buddy pokemon
      */
-    public PokemonProfile getCurrentBuddy() {
+    public PokémonProfile getCurrentBuddy() {
         return mCurrentBuddy;
     }
 
@@ -58,7 +58,7 @@ public class DecisionSwitch extends Decision {
      * set the current buddy pokemon
      * @param mCurrentBuddy current buddy pokemon
      */
-    public void setCurrentBuddy(PokemonProfile mCurrentBuddy) {
+    public void setCurrentBuddy(PokémonProfile mCurrentBuddy) {
         this.mCurrentBuddy = mCurrentBuddy;
     }
 

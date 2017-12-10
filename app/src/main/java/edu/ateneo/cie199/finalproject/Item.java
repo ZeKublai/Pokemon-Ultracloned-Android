@@ -113,7 +113,7 @@ public abstract class Item {
      * @param info information of the pokemon
      * @param battle the battle state where the item is being used
      */
-    public abstract void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle);
+    public abstract void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle);
 
     /**
      * The function of the item when used in Manager
@@ -121,28 +121,28 @@ public abstract class Item {
      * @param txvMessage message outputted when item is used
      * @param bag where the item is stored
      */
-    public abstract void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag);
+    public abstract void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag);
 
     /**
-     * Use on auto-selected Pokemon when Item is used. i.e. pokeball used on Pokemon
+     * Use on auto-selected PokéDexData when Item is used. i.e. pokeball used on PokéDexData
      * @param battle the battle state where the item is being used
-     * @return intended target Pokemon
+     * @return intended target PokéDexData
      */
-    public abstract PokemonProfile getUpdateTarget(Battle battle);
+    public abstract PokémonProfile getUpdateTarget(Battle battle);
 
     /**
      * on which pokemon the item is to be used
      * @param battle the battle state where the item is being used
-     * @return execute the item effect on the Pokemon
+     * @return execute the item effect on the PokéDexData
      */
-    public abstract PokemonProfile getExecuteTarget(Battle battle);
+    public abstract PokémonProfile getExecuteTarget(Battle battle);
 
     /**
-     * get the information of the selected Pokemon
+     * get the information of the selected PokéDexData
      * @param battle the battle state where the item is being used
-     * @return information on the Pokemon
+     * @return information on the PokéDexData
      */
-    public abstract PokemonInfo getTargetInfo(Battle battle);
+    public abstract DisplayInfoSet getTargetInfo(Battle battle);
 
     /**
      * decrements the quantity of the item by 1

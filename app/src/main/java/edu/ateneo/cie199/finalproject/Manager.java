@@ -1,10 +1,5 @@
 package edu.ateneo.cie199.finalproject;
 
-import android.widget.Button;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
 /**
  * Created by John, Duke and JV on 11/29/2017.
  * This class handles different interaction about the caught Pokemons.
@@ -14,10 +9,10 @@ import java.util.ArrayList;
 public class Manager {
     private int mMenuState = PokemonGoApp.STATE_MAIN;
     private Item mSelectedItem;
-    private PokemonProfile mSelectedProfile1;
-    private PokemonProfile mSelectedProfile2;
+    private PokémonProfile mSelectedProfile1;
+    private PokémonProfile mSelectedProfile2;
     private Player mPlayer;
-    private PokemonList mPokemonAdapter = null;
+    private PokémonList mPokemonAdapter = null;
     private ItemList mItemAdapter = null;
 
     private ManagerState mState;
@@ -29,10 +24,10 @@ public class Manager {
      * @param mSelectedProfile1 determine the first pokemon for switching
      * @param mSelectedProfile2 determine the second pokemon for switching
      * @param mPlayer determines the Player
-     * @param mPokemonAdapter determines the list of Pokemon in your box storage
+     * @param mPokemonAdapter determines the list of PokéDexData in your box storage
      * @param mItemAdapter determines the list of Items that the User owns
      */
-    public Manager(int mMenuState, Item mSelectedItem, PokemonProfile mSelectedProfile1, PokemonProfile mSelectedProfile2, Player mPlayer, PokemonList mPokemonAdapter, ItemList mItemAdapter) {
+    public Manager(int mMenuState, Item mSelectedItem, PokémonProfile mSelectedProfile1, PokémonProfile mSelectedProfile2, Player mPlayer, PokémonList mPokemonAdapter, ItemList mItemAdapter) {
         this.mMenuState = mMenuState;
         this.mSelectedItem = mSelectedItem;
         this.mSelectedProfile1 = mSelectedProfile1;
@@ -65,34 +60,34 @@ public class Manager {
     }
 
     /**
-     * get the information of the first selected Pokemon for switching
-     * @return information of the first selected Pokemon for switching
+     * get the information of the first selected PokéDexData for switching
+     * @return information of the first selected PokéDexData for switching
      */
-    public PokemonProfile getSelectedProfile1() {
+    public PokémonProfile getSelectedProfile1() {
         return mSelectedProfile1;
     }
 
     /**
-     * set the information of the first selected Pokemon for switching
+     * set the information of the first selected PokéDexData for switching
      * @param mSelectedProfile1
      */
-    public void setSelectedProfile1(PokemonProfile mSelectedProfile1) {
+    public void setSelectedProfile1(PokémonProfile mSelectedProfile1) {
         this.mSelectedProfile1 = mSelectedProfile1;
     }
 
     /**
-     * get the information of the second selected Pokemon for switching
-     * @return information of the second selected Pokemon for switching
+     * get the information of the second selected PokéDexData for switching
+     * @return information of the second selected PokéDexData for switching
      */
-    public PokemonProfile getSelectedProfile2() {
+    public PokémonProfile getSelectedProfile2() {
         return mSelectedProfile2;
     }
 
     /**
-     * set the information of the second selected Pokemon for switching
+     * set the information of the second selected PokéDexData for switching
      * @param mSelectedProfile2
      */
-    public void setSelectedProfile2(PokemonProfile mSelectedProfile2) {
+    public void setSelectedProfile2(PokémonProfile mSelectedProfile2) {
         this.mSelectedProfile2 = mSelectedProfile2;
     }
 
@@ -113,18 +108,18 @@ public class Manager {
     }
 
     /**
-     * obtains the list of Pokemon from storage
-     * @return list of Pokemon from storage
+     * obtains the list of PokéDexData from storage
+     * @return list of PokéDexData from storage
      */
-    public PokemonList getPokemonAdapter() {
+    public PokémonList getPokemonAdapter() {
         return mPokemonAdapter;
     }
 
     /**
-     * set the list of Pokemon from storage
-     * @param mPokemonAdapter list of Pokemon from storage
+     * set the list of PokéDexData from storage
+     * @param mPokemonAdapter list of PokéDexData from storage
      */
-    public void setPokemonAdapter(PokemonList mPokemonAdapter) {
+    public void setPokemonAdapter(PokémonList mPokemonAdapter) {
         this.mPokemonAdapter = mPokemonAdapter;
     }
 

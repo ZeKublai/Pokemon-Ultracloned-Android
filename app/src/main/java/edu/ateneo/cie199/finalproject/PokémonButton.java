@@ -7,48 +7,52 @@ import android.widget.ProgressBar;
 
 /**
  * Created by John on 11/29/2017.
+ * This class contains all the functions and data members used to
+ * create a custom button for displaying Pokémon and its stats.
  */
 
-public class PokemonButton {
+public class PokémonButton {
 
     private Button mButton;
     private ImageView mImage;
     private ProgressBar mProgressBar;
 
-    public PokemonButton(Button mButton, ImageView mImage, ProgressBar mProgressBar) {
+    /**
+     * Creates the PokémonButton object given a Button, Image and ProgressBar object.
+     * @param mButton   The Button object of the created PokémonButton object.
+     * @param mImage    The ImageView object of the created PokémonButton object.
+     * @param mProgressBar  The ProgressBar object of the created PokémonButton object.
+     */
+    public PokémonButton(Button mButton, ImageView mImage, ProgressBar mProgressBar) {
         this.mButton = mButton;
         this.mImage = mImage;
         this.mProgressBar = mProgressBar;
     }
 
+    /**
+     * Returns the Button object of the PokémonButton object.
+     * @return  The Button object of the PokémonButton object.
+     */
     public Button getButton() {
         return mButton;
     }
-    public void setButton(Button mButton) {
-        this.mButton = mButton;
-    }
 
-    public ImageView getImage() {
-        return mImage;
-    }
-    public void setImage(ImageView mImage) {
-        this.mImage = mImage;
-    }
-
-    public ProgressBar getProgressBar() {
-        return mProgressBar;
-    }
-    public void setProgressBar(ProgressBar mProgressBar) {
-        this.mProgressBar = mProgressBar;
-    }
-
+    /**
+     * Sets the custom button's Visibility.
+     * @param visibility    The Visibility to be set.
+     */
     public void setVisibility(int visibility){
         mButton.setVisibility(visibility);
         mImage.setVisibility(visibility);
         mProgressBar.setVisibility(visibility);
     }
 
-    public void setData(PokemonProfile profile){
+    /**
+     * Updates the PokémonButton's Image, Progressbar
+     * and Button object given a PokémonProfile object.
+     * @param profile   The PokémonProfile that will be used to update the PokémonButton.
+     */
+    public void setData(PokémonProfile profile){
         mButton.setClickable(!profile.isEmpty());
         if(!profile.isEmpty()){
             if(profile.getCurrentHP() <= 0){

@@ -4,10 +4,15 @@ import static java.lang.Math.floor;
 
 /**
  * Created by John on 11/23/2017.
+ * A physical move that is used when all of the PokémonProfile's moves have 0 PP.
  */
 
 public class MoveStruggle extends MovePhysical {
 
+    /**
+     * Creates the Move struggle with its given values.
+     * @param battle    The battle where the struggle move will be use.
+     */
     public MoveStruggle(Battle battle){
         this.mName = "Struggle";
         this.mType = battle.getTypeChart().get(Type.NORMAL);
@@ -17,11 +22,18 @@ public class MoveStruggle extends MovePhysical {
         this.mAccuracy = 200;
     }
 
+    /**
+     * Damages the defending PokémonProfile.
+     * @param accuracyResult    Usually a random number generated from 0 to 100.
+     * @param criticalResult    Usually a random number generated from 0 to 16.
+     * @param attacker  The PokémonProfile that would perform the Move.
+     * @param defender  The defending PokémonProfile.
+     */
     @Override
     public void execute(int accuracyResult,
                         int criticalResult,
-                        PokemonProfile attacker,
-                        PokemonProfile defender){
+                        PokémonProfile attacker,
+                        PokémonProfile defender){
         int attackStat = getAttackStat(attacker);
         int defenseStat = getDefenseStat(defender);
 
@@ -46,16 +58,21 @@ public class MoveStruggle extends MovePhysical {
         }
 
         defender.setCurrentHP(defender.getCurrentHP() - (int) (damage));
-        if (defender.getCurrentHP() < PokemonProfile.MIN_HP) {
-            defender.setCurrentHP(PokemonProfile.MIN_HP);
+        if (defender.getCurrentHP() < PokémonProfile.MIN_HP) {
+            defender.setCurrentHP(PokémonProfile.MIN_HP);
         }
     }
 
+    /**
+     * Damages the attacking PokémonProfile a quarter of its HP.
+     * @param attacker  The PokémonProfile that would receive the recoil damage.
+     * @return  True by default.
+     */
     @Override
-    public boolean executeRecoil(PokemonProfile attacker){
+    public boolean executeRecoil(PokémonProfile attacker){
         attacker.setCurrentHP(attacker.getCurrentHP() - attacker.getHP()/4);
-        if (attacker.getCurrentHP() < PokemonProfile.MIN_HP) {
-            attacker.setCurrentHP(PokemonProfile.MIN_HP);
+        if (attacker.getCurrentHP() < PokémonProfile.MIN_HP) {
+            attacker.setCurrentHP(PokémonProfile.MIN_HP);
         }
         return true;
     }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Potion interact with the Pokemon.
+ * This class handles how the Potion interact with the PokéDexData.
  */
 
 public class ItemPotion extends ItemTargetTeam {
@@ -59,18 +59,18 @@ public class ItemPotion extends ItemTargetTeam {
      * @param battle the battle state where the item is being used
      */
     @Override
-    public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
+    public void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle){
         if(!heal(profile)){
             battle.addMessage(new Message(Message.ERROR_NO_EFFECT));
         }
     }
 
     /**
-     * Executes the heal done on the Pokemon
+     * Executes the heal done on the PokéDexData
      * @param profile whoever is the targeted pokemon
      * @return boolean value to check if the healing was successful
      */
-    public boolean heal(PokemonProfile profile){
+    public boolean heal(PokémonProfile profile){
         if(profile.getCurrentHP() == profile.getHP()){
             return false;
         }
@@ -93,7 +93,7 @@ public class ItemPotion extends ItemTargetTeam {
      * @param bag where the item is stored
      */
     @Override
-    public void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag){
+    public void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag){
         useItem(bag);
         if(!heal(profile)){
             txvMessage.setText(Message.ERROR_NO_EFFECT);

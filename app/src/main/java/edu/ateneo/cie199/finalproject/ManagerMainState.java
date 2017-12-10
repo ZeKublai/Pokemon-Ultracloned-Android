@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class ManagerMainState extends ManagerState {
 
-    public ManagerMainState(ArrayList<PokemonButton> mPokemonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
-        this.mPokemonButtons = mPokemonButtons;
+    public ManagerMainState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
+        this.mPokémonButtons = mPokémonButtons;
         this.mBackButton = mBackButton;
         this.mSwitchButton = mSwitchButton;
         this.mMessage = mMessage;
@@ -35,7 +35,7 @@ public class ManagerMainState extends ManagerState {
     }
 
     /**
-     * Executes the custom adapter used for th list of Pokemon
+     * Executes the custom adapter used for th list of PokéDexData
      * @param ctx where the listview is to be displayed
      * @param view specific list of pokemon seen in the adapter
      * @param app access the PokemonGoApp functions
@@ -45,18 +45,18 @@ public class ManagerMainState extends ManagerState {
     public void executePokemonListView(Activity ctx, View view, PokemonGoApp app, int pos){
         showPokemonMenu(ctx, view, app, mManager.getPlayer().getBox().get(pos),
                 mManager.getPlayer().getBox(), mManager.getPlayer().getPokemons(), "ADD TO PARTY",
-                app.getPlayer().getPokemons().size() < Player.MAX_POKEMON_SLOTS);
+                app.getPlayer().getPokemons().size() < Player.MAX_POKéMON_SLOTS);
     }
 
     /**
-     * Be able to select a specific Pokemon in the box storage
+     * Be able to select a specific PokéDexData in the box storage
      * @param ctx where the listview is to be displayed
      * @param app access the PokemonGoApp functions
      * @param pos index of the listview
      */
     @Override
     public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos){
-        showPokemonMenu(ctx, mPokemonButtons.get(pos).getButton(), app,
+        showPokemonMenu(ctx, mPokémonButtons.get(pos).getButton(), app,
                 mManager.getPlayer().getPokemons().get(pos), mManager.getPlayer().getPokemons(),
                 mManager.getPlayer().getBox(), "SEND TO BOX", true);
     }
@@ -66,17 +66,17 @@ public class ManagerMainState extends ManagerState {
      * @param ctx where the listview is to be displayed
      * @param view specific list of pokemon seen in the adapter
      * @param app access the PokemonGoApp functions
-     * @param profile data of the selected Pokemon
-     * @param origin where the Pokemon came from; either box or party
-     * @param destination where the Pokemon would go; either box or party
+     * @param profile data of the selected PokéDexData
+     * @param origin where the PokéDexData came from; either box or party
+     * @param destination where the PokéDexData would go; either box or party
      * @param transferLabel message when triggered
-     * @param canTransfer boolean value to check if Pokemon can be transferred
+     * @param canTransfer boolean value to check if PokéDexData can be transferred
      */
     public void showPokemonMenu(final Activity ctx, View view,
                                 final PokemonGoApp app,
-                                final PokemonProfile profile,
-                                final ArrayList<PokemonProfile> origin,
-                                final ArrayList<PokemonProfile> destination,
+                                final PokémonProfile profile,
+                                final ArrayList<PokémonProfile> origin,
+                                final ArrayList<PokémonProfile> destination,
                                 String transferLabel,
                                 boolean canTransfer){
         PopupMenu popup = new PopupMenu(ctx, view);
@@ -122,12 +122,12 @@ public class ManagerMainState extends ManagerState {
     }
 
     /**
-     * Displays the data of the Pokemon on a specific activity
+     * Displays the data of the PokéDexData on a specific activity
      * @param app access the PokemonGoApp functions
      * @param ctx where the listview is to be displayed
-     * @param profile data of the selected Pokemon
+     * @param profile data of the selected PokéDexData
      */
-    public void showPokemonProfileDialog(final PokemonGoApp app, Activity ctx, final PokemonProfile profile){
+    public void showPokemonProfileDialog(final PokemonGoApp app, Activity ctx, final PokémonProfile profile){
         final Dialog dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.pokemon_profile_dialog);
         final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);

@@ -2,7 +2,7 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Great ball interact with the Pokemon. It is a better Great Ball
+ * This class handles how the Great ball interact with the PokéDexData. It is a better Great Ball
  */
 
 public class ItemUltraBall extends ItemPokeBall {

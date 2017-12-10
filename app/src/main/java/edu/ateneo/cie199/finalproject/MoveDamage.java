@@ -4,15 +4,25 @@ import static java.lang.Math.floor;
 
 /**
  * Created by John on 11/21/2017.
+ * This subclass's primary function contains the functions specific for damage
+ * dealing Moves. It mainly reduces the defending PokémonProfile's HP.
  */
 
 public abstract class MoveDamage extends Move {
 
+    /**
+     * Reduces the HP of the defending PokémonProfile given
+     * the Move's values and decrements the Move's PP by 1.
+     * @param accuracyResult    Usually a random number generated from 0 to 100.
+     * @param criticalResult    Usually a random number generated from 0 to 16.
+     * @param attacker  The PokémonProfile that would perform the Move.
+     * @param defender  The defending PokémonProfile.
+     */
     @Override
     public void execute(int accuracyResult,
                         int criticalResult,
-                        PokemonProfile attacker,
-                        PokemonProfile defender){
+                        PokémonProfile attacker,
+                        PokémonProfile defender){
         if(accuracyResult < mAccuracy) {
             int attackStat = getAttackStat(attacker);
             int defenseStat = getDefenseStat(defender);
@@ -38,17 +48,34 @@ public abstract class MoveDamage extends Move {
             }
 
             defender.setCurrentHP(defender.getCurrentHP() - (int) (damage));
-            if (defender.getCurrentHP() < PokemonProfile.MIN_HP) {
-                defender.setCurrentHP(PokemonProfile.MIN_HP);
+            if (defender.getCurrentHP() < PokémonProfile.MIN_HP) {
+                defender.setCurrentHP(PokémonProfile.MIN_HP);
             }
         }
         setCurrentPP(mCurrentPP - 1);
     }
 
-    public boolean executeRecoil(PokemonProfile profile){
+    /**
+     * Returns false by default.
+     * @param attacker  The PokémonProfile that would receive the recoil damage.
+     * @return  False by default.
+     */
+    @Override
+    public boolean executeRecoil(PokémonProfile attacker){
         return false;
     };
 
-    public abstract int getAttackStat(PokemonProfile profile);
-    public abstract int getDefenseStat(PokemonProfile profile);
+    /**
+     * Returns the total attack stat value of the given PokémonProfile.
+     * @param profile   The PokémonProfile where the total attack stat value is obtained.
+     * @return  The total attack stat value of the given PokémonProfile.
+     */
+    public abstract int getAttackStat(PokémonProfile profile);
+
+    /**
+     * Returns the total defense stat value of the given PokémonProfile.
+     * @param profile   The PokémonProfile where the total defense stat value is obtained.
+     * @return  The total defense stat value of the given PokémonProfile.
+     */
+    public abstract int getDefenseStat(PokémonProfile profile);
 }

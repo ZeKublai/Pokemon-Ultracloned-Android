@@ -18,14 +18,14 @@ public class ManagerSwitchState extends ManagerState {
 
     /**
      * determines the state of the Manager
-     * @param mPokemonButtons trigger button for checking Pokemon dropdown option
+     * @param mPokémonButtons trigger button for checking PokéDexData dropdown option
      * @param mBackButton  trigger button for when selected state is canceled
      * @param mSwitchButton trigger for when switching pokemons
      * @param mMessage show messages
      * @param mManager accessing the Manager
      */
-    public ManagerSwitchState(ArrayList<PokemonButton> mPokemonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
-        this.mPokemonButtons = mPokemonButtons;
+    public ManagerSwitchState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
+        this.mPokémonButtons = mPokémonButtons;
         this.mBackButton = mBackButton;
         this.mSwitchButton = mSwitchButton;
         this.mMessage = mMessage;
@@ -72,11 +72,11 @@ public class ManagerSwitchState extends ManagerState {
     }
 
     /**
-     * The two selected Pokemon would switch places
+     * The two selected PokéDexData would switch places
      */
     public void switchPokemon(){
-        PokemonProfile swap1 = new PokemonProfile(mManager.getSelectedProfile1());
-        PokemonProfile swap2 = new PokemonProfile(mManager.getSelectedProfile2());
+        PokémonProfile swap1 = new PokémonProfile(mManager.getSelectedProfile1());
+        PokémonProfile swap2 = new PokémonProfile(mManager.getSelectedProfile2());
         mManager.getSelectedProfile1().loadProfile(swap2);
         mManager.getSelectedProfile2().loadProfile(swap1);
         mManager.getPokemonAdapter().notifyDataSetChanged();

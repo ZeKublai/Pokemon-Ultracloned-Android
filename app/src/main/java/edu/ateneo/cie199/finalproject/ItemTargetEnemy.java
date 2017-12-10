@@ -2,7 +2,7 @@ package edu.ateneo.cie199.finalproject;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This abstract class handles the functions when an item is used on enemy Pokemon
+ * This abstract class handles the functions when an item is used on enemy PokéDexData
  */
 
 public abstract class ItemTargetEnemy extends Item {
@@ -10,28 +10,28 @@ public abstract class ItemTargetEnemy extends Item {
     /**
      * On which pokemon the item is to be used
      * @param battle the battle state where the item is being used
-     * @return intended target Pokemon
+     * @return intended target PokéDexData
      */
     @Override
-    public PokemonProfile getExecuteTarget(Battle battle){return battle.getEnemy();}
+    public PokémonProfile getExecuteTarget(Battle battle){return battle.getEnemy();}
 
     /**
-     * Use on auto-selected Pokemon when Item is used. i.e. pokeball used on Pokemon
+     * Use on auto-selected PokéDexData when Item is used. i.e. pokeball used on PokéDexData
      * @param battle the battle state where the item is being used
-     * @return execute the item effect on the Pokemon
+     * @return execute the item effect on the PokéDexData
      */
     @Override
-    public PokemonProfile getUpdateTarget(Battle battle){
+    public PokémonProfile getUpdateTarget(Battle battle){
         return battle.getEnemy();
     }
 
     /**
-     * Get the information of the selected Pokemon
+     * Get the information of the selected PokéDexData
      * @param battle the battle state where the item is being used
-     * @return information on the Pokemon
+     * @return information on the PokéDexData
      */
     @Override
-    public PokemonInfo getTargetInfo(Battle battle){
+    public DisplayInfoSet getTargetInfo(Battle battle){
         return battle.getEnemyInfo();
     }
 }

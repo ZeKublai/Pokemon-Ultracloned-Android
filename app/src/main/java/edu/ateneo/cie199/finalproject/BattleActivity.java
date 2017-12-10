@@ -2,7 +2,6 @@ package edu.ateneo.cie199.finalproject;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -63,7 +62,7 @@ public class BattleActivity extends AppCompatActivity {
         lsvOptions = (ListView)findViewById(R.id.lsv_battle_options);
         app.setFontForContainer((ListView) findViewById(R.id.lsv_battle_options), "generation6.ttf");
 
-        PokemonInfoBuddy buddyInfo = new PokemonInfoBuddy(
+        DisplayInfoSetBuddy buddyInfo = new DisplayInfoSetBuddy(
                 (TextView) findViewById(R.id.txv_battle_buddy_name),
                 (TextView) findViewById(R.id.txv_battle_buddy_hp),
                 (TextView) findViewById(R.id.txv_battle_buddy_level),
@@ -71,7 +70,7 @@ public class BattleActivity extends AppCompatActivity {
                 (ProgressBar) findViewById(R.id.bar_battle_buddy_exp),
                 (ImageButton) findViewById(R.id.imgbtn_battle_buddy));
 
-        PokemonInfo enemyInfo = new PokemonInfo((TextView) findViewById(R.id.txv_battle_enemy_name),
+        DisplayInfoSet enemyInfo = new DisplayInfoSet((TextView) findViewById(R.id.txv_battle_enemy_name),
                 (TextView) findViewById(R.id.txv_battle_enemy_level),
                 (ProgressBar) findViewById(R.id.bar_battle_enemy_hp),
                 (ImageButton) findViewById(R.id.imgbtn_battle_enemy));
@@ -87,7 +86,7 @@ public class BattleActivity extends AppCompatActivity {
         //UI INITIALIZATION
 
         battle.setMoveAdapter(new MoveList(BattleActivity.this, battle.getBuddy().getMoves()));
-        battle.setPokemonAdapter(new PokemonList(BattleActivity.this, battle.getPlayer().getPokemons()));
+        battle.setPokemonAdapter(new PokémonList(BattleActivity.this, battle.getPlayer().getPokemons()));
         battle.setItemAdapter(new ItemList(BattleActivity.this, battle.getPlayer().getBag()));
         battle.setBattleState(new BattleStandbyState(btnFight, btnPokemon, btnBag, btnRun, btnAction, lsvOptions, battle, txvMessage));
 
@@ -198,10 +197,10 @@ public class BattleActivity extends AppCompatActivity {
     }
 
     /**
-     * gets the information of the Pokemon
-     * @param profile data of the Pokemon
+     * gets the information of the PokéDexData
+     * @param profile data of the PokéDexData
      */
-    public void getPokemonDialog(final PokemonProfile profile){
+    public void getPokemonDialog(final PokémonProfile profile){
         final PokemonGoApp app = (PokemonGoApp) getApplication();
         final Dialog dialog = new Dialog(BattleActivity.this);
         dialog.setContentView(R.layout.pokemon_profile_dialog);

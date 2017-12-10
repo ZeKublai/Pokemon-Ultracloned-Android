@@ -28,7 +28,7 @@ public abstract class BattleState {
     public abstract void executeListView(int pos);
 
     /**
-     * Shows the Pokemon detail when long pressed
+     * Shows the PokéDexData detail when long pressed
      * @param app used for calling the dialog data
      * @param ctx needed to initialize the dialog in the selected Activity
      * @param pos position in the listview
@@ -190,7 +190,7 @@ public abstract class BattleState {
     }
 
     /**
-     * Trigger when a certain Pokemon is targeted
+     * Trigger when a certain PokéDexData is targeted
      * @return all the information
      */
     public BattleUseItemState useItemState(){

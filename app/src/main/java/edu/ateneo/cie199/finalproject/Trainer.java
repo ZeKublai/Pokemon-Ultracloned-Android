@@ -12,8 +12,8 @@ public class Trainer extends Player{
     private String mIntro;
     private String mWin;
     private String mLose;
-    private Pokemon mFavoritePokemon1;
-    private Pokemon mFavoritePokemon2;
+    private PokéDexData mFavoritePokéDexData1;
+    private PokéDexData mFavoritePokéDexData2;
 
     private int mImageMain;
     private int mImageIcon;
@@ -22,7 +22,7 @@ public class Trainer extends Player{
         this.mName = "";
     }
 
-    public Trainer(String mName, Team mTeam, int mTier, String mTitle, String mIntro, String mWin, String mLose, Pokemon mFavoritePokemon1, Pokemon mFavoritePokemon2, int mImageMain, int mImageIcon) {
+    public Trainer(String mName, Team mTeam, int mTier, String mTitle, String mIntro, String mWin, String mLose, PokéDexData mFavoritePokéDexData1, PokéDexData mFavoritePokéDexData2, int mImageMain, int mImageIcon) {
         this.mName = mName;
         this.mTeam = mTeam;
         this.mTier = mTier;
@@ -30,8 +30,8 @@ public class Trainer extends Player{
         this.mIntro = mIntro;
         this.mWin = mWin;
         this.mLose = mLose;
-        this.mFavoritePokemon1 = mFavoritePokemon1;
-        this.mFavoritePokemon2 = mFavoritePokemon2;
+        this.mFavoritePokéDexData1 = mFavoritePokéDexData1;
+        this.mFavoritePokéDexData2 = mFavoritePokéDexData2;
         this.mImageMain = mImageMain;
         this.mImageIcon = mImageIcon;
     }
@@ -78,18 +78,18 @@ public class Trainer extends Player{
         this.mLose = mLose;
     }
 
-    public Pokemon getFavoritePokemon1() {
-        return mFavoritePokemon1;
+    public PokéDexData getFavoritePokemon1() {
+        return mFavoritePokéDexData1;
     }
-    public void setFavoritePokemon1(Pokemon mFavoritePokemon1) {
-        this.mFavoritePokemon1 = mFavoritePokemon1;
+    public void setFavoritePokemon1(PokéDexData mFavoritePokéDexData1) {
+        this.mFavoritePokéDexData1 = mFavoritePokéDexData1;
     }
 
-    public Pokemon getFavoritePokemon2() {
-        return mFavoritePokemon2;
+    public PokéDexData getFavoritePokemon2() {
+        return mFavoritePokéDexData2;
     }
-    public void setFavoritePokemon2(Pokemon mFavoritePokemon2) {
-        this.mFavoritePokemon2 = mFavoritePokemon2;
+    public void setFavoritePokemon2(PokéDexData mFavoritePokéDexData2) {
+        this.mFavoritePokéDexData2 = mFavoritePokéDexData2;
     }
 
     public int getImageMain() {
@@ -111,6 +111,6 @@ public class Trainer extends Player{
     }
 
     public Trainer generateTrainer(){
-        return new Trainer(this.mName, this.mTeam, this.mTier, this.mTitle, this.mIntro, this.mWin, this.mLose, this.mFavoritePokemon1, this.mFavoritePokemon2, this.mImageMain, this.mImageIcon);
+        return new Trainer(this.mName, this.mTeam, this.mTier, this.mTitle, this.mIntro, this.mWin, this.mLose, this.mFavoritePokéDexData1, this.mFavoritePokéDexData2, this.mImageMain, this.mImageIcon);
     }
 }

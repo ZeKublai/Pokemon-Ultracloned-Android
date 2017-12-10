@@ -1,22 +1,18 @@
 package edu.ateneo.cie199.finalproject;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 /**
  * Created by John on 11/5/2017.
+ * This abstract class contains functions and data members
+ * needed for the Pokémon to have and perform Moves.
  */
 
 public abstract class Move {
-    public static int PHYSICAL = 0;
-    public static int SPECIAL = 1;
-    public static int STATUS = 2;
+    public static int CATEGORY_PHYSICAL = 0;
+    public static int CATEGORY_SPECIAL = 1;
+    public static int CATEGORY_STATUS = 2;
+    public static int CATEGORY_NONE = 3;
 
+    public static int MAX_CRITICAL = 16;
     public static int MAX_ACCURACY = 100;
     public static double MIN_DAMAGE = 1.0;
 
@@ -27,130 +23,129 @@ public abstract class Move {
     protected int mPower = 0;
     protected int mAccuracy = 0;
 
-    public Move(String mName, Type mType, int mCategory, int mMaxPP, int mCurrentPP, int mPower,
-                int mAccuracy) {
-        this.mName = mName;
-        this.mType = mType;
-        this.mMaxPP = mMaxPP;
-        this.mCurrentPP = mCurrentPP;
-        this.mPower = mPower;
-        this.mAccuracy = mAccuracy;
-    }
-
-    public Move(Move move){
-        this.mName = move.mName;
-        this.mType = move.mType;
-        this.mMaxPP = move.mMaxPP;
-        this.mCurrentPP = move.mCurrentPP;
-        this.mPower = move.mPower;
-        this.mAccuracy = move.mAccuracy;
-    }
-
+    /**
+     * "The function is empty..."
+     */
     public Move() {
     }
 
+    /**
+     * Returns the name of the Move.
+     * @return  The name of the Move.
+     */
     public String getName() {
         return mName;
     }
+
+    /**
+     * Sets the name of the Move.
+     * @param mName The name of the Move to be set.
+     */
     public void setName(String mName) {
         this.mName = mName;
     }
 
+    /**
+     * Returns the type of the Move.
+     * @return  The type of the Move.
+     */
     public Type getType() {
         return mType;
     }
+
+    /**
+     * Sets the type of Move.
+     * @param mType The Type Object to be set.
+     */
     public void setType(Type mType) {
         this.mType = mType;
     }
 
+    /**
+     * Returns the max PP value of the Move.
+     * @return  The max PP value of the Move.
+     */
     public int getMaxPP() {
         return mMaxPP;
     }
-    public void setMaxPP(int mMaxPP) {
-        this.mMaxPP = mMaxPP;
-    }
 
+    /**
+     * Returns the current PP value of the Move.
+     * @return  The current PP value of the Move.
+     */
     public int getCurrentPP() {
         return mCurrentPP;
     }
+
+    /**
+     * Sets the current PP value of the Move.
+     * @param mCurrentPP    The current PP value to be set.
+     */
     public void setCurrentPP(int mCurrentPP) {
         this.mCurrentPP = mCurrentPP;
     }
 
-    public int getPower() {
-        return mPower;
-    }
-    public void setPower(int mPower) {
-        this.mPower = mPower;
-    }
-
+    /**
+     * Returns the accuracy value of the Move.
+     * @return  The accuracy value of the Move.
+     */
     public int getAccuracy() {
         return mAccuracy;
     }
-    public void setAccuracy(int mAccuracy) {
-        this.mAccuracy = mAccuracy;
-    }
 
+    /**
+     * Returns if the name of the Move is empty.
+     * @return  True if the name of the Move is empty.
+     */
     public boolean isEmpty(){
-        if(mName.isEmpty()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return (mName.isEmpty());
     }
 
-    public String getButtonString(){
-        if(mName.equals("")){
-            return "\n";
-        }
-        else{
-            return mName + "\n" + mType.getName() + "\t PP " + mCurrentPP + "/" + mMaxPP;
-        }
-    }
+    /**
+     * Given a String object, the function returns the category identification number of the move.
+     * @param Category  The String object to be passed to identify the category.
+     * @return  The category identification number.
+     */
     public static int decodeCategory(String Category){
-        int categorynum;
+        int categoryNumber;
         if (Category.equals("Physical")){
-            categorynum = 0;
+            categoryNumber = CATEGORY_PHYSICAL;
         }
         else if (Category.equals("Special")){
-            categorynum = 1;
+            categoryNumber = CATEGORY_SPECIAL;
         }
         else if(Category.equals("Status")){
-            categorynum = 2;
+            categoryNumber = CATEGORY_STATUS;
         }
         else{
-            return 3;
+            return CATEGORY_NONE;
         }
-        return categorynum;
+        return categoryNumber;
     }
 
+    /**
+     * Returns a duplicate of the Move object.
+     * @return  A duplicate of the Move object.
+     */
     public abstract Move generateCopy();
-    public abstract void execute(int accuracyResult,
-                        int criticalResult,
-                        PokemonProfile attacker,
-                        PokemonProfile defender);
 
-    public abstract boolean executeRecoil(PokemonProfile attacker);
-    /*
-    public void parseMovesJsonStr(String movesJsonStr, ArrayList<Move> mMoves) throws JSONException {
-        if (movesJsonStr.isEmpty()){
-            JSONArray movesJsonArr = new JSONArray(movesJsonStr);
-            for (int iIdx = 0; iIdx < movesJsonArr.length(); iIdx++) {
-                JSONObject movesJsonObj = movesJsonArr.getJSONObject(iIdx);
-                String name = movesJsonObj.getString("Name");
-                String type = movesJsonObj.getString("Type");
-                int category = Move.decodeCategory(movesJsonObj.getString("Category"));
-                int power = Integer.parseInt(movesJsonObj.getString("Power"));
-                int acc = Integer.parseInt(movesJsonObj.getString("Accuracy"));
-                int maxpp = Integer.parseInt(movesJsonObj.getString("Max PP"));
-                Move m = new Move(name, type, category, maxpp, maxpp , power, acc);
-                mMoves.add(m);
-                Log.e("Test", mMoves.get(iIdx).toString());
-            }
-        }
-        else{
-            Log.e("Error", "Moves JSON is Null");
-        }
-    }*/
+    /**
+     * Given a PokémonProfile attacker, this function executes the Move on the PokémonProfile
+     * defender depending on the given accuracy roll and the critical roll.
+     * @param accuracyResult    Usually a random number generated from 0 to 100.
+     * @param criticalResult    Usually a random number generated from 0 to 16.
+     * @param attacker  The PokémonProfile that would perform the Move.
+     * @param defender  The defending PokémonProfile.
+     */
+    public abstract void execute(int accuracyResult,
+                                 int criticalResult,
+                                 PokémonProfile attacker,
+                                 PokémonProfile defender);
+
+    /**
+     * Executes recoil damage on the PokémonProfile attacker.
+     * @param attacker  The PokémonProfile that would receive the recoil damage.
+     * @return  True if execution of recoil is successful.
+     */
+    public abstract boolean executeRecoil(PokémonProfile attacker);
 }

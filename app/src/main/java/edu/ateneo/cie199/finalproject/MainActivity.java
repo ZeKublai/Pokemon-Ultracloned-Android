@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -38,7 +37,7 @@ import java.util.TimerTask;
 
 /**
  * Created by John, Duke and JV on 11/13/2017.
- * This class handles the interaction of the user with the Pokemon, Trainers and Item in the graphical perspective
+ * This class handles the interaction of the user with the PokéDexData, Trainers and Item in the graphical perspective
  * Contains the fragment map activity wherein a unique API key is needed to access the Google Map fragment
  */
 
@@ -171,13 +170,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         spawn.execute(index);
 
                         //GENERATING POKEMON
-                        Pokemon spawnPokemon;
+                        PokéDexData spawnPokéDexData;
                         Item spawnItem;
                         LatLng spawnPosition;
                         LatLng originPosition = app.getPlayer().getMarker().getPosition();
 
                         if(!app.isOnline()){
-                            spawnPokemon= app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
+                            spawnPokéDexData = app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size()));
                             spawnItem = app.generateRandomItem();
 
                             //GENERATING OFFSET
@@ -187,7 +186,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                                     app.getPlayer().getMarker().getPosition().longitude + offsetLng);
                         }
                         else{
-                            spawnPokemon = app.getAllPokemons().get(pokemonIndex);
+                            spawnPokéDexData = app.getAllPokemons().get(pokemonIndex);
                             Log.e("Spawn Pkmn", Integer.toString(pokemonIndex));
                             Log.e("Spawn Item", Integer.toString(itemIndex));
                             spawnItem = app.getAllItems().get(itemIndex);
@@ -204,9 +203,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         if(rollRNG > 2){
                             marker = app.getMap().addMarker(
                                     new MarkerOptions().position(spawnPosition).title(
-                                            spawnPokemon.getName()).icon(
+                                            spawnPokéDexData.getName()).icon(
                                             BitmapDescriptorFactory.fromResource(
-                                                    spawnPokemon.getIcon())));
+                                                    spawnPokéDexData.getIcon())));
                         }
                         else if(rollRNG == 1){
                             marker = app.getMap().addMarker(

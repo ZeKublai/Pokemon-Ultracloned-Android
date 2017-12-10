@@ -16,20 +16,20 @@ public class ManagerSelectState extends ManagerState {
 
     /**
      * determines the state of the Manager
-     * @param mPokemonButtons trigger button for checking Pokemon dropdown option
+     * @param mPokémonButtons trigger button for checking PokéDexData dropdown option
      * @param mBackButton  trigger button for when selected state is canceled
      * @param mSwitchButton trigger for when switching pokemons
      * @param mMessage show messages
      * @param mManager accessing the Manager
      */
-    public ManagerSelectState(ArrayList<PokemonButton> mPokemonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
-        this.mPokemonButtons = mPokemonButtons;
+    public ManagerSelectState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
+        this.mPokémonButtons = mPokémonButtons;
         this.mBackButton = mBackButton;
         this.mSwitchButton = mSwitchButton;
         this.mMessage = mMessage;
         this.mManager = mManager;
 
-        mMessage.setText("Switch which Pokemon?");
+        mMessage.setText("Switch which PokéDexData?");
     }
 
     /**
@@ -56,11 +56,11 @@ public class ManagerSelectState extends ManagerState {
     public void executePokemonButton(Activity ctx, PokemonGoApp app, int pos){
         mManager.setSelectedProfile1(mManager.getPlayer().getPokemons().get(pos));
         mManager.setState(switchState());
-        mPokemonButtons.get(pos).getButton().setBackground(app.getShape(PokemonGoApp.BACK_COLOR));
+        mPokémonButtons.get(pos).getButton().setBackground(app.getShape(PokemonGoApp.BACK_COLOR));
     }
 
     /**
-     * The two selected Pokemon would switch places
+     * The two selected PokéDexData would switch places
      */
     @Override
     public void executeSwitchButton(){

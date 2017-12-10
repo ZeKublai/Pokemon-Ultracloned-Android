@@ -21,7 +21,7 @@ public class IntroductionActivity extends AppCompatActivity {
 
     private Gender mChosenGender = new Gender();
     private String mChosenName = "";
-    private Pokemon mChosenStarter = new Pokemon();
+    private PokéDexData mChosenStarter = new PokéDexData();
     private int mCurrentMessage = 1;
 
     private String[] mScript = new String[29];
@@ -198,7 +198,7 @@ public class IntroductionActivity extends AppCompatActivity {
                         }
                         else if(mCurrentMessage == mScript.length - 1){
                             //NEEDS TWEAKING
-                            PokemonProfile starter = new PokemonProfile(0, 5, mChosenStarter);
+                            PokémonProfile starter = new PokémonProfile(0, mChosenStarter, 5);
                             starter.getMoves().add(app.generateRandomMove());
                             starter.getMoves().add(app.generateRandomMove());
                             starter.getMoves().add(app.generateRandomMove());
@@ -236,10 +236,10 @@ public class IntroductionActivity extends AppCompatActivity {
     public void updateScript(){
         mScript = new String[]{
                 "Hello there! It's so very nice to meet you!",
-                "Welcome to the world of Pokemon!",
+                "Welcome to the world of PokéDexData!",
                 "My name is Jerome.",
                 "However, everyone just calls me Nekomonsterr.",
-                "This world is widely inhabited by creatures known as Pokemon.",
+                "This world is widely inhabited by creatures known as PokéDexData.",
                 "Here, I have a Poke Ball.",
                 "Touch the button on the middle of the Poke Ball, if you'd please.",
                 "There are different types of Pokeball; they are used to catch these Pokemons",
@@ -282,7 +282,7 @@ public class IntroductionActivity extends AppCompatActivity {
 
     /**
      * Sets the first and buddy pokemon
-     * @param dexNumber Pokedex number of the Pokemon
+     * @param dexNumber Pokedex number of the PokéDexData
      * @param message message to be shown
      */
     public void setStarter(int dexNumber, TextView message){

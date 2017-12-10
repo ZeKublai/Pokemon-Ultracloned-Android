@@ -11,24 +11,12 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.media.Image;
-import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
-import android.view.MenuItem;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.media.Image;
-import android.support.v7.widget.PopupMenu;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -59,22 +47,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import org.w3c.dom.Text;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -143,7 +122,7 @@ public class PokemonGoApp extends Application{
 
     private int mSpawnCount = 0;
     private ArrayList<Marker> mMarkers = new ArrayList<>();
-    private ArrayList<Pokemon> mPokemons = new ArrayList<>();
+    private ArrayList<PokéDexData> mPokemons = new ArrayList<>();
     private ArrayList<Move> mMoves = new ArrayList<>();
     private ArrayList<Type> mTypes = new ArrayList<>();
     private ArrayList<Item> mItems = new ArrayList<>();
@@ -241,27 +220,27 @@ public class PokemonGoApp extends Application{
         }
     }
 
-    public ArrayList<Pokemon> getAllPokemons(){
+    public ArrayList<PokéDexData> getAllPokemons(){
         return mPokemons;
     }
-    public void addPokemon(Pokemon pokemon){
+    public void addPokemon(PokéDexData pokemon){
         mPokemons.add(pokemon);
     }
-    public Pokemon getPokemon(String title){
+    public PokéDexData getPokemon(String title){
         for(int index = 0; index < mPokemons.size(); index++){
             if(mPokemons.get(index).getName().equals(title)){
                 return mPokemons.get(index);
             }
         }
-        return new Pokemon();
+        return new PokéDexData();
     }
-    public Pokemon getPokemon(int dexNumber){
+    public PokéDexData getPokemon(int dexNumber){
         for(int index = 0; index < mPokemons.size(); index++){
             if(mPokemons.get(index).getDexNumber() == dexNumber){
                 return mPokemons.get(index);
             }
         }
-        return new Pokemon();
+        return new PokéDexData();
     }
     public Trainer getTrainer(String title){
         for(int index = 0; index < mTrainers.size(); index++){
@@ -346,56 +325,56 @@ public class PokemonGoApp extends Application{
 
     //TODO: MAKE IT LOAD FROM FILE INSTEAD OF HARD CODE
     public void loadAllPokemon(){
-        addPokemon(new Pokemon(1, "Bulbasaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.", 190, 1, 7, 45, 49, 49, 65, 65, 45, 0, 2, R.drawable.bulbasaur_main, R.drawable.bulbasaur_back, R.drawable.bulbasaur_map, R.raw.bulbasaur, "2'4\"", "15.2 lbs"));
-        addPokemon(new Pokemon(2, "Ivysaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "The bulb on its back grows by drawing energy. It gives off an aroma when it is ready to bloom.", 45, 1, 7, 60, 62, 63, 80, 80, 60, 16, 3, R.drawable.ivysaur_main, R.drawable.ivysaur_back, R.drawable.ivysaur_map, R.raw.ivysaur, "3'3\"", "28.7 lbs"));
-        addPokemon(new Pokemon(3, "Venusaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "The flower on its back catches the sun's rays. The sunlight is then absorbed and used for energy.", 45, 1, 7, 80, 82, 83, 100, 100, 80, 32, 0, R.drawable.venusaur_main, R.drawable.venusaur_back, R.drawable.venusaur_map, R.raw.venusaur, "6'7\"", "220.5 lbs"));
-        addPokemon(new Pokemon(4, "Charmander", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "The flame at the tip of its tail makes a sound as it burns. You can only hear it in quiet places.", 190, 1, 7, 39, 52, 43, 60, 50, 65, 0, 5, R.drawable.charmander_main, R.drawable.charmander_back, R.drawable.charmander_map, R.raw.charmander, "2'0\"", "18.7 lbs"));
-        addPokemon(new Pokemon(5, "Charmeleon", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "It is very hotheaded by nature, so it constantly seeks opponents. It calms down only when it wins.", 45, 1, 7, 58, 64, 58, 80, 65, 80, 16, 6, R.drawable.charmeleon_main, R.drawable.charmeleon_back, R.drawable.charmeleon_map, R.raw.charmeleon, "3'7\"", "41.9 lbs"));
-        addPokemon(new Pokemon(6, "Charizard", mTypes.get(Type.FIRE), mTypes.get(Type.FLYING), "When expelling a blast of super hot fire, the red flame at the tip of its tail burns more intensely.", 45, 1, 7, 78, 84, 78, 109, 85, 100, 36, 0, R.drawable.charizard_main, R.drawable.charizard_back, R.drawable.charizard_map, R.raw.charizard, "5'7\"", "199.5 lbs"));
-        addPokemon(new Pokemon(7, "Squirtle", mTypes.get(Type.WATER), mTypes.get(Type.NONE), "Shoots water at prey while in the water. Withdraws into its shell when in danger.", 190, 1, 7, 44, 48, 65, 50, 64, 43, 0, 8, R.drawable.squirtle_main, R.drawable.squirtle_back, R.drawable.squirtle_map, R.raw.squirtle, "1'8\"", "19.8 lbs"));
-        addPokemon(new Pokemon(8, "Wartortle", mTypes.get(Type.WATER), mTypes.get(Type.NONE), "Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance.", 45, 1, 7, 59, 63, 80, 65, 80, 58, 16, 9, R.drawable.wartortle_main, R.drawable.wartortle_back, R.drawable.wartortle_map, R.raw.wartortle, "3'3\"", "49.6 lbs"));
-        addPokemon(new Pokemon(9, "Blastoise", mTypes.get(Type.WATER), mTypes.get(Type.NONE), "It deliberately makes itself heavy so it can withstand the recoil of the water jets it fires.", 45, 1, 7, 79, 103, 120, 135, 115, 78, 36, 0, R.drawable.blastoise_main, R.drawable.blastoise_back, R.drawable.blastoise_map, R.raw.blastoise, "5'3\"", "188.5 lbs"));
-        addPokemon(new Pokemon(16, "Pidgey", mTypes.get(Type.NORMAL), mTypes.get(Type.FLYING), "Very docile. If attacked, it will often kick up sand to protect itself rather than fight back.", 255, 1, 1, 40, 45, 40, 35, 35, 56, 0, 17, R.drawable.pidgey_main, R.drawable.pidgey_back, R.drawable.pidgey_map, R.raw.pidgey, "1'0\"", "4 lbs"));
-        addPokemon(new Pokemon(17, "Pidgeotto", mTypes.get(Type.NORMAL), mTypes.get(Type.FLYING), "It has outstanding vision. However high it flies, it is able to distinguish the movements of its prey.", 120, 1, 1, 63, 60, 55, 50, 50, 71, 18, 18, R.drawable.pidgeotto_main, R.drawable.pidgeotto_back, R.drawable.pidgeotto_map, R.raw.pidgeotto, "3'7\"", "66.1 lbs"));
-        addPokemon(new Pokemon(18, "Pidgeot", mTypes.get(Type.NORMAL), mTypes.get(Type.FLYING), "Its well-developed chest muscles make it strong enough to whip up a gusty windstorm with just a few flaps.", 45, 1, 1, 83, 80, 75, 70, 70, 101, 36, 0, R.drawable.pidgeot_main, R.drawable.pidgeot_back, R.drawable.pidgeot_map, R.raw.pidgeot, "4'11\"", "87.1 lbs"));
-        addPokemon(new Pokemon(25, "Pikachu", mTypes.get(Type.ELECTRIC), mTypes.get(Type.NONE), "It keeps its tail raised to monitor its surroundings. If you yank its tail, it will try to bite you.", 190, 1, 1, 35, 55, 40, 50, 50, 90, 0, 26, R.drawable.pikachu_main, R.drawable.pikachu_back, R.drawable.pikachu_map, R.raw.pikachu, "1'4\"", "13.2 lbs"));
-        addPokemon(new Pokemon(26, "Raichu", mTypes.get(Type.ELECTRIC), mTypes.get(Type.NONE), "When electricity builds up inside its body, it becomes feisty. It also glows in the dark.", 75, 1, 1, 60, 90, 55, 90, 80, 110, 22, 0, R.drawable.raichu_main, R.drawable.raichu_back, R.drawable.raichu_map, R.raw.raichu, "2'7\"", "66.1 lbs"));
-        addPokemon(new Pokemon(58, "Growlithe", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "It has a brave and trustworthy nature. It fearlessly stands up to bigger and stronger foes.", 190, 1, 3, 55, 70, 45, 70, 50, 60, 0, 59, R.drawable.growlithe_main, R.drawable.growlithe_back, R.drawable.growlithe_map, R.raw.growlithe, "2'4\"", "41.9 lbs"));
-        addPokemon(new Pokemon(59, "Arcanine", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "An ancient picture scroll shows that people were attracted to its movement as it ran through prairies.", 75, 1, 3, 90, 110, 80, 100, 80, 95, 22, 0, R.drawable.arcanine_main, R.drawable.arcanine_back, R.drawable.arcanine_map, R.raw.arcanine, "6'3\"", "341.7 lbs"));
-        addPokemon(new Pokemon(63, "Abra", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "Sleeps 18 hours a day. If it senses danger, it will teleport itself to safety even as it sleeps.", 200, 1, 3, 25, 20, 15, 105, 55, 90, 0, 64, R.drawable.abra_main, R.drawable.abra_back, R.drawable.abra_map, R.raw.abra, "2'11\"", "43 lbs"));
-        addPokemon(new Pokemon(64, "Kadabra", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "It possesses strong spiritual power. The more danger it faces, the stronger its psychic power.", 100, 1, 3, 40, 35, 30, 120, 70, 105, 16, 65, R.drawable.kadabra_main, R.drawable.kadabra_back, R.drawable.kadabra_map, R.raw.kadabra, "4'3\"", "124.6 lbs"));
-        addPokemon(new Pokemon(65, "Alakazam", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "Closing both its eyes heightens all its other senses. This enables it to use its abilities to their extremes.", 50, 1, 3, 55, 50, 45, 135, 95, 120, 40, 0, R.drawable.alakazam_main, R.drawable.alakazam_back, R.drawable.alakazam_map, R.raw.alakazam, "4'11\"", "105.8 lbs"));
-        addPokemon(new Pokemon(66, "Machop", mTypes.get(Type.FIGHTING), mTypes.get(Type.NONE), "Very powerful in spite of its small size. Its mastery of many types of martial arts makes it very tough.", 180, 1, 3, 70, 80, 50, 35, 35, 35, 0, 67, R.drawable.machop_main, R.drawable.machop_back, R.drawable.machop_map, R.raw.machop, "2'7\"", "43 lbs"));
-        addPokemon(new Pokemon(67, "Machoke", mTypes.get(Type.FIGHTING), mTypes.get(Type.NONE), "Its muscular body is so powerful, it must wear a power save belt to be able to regulate its motions.", 90, 1, 3, 80, 100, 70, 50, 60, 45, 28, 68, R.drawable.machoke_main, R.drawable.machoke_back, R.drawable.machoke_map, R.raw.machoke, "4'11\"", "155.4 lbs"));
-        addPokemon(new Pokemon(68, "Machamp", mTypes.get(Type.FIGHTING), mTypes.get(Type.NONE), "Using its heavy muscles, it throws powerful punches that can send the victim clear over the horizon.", 45, 1, 3, 90, 130, 80, 65, 85, 55, 40, 0, R.drawable.machamp_main, R.drawable.machamp_back, R.drawable.machamp_map, R.raw.machamp, "5'3\"", "286.6 lbs"));
-        addPokemon(new Pokemon(72, "Tentacool", mTypes.get(Type.WATER), mTypes.get(Type.POISON), "It can sometimes be found all dry and shriveled up on a beach. Toss it back into the sea to revive it.", 190, 1, 1, 40, 40, 35, 50, 100, 70, 0, 73, R.drawable.tentacool_main, R.drawable.tentacool_back, R.drawable.tentacool_map, R.raw.tentacool, "2'11\"", "100.3 lbs"));
-        addPokemon(new Pokemon(73, "Tentacruel", mTypes.get(Type.WATER), mTypes.get(Type.POISON), "The tentacles are normally kept short. On hunts, they are extended to ensnare and immobilize prey", 60, 1, 1, 80, 70, 65, 80, 120, 100, 30, 0, R.drawable.tentacruel_main, R.drawable.tentacruel_back, R.drawable.tentacruel_map, R.raw.tentacruel, "5'3\"", "121.3 lbs"));
-        addPokemon(new Pokemon(74, "Geodude", mTypes.get(Type.ROCK), mTypes.get(Type.GROUND), "Commonly found near mountain trails, etc. If you step on one by accident, it gets angry.", 255, 1, 1, 40, 80, 100, 30, 30, 20, 0, 75, R.drawable.geodude_main, R.drawable.geodude_back, R.drawable.geodude_map, R.raw.geodude, "1'4\"", "44.1 lbs"));
-        addPokemon(new Pokemon(75, "Graveler", mTypes.get(Type.ROCK), mTypes.get(Type.GROUND), "Often seen rolling down mountain trails. Obstacles are just things to roll straight over, not avoid.", 120, 1, 1, 55, 95, 115, 45, 45, 35, 25, 76, R.drawable.graveler_main, R.drawable.graveler_back, R.drawable.graveler_map, R.raw.graveler, "3'3\"", "231.5 lbs"));
-        addPokemon(new Pokemon(76, "Golem", mTypes.get(Type.ROCK), mTypes.get(Type.GROUND), "Its boulder-like body is extremely hard. It can easily withstand dynamite blasts without damage.", 45, 1, 1, 80, 120, 130, 55, 65, 45, 40, 0, R.drawable.golem_main, R.drawable.golem_back, R.drawable.golem_map, R.raw.golem, "4'7\"", "661.4 lbs"));
-        addPokemon(new Pokemon(81, "Magnemite", mTypes.get(Type.ELECTRIC), mTypes.get(Type.STEEL), "It is born with the ability to defy gravity. It floats in air on powerful electromagnetic waves.", 190, 0, 0, 25, 35, 70, 95, 55, 45, 0, 82, R.drawable.magnemite_main, R.drawable.magnemite_back, R.drawable.magnemite_map, R.raw.magnemite, "1'0\"", "13.2 lbs"));
-        addPokemon(new Pokemon(82, "Magneton", mTypes.get(Type.ELECTRIC), mTypes.get(Type.STEEL), "Generates strange radio signals. It raises the temperature by 3.6F degrees within 3,300 feet.", 60, 0, 0, 50, 60, 95, 120, 70, 70, 30, 0, R.drawable.magneton_main, R.drawable.magneton_back, R.drawable.magneton_map, R.raw.magneton, "3'3\"", "132.3 lbs"));
-        addPokemon(new Pokemon(92, "Gastly", mTypes.get(Type.GHOST), mTypes.get(Type.POISON), "Said to appear in decrepit, deserted buildings. It has no real shape as it appears to be made of a gas.", 190, 1, 1, 30, 35, 30, 100, 35, 80, 0, 93, R.drawable.gastly_main, R.drawable.gastly_back, R.drawable.gastly_map, R.raw.gastly, "4'3\"", "0.2 lbs"));
-        addPokemon(new Pokemon(93, "Haunter", mTypes.get(Type.GHOST), mTypes.get(Type.POISON), "By licking, it saps the victim's life. It causes shaking that won't stop until the victim's demise.", 90, 1, 1, 45, 50, 45, 115, 55, 95, 25, 94, R.drawable.haunter_main, R.drawable.haunter_back, R.drawable.haunter_map, R.raw.haunter, "5'3\"", "0.2 lbs"));
-        addPokemon(new Pokemon(94, "Gengar", mTypes.get(Type.GHOST), mTypes.get(Type.POISON), "To steal the life of its target, it slips into the prey's shadow and silently waits for an opportunity.", 45, 1, 1, 60, 65, 60, 130, 75, 110, 40, 0, R.drawable.gengar_main, R.drawable.gengar_back, R.drawable.gengar_map, R.raw.gengar, "4'11\"", "89.3 lbs"));
-        addPokemon(new Pokemon(109, "Koffing", mTypes.get(Type.POISON), mTypes.get(Type.NONE), "In hot places, its internal gases could expand and explode without any warning. Be very careful!", 190, 1, 1, 40, 65, 95, 60, 45, 35, 0, 110, R.drawable.koffing_main, R.drawable.koffing_back, R.drawable.koffing_map, R.raw.koffing, "2'0\"", "2.2 lbs"));
-        addPokemon(new Pokemon(110, "Weezing", mTypes.get(Type.POISON), mTypes.get(Type.NONE), "It lives and grows by absorbing dust, germs and poison gases that are contained in toxic waste and garbage.", 60, 1, 1, 65, 90, 120, 85, 70, 60, 35, 0, R.drawable.weezing_main, R.drawable.weezing_back, R.drawable.weezing_map, R.raw.weezing, "3'11\"", "20.9 lbs"));
-        addPokemon(new Pokemon(111, "Rhyhorn", mTypes.get(Type.GROUND), mTypes.get(Type.ROCK), "It is inept at turning because of its four short legs. It can only charge and run in one direction.", 120, 1, 1, 80, 85, 95, 30, 20, 25, 0, 112, R.drawable.rhyhorn_main, R.drawable.rhyhorn_back, R.drawable.rhyhorn_map, R.raw.rhyhorn, "3'3\"", "253.5 lbs"));
-        addPokemon(new Pokemon(112, "Rhydon", mTypes.get(Type.GROUND), mTypes.get(Type.ROCK), "Walks on its hind legs. Shows signs of intelligence. Its armor-like hide even repels molten lava.", 60, 1, 1, 105, 130, 120, 45, 45, 40, 42, 0, R.drawable.rhydon_main, R.drawable.rhydon_back, R.drawable.rhydon_map, R.raw.rhydon, "6'3\"", "264.6 lbs"));
-        addPokemon(new Pokemon(122, "Mr. Mime", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "Always practices its pantomime act. It makes enemies believe something exists that really doesn't.", 45, 1, 1, 40, 45, 65, 100, 120, 90, 0, 0, R.drawable.mr_mime_main, R.drawable.mr_mime_back, R.drawable.mr_mime_map, R.raw.mr_mime, "4'3\"", "120.2 lbs"));
-        addPokemon(new Pokemon(124, "Jynx", mTypes.get(Type.ICE), mTypes.get(Type.PSYCHIC), "Appears to move to a rhythm of its own, as if it were dancing. It wiggles its hips as it walks.", 45, 1, 0, 65, 50, 35, 115, 95, 95, 0, 0, R.drawable.jynx_main, R.drawable.jynx_back, R.drawable.jynx_map, R.raw.jynx, "4'7\"", "89.5 lbs"));
-        addPokemon(new Pokemon(125, "Electabuzz", mTypes.get(Type.ELECTRIC), mTypes.get(Type.NONE), "Electricity runs across the surface of its body. In darkness, its entire body glows a whitish-blue.", 45, 1, 3, 65, 83, 57, 95, 85, 105, 0, 0, R.drawable.electabuzz_main, R.drawable.electabuzz_back, R.drawable.electabuzz_map, R.raw.electabuzz, "3'7\"", "66.1 lbs"));
-        addPokemon(new Pokemon(126, "Magmar", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "Born in an active volcano. Its body is always cloaked in flames, so it looks like a big ball of fire.", 45, 1, 3, 65, 95, 57, 100, 85, 93, 0, 0, R.drawable.magmar_main, R.drawable.magmar_back, R.drawable.magmar_map, R.raw.magmar, "4'3\"", "98.1 lbs"));
-        addPokemon(new Pokemon(127, "Pinsir", mTypes.get(Type.BUG), mTypes.get(Type.NONE), "Grips its prey in its pincers and squeezes hard! It can't move if it's cold, so it lives in warm places", 45, 1, 1, 65, 125, 100, 55, 70, 85, 0, 0, R.drawable.pinsir_main, R.drawable.pinsir_back, R.drawable.pinsir_map, R.raw.pinsir, "4'11\"", "121.3 lbs"));
-        addPokemon(new Pokemon(128, "Tauros", mTypes.get(Type.NORMAL), mTypes.get(Type.NONE), "They fight each other by locking horns. The herd's protector takes pride in its battle-scarred horns.", 45, 0, 1, 75, 100, 95, 40, 70, 110, 0, 0, R.drawable.tauros_main, R.drawable.tauros_back, R.drawable.tauros_map, R.raw.tauros, "4'7\"", "194.9 lbs"));
-        addPokemon(new Pokemon(131, "Lapras", mTypes.get(Type.WATER), mTypes.get(Type.ICE), "They have gentle hearts. Because they rarely fight, many have been caught. Their number has dwindled.", 45, 1, 1, 130, 85, 80, 85, 95, 60, 0, 0, R.drawable.lapras_main, R.drawable.lapras_back, R.drawable.lapras_map, R.raw.lapras, "8'2\"", "485 lbs"));
-        addPokemon(new Pokemon(138, "Omanyte", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "Although long extinct, in rare cases, it can be genetically resurrected from fossils.", 45, 1, 7, 35, 40, 100, 90, 55, 35, 0, 139, R.drawable.omanyte_main, R.drawable.omanyte_back, R.drawable.omanyte_map, R.raw.omanyte, "1'4\"", "16.5 lbs"));
-        addPokemon(new Pokemon(139, "Omastar", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "Sharp beaks ring its mouth. Its shell was too big for it to move freely, so it became extinct.", 45, 1, 7, 70, 60, 125, 115, 70, 55, 40, 0, R.drawable.omastar_main, R.drawable.omastar_back, R.drawable.omastar_map, R.raw.omastar, "3'3\"", "77.2 lbs"));
-        addPokemon(new Pokemon(140, "Kabuto", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "On rare occasions, some have been found as fossils which they became while hiding on the ocean floor.", 45, 1, 7, 30, 80, 90, 55, 45, 55, 0, 141, R.drawable.kabuto_main, R.drawable.kabuto_back, R.drawable.kabuto_map, R.raw.kabuto, "1'8\"", "25.4 lbs"));
-        addPokemon(new Pokemon(141, "Kabutops", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "In the water, it tucks in its limbs to become more compact, then it wiggles its shell to swim fast.", 45, 1, 7, 60, 115, 105, 65, 70, 80, 40, 0, R.drawable.kabutops_main, R.drawable.kabutops_back, R.drawable.kabutops_map, R.raw.kabutops, "4'3\"", "89.3 lbs"));
-        addPokemon(new Pokemon(147, "Dratini", mTypes.get(Type.DRAGON), mTypes.get(Type.NONE), "It is born large to start with. It repeatedly sheds its skin as it steadily grows longer.", 45, 1, 1, 41, 64, 45, 50, 50, 50, 0, 148, R.drawable.dratini_main, R.drawable.dratini_back, R.drawable.dratini_map, R.raw.dratini, "5'11\"", "7.3 lbs"));
-        addPokemon(new Pokemon(148, "Dragonair", mTypes.get(Type.DRAGON), mTypes.get(Type.NONE), "According to a witness, its body was surrounded by a strange aura that gave it a mystical look.", 45, 1, 1, 61, 84, 65, 70, 70, 70, 30, 149, R.drawable.dragonair_main, R.drawable.dragonair_back, R.drawable.dragonair_map, R.raw.dragonair, "13'1\"", "36.4 lbs"));
-        addPokemon(new Pokemon(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite, "7'3\"", "463 lbs"));
+        addPokemon(new PokéDexData(1, "Bulbasaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.", 190, 1, 7, 45, 49, 49, 65, 65, 45, 0, 2, R.drawable.bulbasaur_main, R.drawable.bulbasaur_back, R.drawable.bulbasaur_map, R.raw.bulbasaur, "2'4\"", "15.2 lbs"));
+        addPokemon(new PokéDexData(2, "Ivysaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "The bulb on its back grows by drawing energy. It gives off an aroma when it is ready to bloom.", 45, 1, 7, 60, 62, 63, 80, 80, 60, 16, 3, R.drawable.ivysaur_main, R.drawable.ivysaur_back, R.drawable.ivysaur_map, R.raw.ivysaur, "3'3\"", "28.7 lbs"));
+        addPokemon(new PokéDexData(3, "Venusaur", mTypes.get(Type.GRASS), mTypes.get(Type.POISON), "The flower on its back catches the sun's rays. The sunlight is then absorbed and used for energy.", 45, 1, 7, 80, 82, 83, 100, 100, 80, 32, 0, R.drawable.venusaur_main, R.drawable.venusaur_back, R.drawable.venusaur_map, R.raw.venusaur, "6'7\"", "220.5 lbs"));
+        addPokemon(new PokéDexData(4, "Charmander", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "The flame at the tip of its tail makes a sound as it burns. You can only hear it in quiet places.", 190, 1, 7, 39, 52, 43, 60, 50, 65, 0, 5, R.drawable.charmander_main, R.drawable.charmander_back, R.drawable.charmander_map, R.raw.charmander, "2'0\"", "18.7 lbs"));
+        addPokemon(new PokéDexData(5, "Charmeleon", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "It is very hotheaded by nature, so it constantly seeks opponents. It calms down only when it wins.", 45, 1, 7, 58, 64, 58, 80, 65, 80, 16, 6, R.drawable.charmeleon_main, R.drawable.charmeleon_back, R.drawable.charmeleon_map, R.raw.charmeleon, "3'7\"", "41.9 lbs"));
+        addPokemon(new PokéDexData(6, "Charizard", mTypes.get(Type.FIRE), mTypes.get(Type.FLYING), "When expelling a blast of super hot fire, the red flame at the tip of its tail burns more intensely.", 45, 1, 7, 78, 84, 78, 109, 85, 100, 36, 0, R.drawable.charizard_main, R.drawable.charizard_back, R.drawable.charizard_map, R.raw.charizard, "5'7\"", "199.5 lbs"));
+        addPokemon(new PokéDexData(7, "Squirtle", mTypes.get(Type.WATER), mTypes.get(Type.NONE), "Shoots water at prey while in the water. Withdraws into its shell when in danger.", 190, 1, 7, 44, 48, 65, 50, 64, 43, 0, 8, R.drawable.squirtle_main, R.drawable.squirtle_back, R.drawable.squirtle_map, R.raw.squirtle, "1'8\"", "19.8 lbs"));
+        addPokemon(new PokéDexData(8, "Wartortle", mTypes.get(Type.WATER), mTypes.get(Type.NONE), "Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance.", 45, 1, 7, 59, 63, 80, 65, 80, 58, 16, 9, R.drawable.wartortle_main, R.drawable.wartortle_back, R.drawable.wartortle_map, R.raw.wartortle, "3'3\"", "49.6 lbs"));
+        addPokemon(new PokéDexData(9, "Blastoise", mTypes.get(Type.WATER), mTypes.get(Type.NONE), "It deliberately makes itself heavy so it can withstand the recoil of the water jets it fires.", 45, 1, 7, 79, 103, 120, 135, 115, 78, 36, 0, R.drawable.blastoise_main, R.drawable.blastoise_back, R.drawable.blastoise_map, R.raw.blastoise, "5'3\"", "188.5 lbs"));
+        addPokemon(new PokéDexData(16, "Pidgey", mTypes.get(Type.NORMAL), mTypes.get(Type.FLYING), "Very docile. If attacked, it will often kick up sand to protect itself rather than fight back.", 255, 1, 1, 40, 45, 40, 35, 35, 56, 0, 17, R.drawable.pidgey_main, R.drawable.pidgey_back, R.drawable.pidgey_map, R.raw.pidgey, "1'0\"", "4 lbs"));
+        addPokemon(new PokéDexData(17, "Pidgeotto", mTypes.get(Type.NORMAL), mTypes.get(Type.FLYING), "It has outstanding vision. However high it flies, it is able to distinguish the movements of its prey.", 120, 1, 1, 63, 60, 55, 50, 50, 71, 18, 18, R.drawable.pidgeotto_main, R.drawable.pidgeotto_back, R.drawable.pidgeotto_map, R.raw.pidgeotto, "3'7\"", "66.1 lbs"));
+        addPokemon(new PokéDexData(18, "Pidgeot", mTypes.get(Type.NORMAL), mTypes.get(Type.FLYING), "Its well-developed chest muscles make it strong enough to whip up a gusty windstorm with just a few flaps.", 45, 1, 1, 83, 80, 75, 70, 70, 101, 36, 0, R.drawable.pidgeot_main, R.drawable.pidgeot_back, R.drawable.pidgeot_map, R.raw.pidgeot, "4'11\"", "87.1 lbs"));
+        addPokemon(new PokéDexData(25, "Pikachu", mTypes.get(Type.ELECTRIC), mTypes.get(Type.NONE), "It keeps its tail raised to monitor its surroundings. If you yank its tail, it will try to bite you.", 190, 1, 1, 35, 55, 40, 50, 50, 90, 0, 26, R.drawable.pikachu_main, R.drawable.pikachu_back, R.drawable.pikachu_map, R.raw.pikachu, "1'4\"", "13.2 lbs"));
+        addPokemon(new PokéDexData(26, "Raichu", mTypes.get(Type.ELECTRIC), mTypes.get(Type.NONE), "When electricity builds up inside its body, it becomes feisty. It also glows in the dark.", 75, 1, 1, 60, 90, 55, 90, 80, 110, 22, 0, R.drawable.raichu_main, R.drawable.raichu_back, R.drawable.raichu_map, R.raw.raichu, "2'7\"", "66.1 lbs"));
+        addPokemon(new PokéDexData(58, "Growlithe", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "It has a brave and trustworthy nature. It fearlessly stands up to bigger and stronger foes.", 190, 1, 3, 55, 70, 45, 70, 50, 60, 0, 59, R.drawable.growlithe_main, R.drawable.growlithe_back, R.drawable.growlithe_map, R.raw.growlithe, "2'4\"", "41.9 lbs"));
+        addPokemon(new PokéDexData(59, "Arcanine", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "An ancient picture scroll shows that people were attracted to its movement as it ran through prairies.", 75, 1, 3, 90, 110, 80, 100, 80, 95, 22, 0, R.drawable.arcanine_main, R.drawable.arcanine_back, R.drawable.arcanine_map, R.raw.arcanine, "6'3\"", "341.7 lbs"));
+        addPokemon(new PokéDexData(63, "Abra", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "Sleeps 18 hours a day. If it senses danger, it will teleport itself to safety even as it sleeps.", 200, 1, 3, 25, 20, 15, 105, 55, 90, 0, 64, R.drawable.abra_main, R.drawable.abra_back, R.drawable.abra_map, R.raw.abra, "2'11\"", "43 lbs"));
+        addPokemon(new PokéDexData(64, "Kadabra", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "It possesses strong spiritual power. The more danger it faces, the stronger its psychic power.", 100, 1, 3, 40, 35, 30, 120, 70, 105, 16, 65, R.drawable.kadabra_main, R.drawable.kadabra_back, R.drawable.kadabra_map, R.raw.kadabra, "4'3\"", "124.6 lbs"));
+        addPokemon(new PokéDexData(65, "Alakazam", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "Closing both its eyes heightens all its other senses. This enables it to use its abilities to their extremes.", 50, 1, 3, 55, 50, 45, 135, 95, 120, 40, 0, R.drawable.alakazam_main, R.drawable.alakazam_back, R.drawable.alakazam_map, R.raw.alakazam, "4'11\"", "105.8 lbs"));
+        addPokemon(new PokéDexData(66, "Machop", mTypes.get(Type.FIGHTING), mTypes.get(Type.NONE), "Very powerful in spite of its small size. Its mastery of many types of martial arts makes it very tough.", 180, 1, 3, 70, 80, 50, 35, 35, 35, 0, 67, R.drawable.machop_main, R.drawable.machop_back, R.drawable.machop_map, R.raw.machop, "2'7\"", "43 lbs"));
+        addPokemon(new PokéDexData(67, "Machoke", mTypes.get(Type.FIGHTING), mTypes.get(Type.NONE), "Its muscular body is so powerful, it must wear a power save belt to be able to regulate its motions.", 90, 1, 3, 80, 100, 70, 50, 60, 45, 28, 68, R.drawable.machoke_main, R.drawable.machoke_back, R.drawable.machoke_map, R.raw.machoke, "4'11\"", "155.4 lbs"));
+        addPokemon(new PokéDexData(68, "Machamp", mTypes.get(Type.FIGHTING), mTypes.get(Type.NONE), "Using its heavy muscles, it throws powerful punches that can send the victim clear over the horizon.", 45, 1, 3, 90, 130, 80, 65, 85, 55, 40, 0, R.drawable.machamp_main, R.drawable.machamp_back, R.drawable.machamp_map, R.raw.machamp, "5'3\"", "286.6 lbs"));
+        addPokemon(new PokéDexData(72, "Tentacool", mTypes.get(Type.WATER), mTypes.get(Type.POISON), "It can sometimes be found all dry and shriveled up on a beach. Toss it back into the sea to revive it.", 190, 1, 1, 40, 40, 35, 50, 100, 70, 0, 73, R.drawable.tentacool_main, R.drawable.tentacool_back, R.drawable.tentacool_map, R.raw.tentacool, "2'11\"", "100.3 lbs"));
+        addPokemon(new PokéDexData(73, "Tentacruel", mTypes.get(Type.WATER), mTypes.get(Type.POISON), "The tentacles are normally kept short. On hunts, they are extended to ensnare and immobilize prey", 60, 1, 1, 80, 70, 65, 80, 120, 100, 30, 0, R.drawable.tentacruel_main, R.drawable.tentacruel_back, R.drawable.tentacruel_map, R.raw.tentacruel, "5'3\"", "121.3 lbs"));
+        addPokemon(new PokéDexData(74, "Geodude", mTypes.get(Type.ROCK), mTypes.get(Type.GROUND), "Commonly found near mountain trails, etc. If you step on one by accident, it gets angry.", 255, 1, 1, 40, 80, 100, 30, 30, 20, 0, 75, R.drawable.geodude_main, R.drawable.geodude_back, R.drawable.geodude_map, R.raw.geodude, "1'4\"", "44.1 lbs"));
+        addPokemon(new PokéDexData(75, "Graveler", mTypes.get(Type.ROCK), mTypes.get(Type.GROUND), "Often seen rolling down mountain trails. Obstacles are just things to roll straight over, not avoid.", 120, 1, 1, 55, 95, 115, 45, 45, 35, 25, 76, R.drawable.graveler_main, R.drawable.graveler_back, R.drawable.graveler_map, R.raw.graveler, "3'3\"", "231.5 lbs"));
+        addPokemon(new PokéDexData(76, "Golem", mTypes.get(Type.ROCK), mTypes.get(Type.GROUND), "Its boulder-like body is extremely hard. It can easily withstand dynamite blasts without damage.", 45, 1, 1, 80, 120, 130, 55, 65, 45, 40, 0, R.drawable.golem_main, R.drawable.golem_back, R.drawable.golem_map, R.raw.golem, "4'7\"", "661.4 lbs"));
+        addPokemon(new PokéDexData(81, "Magnemite", mTypes.get(Type.ELECTRIC), mTypes.get(Type.STEEL), "It is born with the ability to defy gravity. It floats in air on powerful electromagnetic waves.", 190, 0, 0, 25, 35, 70, 95, 55, 45, 0, 82, R.drawable.magnemite_main, R.drawable.magnemite_back, R.drawable.magnemite_map, R.raw.magnemite, "1'0\"", "13.2 lbs"));
+        addPokemon(new PokéDexData(82, "Magneton", mTypes.get(Type.ELECTRIC), mTypes.get(Type.STEEL), "Generates strange radio signals. It raises the temperature by 3.6F degrees within 3,300 feet.", 60, 0, 0, 50, 60, 95, 120, 70, 70, 30, 0, R.drawable.magneton_main, R.drawable.magneton_back, R.drawable.magneton_map, R.raw.magneton, "3'3\"", "132.3 lbs"));
+        addPokemon(new PokéDexData(92, "Gastly", mTypes.get(Type.GHOST), mTypes.get(Type.POISON), "Said to appear in decrepit, deserted buildings. It has no real shape as it appears to be made of a gas.", 190, 1, 1, 30, 35, 30, 100, 35, 80, 0, 93, R.drawable.gastly_main, R.drawable.gastly_back, R.drawable.gastly_map, R.raw.gastly, "4'3\"", "0.2 lbs"));
+        addPokemon(new PokéDexData(93, "Haunter", mTypes.get(Type.GHOST), mTypes.get(Type.POISON), "By licking, it saps the victim's life. It causes shaking that won't stop until the victim's demise.", 90, 1, 1, 45, 50, 45, 115, 55, 95, 25, 94, R.drawable.haunter_main, R.drawable.haunter_back, R.drawable.haunter_map, R.raw.haunter, "5'3\"", "0.2 lbs"));
+        addPokemon(new PokéDexData(94, "Gengar", mTypes.get(Type.GHOST), mTypes.get(Type.POISON), "To steal the life of its target, it slips into the prey's shadow and silently waits for an opportunity.", 45, 1, 1, 60, 65, 60, 130, 75, 110, 40, 0, R.drawable.gengar_main, R.drawable.gengar_back, R.drawable.gengar_map, R.raw.gengar, "4'11\"", "89.3 lbs"));
+        addPokemon(new PokéDexData(109, "Koffing", mTypes.get(Type.POISON), mTypes.get(Type.NONE), "In hot places, its internal gases could expand and explode without any warning. Be very careful!", 190, 1, 1, 40, 65, 95, 60, 45, 35, 0, 110, R.drawable.koffing_main, R.drawable.koffing_back, R.drawable.koffing_map, R.raw.koffing, "2'0\"", "2.2 lbs"));
+        addPokemon(new PokéDexData(110, "Weezing", mTypes.get(Type.POISON), mTypes.get(Type.NONE), "It lives and grows by absorbing dust, germs and poison gases that are contained in toxic waste and garbage.", 60, 1, 1, 65, 90, 120, 85, 70, 60, 35, 0, R.drawable.weezing_main, R.drawable.weezing_back, R.drawable.weezing_map, R.raw.weezing, "3'11\"", "20.9 lbs"));
+        addPokemon(new PokéDexData(111, "Rhyhorn", mTypes.get(Type.GROUND), mTypes.get(Type.ROCK), "It is inept at turning because of its four short legs. It can only charge and run in one direction.", 120, 1, 1, 80, 85, 95, 30, 20, 25, 0, 112, R.drawable.rhyhorn_main, R.drawable.rhyhorn_back, R.drawable.rhyhorn_map, R.raw.rhyhorn, "3'3\"", "253.5 lbs"));
+        addPokemon(new PokéDexData(112, "Rhydon", mTypes.get(Type.GROUND), mTypes.get(Type.ROCK), "Walks on its hind legs. Shows signs of intelligence. Its armor-like hide even repels molten lava.", 60, 1, 1, 105, 130, 120, 45, 45, 40, 42, 0, R.drawable.rhydon_main, R.drawable.rhydon_back, R.drawable.rhydon_map, R.raw.rhydon, "6'3\"", "264.6 lbs"));
+        addPokemon(new PokéDexData(122, "Mr. Mime", mTypes.get(Type.PSYCHIC), mTypes.get(Type.NONE), "Always practices its pantomime act. It makes enemies believe something exists that really doesn't.", 45, 1, 1, 40, 45, 65, 100, 120, 90, 0, 0, R.drawable.mr_mime_main, R.drawable.mr_mime_back, R.drawable.mr_mime_map, R.raw.mr_mime, "4'3\"", "120.2 lbs"));
+        addPokemon(new PokéDexData(124, "Jynx", mTypes.get(Type.ICE), mTypes.get(Type.PSYCHIC), "Appears to move to a rhythm of its own, as if it were dancing. It wiggles its hips as it walks.", 45, 1, 0, 65, 50, 35, 115, 95, 95, 0, 0, R.drawable.jynx_main, R.drawable.jynx_back, R.drawable.jynx_map, R.raw.jynx, "4'7\"", "89.5 lbs"));
+        addPokemon(new PokéDexData(125, "Electabuzz", mTypes.get(Type.ELECTRIC), mTypes.get(Type.NONE), "Electricity runs across the surface of its body. In darkness, its entire body glows a whitish-blue.", 45, 1, 3, 65, 83, 57, 95, 85, 105, 0, 0, R.drawable.electabuzz_main, R.drawable.electabuzz_back, R.drawable.electabuzz_map, R.raw.electabuzz, "3'7\"", "66.1 lbs"));
+        addPokemon(new PokéDexData(126, "Magmar", mTypes.get(Type.FIRE), mTypes.get(Type.NONE), "Born in an active volcano. Its body is always cloaked in flames, so it looks like a big ball of fire.", 45, 1, 3, 65, 95, 57, 100, 85, 93, 0, 0, R.drawable.magmar_main, R.drawable.magmar_back, R.drawable.magmar_map, R.raw.magmar, "4'3\"", "98.1 lbs"));
+        addPokemon(new PokéDexData(127, "Pinsir", mTypes.get(Type.BUG), mTypes.get(Type.NONE), "Grips its prey in its pincers and squeezes hard! It can't move if it's cold, so it lives in warm places", 45, 1, 1, 65, 125, 100, 55, 70, 85, 0, 0, R.drawable.pinsir_main, R.drawable.pinsir_back, R.drawable.pinsir_map, R.raw.pinsir, "4'11\"", "121.3 lbs"));
+        addPokemon(new PokéDexData(128, "Tauros", mTypes.get(Type.NORMAL), mTypes.get(Type.NONE), "They fight each other by locking horns. The herd's protector takes pride in its battle-scarred horns.", 45, 0, 1, 75, 100, 95, 40, 70, 110, 0, 0, R.drawable.tauros_main, R.drawable.tauros_back, R.drawable.tauros_map, R.raw.tauros, "4'7\"", "194.9 lbs"));
+        addPokemon(new PokéDexData(131, "Lapras", mTypes.get(Type.WATER), mTypes.get(Type.ICE), "They have gentle hearts. Because they rarely fight, many have been caught. Their number has dwindled.", 45, 1, 1, 130, 85, 80, 85, 95, 60, 0, 0, R.drawable.lapras_main, R.drawable.lapras_back, R.drawable.lapras_map, R.raw.lapras, "8'2\"", "485 lbs"));
+        addPokemon(new PokéDexData(138, "Omanyte", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "Although long extinct, in rare cases, it can be genetically resurrected from fossils.", 45, 1, 7, 35, 40, 100, 90, 55, 35, 0, 139, R.drawable.omanyte_main, R.drawable.omanyte_back, R.drawable.omanyte_map, R.raw.omanyte, "1'4\"", "16.5 lbs"));
+        addPokemon(new PokéDexData(139, "Omastar", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "Sharp beaks ring its mouth. Its shell was too big for it to move freely, so it became extinct.", 45, 1, 7, 70, 60, 125, 115, 70, 55, 40, 0, R.drawable.omastar_main, R.drawable.omastar_back, R.drawable.omastar_map, R.raw.omastar, "3'3\"", "77.2 lbs"));
+        addPokemon(new PokéDexData(140, "Kabuto", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "On rare occasions, some have been found as fossils which they became while hiding on the ocean floor.", 45, 1, 7, 30, 80, 90, 55, 45, 55, 0, 141, R.drawable.kabuto_main, R.drawable.kabuto_back, R.drawable.kabuto_map, R.raw.kabuto, "1'8\"", "25.4 lbs"));
+        addPokemon(new PokéDexData(141, "Kabutops", mTypes.get(Type.ROCK), mTypes.get(Type.WATER), "In the water, it tucks in its limbs to become more compact, then it wiggles its shell to swim fast.", 45, 1, 7, 60, 115, 105, 65, 70, 80, 40, 0, R.drawable.kabutops_main, R.drawable.kabutops_back, R.drawable.kabutops_map, R.raw.kabutops, "4'3\"", "89.3 lbs"));
+        addPokemon(new PokéDexData(147, "Dratini", mTypes.get(Type.DRAGON), mTypes.get(Type.NONE), "It is born large to start with. It repeatedly sheds its skin as it steadily grows longer.", 45, 1, 1, 41, 64, 45, 50, 50, 50, 0, 148, R.drawable.dratini_main, R.drawable.dratini_back, R.drawable.dratini_map, R.raw.dratini, "5'11\"", "7.3 lbs"));
+        addPokemon(new PokéDexData(148, "Dragonair", mTypes.get(Type.DRAGON), mTypes.get(Type.NONE), "According to a witness, its body was surrounded by a strange aura that gave it a mystical look.", 45, 1, 1, 61, 84, 65, 70, 70, 70, 30, 149, R.drawable.dragonair_main, R.drawable.dragonair_back, R.drawable.dragonair_map, R.raw.dragonair, "13'1\"", "36.4 lbs"));
+        addPokemon(new PokéDexData(149, "Dragonite", mTypes.get(Type.DRAGON), mTypes.get(Type.FLYING), "It is said that somewhere in the ocean lies an island where these gather. Only they live there.", 45, 1, 1, 91, 134, 95, 100, 100, 80, 55, 0, R.drawable.dragonite_main, R.drawable.dragonite_back, R.drawable.dragonite_map, R.raw.dragonite, "7'3\"", "463 lbs"));
     }
 
     public boolean isNetworkConnected() {
@@ -521,9 +500,9 @@ public class PokemonGoApp extends Application{
                 int rawImg = getResources().getIdentifier(placeObj.getString("Raw Img"), "raw", getPackageName());
                 String height = placeObj.getString("Height");
                 String weight = placeObj.getString("Weight");
-                addPokemon(new Pokemon(dex, name, typeOne, typeTwo, desc, catchRate, femaleRatio, maleRatio, hp, atk, def, spAtk, spDef, spd, lv1Req, nextDex,
+                addPokemon(new PokéDexData(dex, name, typeOne, typeTwo, desc, catchRate, femaleRatio, maleRatio, hp, atk, def, spAtk, spDef, spd, lv1Req, nextDex,
                         mainImg, backImg, mapImg, rawImg, height, weight));
-//                Pokemon m = new Pokemon(name, type, category, maxpp, maxpp , power, acc);
+//                PokéDexData m = new PokéDexData(name, type, category, maxpp, maxpp , power, acc);
 //                mTest.add(m);
                 Log.e("Test", mPokemons.get(iIdx).toString());
             }
@@ -558,8 +537,8 @@ public class PokemonGoApp extends Application{
                 String intro = placeObj.getString("Intro");
                 String win = placeObj.getString("Win");
                 String lose = placeObj.getString("Lose");
-                String pokemon1 = placeObj.getString("Fave Pokemon 1");
-                String pokemon2 = placeObj.getString("Fave Pokemon 2");
+                String pokemon1 = placeObj.getString("Fave PokéDexData 1");
+                String pokemon2 = placeObj.getString("Fave PokéDexData 2");
                 int main = getResources().getIdentifier(placeObj.getString("Main"), "drawable", getPackageName());
                 int map =  getResources().getIdentifier(placeObj.getString("Map"), "drawable", getPackageName());
 
@@ -974,13 +953,13 @@ public class PokemonGoApp extends Application{
     }
 
     /****************************************************/
-    /** Pokemon Cloned CSV Encoding / Decoding Functions /
+    /** PokéDexData Cloned CSV Encoding / Decoding Functions /
     /****************************************************/
        /*
-        CSV Format Pokemon
-        0<Pokemon Count (n)>; 1<Id>, 2<DexNumber>, 3<name>, 4<Gender>, 5<currentLvl>, 6<currentHp>, 7<mCurrentExp>,
+        CSV Format PokéDexData
+        0<PokéDexData Count (n)>; 1<Id>, 2<DexNumber>, 3<name>, 4<Gender>, 5<currentLvl>, 6<currentHp>, 7<mCurrentExp>,
         8<Move 1>, 9<Move1 PP>, ..14<Move 4>, 15<Move4 PP>, 16-21<IV Stats>, 22-27<EV Stats>, 28-33<Nature Stats> \n
-        34-66<Pokemon Profile 2> \n... 32n+1-32(n+1)+1<Pokemon Profile(n)>
+        34-66<PokéDexData Profile 2> \n... 32n+1-32(n+1)+1<PokéDexData Profile(n)>
 
         CSV Format Item
         <Item 1 Name>, <Item 1 Qty> ... <Item 6 Name>, <Item 6 Qty>
@@ -991,13 +970,13 @@ public class PokemonGoApp extends Application{
 
     public String encodePokemonToCsv(){
         String csvStr = "";
-        for(PokemonProfile pokemon : this.getPlayer().getPokemons()){
+        for(PokémonProfile pokemon : this.getPlayer().getPokemons()){
             if(pokemon.getDexNumber() != 0) {
                 csvStr += extractPlayerPokemonData(pokemon);
                 csvStr += "\n";
             }
         }
-        for(PokemonProfile pokemon : this.getPlayer().getBox()){
+        for(PokémonProfile pokemon : this.getPlayer().getBox()){
             if(pokemon.getDexNumber() != 0){
                 csvStr += extractPlayerPokemonData(pokemon);
                 csvStr+= "\n";
@@ -1036,7 +1015,7 @@ public class PokemonGoApp extends Application{
                 int currentHp = Integer.parseInt(playerData[4].trim());
                 int currentExp = Integer.parseInt(playerData[5].trim());
 
-                PokemonProfile playerPokemon = new PokemonProfile(getSpawnCount(), currentLvl, getPokemon(dexNumber));
+                PokémonProfile playerPokemon = new PokémonProfile(getSpawnCount(), getPokemon(dexNumber), currentLvl);
 
                 for (int moveCount = 0; moveCount<4; moveCount++){
                     playerPokemon.getMoves().add(findMove(playerData[6+(moveCount)*2].trim()));
@@ -1203,7 +1182,7 @@ public class PokemonGoApp extends Application{
             }
             Log.e("Decoding Name", playerData[0]);
             Log.e("Decoding Gender", playerData[1]);
-            Log.e("Decoding Pokemon", playerData[2]);
+            Log.e("Decoding PokéDexData", playerData[2]);
             Log.e("Decoding Items", playerData[playerData.length-1]);
             if(playerData[1].equals("boy")){
                 mPlayer.setGender(new Gender(true));
@@ -1218,7 +1197,7 @@ public class PokemonGoApp extends Application{
         }
     }
 
-    public String extractPlayerPokemonData(PokemonProfile playerPokemon){
+    public String extractPlayerPokemonData(PokémonProfile playerPokemon){
         String dexNumber = Integer.toString(playerPokemon.getDexNumber());
         String nickName = playerPokemon.getNickname();
         String gender = Integer.toString(playerPokemon.getGender());
@@ -1242,7 +1221,7 @@ public class PokemonGoApp extends Application{
 
     }
 
-    public void loadPokemonDetails(final Dialog dialog, Activity ctx, final PokemonProfile profile){
+    public void loadPokemonDetails(final Dialog dialog, Activity ctx, final PokémonProfile profile){
             setFontForContainer((RelativeLayout) dialog.findViewById(R.id.pokemon_profile_group), "generation6.ttf");
             dialog.setTitle("");
 
@@ -1277,9 +1256,9 @@ public class PokemonGoApp extends Application{
             txvOT.setText(mPlayer.getName());
 
             txvId.setText(profile.getId() + "");
-            txvExp.setText(profile.getTotalExperience() + "");
-            txvNextLevel.setText(profile.getExperienceNeeded() - profile.getCurrentExp() + "");
-            barExp.setMax(profile.getExperienceNeeded());
+            txvExp.setText(profile.getTotalExp() + "");
+            txvNextLevel.setText(profile.getExpNeeded() - profile.getCurrentExp() + "");
+            barExp.setMax(profile.getExpNeeded());
             barExp.setProgress(profile.getCurrentExp());
             barExp.getProgressDrawable().setColorFilter(
                     PokemonGoApp.RUN_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
@@ -1304,7 +1283,7 @@ public class PokemonGoApp extends Application{
             dialog.show();
     }
 
-    public void showPokedexDialog(Context ctx, Pokemon selectedPokemon){
+    public void showPokedexDialog(Context ctx, PokéDexData selectedPokemon){
 
         final Dialog dexDialog = new Dialog(ctx);
         dexDialog.setContentView(R.layout.pokedex_dialog);
@@ -1318,6 +1297,7 @@ public class PokemonGoApp extends Application{
         ImageView imgType2 = (ImageView) dexDialog.findViewById(R.id.img_dex_type2);
         TextView txvHeight = (TextView) dexDialog.findViewById(R.id.txv_dex_height);
         TextView txvWeight = (TextView) dexDialog.findViewById(R.id.txv_dex_weight);
+        TextView txvDescription = (TextView) dexDialog.findViewById(R.id.txv_dex_description);
         ImageView imgMain = (ImageView) dexDialog.findViewById(R.id.img_dex_main);
 
         txvNumber.setText(selectedPokemon.getDexNumber() + "");
@@ -1326,6 +1306,7 @@ public class PokemonGoApp extends Application{
         imgType2.setImageResource(selectedPokemon.getType2().getIcon());
         txvHeight.setText(selectedPokemon.getHeight());
         txvWeight.setText(selectedPokemon.getWeight());
+        txvDescription.setText(selectedPokemon.getDescription());
         imgMain.setBackgroundResource(selectedPokemon.getMainImage());
 
         Button dialogButton = (Button) dexDialog.findViewById(R.id.btn_dex_ok);

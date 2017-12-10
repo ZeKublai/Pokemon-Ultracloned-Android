@@ -38,7 +38,7 @@ public class BattleFightState extends BattleMainState {
     }
 
     /**
-     * Shows the list of moves of the Pokemon
+     * Shows the list of moves of the PokéDexData
      * @param pos current index of the listview
      */
     @Override

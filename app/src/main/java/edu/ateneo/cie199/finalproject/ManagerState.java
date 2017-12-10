@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 public abstract class ManagerState {
-    protected ArrayList<PokemonButton> mPokemonButtons = new ArrayList<>();
+    protected ArrayList<PokémonButton> mPokémonButtons = new ArrayList<>();
     protected Button mBackButton;
     protected Button mSwitchButton;
     protected TextView mMessage;
@@ -72,7 +72,7 @@ public abstract class ManagerState {
     }
 
     /**
-     * runs the implementation of the switch Pokemon through the select State
+     * runs the implementation of the switch PokéDexData through the select State
      */
     public void executeSwitchButton(){
         PokemonGoApp.setAsCancelButton(mSwitchButton);
@@ -84,9 +84,9 @@ public abstract class ManagerState {
      * sets the buttons into the party of 6 pokemon of the user
      */
     public void initializeTeam(){
-        for(int index = 0; index < mPokemonButtons.size(); index++){
-            mPokemonButtons.get(index).getButton().setClickable(false);
-            mPokemonButtons.get(index).setVisibility(View.INVISIBLE);
+        for(int index = 0; index < mPokémonButtons.size(); index++){
+            mPokémonButtons.get(index).getButton().setClickable(false);
+            mPokémonButtons.get(index).setVisibility(View.INVISIBLE);
         }
         updatePokemons();
     }
@@ -96,7 +96,7 @@ public abstract class ManagerState {
      */
     public void updatePokemons(){
         for(int index = 0; index < mManager.getPlayer().getPokemons().size(); index++) {
-            mPokemonButtons.get(index).setData(mManager.getPlayer().getPokemons().get(index));
+            mPokémonButtons.get(index).setData(mManager.getPlayer().getPokemons().get(index));
         }
     }
 
@@ -109,19 +109,19 @@ public abstract class ManagerState {
     }
 
     /**
-     * get the button set to a Pokemon
-     * @return button set to a Pokemon
+     * get the button set to a PokéDexData
+     * @return button set to a PokéDexData
      */
-    public ArrayList<PokemonButton> getPokemonButtons() {
-        return mPokemonButtons;
+    public ArrayList<PokémonButton> getPokemonButtons() {
+        return mPokémonButtons;
     }
 
     /**
-     * set the button set to a Pokemon
-     * @param mPokemonButtons button set to a Pokemon
+     * set the button set to a PokéDexData
+     * @param mPokémonButtons button set to a PokéDexData
      */
-    public void setPokemonButtons(ArrayList<PokemonButton> mPokemonButtons) {
-        this.mPokemonButtons = mPokemonButtons;
+    public void setPokemonButtons(ArrayList<PokémonButton> mPokémonButtons) {
+        this.mPokémonButtons = mPokémonButtons;
     }
 
     /**
@@ -193,7 +193,7 @@ public abstract class ManagerState {
      * @return set of instructions for the given state
      */
     public ManagerUseItemState useItemState(){
-        return new ManagerUseItemState(mPokemonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerUseItemState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class ManagerState {
      * @return set of instructions for the given state
      */
     public ManagerMainState mainState(){
-        return new ManagerMainState(mPokemonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerMainState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class ManagerState {
      * @return set of instructions for the given state
      */
     public ManagerSelectState selectState(){
-        return new ManagerSelectState(mPokemonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerSelectState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
     }
 
     /**
@@ -217,6 +217,6 @@ public abstract class ManagerState {
      * @return set of instructions for the given state
      */
     public ManagerSwitchState switchState(){
-        return new ManagerSwitchState(mPokemonButtons, mBackButton, mSwitchButton, mMessage, mManager);
+        return new ManagerSwitchState(mPokémonButtons, mBackButton, mSwitchButton, mMessage, mManager);
     }
 }

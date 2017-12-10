@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/22/2017.
- * This class handles the Custom Adapter for the list of items
+ * This class handles the Custom Adapter for the list of items.
  */
 
 public class ItemList extends ArrayAdapter<Item> {

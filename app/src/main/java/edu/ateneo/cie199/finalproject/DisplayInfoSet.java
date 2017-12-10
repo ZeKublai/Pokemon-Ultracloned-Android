@@ -9,16 +9,16 @@ import android.widget.TextView;
  * Created by John on 11/20/2017.
  */
 
-public class PokemonInfo {
+public class DisplayInfoSet {
     protected TextView mTxvName;
     protected TextView mTxvLevel;
     protected ProgressBar mBarHP;
     protected ImageButton mImage;
 
-    public PokemonInfo(TextView mTxvName,
-                       TextView mTxvLevel,
-                       ProgressBar mBarHP,
-                       ImageButton mImage) {
+    public DisplayInfoSet(TextView mTxvName,
+                          TextView mTxvLevel,
+                          ProgressBar mBarHP,
+                          ImageButton mImage) {
         this.mTxvName = mTxvName;
         this.mTxvLevel = mTxvLevel;
         this.mBarHP = mBarHP;
@@ -29,7 +29,7 @@ public class PokemonInfo {
                 PokemonGoApp.BAR_COLOR, android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
-    public PokemonInfo() {
+    public DisplayInfoSet() {
     }
 
     public TextView getTxvName() {
@@ -60,17 +60,17 @@ public class PokemonInfo {
         this.mImage = mImage;
     }
 
-    public void updateHp(PokemonProfile profile){
+    public void updateHp(PokémonProfile profile){
         mBarHP.setMax(profile.getHP());
         mBarHP.setProgress(profile.getCurrentHP());
         PokemonGoApp.updateHpBarColor(profile.getCurrentHP(), profile.getHP(), mBarHP);
     }
 
-    public void updateExp(PokemonProfile profile){
+    public void updateExp(PokémonProfile profile){
 
     }
 
-    public void updatePokemon(PokemonProfile profile){
+    public void updatePokemon(PokémonProfile profile){
         mTxvName.setText(profile.getNickname());
         mTxvLevel.setText("Lv" + profile.getLevel());
         mImage.setBackgroundResource(profile.getDexData().getMainImage());

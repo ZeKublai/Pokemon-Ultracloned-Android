@@ -7,6 +7,8 @@ import android.media.MediaPlayer;
 
 /**
  * Created by John on 11/12/2017.
+ * This class contains all the functions and data members
+ * needed to handle the background music and sound effects.
  */
 
 public class MusicHandler {
@@ -22,49 +24,65 @@ public class MusicHandler {
     private MediaPlayer mSfxPlayer;
     private MediaPlayer mButtonSfxPlayer;
 
-    public void initMusic(Context ctx, int musicId){
-        mMusicPlayer = MediaPlayer.create(ctx, musicId);
+    /**
+     * Initializes the music given the context and music resource identification number.
+     * @param context   The context needed to initialize the music.
+     * @param musicId   The resource identification number of the music.
+     */
+    public void initMusic(Context context, int musicId){
+        mMusicPlayer = MediaPlayer.create(context, musicId);
         mMusicPlayer.setLooping(true);
     }
 
+    /**
+     * Returns the MediaPlayer object that contains the music.
+     * @return  The MediaPlayer object that contains the music.
+     */
     public MediaPlayer getMusicPlayer() {
         return mMusicPlayer;
     }
 
-    public void setMusicVolume(boolean musicEnabler){
-        if (musicEnabler) {mMusicPlayer.setVolume(20, 20);}
-        else {mMusicPlayer.setVolume(0, 0);}
-    }
-
+    /**
+     * Given a boolean, the function decides whether to
+     * start playing the music in the MusicHandler or not.
+     * @param musicEnabler  True if the user wants to hear the music else false.
+     */
     public void playMusic(boolean musicEnabler){
         if(musicEnabler){
             mMusicPlayer.start();
         }
     }
 
-    public void setButtonVolume(boolean sfxEnabler){
-        if (sfxEnabler) {mButtonSfxPlayer.setVolume(150, 150);}
-        else {mButtonSfxPlayer.setVolume(0, 0);}
-    }
-
-    public void playSfx(Context ctx, int sfxId, boolean sfxEnabler){
+    /**
+     * Given a boolean, the function decides whether to
+     * initialize and play the sound effect given or not.
+     * @param context   The context needed to initialize the music.
+     * @param sfxId     The resource identification number of the sound effect.
+     * @param sfxEnabler    True if the user wants to hear the sound effect else false.
+     */
+    public void playSfx(Context context, int sfxId, boolean sfxEnabler){
         if(sfxEnabler){
-            mSfxPlayer = MediaPlayer.create(ctx, sfxId);
+            mSfxPlayer = MediaPlayer.create(context, sfxId);
             mSfxPlayer.setLooping(false);
             mSfxPlayer.start();
         }
     }
 
-    public void stopMusic(){
-        mMusicPlayer.release();
-        mMusicPlayer = null;
-    }
-
-    public void initButtonSfx(Context ctx){
-        mButtonSfxPlayer = MediaPlayer.create(ctx, R.raw.btn_pressed);
+    /**
+     * Initializes the button sound effect given the context
+     * and sound effect resource identification number.
+     * @param context
+     */
+    public void initButtonSfx(Context context){
+        mButtonSfxPlayer = MediaPlayer.create(context, SFX_SELECT);
         mButtonSfxPlayer.setLooping(false); // Set looping
     }
 
+    /**
+     * Given a boolean, the function decides whether to
+     * play the button sound effect or not.
+     * @param sfxEnabler    True if the user wants to hear the sound effect else false.
+     */
     public void playButtonSfx(boolean sfxEnabler){
         if(sfxEnabler){
             mButtonSfxPlayer.start();

@@ -8,20 +8,20 @@ import android.widget.TextView;
  * Created by John on 11/21/2017.
  */
 
-public class PokemonInfoBuddy extends PokemonInfo {
+public class DisplayInfoSetBuddy extends DisplayInfoSet {
 
     private TextView mTxvHP;
     private ProgressBar mBarExp;
 
-    public PokemonInfoBuddy() {
+    public DisplayInfoSetBuddy() {
     }
 
-    public PokemonInfoBuddy(TextView mTxvName,
-                            TextView mTxvHP,
-                            TextView mTxvLevel,
-                            ProgressBar mBarHP,
-                            ProgressBar mBarExp,
-                            ImageButton mImage) {
+    public DisplayInfoSetBuddy(TextView mTxvName,
+                               TextView mTxvHP,
+                               TextView mTxvLevel,
+                               ProgressBar mBarHP,
+                               ProgressBar mBarExp,
+                               ImageButton mImage) {
         this.mTxvName = mTxvName;
         this.mTxvHP = mTxvHP;
         this.mTxvLevel = mTxvLevel;
@@ -51,25 +51,25 @@ public class PokemonInfoBuddy extends PokemonInfo {
     }
 
     @Override
-    public void updateHp(PokemonProfile profile){
+    public void updateHp(PokémonProfile profile){
         mBarHP.setMax(profile.getHP());
         mBarHP.setProgress(profile.getCurrentHP());
         updateHpText(profile);
         PokemonGoApp.updateHpBarColor(profile.getCurrentHP(), profile.getHP(), mBarHP);
     }
 
-    private void updateHpText(PokemonProfile profile){
+    private void updateHpText(PokémonProfile profile){
         mTxvHP.setText(profile.getCurrentHP() + "/" + profile.getHP());
     }
 
     @Override
-    public void updateExp(PokemonProfile profile){
-        mBarExp.setMax(profile.getExperienceNeeded());
+    public void updateExp(PokémonProfile profile){
+        mBarExp.setMax(profile.getExpNeeded());
         mBarExp.setProgress(profile.getCurrentExp());
     }
 
     @Override
-    public void updatePokemon(PokemonProfile profile){
+    public void updatePokemon(PokémonProfile profile){
         mTxvName.setText(profile.getNickname());
         mTxvLevel.setText("Lv" + profile.getLevel());
         mImage.setBackgroundResource(profile.getDexData().getBackImage());

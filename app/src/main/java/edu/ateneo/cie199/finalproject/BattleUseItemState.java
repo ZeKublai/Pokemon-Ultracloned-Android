@@ -31,7 +31,7 @@ public class BattleUseItemState extends BattleMainState {
         mOptionList.setAdapter(mBattle.getPokemonAdapter());
         showOptions();
 
-        mMessage.setText("Use " + mBattle.getSelectedItem().getName() + " on which Pokemon?");
+        mMessage.setText("Use " + mBattle.getSelectedItem().getName() + " on which PokéDexData?");
         enableButton(mRunButton);
         disableButton(mActionButton);
         PokemonGoApp.setAsCancelButton(mBagButton);

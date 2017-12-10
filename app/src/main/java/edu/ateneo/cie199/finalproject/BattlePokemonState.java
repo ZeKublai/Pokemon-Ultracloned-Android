@@ -36,10 +36,10 @@ public class BattlePokemonState extends BattleMainState{
         showOptions();
         if(mBattle instanceof TrainerBattle && mBattle.isEnemyFainted()){
             TrainerBattle battle = (TrainerBattle) mBattle;
-            mMessage.setText(battle.getTrainer().getName() + " is about to send out " + battle.getTrainer().getBuddy().getNickname() + "! Switch next Pokemon?");
+            mMessage.setText(battle.getTrainer().getName() + " is about to send out " + battle.getTrainer().getBuddy().getNickname() + "! Switch next PokéDexData?");
         }
         else {
-            mMessage.setText("Which Pokemon to switch?");
+            mMessage.setText("Which PokéDexData to switch?");
         }
 
         enableButton(mRunButton);
@@ -91,7 +91,7 @@ public class BattlePokemonState extends BattleMainState{
     public void executePokemonButton(){
         if(mBattle.isEnemyFainted() && mBattle instanceof TrainerBattle){
             TrainerBattle battle = (TrainerBattle) mBattle;
-            battle.addMessage(new Message(battle.getPlayer().getName() + " did not switch Pokemon..."));
+            battle.addMessage(new Message(battle.getPlayer().getName() + " did not switch PokéDexData..."));
             battle.setEnemy(battle.getTrainer().getBuddy());
             battle.addMessage(new MessageUpdatePokemon(battle.getTrainer().getName() + " has sent out " + battle.getTrainer().getBuddy().getNickname() + "!", battle.getEnemyInfo(), battle.getEnemy()));
             battle.setBattleState(standbyState());
@@ -107,7 +107,7 @@ public class BattlePokemonState extends BattleMainState{
      * @param ctx
      * @param profile
      */
-    public void getPokemonDialog(final PokemonGoApp app, Activity ctx, final PokemonProfile profile){
+    public void getPokemonDialog(final PokemonGoApp app, Activity ctx, final PokémonProfile profile){
         final Dialog dialog = new Dialog(ctx);
         dialog.setContentView(R.layout.pokemon_profile_dialog);
         final EditText edtNickname = (EditText) dialog.findViewById(R.id.edt_profile_nickname);

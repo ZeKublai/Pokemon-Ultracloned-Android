@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Revive interact with the Pokemon.
+ * This class handles how the Revive interact with the PokéDexData.
  */
 
 public class ItemRevive extends ItemTargetTeam {
@@ -44,13 +44,13 @@ public class ItemRevive extends ItemTargetTeam {
      * @param battle the battle state where the item is being used
      */
     @Override
-    public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
+    public void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle){
         if(!revive(profile)) {
             battle.addMessage(new Message(Message.ERROR_NO_EFFECT));
         }
     }
 
-    public boolean revive(PokemonProfile profile){
+    public boolean revive(PokémonProfile profile){
         if(profile.getCurrentHP() == 0){
             profile.setCurrentHP(profile.getHP()/mReviveFactor);
             return true;
@@ -67,7 +67,7 @@ public class ItemRevive extends ItemTargetTeam {
      * @param bag where the item is stored
      */
     @Override
-    public void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag){
+    public void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag){
         useItem(bag);
         if(!revive(profile)){
             txvMessage.setText(Message.ERROR_NO_EFFECT);

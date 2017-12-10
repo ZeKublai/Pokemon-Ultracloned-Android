@@ -16,20 +16,20 @@ public class ManagerUseItemState extends ManagerState {
 
     /**
      * determines the state of the Manager
-     * @param mPokemonButtons
+     * @param mPokémonButtons
      * @param mBackButton
      * @param mSwitchButton
      * @param mMessage
      * @param mManager
      */
-    public ManagerUseItemState(ArrayList<PokemonButton> mPokemonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
-        this.mPokemonButtons = mPokemonButtons;
+    public ManagerUseItemState(ArrayList<PokémonButton> mPokémonButtons, Button mBackButton, Button mSwitchButton, TextView mMessage, Manager mManager) {
+        this.mPokémonButtons = mPokémonButtons;
         this.mBackButton = mBackButton;
         this.mSwitchButton = mSwitchButton;
         this.mMessage = mMessage;
         this.mManager = mManager;
 
-        mMessage.setText("Use " + mManager.getSelectedItem().getName() + " on which Pokemon?");
+        mMessage.setText("Use " + mManager.getSelectedItem().getName() + " on which PokéDexData?");
     }
 
     /**
@@ -65,10 +65,10 @@ public class ManagerUseItemState extends ManagerState {
     }
 
     /**
-     * Apply the item effect on the given Pokemon
-     * @param profile data of the Pokemon
+     * Apply the item effect on the given PokéDexData
+     * @param profile data of the PokéDexData
      */
-    public void useSelectedItem(PokemonProfile profile){
+    public void useSelectedItem(PokémonProfile profile){
         if(mManager.getSelectedItem().getQuantity() > 0){
             mManager.getSelectedItem().useInManager(profile, mMessage, mManager.getPlayer().getBag());
             if(mManager.getSelectedItem().getQuantity() <= 0){

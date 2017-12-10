@@ -1,6 +1,5 @@
 package edu.ateneo.cie199.finalproject;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +8,16 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
-public class SettingsActivity extends AppCompatActivity {
+/**
+ * Created by John, Duke and JV on 11/13/2017.
+ * This class handles different settings the user can set such as enabling music and sound.
+ */
 
+public class SettingsActivity extends AppCompatActivity {
+    /**
+     * Initializes the SettingsActivity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +57,9 @@ public class SettingsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 app.getMusicHandler().playSfx(SettingsActivity.this, MusicHandler.SFX_SELECT,app.getSFXSwitch());
-                BackToMain();
+                finish();
             }
         });
-
-    }
-
-    private void BackToMain(){
-        Intent MainActivityIntent = new Intent(SettingsActivity.this, MainActivity.class);
-        finish();
     }
 }

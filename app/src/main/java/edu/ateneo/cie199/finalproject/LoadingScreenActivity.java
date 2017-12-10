@@ -59,7 +59,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
                     pokemonApiState = false;
                 }
             } catch (JSONException e) {
-                Log.e("Parsing err", "Failed to save json Pokemon data");
+                Log.e("Parsing err", "Failed to save json PokéDexData data");
                 e.printStackTrace();
             }
             return null;

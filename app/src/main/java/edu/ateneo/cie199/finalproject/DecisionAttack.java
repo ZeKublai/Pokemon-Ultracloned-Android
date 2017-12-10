@@ -1,22 +1,19 @@
 package edu.ateneo.cie199.finalproject;
 
-import static java.lang.Math.floor;
-
 /**
  * Created by John, Duke and JV on 11/20/2017.
  * This class is a subclass of the decision which handles the decision and computation for damaging
- * Updates the data of the battling Pokemon
+ * Updates the data of the battling PokéDexData
  */
 
 public class DecisionAttack extends Decision {
-    public static int DEFAULT_CRITICAL_CHANCE = 16;
 
-    private PokemonProfile mAttacker;
-    private PokemonProfile mDefender;
+    private PokémonProfile mAttacker;
+    private PokémonProfile mDefender;
     private Move mMove;
     private int mAccuracyResult;
     private int mCriticalResult;
-    private PokemonInfo mDisplayInfo;
+    private DisplayInfoSet mDisplayInfo;
 
 
     /**
@@ -24,22 +21,22 @@ public class DecisionAttack extends Decision {
      * @param mAttacker the pokemon that attacks
      * @param mDefender the pokemon that defends
      * @param mMove move to be analyzed if a special event is triggered
-     * @param info show the information of the Pokemon
+     * @param info show the information of the PokéDexData
      */
-    public DecisionAttack(PokemonProfile mAttacker, PokemonProfile mDefender, Move mMove, PokemonInfo info) {
+    public DecisionAttack(PokémonProfile mAttacker, PokémonProfile mDefender, Move mMove, DisplayInfoSet info) {
         this.mMove = mMove;
         this.mAccuracyResult = PokemonGoApp.getIntegerRNG(Move.MAX_ACCURACY);
-        this.mCriticalResult = PokemonGoApp.getIntegerRNG(DEFAULT_CRITICAL_CHANCE);
+        this.mCriticalResult = PokemonGoApp.getIntegerRNG(Move.MAX_CRITICAL);
         this.mDisplayInfo = info;
         this.mAttacker = mAttacker;
         this.mDefender = mDefender;
     }
 
     /**
-     * set the defending Pokemon
+     * set the defending PokéDexData
      * @param mDefender the pokemon that defends
      */
-    public void setDefender(PokemonProfile mDefender) {
+    public void setDefender(PokémonProfile mDefender) {
         this.mDefender = mDefender;
     }
 
@@ -188,8 +185,8 @@ public class DecisionAttack extends Decision {
      * @param battle the battle where the state is
      * @return information of the attacking pokemon
      */
-    private PokemonInfo getAttackerInfo(Battle battle){
-        if(mDisplayInfo instanceof PokemonInfoBuddy){
+    private DisplayInfoSet getAttackerInfo(Battle battle){
+        if(mDisplayInfo instanceof DisplayInfoSetBuddy){
             return battle.getEnemyInfo();
         }
         else{

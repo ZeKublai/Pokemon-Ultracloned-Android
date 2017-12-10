@@ -8,7 +8,7 @@ public class TrainerBattle extends Battle {
 
     private Trainer mTrainer = new Trainer();
 
-    public TrainerBattle(PokemonGoApp app, PokemonInfoBuddy mBuddyInfo, PokemonInfo mEnemyInfo){
+    public TrainerBattle(PokemonGoApp app, DisplayInfoSetBuddy mBuddyInfo, DisplayInfoSet mEnemyInfo){
         this.mBuddyInfo = mBuddyInfo;
         this.mEnemyInfo = mEnemyInfo;
 
@@ -20,14 +20,14 @@ public class TrainerBattle extends Battle {
         this.mTrainer = app.getTrainer(app.getCurrentGoal().getTitle()).generateTrainer();
 
         for(int index = 0; index < mTrainer.getTier()/2; index ++){
-            this.mTrainer.getPokemons().add(new PokemonProfile(app.getSpawnCount(), app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size())), app.getPlayer().getAverageLevel()));
+            this.mTrainer.getPokemons().add(new PokémonProfile(app.getSpawnCount(), app.getAllPokemons().get(app.getIntegerRNG(app.getAllPokemons().size())), PokemonGoApp.getIntegerRNG(app.getPlayer().getAverageLevel()) + 1));
             this.mTrainer.getPokemons().get(index).getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
             this.mTrainer.getPokemons().get(index).getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
             this.mTrainer.getPokemons().get(index).getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
             this.mTrainer.getPokemons().get(index).getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         }
 
-        PokemonProfile fav1 = new PokemonProfile(app.getSpawnCount(), this.mTrainer.getFavoritePokemon1(), app.getPlayer().getAverageLevel());
+        PokémonProfile fav1 = new PokémonProfile(app.getSpawnCount(), this.mTrainer.getFavoritePokemon1(), PokemonGoApp.getIntegerRNG(app.getPlayer().getAverageLevel()) + 1);
         fav1.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         fav1.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         fav1.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
@@ -35,7 +35,7 @@ public class TrainerBattle extends Battle {
 
         this.mTrainer.getPokemons().add(fav1);
 
-        PokemonProfile fav2 = new PokemonProfile(app.getSpawnCount(), this.mTrainer.getFavoritePokemon2(), app.getPlayer().getAverageLevel());
+        PokémonProfile fav2 = new PokémonProfile(app.getSpawnCount(), this.mTrainer.getFavoritePokemon2(), PokemonGoApp.getIntegerRNG(app.getPlayer().getAverageLevel()) + 1);
         fav2.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         fav2.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
         fav2.getMoves().add(app.getAllMoves().get(app.getIntegerRNG(app.getAllMoves().size())).generateCopy());
@@ -77,7 +77,7 @@ public class TrainerBattle extends Battle {
         addMessage(new MessageUpdateExp(mBuddy.getNickname() + " gained " + mEnemy.getLevel()* mBuddy.getLevel() * 10
                 + Message.MESSAGE_EXP_GAINED, mBuddyInfo, mBuddy));
         mBuddy.setCurrentExp(mBuddy.getCurrentExp() + mEnemy.getLevel() * mBuddy.getLevel() * 10);
-        if(mBuddy.getCurrentExp() >= mBuddy.getExperienceNeeded()){
+        if(mBuddy.getCurrentExp() >= mBuddy.getExpNeeded() && mBuddy.getLevel() < PokémonProfile.MAX_POKEMON_LEVEL){
             buddyLevelUp();
         }
 

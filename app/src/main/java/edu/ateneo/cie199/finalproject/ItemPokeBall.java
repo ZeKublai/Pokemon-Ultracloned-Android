@@ -9,7 +9,7 @@ import static java.lang.Math.pow;
 
 /**
  * Created by John, Duke and JV on 11/21/2017.
- * This class handles how the Pokeball interact with the Pokemon.
+ * This class handles how the Pokeball interact with the PokéDexData.
  */
 
 public class ItemPokeBall extends ItemTargetEnemy {
@@ -47,7 +47,7 @@ public class ItemPokeBall extends ItemTargetEnemy {
      * @param battle the battle state where the item is being used
      */
     @Override
-    public void useInBattle(PokemonProfile profile, PokemonInfo info, Battle battle){
+    public void useInBattle(PokémonProfile profile, DisplayInfoSet info, Battle battle){
         if(battle instanceof TrainerBattle){
             String message = ((TrainerBattle) battle).getTrainer().getName() + " blocked the ball!";
             battle.addMessage(new Message(message));
@@ -74,11 +74,11 @@ public class ItemPokeBall extends ItemTargetEnemy {
     }
 
     /**
-     * Used when attempting to catch a Pokemon
-     * @param profile details of the Pokemon being caught
+     * Used when attempting to catch a PokéDexData
+     * @param profile details of the PokéDexData being caught
      * @return
      */
-    private int getResult(PokemonProfile profile){
+    private int getResult(PokémonProfile profile){
         int catchRate = (int) getSecondCatchRate(getFinalCatchRate(profile));
         int attempt1 = PokemonGoApp.getIntegerRNG(65535);
         int attempt2 = PokemonGoApp.getIntegerRNG(65535);
@@ -103,10 +103,10 @@ public class ItemPokeBall extends ItemTargetEnemy {
 
     /**
      * Uses a formula for catch rate
-     * @param profile details of the Pokemon being caught
+     * @param profile details of the PokéDexData being caught
      * @return value of the catch rate
      */
-    private double getFinalCatchRate(PokemonProfile profile){
+    private double getFinalCatchRate(PokémonProfile profile){
         double result = ((3.0*((double) profile.getHP()) - 2.0*((double) profile.getCurrentHP()))*mBallBonus*
                 ((double) profile.getDexData().getCatchRate()))/(3.0*((double) profile.getHP()));
         return result;
@@ -129,7 +129,7 @@ public class ItemPokeBall extends ItemTargetEnemy {
      * @param bag where the item is stored
      */
     @Override
-    public void useInManager(PokemonProfile profile, TextView txvMessage, ArrayList<Item> bag){
+    public void useInManager(PokémonProfile profile, TextView txvMessage, ArrayList<Item> bag){
         txvMessage.setText(Message.ERROR_ECHO);
     }
 
